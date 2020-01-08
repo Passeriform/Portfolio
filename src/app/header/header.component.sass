@@ -1,0 +1,117 @@
+@import 'vars'
+
+#header-wrapper
+  width: 100%
+  height: $logo-box-size
+  min-width: 30em
+  display: -webkit-flexbox
+  display: -ms-flexbox
+  display: -webkit-flex
+  display: flex
+  position: fixed
+  -webkit-flex-align: center
+  -ms-flex-align: center
+  -webkit-align-items: center
+  align-items: center
+  justify-content: center
+  z-index: 15
+
+  &.shrink-header
+    height: 50px
+    background-color: $base-color
+    -webkit-transition: all 0.8s ease
+    -moz-transition: all 0.8s ease
+    -o-transition: all 0.8s ease
+    transition: all 0.8s ease
+
+    #logo
+      width: 100px
+      height: 100px
+      margin-top: 25px
+      background-color: $base-color
+      border-radius: 50px
+      -webkit-transition: margin 0.8s ease, background-color 0.8s ease
+      -moz-transition: margin 0.8s ease, background-color 0.8s ease
+      -o-transition: margin 0.8s ease, background-color 0.8s ease
+      transition: margin 0.8s ease, background-color 0.8s ease
+
+      img#logo-img
+        filter: invert(0)
+        -webkit-transition: invert 0.8s ease
+        -moz-transition: invert 0.8s ease
+        -o-transition: invert 0.8s ease
+        transition: invert 0.8s ease
+
+    .header-fix
+      width: 45%
+
+    nav.tabs-wrapper
+      width: 45%
+
+      ul.tab-list
+        margin: auto
+        padding: 0 2%
+        color: #191919
+        -webkit-transition: padding 0.8s ease
+        -moz-transition: padding 0.8s ease
+        -o-transition: padding 0.8s ease
+        transition: padding 0.8s ease
+
+  #logo
+    width: $logo-box-size
+    height: $logo-box-size
+    display: -webkit-flexbox
+    display: -ms-flexbox
+    display: -webkit-flex
+    display: flex
+    -webkit-flex-align: center
+    -ms-flex-align: center
+    -webkit-align-items: center
+    align-items: center
+    justify-content: center
+
+    a.standard-logo
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      margin: auto
+
+    img#logo-img
+      width: 60px
+      filter: invert(1)
+      -webkit-transition: filter 0.8s ease
+      -moz-transition: filter 0.8s ease
+      -o-transition: filter 0.8s ease
+      transition: filter 0.8s ease
+
+  .header-fix
+    width: 0%
+    -webkit-transition: width 0.8s ease
+    -moz-transition: width 0.8s ease
+    -o-transition: width 0.8s ease
+    transition: width 0.8s ease
+
+  nav.tabs-wrapper
+    width: calc(100% - #{$logo-box-size})
+    height: 100%
+    display: -webkit-flexbox
+    display: -ms-flexbox
+    display: -webkit-flex
+    display: flex
+    -webkit-flex-align: center
+    -ms-flex-align: center
+    -webkit-align-items: center
+    align-items: center
+    justify-content: flex-end
+    -webkit-transition: width 0.8s ease, height 0.8s ease
+    -moz-transition: width 0.8s ease, height 0.8s ease
+    -o-transition: width 0.8s ease, height 0.8s ease
+    transition: width 0.8s ease, height 0.8s ease
+
+    ul.tab-list
+      list-style: none
+      margin: 0
+      padding: calc(#{$node-size} / 8) 5% 0 5%
+      height: 5em
+      overflow: hidden

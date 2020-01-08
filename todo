@@ -1,0 +1,13 @@
+isolate html from script / style tags
+close pivotnav on outer-wrapper click
+add styles.css
+add spec tests for custom components
+sass like inheritance
+sass variables
+global sass variables
+pass number of items in sass to ts(pivotnav)
+check if raisecard-group listener is working
+dynamic model based pivot menu (look into raise-card querylist)
+complete alterRoute function (node.component.ts)
+commission a background
+responsive shite

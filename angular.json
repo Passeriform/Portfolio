@@ -28,9 +28,27 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.sass"
+              "src/styles.sass",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": []
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src",
+                "src/assets/stylesheets"
+              ]
+            },
+            "scripts": [
+              {
+                "input": "node_modules/document-register-element/build/document-register-element.js"
+              },
+              {
+                "input": "node_modules/document-register-element/build/document-register-element.js"
+              },
+              "node_modules/sine-waves/sine-waves.js",
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/bootstrap/dist/js/bootstrap.js",
+              "node_modules/sine-waves/sine-waves.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -124,6 +142,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "passeriform"
 }

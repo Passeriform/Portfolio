@@ -1,0 +1,59 @@
+{
+  "title": "Passeriform",
+  "description": "All nibbas are go",
+  "src": "/assets/passeriform.svg",
+  "children": [
+    {
+      "title": "AI/ML",
+      "description": "Only AI nibbas go forth",
+      "src": "/assets/passeriform.svg",
+      "children": [
+        {
+          "title": "GANs",
+          "description": "Only GAN nibbas go forth",
+          "src": "/assets/passeriform.svg",
+          "children": [
+            {
+              "tzitle": "CWaveGAN",
+              "description": "Conditional WaveGAN experiment",
+              "src": "/assets/passeriform.svg",
+              "children": []
+            }
+          ]
+        },
+        {
+          "title": "DL",
+          "description": "Only deep learning nibbas go forth",
+          "src": "/assets/passeriform.svg",
+          "children": []
+        }
+      ]
+    },
+    {
+      "title": "Robotics",
+      "description": "Only Robo nibbas go forth",
+      "src": "/assets/passeriform.svg",
+      "children": [
+        {
+          "title": "Octop",
+          "description": "Only GAN nibbas go forth",
+          "src": "/assets/passeriform.svg",
+          "children": [
+            {
+              "title": "CWaveGAN",
+              "description": "Conditional WaveGAN experiment",
+              "src": "/assets/passeriform.svg",
+              "children": []
+            }
+          ]
+        },
+        {
+          "title": "DL",
+          "description": "Only deep learning nibbas go forth",
+          "src": "/assets/passeriform.svg",
+          "children": []
+        }
+      ]
+    }
+  ]
+}
