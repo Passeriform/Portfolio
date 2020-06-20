@@ -1,0 +1,24 @@
+@import 'vars'
+
+:host
+  margin: 0.5em
+  height: 22em
+  width: min(80vw, 30em)
+  flex-shrink: 0
+
+  & > .card
+    width: 100%
+    height: 100%
+    padding: 1em
+    color: $anti-accent-color-hex
+    background-color: $accent-color-hex
+    border: none
+
+    & > .marker
+      position: absolute
+      padding: 0.3em 0.8em
+      background-color: $anti-accent-color-hex
+      color: $accent-color-hex
+
+    & > .content
+      position: relative

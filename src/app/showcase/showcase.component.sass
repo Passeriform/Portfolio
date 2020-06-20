@@ -1,0 +1,80 @@
+@import 'vars'
+
+:host
+  & .bg-img
+    position: absolute
+    height: 100vh
+    width: 100vw
+    z-index: -1
+
+  & #explorer
+    & > .bg-img
+      filter: blur(2px)
+      background-image: url("/assets/images/landingbg.jpg")
+      background-repeat: no-repeat
+      background-attachment: fixed
+      background-size: cover
+      -webkit-filter: blur(2px)
+      filter: brightness(50%)
+
+    & > .content
+      display: flex
+      position: relative
+      width: 100%
+      height: calc(100% - #{$shrink-header-size})
+      padding: 1em
+      padding-top: 2em
+      top: $shrink-header-size
+      text-align: center
+      text-transform: none
+      flex-direction: column
+      justify-content: space-evenly
+
+      & > .card-window
+        overflow: hidden
+
+      & .card-scroll
+        display: inline-flex
+        flex-direction: row
+        overflow: hidden
+
+      & .card-internal
+        display: flex
+        flex-direction: column
+        flex-wrap: nowrap
+        justify-content: space-evenly
+
+        & > .info
+          display: flex
+          flex-direction: row
+          justify-content: space-around
+          align-items: center
+
+          & > *
+            flex-basis: 0
+            flex-grow: 1
+
+          & > .meta > .languages, .frameworks, .tools
+            & > img
+              width: 30px
+              height: 30px
+
+          & .meta-icons
+            & > img
+              width: 45px
+              margin: 0 0.5em
+
+          & > .repo
+            padding: 2em
+
+            & > img
+              width: 4em
+              height: 4em
+
+          & > .licenses
+            display: flex
+            flex-direction: column
+            align-items: center
+
+            & > *
+              margin: 0.5em

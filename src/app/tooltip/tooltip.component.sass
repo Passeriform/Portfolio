@@ -1,0 +1,53 @@
+@import 'vars'
+
+$tooltip-window-width-em: 20em
+$tooltip-window-height-em: 20em
+$tooltip-arrow-width-em: 1em
+$tooltip-arrow-height-em: 1em
+
+:host
+  position: absolute
+  width: $tooltip-window-width-em
+  left: 50%
+  top: calc(100% + 1em)
+  margin-left: -#{$tooltip-window-width-em / 2}
+  visibility: hidden
+  opacity: 0
+  transition: all 0.5s ease
+  z-index: 99999999
+
+  &.top
+    top: calc(0% - 1em)
+
+    & > .tooltip-internal::after
+      top: 100%
+
+  & > .tooltip-internal
+    padding: 1em 2em
+    color: $anti-accent-color-hex
+    background-color: $accent-color-hex
+    box-sizing: border-box
+
+    &::after
+      content: ''
+      position: absolute
+      width: $tooltip-arrow-width-em
+      height: $tooltip-arrow-height-em
+      left: 50%
+      margin-left: -#{$tooltip-arrow-width-em / 2}
+      top: 0%
+      margin-top: -#{$tooltip-arrow-width-em / 2}
+      transform: rotate(45deg)
+      background-color: $accent-color-hex
+
+    &.inverted
+      color: $accent-color-hex
+      background-color: $anti-accent-color-hex
+      box-sizing: border-box
+
+      &::after
+        background-color: $anti-accent-color-hex
+
+  &.show
+    visibility: visible
+    opacity: 1

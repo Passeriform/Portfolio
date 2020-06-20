@@ -1,26 +1,8 @@
-<div id="header-wrapper" [ngClass]="{'shrink-header': state.SHRINK === headerState}">
-  <div class="header-fix"></div>
-  <div id="logo" (mouseenter)="setTree()" (mouseleave)="unsetTree()">
-    <tree class="tree-nav" dataURL="assets/projects.json" *ngIf="treeState === state.EXPAND"></tree>
-
-    <a href="" class="standard-logo">
-      <img id="logo-img" src="{{srclogo}}" alt="passeriform">
+<div id="header-wrapper" [ngClass]="{'shrink-header': splashState === 'blur' || nosplash}">
+  <div id="logo">
+    <a routerLink="{{target}}">
+      <img src="{{logo}}" alt="{{alt}}">
     </a>
   </div>
-  <nav class="tabs-wrapper" [ngStyle]="{'visibility': headerState === state.SHRINK ? 'hidden' : 'visible'}">
-    <ul class="tab-list">
-      <ng-content></ng-content>
-    </ul>
-  </nav>
+  <ng-content></ng-content>
 </div>
-
-<!-- <div class="header">
-  <div class="hero-title">
-    {{hero}}
-  </div>
-  <div class="ref-tabs">
-    <ul>
-      <ng-content></ng-content>
-    </ul>
-  </div>
-</div> -->

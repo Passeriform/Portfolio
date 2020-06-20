@@ -1,0 +1,42 @@
+<app-header logo="/assets/images/icons/passeriform.svg" target="/" alt="passeriform">
+  <app-navtab>
+    <a *appNavLink routerLink="/explore">Work</a>
+    <a *appNavLink href="https://passeribird.blogspot.com/" target="_blank">Blog</a>
+    <a *appNavLink routerLink="/about">About</a>
+  </app-navtab>
+</app-header>
+
+<app-scrollable>
+  <div id="splash" class="page" #page>
+    <div class="bg-img"></div>
+    <div id="live-logo">
+      <h1>PASSERIFORM</h1>
+      <app-sweeper auto=true prompt="❯">
+        <p #sweepable>A pseudonym for quality.</p>
+        <p #sweepable>Status: Online</p>
+        <p #sweepable>Working on <code>GodWit</code></p>
+      </app-sweeper>
+    </div>
+  </div>
+
+  <div id="overview" class="page" #page>
+    <div class="bg-img"></div>
+    <div class="cage-wrapper">
+      <app-cage-grid>
+        <div *appCaged="'Announcements'">
+          <p>&lt;Announcement list&gt;</p>
+        </div>
+        <div *appCaged="'Tracker'">
+          <p>&lt;Tracker component&gt;</p>
+        </div>
+        <div *appCaged="'Todolist'">
+          <p>&lt;Synced github todolist&gt;</p>
+        </div>
+      </app-cage-grid>
+    </div>
+  </div>
+
+  <div id="dir-view" class="page" #page>
+    <div class="bg-img"></div>
+  </div>
+</app-scrollable>

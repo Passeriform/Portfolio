@@ -1,0 +1,126 @@
+@import 'vars'
+
+:host
+  & .bg-img
+    position: absolute
+    height: 100vh
+    width: 100vw
+    z-index: -1
+
+  & .content
+    height: calc(100% - #{$shrink-header-size})
+    width: 100%
+    padding: 1em
+    padding-top: 2em
+    top: $shrink-header-size
+    position: relative
+    text-transform: none
+
+    & .content-wrapper
+      display: flex
+      margin: auto
+      flex-direction: column
+      height: 100%
+      width: 80%
+      align-items: center
+      justify-content: center
+      text-align: justify
+
+      & h1
+        font-size: $h1-responsive-font-size
+
+      & p
+        font-size: $p-responsive-font-size
+        line-height: 1.2
+
+  & #intro
+    & > .bg-img
+      background-image: url("/assets/images/neon_square_bg.jpg")
+      background-repeat: no-repeat
+      background-attachment: fixed
+      background-size: cover
+      filter: brightnzess(50%)
+
+    & #intro-container
+      width: min(80%, 60em)
+
+      & > a.avatar
+        margin-bottom: 2em
+
+        & > img
+          width: 150px
+          height: 150px
+          border-radius: 50%
+          filter: grayscale(1) contrast(1.3)
+
+  & #overview
+    & > .bg-img
+      background-image: url("/assets/images/neon_square_bg.jpg")
+      background-repeat: no-repeat
+      background-attachment: fixed
+      background-size: cover
+      filter: brightness(50%)
+
+    & #overview-container
+      & > section
+        display: flex
+        margin: auto
+        flex-direction: row
+        height: 100%
+        width: 100%
+        align-items: center
+        justify-content: center
+        text-align: justify
+
+        & > *
+          margin: 0.5em 1em
+
+        & > img
+          width: 100px
+          height: 100px
+          align-self: center
+          flex-shrink: 0
+
+  & #story
+    & > .bg-img
+      background-image: url("/assets/images/neon_square_bg.jpg")
+      background-repeat: no-repeat
+      background-attachment: fixed
+      background-size: cover
+      filter: brightness(50%)
+
+  & #contributors
+    & > .bg-img
+      background-image: url("/assets/images/neon_square_bg.jpg")
+      background-repeat: no-repeat
+      background-attachment: fixed
+      background-size: cover
+      filter: brightness(50%)
+
+    & #contributors-container
+      flex-direction: row
+
+      & > #contributor
+        position: relative
+        margin: 1em
+
+        & span
+          text-justify: none
+
+        & > a > img
+          width: 50px
+          height: 50px
+          border-radius: 50%
+
+  & #contact
+    & > .bg-img
+      background-image: url("/assets/images/neon_square_bg.jpg")
+      background-repeat: no-repeat
+      background-attachment: fixed
+      background-size: cover
+      filter: brightness(50%)
+
+    & #contact-container > img
+          width: 150px
+          height: 150px
+          border-radius: 50%

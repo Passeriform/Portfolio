@@ -1,0 +1,9 @@
+<input
+			type="text"
+			name="filter"
+			[(ngModel)]="queryString"
+			(ngModelChange)="applyFilter()"
+			placeholder="Filter by keywords...."
+			autofocus
+			class="filter"
+		/>

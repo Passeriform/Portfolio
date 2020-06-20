@@ -1,0 +1,30 @@
+@import 'vars'
+
+$padding: 0.5em
+$font-size: max(3vw, 1.25em)
+$window-height: calc(#{$line-height-px} + (2 * #{$padding}))
+
+:host
+  font-family: 'Fira Code', monospace
+  font-size: $font-size
+  font-weight: bold
+  text-transform: none
+
+  & > *
+    display: inline-block
+    float: left
+
+  & > span
+    margin: 0.5em
+
+#sweep-window
+  height: $window-height
+  padding: $padding
+  overflow-y: hidden
+
+#sweep-container
+  transition: all ease-in-out 0.5s
+
+  &::ng-deep > *
+    margin: 0
+    padding: $padding

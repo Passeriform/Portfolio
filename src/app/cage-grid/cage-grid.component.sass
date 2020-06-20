@@ -1,0 +1,40 @@
+@import 'vars'
+
+:host
+  height: 100%
+  width: 100%
+  padding: 2em
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+  overflow: hidden
+
+  & > *
+    margin: 1em
+    border: 1px solid $accent-color-hex
+    overflow-y: hidden
+    flex-grow: 1
+
+    & > .title
+      margin-bottom: 0.5em
+
+      & > h2
+        margin: 0
+        padding: 0.25em 0.5em
+        display: inline-block
+        color: $anti-accent-color-hex
+        background-color: $accent-color-hex
+        font-size: 1.75em
+
+      &:after
+        content: ''
+        width: 0
+        height: 0
+        display: inline-block
+        border-top: 3em solid $accent-color-hex
+        border-right: 3em solid transparent
+        background-color: unset
+        vertical-align: bottom
+
+    & > .content
+      padding: 0 2em

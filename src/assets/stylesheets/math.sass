@@ -1,6 +1,15 @@
 $pi: 3.1415926535897932384626433832795028841971694
 $_precision: 10
 
+@function sqrt($r)
+  $x0: 1
+  $x1: $x0
+  @for $i from 1 through 10
+    $x1: $x0 - ($x0 * $x0 - abs($r)) / (2 * $x0)
+    $x0: $x1
+  @return $x1
+
+
 @function pow($base, $exp)
   $value: $base
   @if $exp > 1

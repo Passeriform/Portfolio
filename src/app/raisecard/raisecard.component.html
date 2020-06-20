@@ -1,8 +1,10 @@
-<div (click)="handleClick()" class="ch-card">
-  <div class="ch-title">
-    {{ title }}
+<div class="card">
+  <div class="marker" *ngIf="marker">
+    <div class="label">
+      {{ marker }}
+    </div>
   </div>
-  <div class="body" [ngClass]="{'hidden': !focussed}">
+  <div class="content" [style.top]="marker ? '3em' : '1em'">
     <ng-content></ng-content>
   </div>
 <div>
