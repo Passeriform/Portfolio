@@ -9,7 +9,8 @@
     "live": "lite-server",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "publish:gh-pages": "npm run build:prod; angular-cli-ghpages --repo 'git@github.com:Passeriform/passeriform.github.io' --message 'Deploy: New publish to gh-pages.' --dir 'dist/passeriform' --branch 'master'"
   },
   "private": true,
   "dependencies": {
@@ -22,7 +23,6 @@
     "@angular/platform-browser": "^8.2.14",
     "@angular/platform-browser-dynamic": "^8.2.14",
     "@angular/router": "^8.2.14",
-    "angular-cli-ghpages": "^0.6.2",
     "bootstrap": "^4.5.0",
     "document-register-element": "^1.7.2",
     "jquery": "^3.4.1",

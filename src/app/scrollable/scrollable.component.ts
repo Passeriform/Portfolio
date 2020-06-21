@@ -1,6 +1,6 @@
 import { Component, ContentChildren, QueryList, OnInit, AfterContentInit, HostBinding, Input } from '@angular/core';
-import { Subject, fromEvent } from 'rxjs';
-import { throttleTime } from 'rxjs/operators';
+import { merge, fromEvent } from 'rxjs';
+import { throttleTime, switchMap, takeUntil } from 'rxjs/operators';
 
 import { SplashStateService } from '../services/splash-state.service';
 
@@ -12,6 +12,7 @@ import { SplashStateService } from '../services/splash-state.service';
 
 export class ScrollableComponent implements OnInit, AfterContentInit {
   private pageIndex = 0;
+  private touchTolerance = 200; // swipe distance in pixels
 
   @Input() nosplash: boolean;
   @Input() horizontal: boolean;
@@ -19,11 +20,37 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
   @Input() throttle: number;
   @Input() fullpage = true;
 
+  private events = [
+    'wheel',
+    'scroll',
+    'mousewheel',
+    'DOMMouseScroll',
+  ];
+
+  private swipe$ = fromEvent(document, 'touchstart')
+    .pipe(
+      switchMap(startEvent =>
+        fromEvent(document, 'touchmove')
+          .pipe(
+            takeUntil(fromEvent(document, 'touchend'))
+            .map(event => event.touches[0].pageY)
+            .scan((acc, pageY) => Math.round(startEvent.touches[0].pageY - pageY), 0)
+            .takeLast(1)
+            .filter(difference => difference >= this.touchTolerance)
+          )
+      )
+    );
+
+  private eventStreams = this.events.map(event => {
+    return fromEvent(window, event)
+      .pipe(throttleTime(this.throttle || 300));
+  });
+
   @ContentChildren('page') pages: QueryList<any>;
 
   constructor(private splashStateService: SplashStateService) {
-    fromEvent(window, 'DOMMouseScroll')
-      .pipe(throttleTime(this.throttle || 300))
+    this.eventStreams.push(this.swipe$);
+    merge(...this.eventStreams)
       .subscribe((event) => {
         this.pageScroll(event);
         event.preventDefault();
