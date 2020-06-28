@@ -321,8 +321,8 @@
   {
     "type":"product",
     "route":"/prod/manakin/angular",
-    "title":"Manakin Angular Components",
-    "description":"Components designed with Manakin philosophy and technical stability.",
+    "title":"Manakin Components",
+    "description":"Angular components for based on Manakin design.",
     "license":[
       "mit"
     ],
@@ -355,8 +355,8 @@
   {
     "type":"project",
     "route":"/proj/arduino-rfid",
-    "title":"Arduino RFID Registration System",
-    "description":"A registration and login system using arduino and RFID.",
+    "title":"RFID User System",
+    "description":"A user management system using arduino and RFID.",
     "license":[
       "mit"
     ],
@@ -378,7 +378,7 @@
   {
     "type":"project",
     "route":"/proj/wavegan-vg",
-    "title":"WaveGAN Voice Generation",
+    "title":"WaveGAN",
     "description":"An implementation of WaveGAN for voice generation from sc09 dataset.",
     "license":[
       "mit"
@@ -555,8 +555,8 @@
   {
     "type":"project",
     "route":"/proj/ruby-quovo-api",
-    "title":"Ruby Quovo Bridge API",
-    "description":"A minimal and slightly botchy utility to communicate between ruby apps and Quovo API.",
+    "title":"Ruby Quovo Bridge",
+    "description":"A minimal and slightly botchy communication bridge for ruby apps and Quovo API.",
     "license":[
       "free"
     ],
@@ -700,7 +700,7 @@
   {
     "type":"misc",
     "route":"/misc/raspi-slomocam-gui",
-    "title":"Raspberry Pi SloMo Cam GUI",
+    "title":"SloMo Cam GUI",
     "description":"A gui boilerplate for handling raspberry-pi's slo-mo camera.",
     "license":[
       "free"

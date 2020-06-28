@@ -6,7 +6,7 @@
   </app-navtab>
 </app-header>
 
-<app-scrollable [nosplash]="true">
+<app-scrollable [fullpage]="true" [nosplash]="true">
   <div id="explorer" class="page" #page>
     <div class="bg-img"></div>
 
@@ -16,16 +16,15 @@
           (propagate)="update($event)"
         ></app-dynamic-search>
 
-      <div class="card-window">
-        <app-scrollable
-            [nosplash]="true"
-            [horizontal]="true"
-            [fullpage]="false"
-            [delta]="83"
-            [throttle]="0"
-            #cardscroller
-          >
-          <div class="card-scroll">
+        <div class="card-entity">
+          <app-scrollable
+              [nosplash]="true"
+              [horizontal]="true"
+              [delta]="5"
+              [throttle]="0"
+              [overshoot]="20"
+              #cardscroller
+            >
             <app-raisecard
                 *ngIf="model === undefined || !model.length"
                 routerLink="/explore"
@@ -110,9 +109,8 @@
               </div>
 
             </app-raisecard>
-          </div>
-        </app-scrollable>
+          </app-scrollable>
+        </div>
       </div>
     </div>
-  </div>
 </app-scrollable>

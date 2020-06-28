@@ -1,29 +1,32 @@
 ☐ General fix
-  ☐ remove internal components and replace with directive templates
-  ☐ remove all jquery occurance
+  ☐ remove all jquery occurances
   ☐ add spec tests for components
   ☐ Fix animation timing and elasticity
   ☐ Add dependent count to showcase view
-  ☐ Add more tags
+  ☐ Add more tags for projects.json
   ☐ Add contributors
-  ☐ Add internships and regex stuff
+  ☐ Add internships and club stuff
   ☐ Add ML Projects
+  ☐ Add design project
+  ☐ Add 3d projects
+  ☐ Add music projects
+  ☐ Add art
+  ☐ Cards misaligned and weird scroll on landscape
+  ☐ Fix overflow on landscape phone view
+  ☐ Scrollable triggers on wrong orientation as well
 
 ☐ Component level fix
   ☐ pivotnav - close on outer-wrapper click
   ☐ pivotnav - pass number of items in sass to ts
   ☐ pivotnav - dynamic model based (look into raise-card querylist)
-  ☐ raisecard-group - check if listener is working
-  ☐ node - complete alterRoute function
-  ☐ navtab - pierce click event of tabs li to trigger a
+  ☐ tree - complete alterRoute function
   ☐ navtab - responsive navtab collapse on mobile to hamburgerish
-  ☐ header - fix leaking element on shrink-header clickable logo
   ☐ spinner - replace with different animation
   ☐ about - add default values and images
 
 ☐ Commission backgrounds
 
-☐ Comonents
+☐ Components
   ☐ Github updates component
   ☐ Public todolist
   ☐ Godwit tracker hook
@@ -37,8 +40,6 @@
 Landing
   Design
     ☐ Scroll down tip like https://colorlib.com/wp/wp-content/uploads/sites/2/free-landing-page-website-templates.jpg
-    ☐ Social links like https://bashooka.com/wp-content/uploads/2018/07/dark-background-web-ui-1.jpg
-    ☐ Dynamic filter by words as tags in projects page
     ☐ Side scrolling tree for browsing projects or replicate same in breadcrumbs https://bashooka.com/wp-content/uploads/2018/07/dark-background-web-ui-17.jpg
     ☐ Color scheme https://cdn.dribbble.com/users/477578/screenshots/4164347/aboutus.jpg
     ☐ Grid pattern like https://cdn.dribbble.com/users/895215/screenshots/3775006/innapp-shot.gif?vid=1

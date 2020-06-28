@@ -23,26 +23,24 @@
       width: 100%
       height: calc(100% - #{$shrink-header-size})
       padding: 1em
-      padding-top: 2em
       top: $shrink-header-size
       text-align: center
       text-transform: none
       flex-direction: column
       justify-content: space-evenly
 
-      & > .card-window
-        overflow: hidden
+      & > *
+        margin: 1em
 
-      & .card-scroll
-        display: inline-flex
-        flex-direction: row
+      & .card-entity
         overflow: hidden
 
       & .card-internal
         display: flex
+        height: 100%
         flex-direction: column
         flex-wrap: nowrap
-        justify-content: space-evenly
+        justify-content: space-between
 
         & > .info
           display: flex
