@@ -130,7 +130,11 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
                   .pipe(
                     takeUntil(fromEvent(this.hostElement.nativeElement, 'touchstart'))
                   )),
-              map((event: TouchEvent) => (this.horizontal) ? event.touches[0] && event.touches[0].pageX : event.touches[0] && event.touches[0].pageY),
+              map((event: TouchEvent) =>
+                  event.touches[0] && (this.horizontal)
+                  ? event.touches[0].pageX
+                  : event.touches[0].pageY
+                ),
               map(swiped => (init - swiped)),
               take(1),
               filter(difference => (difference >= this.touchTolerance) || (difference <= -this.touchTolerance)),
