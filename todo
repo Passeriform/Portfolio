@@ -1,8 +1,8 @@
-☐ General fix
-  ☐ remove all jquery occurances
-  ☐ add spec tests for components
+Code
+  ☐ Remove all jquery occurances
   ☐ Fix animation timing and elasticity
-  ☐ Add dependent count to showcase view
+
+Meta
   ☐ Add more tags for projects.json
   ☐ Add contributors
   ☐ Add internships and club stuff
@@ -10,57 +10,48 @@
   ☐ Add design project
   ☐ Add 3d projects
   ☐ Add music projects
-  ☐ Add art
-  ☐ Cards misaligned and weird scroll on landscape
-  ☐ Fix overflow on landscape phone view
-  ☐ Scrollable triggers on wrong orientation as well
+  ☐ Add art projects
 
-☐ Component level fix
-  ☐ pivotnav - close on outer-wrapper click
-  ☐ pivotnav - pass number of items in sass to ts
-  ☐ pivotnav - dynamic model based (look into raise-card querylist)
-  ☐ tree - complete alterRoute function
-  ☐ navtab - responsive navtab collapse on mobile to hamburgerish
-  ☐ spinner - replace with different animation
-  ☐ about - add default values and images
+Test
+  ☐ Add spec tests for components
 
-☐ Commission backgrounds
-
-☐ Components
-  ☐ Github updates component
+Feature
+  ☐ Add dependent count to showcase view
+  ☐ Updates component -  Shield/Symbol/Badge - Event - Project - Location/Organization
   ☐ Public todolist
   ☐ Godwit tracker hook
   ☐ "Working on <>" component
   ☐ Describe component
+  ☐ Footer component
+  ☐ Full working directory visualized component
 
-☐ Refactor
-  ☐ Showcase
-  ☐ Describe
+Component level fix
+  ☐ pivotnav - close on outer-wrapper click
+  ☐ pivotnav - pass number of items in sass to ts
+  ☐ pivotnav - dynamic model based (look into raise-card querylist)
+  ☐ scrollable - dynamic page change based on scroll delta
+  ☐ about - fix overflow on landscape view
+  ☐ about - add default values and images
+  ☐ tree - complete alterRoute function
+  ☐ about - remove contributors from passeriform
+  ☐ navtab - responsive navtab collapse on mobile to hamburgerish
+  ☐ spinner - replace with different animation
 
-Landing
-  Design
-    ☐ Scroll down tip like https://colorlib.com/wp/wp-content/uploads/sites/2/free-landing-page-website-templates.jpg
-    ☐ Side scrolling tree for browsing projects or replicate same in breadcrumbs https://bashooka.com/wp-content/uploads/2018/07/dark-background-web-ui-17.jpg
-    ☐ Color scheme https://cdn.dribbble.com/users/477578/screenshots/4164347/aboutus.jpg
-    ☐ Grid pattern like https://cdn.dribbble.com/users/895215/screenshots/3775006/innapp-shot.gif?vid=1
+IRL
+  ☐ Commission backgrounds
 
-  Sections
-    ☐ Loading screen
+Design
+  ☐ Scroll down tip like https://colorlib.com/wp/wp-content/uploads/sites/2/free-landing-page-website-templates.jpg
+  ☐ Side scrolling tree for browsing projects or replicate same in breadcrumbs https://bashooka.com/wp-content/uploads/2018/07/dark-background-web-ui-17.jpg
+  ☐ Color scheme https://cdn.dribbble.com/users/477578/screenshots/4164347/aboutus.jpg
+  ☐ Grid pattern like https://cdn.dribbble.com/users/895215/screenshots/3775006/innapp-shot.gif?vid=1
+  ☐ About reference - sensehack.github.io/phreakyphoenix.tech/www.akshathakamath.com
 
-    ☐ Highlights
-      ☐ Single line card
-        ☐ Shield/Symbol/Badge - Event - Project - Location/Organization
-
-    ☐ Full working directory visualized
-
-    ☐ Footer
-      ☐ Copyright
-
-  ☐ About (sensehack.github.io/phreakyphoenix.tech/www.akshathakamath.com)
-    ☐ Bio
-    ☐ What am I/What I'm not
-    ☐ What I can do for you
-    ☐ Education
-    ☐ Internships
-    ☐ Languages/Framework progress/prowess
-    ☐ How to get to me (Contact details)
+About
+  ☐ Bio
+  ☐ Languages/Framework progress/prowess
+  ☐ What am I/What I'm not
+  ☐ What I can do for you
+  ☐ Education
+  ☐ Internships
+  ☐ Contact details

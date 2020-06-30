@@ -62,6 +62,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
   }
 
   pageShift(shiftAmt: number) {
+    console.log(shiftAmt);
     if (shiftAmt < 0) {
       this.pageShiftUp(shiftAmt);
     } else if (shiftAmt > 0) {
@@ -70,7 +71,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
   }
 
   pageShiftUp(delta: number) {
-    this.pageIndex = Math.max(this.pageIndex + 1, 0);
+    this.pageIndex = Math.max(this.pageIndex - 1, 0);
     this.updateSplashState();
   }
 
@@ -133,7 +134,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
               map(swiped => (init - swiped)),
               take(1),
               filter(difference => (difference >= this.touchTolerance) || (difference <= -this.touchTolerance)),
-              map(scaled => scaled / 6)
+              map(scaled => scaled / 5)
             )
         ),
       );
