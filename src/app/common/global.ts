@@ -56,6 +56,7 @@ export enum Language {
   rust,
   ruby,
   shell,
+  solidity,
   php,
   lua,
   elua,
@@ -66,7 +67,7 @@ export enum Language {
 }
 
 export enum Framework {
-  crossterm = 24,
+  crossterm = 25,
   zmq,
   yacc,
   lex,
@@ -86,6 +87,8 @@ export enum Framework {
   blas,
   angular,
   sass,
+  truffle,
+  ethereum,
   rst,
   arduino,
   ffmpeg,
@@ -101,10 +104,11 @@ export enum Framework {
 }
 
 export enum Tool {
-  cargo = 56,
+  cargo = 59,
   man,
   cmake,
   make,
+  ganache,
   latex,
   photoshop,
   illustrator,
@@ -114,7 +118,7 @@ export enum Tool {
 }
 
 export enum Social {
-  email = 66,
+  email = 70,
   gmail,
   github,
   gitlab,
@@ -171,6 +175,7 @@ export const registry: Array<IconRegistry> = [
   {iconstr: Language.rust, iconUrl: 'https://www.rust-lang.org/logos/rust-logo-512x512.png'},
   {iconstr: Language.ruby, iconUrl: 'https://img.icons8.com/color/ruby-programming-language'},
   {iconstr: Language.shell, iconUrl: 'https://bashlogo.com/img/symbol/svg/full_colored_light.svg'},
+  {iconstr: Language.solidity, iconUrl: '/assets/images/icons/solidity.png'},
   {iconstr: Language.php, iconUrl: 'https://cdn.worldvectorlogo.com/logos/php-1.svg'},
   {iconstr: Language.lua, iconUrl: 'https://www.rozek.de/Lua/Lua-Logo_128x128.png'},
   {iconstr: Language.elua, iconUrl: 'http://www.eluaproject.net/images/logo_eLua.png'},
@@ -197,6 +202,8 @@ export const registry: Array<IconRegistry> = [
   {iconstr: Framework.blas, iconUrl: 'https://xtensor-blas.readthedocs.io/en/latest/_images/xtensor-blas.svg'},
   {iconstr: Framework.angular, iconUrl: 'https://angular.io/assets/images/logos/angular/angular.svg'},
   {iconstr: Framework.sass, iconUrl: 'https://sass-lang.com/assets/img/styleguide/color-1c4aab2b.png'},
+  {iconstr: Framework.truffle, iconUrl: 'https://camo.githubusercontent.com/7240582453539ece449f39250a2b063427c83375/68747470733a2f2f74727566666c656672616d65776f726b2e636f6d2f696d672f74727566666c652d6c6f676f2d6461726b2e737667'},
+  {iconstr: Framework.ethereum, iconUrl: 'https://ethereum.org/static/655aaefb744ae2f9f818095a436d38b5/e32d8/ethereum-icon-purple.png'},
   {iconstr: Framework.rst, iconUrl: 'https://docutils.sourceforge.io/rst.png'},
   {iconstr: Framework.arduino, iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/8/87/Arduino_Logo.svg'},
   {iconstr: Framework.ffmpeg, iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/76/FFmpeg_icon.svg'},
@@ -214,6 +221,7 @@ export const registry: Array<IconRegistry> = [
   {iconstr: Tool.man, iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/0/01/Windows_Terminal_Logo_256x256.png'},
   {iconstr: Tool.cmake, iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/8/8f/Breezeicons-apps-48-cmake.svg'},
   {iconstr: Tool.make, iconUrl: 'http://www.myiconfinder.com/uploads/iconsets/256-256-a2f0f447f4b1f528044828ccaa8dc865-Gnu.png'},
+  {iconstr: Tool.ganache, iconUrl: 'https://www.trufflesuite.com/img/ganache-logo-dark.svg'},
   {iconstr: Tool.latex, iconUrl: '/assets/images/icons/latex.png'},
   {iconstr: Tool.photoshop, iconUrl: 'https://www.adobe.com/content/dam/cc/icons/photoshop-mobile.svg'},
   {iconstr: Tool.illustrator, iconUrl: 'https://www.adobe.com/content/dam/cc/icons/illustrator.svg'},

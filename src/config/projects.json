@@ -426,6 +426,37 @@
   },
   {
     "type":"project",
+    "route":"/proj/hashcrepe",
+    "title":"HashCrepe",
+    "description":"A blockchain utility to decide what to eat.",
+    "license":[
+      "mit"
+    ],
+    "repository":"https://github.com/Passeriform/HashCrepe",
+    "languages":[
+      "solidity",
+      "javascript"
+    ],
+    "frameworks":[
+      "truffle",
+      "ethereum"
+    ],
+    "tools": [
+      "ganache"
+    ],
+    "tags":[
+      "blockchain",
+      "hash",
+      "hashing",
+      "gas",
+      "crepe",
+      "food",
+      "contract",
+      "transaction"
+    ]
+  },
+  {
+    "type":"project",
     "route":"/proj/drone-firefighters",
     "title":"Drone Firefighters",
     "description":"An automated firefighting drone swarm to prevent, predict and mitigate wildfires.",
