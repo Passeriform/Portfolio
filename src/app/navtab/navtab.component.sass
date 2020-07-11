@@ -1,7 +1,7 @@
 @import 'vars'
 
 /* Check once */
-$nav-ul-size: $header-size / 2
+$nav-ul-height: $header-size / 2
 
 :host
   width: calc(100% - #{$header-size})
@@ -21,9 +21,9 @@ $nav-ul-size: $header-size / 2
   transition: all 0.5s ease
 
   & ::ng-deep ul
-    height: $nav-ul-size
+    height: $nav-ul-height
     margin: 0
-    padding: #{($nav-ul-size - 1em) / 4} 5%
+    padding: #{($nav-ul-height - 1em) / 4} 5%
     overflow: hidden
     list-style: none
     -webkit-transition: all 0.5s ease
@@ -83,7 +83,7 @@ $nav-ul-size: $header-size / 2
           transform: scaleX(1)
 
     &.shrink-navtab
-      padding: #{($nav-ul-size - 1em) / 4} 2%
+      padding: #{($nav-ul-height - 1em) / 4} 2%
 
       & > li
         padding: 1em
@@ -99,3 +99,6 @@ $nav-ul-size: $header-size / 2
             background-color: complement($accent-color-hex)
             color: $anti-accent-color-hex
             mix-blend-mode: difference
+
+  &.logo-shrink-fix
+    width: calc(100% - #{$shrink-header-size})

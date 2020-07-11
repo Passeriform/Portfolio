@@ -1,5 +1,5 @@
 <div id="header-wrapper" [ngClass]="{'shrink-header': splashState === 'blur' || nosplash}">
-  <div id="logo">
+  <div id="logo" [ngClass]="{'shrink-header': splashState === 'blur' || nosplash}">
     <a routerLink="{{target}}">
       <img src="{{logo}}" alt="{{alt}}">
     </a>
