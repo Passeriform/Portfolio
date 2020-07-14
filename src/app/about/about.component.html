@@ -12,7 +12,7 @@
     <div class="content">
       <div id="intro-container" class="content-wrapper">
         <a routerLink="/about/{{ model.subject }}" class="avatar">
-          <img *ngIf="model.intro.img" src={{ model.intro.img }}  />
+          <img *ngIf="model.intro.img" src={{model.intro.img}} />
         </a>
         <h1>{{ model.intro.heading }}</h1>
         <p>
@@ -26,7 +26,7 @@
     <div class="content">
       <div id="overview-container" class="content-wrapper">
         <section *ngFor="let section of model.overview">
-          <img *ngIf="section.img" src={{ section.img }}/>
+          <img *ngIf="section.img" src={{section.img}}/>
           <p>
             {{ section.paragraph }}
           </p>
@@ -38,7 +38,7 @@
     <div class="bg-img"></div>
     <div class="content">
       <div id="story-container" class="content-wrapper">
-        <img *ngIf="model.story.img" src={{ model.story.img }}  />
+        <img *ngIf="model.story.img" src={{model.story.img}}  />
         <p>
           {{ model.story.paragraph }}
         </p>
@@ -57,7 +57,7 @@
                 <span>{{ contributor.description }}</span>
               </app-tooltip>
               <a routerLink="/about/{{ contributor.aboutUrl }}">
-                <img *ngIf="contributor.img" src={{ contributor.img }} (mouseover)="showTooltip(contributor)" (mouseout)="hideTooltip(contributor)" />
+                <img *ngIf="contributor.img" src={{contributor.img}} (mouseover)="showTooltip(contributor)" (mouseout)="hideTooltip(contributor)" />
               </a>
           </div>
           </ng-container>
@@ -69,7 +69,7 @@
     <div class="bg-img"></div>
     <div class="content">
       <div id="contact-container" class="content-wrapper">
-        <img *ngIf="model.contact.img" src={{ model.contact.img }}  />
+        <img *ngIf="model.contact.img" src={{model.contact.img}}  />
         <div>
           <h1>{{ model.contact.heading }}</h1>
           <p>
