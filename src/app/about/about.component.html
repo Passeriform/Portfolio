@@ -7,26 +7,26 @@
 </app-header>
 
 <app-scrollable [fullpage]="true" [nosplash]="true">
-  <div *ngIf="selected ? selected.intro : false" id="intro" class="page" #page>
+  <div *ngIf="model ? model.intro : false" id="intro" class="page" #page>
     <div class="bg-img"></div>
     <div class="content">
       <div id="intro-container" class="content-wrapper">
-        <a routerLink="/about/{{ selected.filter }}" class="avatar">
-          <img *ngIf="selected.intro.img" src={{selected.intro.img}}  />
+        <a routerLink="/about/{{ model.subject }}" class="avatar">
+          <img *ngIf="model.intro.img" src={{ model.intro.img }}  />
         </a>
-        <h1>{{ selected.intro.heading }}</h1>
+        <h1>{{ model.intro.heading }}</h1>
         <p>
-          {{ selected.intro.paragraph }}
+          {{ model.intro.paragraph }}
         </p>
       </div>
     </div>
   </div>
-  <div *ngIf="selected ? selected.overview : false" id="overview" class="page" #page>
+  <div *ngIf="model ? model.overview : false" id="overview" class="page" #page>
     <div class="bg-img"></div>
     <div class="content">
       <div id="overview-container" class="content-wrapper">
-        <section *ngFor="let section of selected.overview">
-          <img *ngIf="section.img" src={{section.img}}  />
+        <section *ngFor="let section of model.overview">
+          <img *ngIf="section.img" src={{ section.img }}/>
           <p>
             {{ section.paragraph }}
           </p>
@@ -34,30 +34,30 @@
       </div>
     </div>
   </div>
-  <div *ngIf="selected ? selected.story : false" id="story" class="page" #page>
+  <div *ngIf="model ? model.story : false" id="story" class="page" #page>
     <div class="bg-img"></div>
     <div class="content">
       <div id="story-container" class="content-wrapper">
-        <img *ngIf="selected.story.img" src={{selected.story.img}}  />
+        <img *ngIf="model.story.img" src={{ model.story.img }}  />
         <p>
-          {{ selected.story.paragraph }}
+          {{ model.story.paragraph }}
         </p>
       </div>
     </div>
   </div>
-  <div *ngIf="selected ? selected.contributors : false" id="contributors" class="page" #page>
+  <div *ngIf="model ? model.contributors : false" id="contributors" class="page" #page>
     <div class="bg-img"></div>
     <div class="content">
       <app-cage-grid>
         <div id="contributors-container" class="content-wrapper" *appCaged="'Contributors'">
-          <ng-container *ngFor="let contributor of selected.contributors">
+          <ng-container *ngFor="let contributor of model.contributors">
             <div id="contributor">
               <app-tooltip [show]="contributor.showToggle">
                 <h5>{{ contributor.title }}</h5>
                 <span>{{ contributor.description }}</span>
               </app-tooltip>
               <a routerLink="/about/{{ contributor.aboutUrl }}">
-                <img *ngIf="contributor.img" src={{contributor.img}} (mouseover)="showTooltip(contributor)" (mouseout)="hideTooltip(contributor)" />
+                <img *ngIf="contributor.img" src={{ contributor.img }} (mouseover)="showTooltip(contributor)" (mouseout)="hideTooltip(contributor)" />
               </a>
           </div>
           </ng-container>
@@ -65,18 +65,18 @@
       </app-cage-grid>
     </div>
   </div>
-  <div *ngIf="selected ? selected.contact : false" id="contact" class="page" #page>
+  <div *ngIf="model ? model.contact : false" id="contact" class="page" #page>
     <div class="bg-img"></div>
     <div class="content">
       <div id="contact-container" class="content-wrapper">
-        <img *ngIf="selected.contact.img" src={{selected.contact.img}}  />
+        <img *ngIf="model.contact.img" src={{ model.contact.img }}  />
         <div>
-          <h1>{{ selected.contact.heading }}</h1>
+          <h1>{{ model.contact.heading }}</h1>
           <p>
-            {{ selected.contact.paragraph }}
+            {{ model.contact.paragraph }}
           </p>
         </div>
-        <app-social-glyphs [model]="selected.contact.links"></app-social-glyphs>
+        <app-social-glyphs [model]="model.contact.links"></app-social-glyphs>
       </div>
     </div>
   </div>

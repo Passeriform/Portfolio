@@ -52,7 +52,7 @@
                   <div class="meta">
                       <div class="languages" *ngIf="entry.languages && entry.languages.length">
 
-                        <img src="https://img.icons8.com/color/source-code" alt="Languages" (mouseover)="showLanguages(entry)" (mouseout)="hideLanguages(entry)" (click)="metaClick($event)"/>
+                        <img src="https://img.icons8.com/color/source-code" alt="Languages" (mouseover)="showLanguages(entry)" (mouseout)="hideLanguages(entry)" (click)="cancelClick($event)"/>
 
                         <app-tooltip [show]="entry.showLanguagesTooltip" [invert]="true" [location]="'top'">
                           <h5>Languages</h5>
@@ -66,7 +66,7 @@
                       </div>
                       <div class="frameworks" *ngIf="entry.frameworks && entry.frameworks.length">
 
-                        <img src="https://img.icons8.com/color/administrative-tools" alt="Frameworks" (mouseover)="showFrameworks(entry)" (mouseout)="hideFrameworks(entry)" (click)="metaClick($event)"/>
+                        <img src="https://img.icons8.com/color/administrative-tools" alt="Frameworks" (mouseover)="showFrameworks(entry)" (mouseout)="hideFrameworks(entry)" (click)="cancelClick($event)"/>
 
                         <app-tooltip [show]="entry.showFrameworksTooltip" [invert]="true" [location]="'top'">
                           <h5>Frameworks</h5>
@@ -80,7 +80,7 @@
                       </div>
                       <div class="tools" *ngIf="entry.tools && entry.tools.length">
 
-                        <img src="https://img.icons8.com/color/toolbox" alt="Tools" (mouseover)="showTools(entry)" (mouseout)="hideTools(entry)" (click)="metaClick($event)"/>
+                        <img src="https://img.icons8.com/color/toolbox" alt="Tools" (mouseover)="showTools(entry)" (mouseout)="hideTools(entry)" (click)="cancelClick($event)"/>
 
                         <app-tooltip [show]="entry.showToolsTooltip" [invert]="true" [location]="'top'">
                           <h5>Tools</h5>
@@ -98,7 +98,7 @@
                   </a>
                   <div class="licenses">
                     <ng-container *ngFor="let license of entry.license">
-                      <img [src]="license | iconUri" (click)="metaClick($event)"/>
+                      <img [src]="license | iconUri" (click)="cancelClick($event)"/>
                     </ng-container>
                   </div>
                 </div>

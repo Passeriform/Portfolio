@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ProjectParserService } from './project-parser.service';
+import { TaggerService } from './tagger.service';
 
-describe('ProjectParserService', () => {
+describe('TaggerService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ProjectParserService = TestBed.get(ProjectParserService);
+    const service: TaggerService = TestBed.get(TaggerService);
     expect(service).toBeTruthy();
   });
 });

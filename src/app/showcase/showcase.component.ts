@@ -4,13 +4,14 @@ import { Observable, BehaviorSubject } from 'rxjs';
 
 import { Project } from '../common/global';
 
-import { ProjectParserService } from '../services/project-parser.service';
+import { FetchService } from '../services/fetch.service';
+import { TaggerService } from '../services/tagger.service';
 
 @Component({
   selector: 'app-showcase',
   templateUrl: './showcase.component.html',
   styleUrls: ['./showcase.component.sass'],
-  providers: [ ProjectParserService ]
+  providers: [ TaggerService ]
 })
 export class ShowcaseComponent implements OnInit, AfterViewInit {
   private preloadMarker: string;
@@ -18,35 +19,43 @@ export class ShowcaseComponent implements OnInit, AfterViewInit {
 
   @ViewChild('cardscroller', {static: false}) cardChild;
 
-  constructor(private route: ActivatedRoute, private projectParser: ProjectParserService) {
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private fetcher: FetchService,
+    private tagger: TaggerService) { }
 
   ngOnInit() {
-    this.preloadMarker = this.route.snapshot.data.marker;
-    this.projectParser.modelObs.subscribe(model => {
-      model.map(entry => {
+    this.preloadMarker = this.route.snapshot.data.marker || '';
+
+    let callURL;
+
+    if (this.preloadMarker) {
+      callURL = `https://passeriform-portfolio-api.herokuapp.com/work/filter/type/${this.preloadMarker}`;
+    } else {
+      callURL = 'https://passeriform-portfolio-api.herokuapp.com/work';
+    }
+
+    this.fetcher.getResponse(callURL).subscribe(model => {
+      this.model = this.tagger.appendTags(model);
+
+      if (this.model === undefined) {
+        this.router.navigate(['/explore']);
+      }
+
+      this.model.map(entry => {
         entry.showLanguagesTooltip = false;
         entry.showFrameworksTooltip = false;
         entry.showToolsTooltip = false;
       });
-      this.model = this.applyPreload(model);
     });
   }
 
   ngAfterViewInit() {
   }
 
-  applyPreload(model) {
-    if (this.preloadMarker === undefined) {
-      return model;
-    }
-
-    const modModel = model.filter(entry => this.preloadMarker === entry.type);
-    return modModel;
-  }
-
   update(model: Array<any>) {
-    this.projectParser.updateModel(this.applyPreload(model));
+    this.model = model;
     this.cardChild.pageReset();
   }
 
@@ -69,7 +78,7 @@ export class ShowcaseComponent implements OnInit, AfterViewInit {
     entry.showToolsTooltip = false;
   }
 
-  metaClick(event) {
+  cancelClick(event) {
     event.stopPropagation();
   }
 }

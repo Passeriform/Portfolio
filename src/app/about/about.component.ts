@@ -9,32 +9,25 @@ import { FetchService } from '../services/fetch.service';
   styleUrls: ['./about.component.sass']
 })
 export class AboutComponent implements OnInit {
-  private src = '/config/about-model.json';
-  private model: Array<any>;
-  private filter: string;
-  public selected: any;
+  private model: any;
+  private subject: string;
 
   constructor(private route: ActivatedRoute, private router: Router, private fetcher: FetchService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.filter = params.get('subject') || 'passeriform';
+      this.subject = params.get('subject') || 'passeriform';
     });
 
-    this.fetcher.getResponse(this.src).subscribe(model => {
+    this.fetcher.getResponse(`https://passeriform-portfolio-api.herokuapp.com/about/${this.subject}`).subscribe(model => {
       this.model = model;
-      this.model.map(entry => {
-        if (entry.filter === this.filter) {
-          this.selected = entry;
-        }
-      });
 
-      if (this.selected === undefined) {
+      if (this.model === undefined) {
         this.router.navigate(['/about']);
       }
 
-      if (this.selected.contributors !== undefined) {
-        this.selected.contributors.map(contributor => {
+      if (this.model.contributors !== undefined) {
+        this.model.contributors.map(contributor => {
           contributor.showToggle = false;
         });
       }
