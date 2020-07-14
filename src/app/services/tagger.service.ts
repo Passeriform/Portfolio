@@ -13,7 +13,7 @@ export class TaggerService {
     });
   }
 
-  prepareTags(modelList: Array<any>) {
+  appendTags(modelList: Array<any>) {
     modelList.map(model => {
       model.tags.push(
         model.type,

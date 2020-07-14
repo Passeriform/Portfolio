@@ -9,7 +9,7 @@ import { FetchService } from '../services/fetch.service';
   styleUrls: ['./about.component.sass']
 })
 export class AboutComponent implements OnInit {
-  private model: any;
+  public model: any;
   private subject: string;
 
   constructor(private route: ActivatedRoute, private router: Router, private fetcher: FetchService) { }
