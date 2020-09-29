@@ -62,7 +62,6 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
   }
 
   pageShift(shiftAmt: number) {
-    console.log(shiftAmt);
     if (shiftAmt < 0) {
       this.pageShiftUp(shiftAmt);
     } else if (shiftAmt > 0) {
@@ -82,12 +81,10 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
     const scrollableHeight = this.hostElement.nativeElement.scrollHeight + this.overshoot - 100 * vh;
 
     if (this.horizontal) {
-      if (this.delta * (this.pageIndex) * vw >= scrollableWidth) { return; }
+      if (this.delta * (this.pageIndex + 1) * vw > scrollableWidth) { return; }
     } else {
-      if (this.delta * (this.pageIndex) * vh >= scrollableHeight) { return; }
+      if (this.delta * (this.pageIndex + 1) * vh > scrollableHeight) { return; }
     }
-
-    console.log();
 
     this.pageIndex = this.pageIndex + 1;
     this.updateSplashState();
@@ -121,7 +118,8 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
     this.swipeStream = fromEvent(this.hostElement.nativeElement, 'touchmove')
       .pipe(
         conditionalThrottle(this.throttle === 0, this.throttle),
-        map((event: TouchEvent) => (this.horizontal) ? event.touches[0].pageX : event.touches[0].pageY),
+        map((event: TouchEvent) => this.horizontal ? event.touches[0].pageX : event.touches[0].pageY // No need to check for empty event as its captured by fromEvent
+        ),
         mergeMap((init: number) =>
           fromEvent(this.hostElement.nativeElement, 'touchmove')
             .pipe(
@@ -129,12 +127,15 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
                 fromEvent(this.hostElement.nativeElement, 'touchend')
                   .pipe(
                     takeUntil(fromEvent(this.hostElement.nativeElement, 'touchstart'))
-                  )),
+                  ),
+              ),
               map((event: TouchEvent) =>
-                  event.touches[0] && (this.horizontal)
+                event.touches[0]
+                ? (this.horizontal)
                   ? event.touches[0].pageX
                   : event.touches[0].pageY
-                ),
+                : 0 // Find a default here
+              ),
               map(swiped => (init - swiped)),
               take(1),
               filter(difference => (difference >= this.touchTolerance) || (difference <= -this.touchTolerance)),
