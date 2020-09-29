@@ -14,10 +14,12 @@
         <a routerLink="/about/{{ model.subject }}" class="avatar">
           <img *ngIf="model.intro.img" src={{model.intro.img}} />
         </a>
-        <h1>{{ model.intro.heading }}</h1>
-        <p>
-          {{ model.intro.paragraph }}
-        </p>
+        <div class="content-text">
+          <h1>{{ model.intro.heading }}</h1>
+          <p>
+            {{ model.intro.paragraph }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -72,8 +74,35 @@
         <img *ngIf="model.contact.img" src={{model.contact.img}}  />
         <div>
           <h1>{{ model.contact.heading }}</h1>
-          <p>
-            {{ model.contact.paragraph }}
+          <p>{{ model.contact.paragraph }}</p>
+          <div class="contact-form">
+            <form id="contact" autocomplete="off" _lpchecked="1">
+              <ul>
+                <li class="half">
+                  <input class="inputField" placeholder="Name" type="text" name="name">
+                  <label class="inputLabel"></label>
+                </li>
+                <li class="half">
+                  <input class="inputField" placeholder="Email" type="email" name="email">
+                  <label class="inputLabel"></label>
+                </li>
+                <li>
+                  <input class="inputField" placeholder="Subject" type="text" name="subject">
+                  <label class="inputLabel"></label>
+                </li>
+                <li>
+                  <textarea class="inputField" placeholder="Message" name="msg" spellcheck="false" style="height: 110px;"></textarea>
+                  <label class="inputLabel"></label>
+                </li>
+                <li class="submit">
+                  <input id="submit" type="submit" class="flat-button" value="SEND">
+                  <label class="inputLabel"></label>
+                </li>
+              </ul>
+            </form>
+          </div>
+          <p class="postform">
+            {{ model.contact.mediaplugpara }}
           </p>
         </div>
         <app-social-glyphs [model]="model.contact.links"></app-social-glyphs>
