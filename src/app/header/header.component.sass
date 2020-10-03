@@ -17,32 +17,29 @@
   transition: all 0.5s ease
 
   #logo
-    width: $header-size
-    height: $header-size
+    width: $logo-size
+    height: $logo-size
     display: -webkit-flexbox
     display: -ms-flexbox
     display: -webkit-flex
     display: flex
-    -webkit-flex-align: center
-    -ms-flex-align: center
-    -webkit-align-items: center
-    align-items: center
-    justify-content: center
-    pointer-events: none
-
-    & > *
-      pointer-events: all
+    align-items: flex-start
+    justify-content: flex-start
 
     & > a
+      display: flex
       width: $logo-size
       height: $logo-size
+      align-items: center
+      justify-content: center
       -webkit-transition: all 0.5s ease
       -moz-transition: all 0.5s ease
       -o-transition: all 0.5s ease
       transition: all 0.5s ease
 
       & > img
-        width: $logo-size
+        width: $logo-img-size
+        height: $logo-img-size
         filter: invert(1)
         -webkit-transition: all 0.5s ease
         -moz-transition: all 0.5s ease
@@ -61,17 +58,18 @@
     & #logo > a
       display: block
       position: absolute
-      width: 0em
-      height: 0em
-      left: 0
+      width: $logo-flap-size
+      height: $logo-flap-size
       top: 0
-      border-top: $logo-flap-size solid $accent-color-hex
-      border-right: $logo-flap-size solid transparent
+      left: 0
+      clip-path: polygon(0 0, 0% 100%, 100% 0%)
+      background-color: $accent-color-hex
 
       & > img
         width: $shrink-header-size
+        height: $shrink-header-size
         display: block
         position: absolute
-        top: #{-($logo-flap-size - 1em)}
+        top: 1em
         left: 0
         filter: invert(0)

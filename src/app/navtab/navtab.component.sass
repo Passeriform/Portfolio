@@ -21,7 +21,6 @@ $nav-ul-height: $header-size / 2
   transition: all 0.5s ease
 
   & ::ng-deep ul
-    height: $nav-ul-height
     margin: 0
     padding: #{($nav-ul-height - 1em) / 4} 5%
     overflow: hidden
@@ -83,7 +82,7 @@ $nav-ul-height: $header-size / 2
           transform: scaleX(1)
 
     &.shrink-navtab
-      padding: #{($nav-ul-height - 1em) / 4} 2%
+      padding: 0
 
       & > li
         padding: 1em
