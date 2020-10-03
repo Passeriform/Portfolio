@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "publish:gh-pages": "npm run build:prod; angular-cli-ghpages --repo 'git@github.com:Passeriform/passeriform.github.io' --message 'Deploy: New publish to gh-pages.' --dir 'dist/passeriform' --branch 'master'"
+    "publish:gh-pages": "npm run build:prod && angular-cli-ghpages --repo git@github.com:Passeriform/passeriform.github.io --message 'Deploy: New publish to gh-pages.' --dir dist/passeriform --branch master"
   },
   "private": true,
   "dependencies": {
