@@ -4,7 +4,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 
 import { Project } from '../common/global';
 
-import { FetchService } from '../services/fetch.service';
+import { WorkStateService } from '../services/work-state.service';
 import { TaggerService } from '../services/tagger.service';
 
 @Component({
@@ -13,50 +13,34 @@ import { TaggerService } from '../services/tagger.service';
   styleUrls: ['./showcase.component.sass'],
   providers: [ TaggerService ]
 })
+
 export class ShowcaseComponent implements OnInit, AfterViewInit {
-  private preloadMarker: string;
   public model: Array<any>;
+
+  @Input() private preloadMarker: string;
 
   @ViewChild('cardscroller', {static: false}) cardChild;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private fetcher: FetchService,
-    private tagger: TaggerService) { }
+    private workState: WorkStateService) { }
 
   ngOnInit() {
-    this.preloadMarker = this.route.snapshot.data.marker || '';
-
-    let callURL;
-
-    if (this.preloadMarker) {
-      callURL = `https://passeriform-portfolio-api.herokuapp.com/work/filter/type/${this.preloadMarker}`;
-    } else {
-      callURL = 'https://passeriform-portfolio-api.herokuapp.com/work';
+    if (this.preloadMarker !== '') {
+      this.workState.setFilter((entity) => entity.type == this.preloadMarker);
     }
 
-    this.fetcher.getResponse(callURL).subscribe(model => {
-      this.model = this.tagger.appendTags(model);
+    this.workState.workActiveState$.subscribe((model) => {
+      this.model = model;
 
       if (this.model === undefined) {
         this.router.navigate(['/explore']);
       }
-
-      this.model.map(entry => {
-        entry.showLanguagesTooltip = false;
-        entry.showFrameworksTooltip = false;
-        entry.showToolsTooltip = false;
-      });
     });
   }
 
   ngAfterViewInit() {
-  }
-
-  update(model: Array<any>) {
-    this.model = model;
-    this.cardChild.pageReset();
   }
 
   showLanguages(entry) {
@@ -76,6 +60,10 @@ export class ShowcaseComponent implements OnInit, AfterViewInit {
   }
   hideTools(entry) {
     entry.showToolsTooltip = false;
+  }
+
+  setSelected(entry: object) {
+    this.workState.setSelected(entry);
   }
 
   cancelClick(event) {

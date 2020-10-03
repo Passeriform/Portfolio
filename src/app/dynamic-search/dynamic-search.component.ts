@@ -11,7 +11,7 @@ import { FuzzyAnalyzer, FuzzySegment} from './fuzzy-analyzer';
 })
 export class DynamicSearchComponent implements OnInit {
   @Input() model: Array<any>;
-  @Output() propagate = new EventEmitter<any>();
+  @Output() propagate: EventEmitter<any> = new EventEmitter();
 
   public queryString: string;
 

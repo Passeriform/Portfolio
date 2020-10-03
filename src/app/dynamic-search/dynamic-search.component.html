@@ -4,6 +4,7 @@
 			[(ngModel)]="queryString"
 			(ngModelChange)="applyFilter()"
 			placeholder="Filter by keywords...."
+			(click)="$event.stopPropagation()"
 			autofocus
 			class="filter"
 		/>

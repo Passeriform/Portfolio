@@ -7,6 +7,8 @@ import * as $ from 'jquery';
 
 import { FetchService } from './services/fetch.service';
 import { SplashStateService } from './services/splash-state.service';
+import { TaggerService } from './services/tagger.service';
+import { WorkStateService } from './services/work-state.service';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -22,6 +24,8 @@ import { LandingComponent } from './landing/landing.component';
 
 import { ShowcaseComponent } from './showcase/showcase.component';
 
+import { ExploreComponent } from './explore/explore.component';
+
 import { DescribeComponent } from './describe/describe.component';
 
 import { AboutComponent } from './about/about.component';
@@ -31,12 +35,24 @@ import { SweeperComponent } from './sweeper/sweeper.component';
 import { CageGridComponent } from './cage-grid/cage-grid.component';
 import { CageGridDirective } from './cage-grid/cage-grid.directive';
 
-import { DynamicSearchComponent } from './dynamic-search/dynamic-search.component';
+import { ListGroupComponent } from './listgroup/listgroup.component';
+
 import { TooltipComponent } from './tooltip/tooltip.component';
+
+import { OverlayComponent } from './overlay/overlay.component';
+import { DynamicSearchComponent } from './dynamic-search/dynamic-search.component';
+
 import { SocialGlyphsComponent } from './social-glyphs/social-glyphs.component';
 
 import { RaisecardComponent } from './raisecard/raisecard.component';
 import { IconUriPipe } from './icon-uri.pipe';
+import { RetainPipe } from './retain.pipe';
+
+// import { TreeComponent } from './tree/tree.component';
+// import { NodeComponent } from './tree/node.component';
+// import { PivotnavComponent } from './pivotnav/pivotnav.component';
+// import { PItemComponent } from './pivotnav/pitem.component';
+// import { CircularWaveComponent } from './circular-wave/circular-wave.component';
 
 @NgModule({
   imports: [
@@ -57,6 +73,8 @@ import { IconUriPipe } from './icon-uri.pipe';
 
     LandingComponent,
 
+    ExploreComponent,
+
     ShowcaseComponent,
 
     DescribeComponent,
@@ -68,19 +86,26 @@ import { IconUriPipe } from './icon-uri.pipe';
     CageGridComponent,
     CageGridDirective,
 
-    DynamicSearchComponent,
 
     TooltipComponent,
+
+    OverlayComponent,
+
+    DynamicSearchComponent,
 
     SocialGlyphsComponent,
 
     RaisecardComponent,
 
-    IconUriPipe
+    IconUriPipe,
+
+    RetainPipe,
   ],
   providers: [
     FetchService,
     SplashStateService,
+    TaggerService,
+    WorkStateService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,116 +1,97 @@
-<app-header logo="/assets/images/icons/passeriform.svg" target="/" alt="passeriform">
-  <app-navtab>
-    <a *appNavLink routerLink="/explore">Work</a>
-    <a *appNavLink href="https://passeribird.blogspot.com/" target="_blank">Blog</a>
-    <a *appNavLink routerLink="/about">About</a>
-  </app-navtab>
-</app-header>
+<div class="content">
+  <app-dynamic-search
+      [model]="model"
+      (propagate)="workState.setActive($event)"
+    ></app-dynamic-search>
 
-<app-scrollable [fullpage]="true" [nosplash]="true">
-  <div id="explorer" class="page" #page>
-    <div class="bg-img"></div>
+    <div class="card-entity">
+      <app-scrollable
+          [nosplash]="true"
+          [horizontal]="true"
+          [delta]="5"
+          [throttle]="0"
+          [overshoot]="20"
+          #cardscroller
+        >
+        <app-raisecard
+            *ngIf="model === undefined || !model.length"
+            [style.cursor]="'pointer'"
+            #page
+          >
+          <div class="card-internal">
+            <h2 class="title">No entries found here!</h2>
+            <p>Click to get back to explore.</p>
+          </div>
+        </app-raisecard>
 
-    <div class="content">
-      <app-dynamic-search
-          [model]="model"
-          (propagate)="update($event)"
-        ></app-dynamic-search>
+        <app-raisecard
+            *ngFor="let entry of model"
+            [marker]="entry.type"
+            [style.cursor]="'pointer'"
+            (click)="setSelected(entry)"
+            #page
+          >
+          <div class="card-internal">
 
-        <div class="card-entity">
-          <app-scrollable
-              [nosplash]="true"
-              [horizontal]="true"
-              [delta]="5"
-              [throttle]="0"
-              [overshoot]="20"
-              #cardscroller
-            >
-            <app-raisecard
-                *ngIf="model === undefined || !model.length"
-                routerLink="/explore"
-                [style.cursor]="'pointer'"
-                #page
-              >
-              <div class="card-internal">
-                <h2 class="title">No entries found here!</h2>
-                <p>Click to get back to explore.</p>
-              </div>
-            </app-raisecard>
-            <app-raisecard
-                *ngFor="let entry of model"
-                [routerLink]="entry.route"
-                [marker]="entry.type"
-                [style.cursor]="'pointer'"
-                #page
-              >
-              <div class="card-internal">
+            <h2 class="title">{{ entry.title }}</h2>
+            <p>{{ entry.description }}</p>
 
-                <h2 class="title">{{ entry.title }}</h2>
-                <p>{{ entry.description }}</p>
+            <div class="info">
+              <div class="meta">
+                  <div class="languages" *ngIf="entry.languages && entry.languages.length">
 
-                <div class="info">
-                  <div class="meta">
-                      <div class="languages" *ngIf="entry.languages && entry.languages.length">
+                    <img src="https://img.icons8.com/color/source-code" alt="Languages" (mouseover)="showLanguages(entry)" (mouseout)="hideLanguages(entry)" (click)="cancelClick($event)"/>
 
-                        <img src="https://img.icons8.com/color/source-code" alt="Languages" (mouseover)="showLanguages(entry)" (mouseout)="hideLanguages(entry)" (click)="cancelClick($event)"/>
-
-                        <app-tooltip [show]="entry.showLanguagesTooltip" [invert]="true" [location]="'top'">
-                          <h5>Languages</h5>
-                          <div class="meta-icons">
-                            <ng-container *ngFor="let language of entry.languages">
-                              <img [src]="language | iconUri"/>
-                            </ng-container>
-                          </div>
-                        </app-tooltip>
-
+                    <app-tooltip [show]="entry.showLanguagesTooltip" [invert]="true" [location]="'top'">
+                      <h5>Languages</h5>
+                      <div class="meta-icons">
+                        <ng-container *ngFor="let language of entry.languages">
+                          <img [src]="language | iconUri"/>
+                        </ng-container>
                       </div>
-                      <div class="frameworks" *ngIf="entry.frameworks && entry.frameworks.length">
+                    </app-tooltip>
 
-                        <img src="https://img.icons8.com/color/administrative-tools" alt="Frameworks" (mouseover)="showFrameworks(entry)" (mouseout)="hideFrameworks(entry)" (click)="cancelClick($event)"/>
-
-                        <app-tooltip [show]="entry.showFrameworksTooltip" [invert]="true" [location]="'top'">
-                          <h5>Frameworks</h5>
-                          <div class="meta-icons">
-                            <ng-container *ngFor="let framework of entry.frameworks">
-                              <img [src]="framework | iconUri"/>
-                            </ng-container>
-                          </div>
-                        </app-tooltip>
-
-                      </div>
-                      <div class="tools" *ngIf="entry.tools && entry.tools.length">
-
-                        <img src="https://img.icons8.com/color/toolbox" alt="Tools" (mouseover)="showTools(entry)" (mouseout)="hideTools(entry)" (click)="cancelClick($event)"/>
-
-                        <app-tooltip [show]="entry.showToolsTooltip" [invert]="true" [location]="'top'">
-                          <h5>Tools</h5>
-                          <div class="meta-icons">
-                            <ng-container *ngFor="let tool of entry.tools">
-                              <img [src]="tool | iconUri"/>
-                            </ng-container>
-                          </div>
-                        </app-tooltip>
-
-                      </div>
                   </div>
-                  <a [href]="entry.repository" class="repo">
-                    <img [src]="'github' | iconUri"/>
-                  </a>
-                  <div class="licenses">
-                    <ng-container *ngFor="let license of entry.license">
-                      <img [src]="license | iconUri" (click)="cancelClick($event)"/>
-                    </ng-container>
+                  <div class="frameworks" *ngIf="entry.frameworks && entry.frameworks.length">
+
+                    <img src="https://img.icons8.com/color/administrative-tools" alt="Frameworks" (mouseover)="showFrameworks(entry)" (mouseout)="hideFrameworks(entry)" (click)="cancelClick($event)"/>
+
+                    <app-tooltip [show]="entry.showFrameworksTooltip" [invert]="true" [location]="'top'">
+                      <h5>Frameworks</h5>
+                      <div class="meta-icons">
+                        <ng-container *ngFor="let framework of entry.frameworks">
+                          <img [src]="framework | iconUri"/>
+                        </ng-container>
+                      </div>
+                    </app-tooltip>
+
                   </div>
-                </div>
+                  <div class="tools" *ngIf="entry.tools && entry.tools.length">
 
-                <div class="tags">
+                    <img src="https://img.icons8.com/color/toolbox" alt="Tools" (mouseover)="showTools(entry)" (mouseout)="hideTools(entry)" (click)="cancelClick($event)"/>
 
-                </div>
+                    <app-tooltip [show]="entry.showToolsTooltip" [invert]="true" [location]="'top'">
+                      <h5>Tools</h5>
+                      <div class="meta-icons">
+                        <ng-container *ngFor="let tool of entry.tools">
+                          <img [src]="tool | iconUri"/>
+                        </ng-container>
+                      </div>
+                    </app-tooltip>
+
+                  </div>
               </div>
-
-            </app-raisecard>
-          </app-scrollable>
-        </div>
-      </div>
+              <a [href]="entry.repository" class="repo">
+                <img [src]="'github' | iconUri"/>
+              </a>
+              <div class="licenses">
+                <ng-container *ngFor="let license of entry.license">
+                  <img [src]="license | iconUri" (click)="cancelClick($event)"/>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </app-raisecard>
+      </app-scrollable>
     </div>
-</app-scrollable>
+</div>

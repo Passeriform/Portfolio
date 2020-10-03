@@ -1,0 +1,40 @@
+<app-header logo="/assets/images/icons/passeriform.svg" target="/" alt="passeriform">
+  <app-navtab>
+    <a *appNavLink routerLink="/explore">Work</a>
+    <a *appNavLink href="https://passeribird.blogspot.com/" target="_blank">Blog</a>
+    <a *appNavLink routerLink="/about">About</a>
+  </app-navtab>
+</app-header>
+
+<app-scrollable [fullpage]="true" [nosplash]="true" *ngIf="selectedWork != null; else modelLoading">
+  <div id="description" class="page" #page>
+    <div class="bg-img"></div>
+    <div id="description-content">
+      <app-describe [model]="selectedWork">
+      </app-describe>
+    </div>
+  </div>
+  <div id="stack" class="page" #page>
+    <div class="bg-img"></div>
+  </div>
+  <div id="stats" class="page" #page>
+    <div class="bg-img"></div>
+  </div>
+  <div id="future" class="page" #page>
+    <div class="bg-img"></div>
+  </div>
+</app-scrollable>
+
+<ng-template #modelLoading>
+  <div id="selected-placeholder">
+    <div class="bg-img"></div>
+    <div id="placeholder-content">
+      <h1><span>P</span>roject<br><span>E</span>xplorer.</h1>
+      <p>Start by clicking the top-right corner.</p>
+    </div>
+  </div>
+</ng-template>
+
+<app-overlay>
+  <app-showcase [preloadMarker]="marker"></app-showcase>
+</app-overlay>
