@@ -21,18 +21,20 @@ $nav-ul-height: $header-size / 2
   transition: all 0.5s ease
 
   & ::ng-deep ul
+    display: block
     margin: 0
     padding: #{($nav-ul-height - 1em) / 4} 5%
     overflow: hidden
     list-style: none
+    white-space: nowrap
     -webkit-transition: all 0.5s ease
     -moz-transition: all 0.5s ease
     -o-transition: all 0.5s ease
     transition: all 0.5s ease
 
     & > li
+      display: inline-block
       position: relative
-      float: left
       padding: 1em 2em
       cursor: pointer
       -webkit-transition: all 0.5s ease
@@ -42,8 +44,9 @@ $nav-ul-height: $header-size / 2
 
       & > a
         color: $accent-color-hex
-        text-decoration: none
         font-weight: 500
+        text-decoration: none
+        text-transform: uppercase
         -webkit-transition: all 0.5s ease
         -moz-transition: all 0.5s ease
         -o-transition: all 0.5s ease
@@ -100,4 +103,4 @@ $nav-ul-height: $header-size / 2
             mix-blend-mode: difference
 
   &.logo-shrink-fix
-    width: calc(100% - #{$shrink-header-size})
+    min-width: calc(100% - #{$shrink-header-size})
