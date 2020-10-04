@@ -57,6 +57,7 @@
     right: 0
     background-color: $accent-color-hex
     clip-path: polygon(0 0, 100% 0%, 100% 100%)
+    mix-blend-mode: difference
     transition: all 0.5s ease
     cursor: pointer
     z-index: 10
@@ -64,18 +65,23 @@
   & > svg
     position: absolute
 
-  &.blink:after
-    content: ''
-    position: absolute
-    top: $shrink-header-size
-    right: 0
-    width: 1.25 * $overlay-flap-size
-    height: 1.25 * $overlay-flap-size
-    background-color: $accent-color-hex
-    opacity: 1
-    clip-path: polygon(0 0, 100% 0%, 50% 50%)
-    animation: blink 1s ease-out infinite
-    z-index: 0
+  &.blink
+    &:after
+      content: ''
+      position: absolute
+      top: $shrink-header-size
+      right: 0
+      width: 1.25 * $overlay-flap-size
+      height: 1.25 * $overlay-flap-size
+      background-color: $accent-color-hex
+      opacity: 1
+      clip-path: polygon(0 0, 100% 0%, 50% 50%)
+      animation: blink 1s ease-out infinite
+      z-index: 0
+
+    & > .overlay-button
+      mix-blend-mode: normal
+
 
 @keyframes blink
   0%
