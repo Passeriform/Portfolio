@@ -17,8 +17,9 @@ export class TaggerService {
     modelList.map(model => {
       model.tags.push(
         model.type,
-        ...(this.getKeywords(model.title) || []),
-        ...(this.getKeywords(model.description) || []),
+        ...(this.getKeywords(model.title || '') || []),
+        ...(this.getKeywords(model.subtitle || '') || []),
+        ...(this.getKeywords(model.description || '') || []),
         ...(model.license || []),
         ...(model.languages || []),
         ...(model.frameworks || []),
