@@ -53,7 +53,7 @@
       <app-cage-grid>
         <div id="contributors-container" class="content-wrapper" *appCaged="'Contributors'">
           <ng-container *ngFor="let contributor of model.contributors">
-            <div id="contributor">
+            <div class="contributor">
               <app-tooltip [show]="contributor.showToggle">
                 <h5>{{ contributor.title }}</h5>
                 <span>{{ contributor.description }}</span>
