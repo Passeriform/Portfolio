@@ -1,2 +1,15 @@
 <div class="content">
+  <div id="text">
+    <div id="logo">
+      <img src={{model.logo}} *ngIf="model.logo; else fallbackTitle"/>
+      <ng-template #fallbackTitle>
+        <h1>{{model.title}}</h1>
+      </ng-template>
+      <p>{{model.subtitle}}</p>
+    </div>
+    <p>{{model.description}}</p>
+  </div>
+  <div id="screenshot" *ngIf="model.screenshots">
+    <img src={{model.screenshots[0]}}/>
+  </div>
 </div>
