@@ -1,40 +1,48 @@
 @import 'vars'
 
 :host
-  height: 100%
   width: 100%
   padding: 2em
   display: flex
   flex-direction: row
   flex-wrap: wrap
-  overflow: hidden
 
   & > *
     margin: 1em
-    border: 1px solid $accent-color-hex
-    overflow-y: hidden
+    background-color: transparent
     flex-grow: 1
 
     & > .title
-      margin-bottom: 0.5em
+      position: relative
+      margin-bottom: -3em
+      text-transform: capitalize
+      white-space: nowrap
+      overflow: hidden
+      z-index: 1
 
       & > h2
         margin: 0
         padding: 0.25em 0.5em
         display: inline-block
         color: $anti-accent-color-hex
-        background-color: $accent-color-hex
+        background-color: #00FDDC
         font-size: 1.75em
 
       &:after
         content: ''
-        width: 0
-        height: 0
+        position: relative
+        width: 3em
+        height: 3em
         display: inline-block
-        border-top: 3em solid $accent-color-hex
-        border-right: 3em solid transparent
-        background-color: unset
+        background-color: #00FDDC
+        clip-path: polygon(0 0, 100% 0, 0 100%)
         vertical-align: bottom
 
     & > .content
-      padding: 0 2em
+      position: relative
+      top: 0.2em
+      left: 0.2em
+      padding: 2em
+      background-color: transparent
+      border: $cage-grid-cut-size solid #3D3D3D99
+      // clip-path: polygon(0 0, 0 calc(100% - #{$cage-grid-cut-size}), #{$cage-grid-cut-size} 100% , 100% 100%, 100% #{$cage-grid-cut-size}, calc(100% - #{$cage-grid-cut-size}) 0)
