@@ -29,8 +29,6 @@ import { CageGridDirective } from './cage-grid/cage-grid.directive';
 
 import { TooltipComponent } from './tooltip/tooltip.component';
 
-import { ListGroupComponent } from './listgroup/listgroup.component';
-
 import { OverlayComponent } from './overlay/overlay.component';
 
 import { RaisecardComponent } from './raisecard/raisecard.component';
@@ -42,6 +40,8 @@ import { SweeperComponent } from './sweeper/sweeper.component';
 import { ShowcaseComponent } from './showcase/showcase.component';
 
 import { DescribeComponent } from './describe/describe.component';
+
+import { TechStackComponent } from './tech-stack/tech-stack.component';
 
 import { DynamicSearchComponent } from './dynamic-search/dynamic-search.component';
 
@@ -57,6 +57,7 @@ import { WorkStateService } from './services/work-state.service';
 /// Pipes
 import { IconUriPipe } from './icon-uri.pipe';
 import { RetainPipe } from './retain.pipe';
+import { MapExternalPipe } from './map-external.pipe';
 
 /// Module registration
 @NgModule({
@@ -84,6 +85,8 @@ import { RetainPipe } from './retain.pipe';
 
     DescribeComponent,
 
+    TechStackComponent,
+
     AboutComponent,
 
     SweeperComponent,
@@ -91,7 +94,6 @@ import { RetainPipe } from './retain.pipe';
     CageGridComponent,
     CageGridDirective,
 
-    ListGroupComponent,
 
     TooltipComponent,
 
@@ -104,6 +106,8 @@ import { RetainPipe } from './retain.pipe';
     RaisecardComponent,
 
     IconUriPipe,
+
+    MapExternalPipe,
 
     RetainPipe,
   ],
