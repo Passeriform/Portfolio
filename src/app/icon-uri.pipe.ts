@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { registry, IconIdentifier } from './common/global';
+import { registry, EntityIdentifier } from './common/global';
 
 @Pipe({
   name: 'iconUri'
@@ -12,9 +12,9 @@ export class IconUriPipe implements PipeTransform {
   }
 
 
-  getIcon(iconstr: string) {
+  getIcon(identifier: string) {
     for (const entry of registry) {
-      if (entry.iconstr === IconIdentifier[iconstr]) {
+      if (entry.identifier === EntityIdentifier[identifier]) {
         return entry.iconUrl;
       }
     }
