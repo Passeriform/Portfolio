@@ -7,7 +7,7 @@
 </app-header>
 
 <app-scrollable [fullpage]="true" [nosplash]="true">
-  <div *ngIf="model ? model.intro : false" id="intro" class="page" #page>
+  <div *ngIf="model?.intro" id="intro" class="page" #page>
     <div class="bg-img"></div>
     <div class="content">
       <div id="intro-container" class="content-wrapper">
@@ -23,7 +23,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="model ? model.overview : false" id="overview" class="page" #page>
+  <div *ngIf="model?.overview" id="overview" class="page" #page>
     <div class="bg-img"></div>
     <div class="content">
       <div id="overview-container" class="content-wrapper">
@@ -36,7 +36,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="model ? model.story : false" id="story" class="page" #page>
+  <div *ngIf="model?.story" id="story" class="page" #page>
     <div class="bg-img"></div>
     <div class="content">
       <div id="story-container" class="content-wrapper">
@@ -47,7 +47,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="model ? model.contributors : false" id="contributors" class="page" #page>
+  <div *ngIf="model?.contributors" id="contributors" class="page" #page>
     <div class="bg-img"></div>
     <div class="content">
       <app-cage-grid>
@@ -61,13 +61,13 @@
               <a routerLink="/about/{{ contributor.aboutUrl }}">
                 <img *ngIf="contributor.img" src={{contributor.img}} (mouseover)="showTooltip(contributor)" (mouseout)="hideTooltip(contributor)" />
               </a>
-          </div>
+            </div>
           </ng-container>
         </div>
       </app-cage-grid>
     </div>
   </div>
-  <div *ngIf="model ? model.contact : false" id="contact" class="page" #page>
+  <div *ngIf="model?.contact" id="contact" class="page" #page>
     <div class="bg-img"></div>
     <div class="content">
       <div id="contact-container" class="content-wrapper">
