@@ -1,0 +1,23 @@
+<div class="content">
+  <app-cage-grid>
+    <div *ngFor="let attrib of model | keyvalue">
+      <ng-container *ngIf="attrib.value.length > 0">
+        <div *appCaged="attrib.key" class="model-attr">
+          <ul>
+            <li *ngFor="let elem of attrib.value" (mouseover)="showTooltip(elem)" (mouseout)="unsetTooltip()">
+              <app-tooltip [show]="tooltipShownFor == elem">
+                <h5>{{ (elem | mapExternal | async)?.title }}</h5>
+                <p>
+                  {{ (elem | mapExternal | async)?.description }}
+
+                </p>
+                <a href="{{ (elem | mapExternal | async)?.href }}"></a>
+              </app-tooltip>
+              <img src="{{elem | iconUri}}"/>
+            </li>
+          </ul>
+        </div>
+      </ng-container>
+    </div>
+  </app-cage-grid>
+</div>

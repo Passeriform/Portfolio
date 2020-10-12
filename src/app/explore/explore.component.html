@@ -16,6 +16,8 @@
   </div>
   <div id="stack" class="page" #page>
     <div class="bg-img"></div>
+    <app-tech-stack [model]="selectedWork | retain: 'languages':'frameworks':'tools'">
+    </app-tech-stack>
   </div>
   <div id="stats" class="page" #page>
     <div class="bg-img"></div>
