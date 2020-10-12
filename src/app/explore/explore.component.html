@@ -9,7 +9,7 @@
 <app-scrollable [fullpage]="true" [nosplash]="true" *ngIf="selectedWork != null; else modelLoading">
   <div id="description" class="page" #page>
     <div class="bg-img"></div>
-    <div id="description-content">
+    <div id="content">
       <app-describe [model]="selectedWork">
       </app-describe>
     </div>

@@ -55,7 +55,16 @@
     & > .bg-img
       background-color: #0E1012
 
-    & > #description-content
+    & > #content
+      position: relative
+      height: calc(100% - #{$shrink-header-size})
+      top: $shrink-header-size
+
+  & #stack
+    & > .bg-img
+      background-color: #1F0911
+
+    & > #content
       position: relative
       height: calc(100% - #{$shrink-header-size})
       top: $shrink-header-size
