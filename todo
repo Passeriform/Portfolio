@@ -1,8 +1,12 @@
 Code
-  ☐ Remove all jquery occurances
+  ☐ Remove all jquery occurrences
   ☐ Fix animation timing and elasticity
 
 Meta
+  ☐ Add screenshots and logos to all projects
+  ☐ Add manual descriptions for techstack that doesn't have one on WikiPedia
+  ☐ Complete description in mongo for all projects
+  ☐ Shift globals.ts to mongo
   ☐ Add more tags for projects.json
   ☐ Add contributors
   ☐ Add internships and club stuff
@@ -24,6 +28,7 @@ Feature
   ☐ Describe component
   ☐ Footer component
   ☐ Full working directory visualized component
+  ☐ Add screenshot slideshow
 
 Component level fix
   ☐ pivotnav - close on outer-wrapper click
@@ -36,6 +41,7 @@ Component level fix
   ☐ about - remove contributors from passeriform
   ☐ navtab - responsive navtab collapse on mobile to hamburgerish
   ☐ spinner - replace with different animation
+  ☐ tooltip - fix ugly hack for dynamic icon size
 
 IRL
   ☐ Commission backgrounds
