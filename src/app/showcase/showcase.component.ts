@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit, ViewChild, OnInit } from '@angular/core';
+import { Component, Input, AfterViewInit, ViewChild, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
 
@@ -16,10 +16,20 @@ import { TaggerService } from '../services/tagger.service';
 
 export class ShowcaseComponent implements OnInit, AfterViewInit {
   public model: Array<any>;
+  public windowHeight: number;
 
   @Input() private preloadMarker: string;
 
   @ViewChild('cardscroller', {static: false}) cardChild;
+
+  @HostListener('window:resize')
+  onResize() {
+    this.windowHeight = window.innerHeight / parseFloat(
+      getComputedStyle(
+        document.querySelector('body')
+      )['font-size']
+    );
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -38,6 +48,12 @@ export class ShowcaseComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/explore']);
       }
     });
+
+    this.windowHeight = window.innerHeight / parseFloat(
+      getComputedStyle(
+        document.querySelector('body')
+      )['font-size']
+    );
   }
 
   ngAfterViewInit() {

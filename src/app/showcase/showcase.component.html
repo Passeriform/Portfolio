@@ -16,6 +16,7 @@
         <app-raisecard
             *ngIf="model === undefined || !model.length"
             [style.cursor]="'pointer'"
+            [style.height.em]="windowHeight < 32 ? 11.5 : 22"
             #page
           >
           <div class="card-internal">
@@ -28,6 +29,7 @@
             *ngFor="let entry of model"
             [marker]="entry.type"
             [style.cursor]="'pointer'"
+            [style.height.em]="windowHeight < 32 ? 11.5 : 22"
             (click)="setSelected(entry)"
             #page
           >
@@ -36,7 +38,7 @@
             <h2 class="title">{{ entry.title }}</h2>
             <p>{{ entry.subtitle }}</p>
 
-            <div class="info">
+            <div class="info" *ngIf="windowHeight > 32">
               <div class="meta">
                   <div class="languages" *ngIf="entry.languages && entry.languages.length">
 
