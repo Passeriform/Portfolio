@@ -12,16 +12,15 @@ export class HeaderComponent implements OnInit {
   @Input() logo: string;
   @Input() target: string;
   @Input() alt: string;
-  @Input() nosplash: boolean;
 
   public splashState: string;
 
-  constructor(private splashStateService: SplashStateService) {
-    splashStateService.splashState$.subscribe(
+  constructor(private splashStateService: SplashStateService) { }
+
+  ngOnInit() {
+    this.splashStateService.splashState$.subscribe(
       splashState => {
         this.splashState = splashState;
       });
   }
-
-  ngOnInit() { }
 }

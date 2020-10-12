@@ -6,7 +6,7 @@
   </app-navtab>
 </app-header>
 
-<app-scrollable [fullpage]="true" [nosplash]="true">
+<app-scrollable [fullpage]="true" [injectSplash]="true" [collapsed]="true">
   <div *ngIf="model?.intro" id="intro" class="page" #page>
     <div class="bg-img"></div>
     <div class="content">

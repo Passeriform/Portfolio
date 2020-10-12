@@ -12,7 +12,11 @@ export class AboutComponent implements OnInit {
   public model: any;
   private subject: string;
 
-  constructor(private route: ActivatedRoute, private router: Router, private fetcher: FetchService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private fetcher: FetchService
+  ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {

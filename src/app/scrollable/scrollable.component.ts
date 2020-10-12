@@ -17,7 +17,8 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
 
   @ContentChildren('page') items: QueryList<any>;
 
-  @Input() nosplash: boolean;
+  @Input() injectSplash: boolean;
+  @Input() collapsed: boolean;
   @Input() fullpage: boolean;
   @Input() horizontal: boolean;
   @Input() delta = 100;
@@ -96,11 +97,13 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
   }
 
   updateSplashState() {
-    this.splashStateService.changeSplashState(
-      (this.pageIndex === 0 && !this.nosplash)
-      ? 'focussed'
-      : 'blur'
-    );
+    if (this.injectSplash) {
+      this.splashStateService.changeSplashState(
+        (this.pageIndex === 0 && !this.collapsed)
+        ? 'focussed'
+        : 'blur'
+      );
+    }
   }
 
   ngOnInit() {

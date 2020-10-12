@@ -14,7 +14,7 @@ import { TaggerService } from '../services/tagger.service';
   providers: [ TaggerService ]
 })
 
-export class ShowcaseComponent implements OnInit, AfterViewInit {
+export class ShowcaseComponent implements OnInit {
   public model: Array<any>;
   public windowHeight: number;
 
@@ -54,9 +54,6 @@ export class ShowcaseComponent implements OnInit, AfterViewInit {
         document.querySelector('body')
       )['font-size']
     );
-  }
-
-  ngAfterViewInit() {
   }
 
   showLanguages(entry) {

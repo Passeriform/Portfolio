@@ -10,20 +10,19 @@ import { WorkStateService } from '../services/work-state.service';
 })
 export class ExploreComponent implements OnInit {
   public selectedWork: object;
-
   public marker: String;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private workState: WorkStateService
-  ) {
-    this.workState.workSelectedState$.subscribe((entity) => {
-      this.selectedWork = entity;
-    });
-  }
+  ) { }
 
   ngOnInit() {
     this.marker = this.route.snapshot.data.marker || '';
+
+    this.workState.workSelectedState$.subscribe((entity) => {
+      this.selectedWork = entity;
+    });
   }
 }

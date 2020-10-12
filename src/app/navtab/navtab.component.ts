@@ -1,4 +1,4 @@
-import { Component, HostBinding, AfterViewInit, AfterContentInit, ViewChildren, ContentChildren, QueryList } from '@angular/core';
+import { Component, HostBinding, OnInit, ContentChildren, QueryList } from '@angular/core';
 
 import { NavtabDirective } from './navtab.directive';
 
@@ -9,29 +9,21 @@ import { SplashStateService } from '../services/splash-state.service';
   templateUrl: './navtab.component.html',
   styleUrls: ['./navtab.component.sass']
 })
-export class NavtabComponent implements AfterContentInit, AfterViewInit {
+export class NavtabComponent implements OnInit {
   @ContentChildren(NavtabDirective) navtabItems: QueryList<NavtabDirective>;
 
   public splashState: string;
 
-  @HostBinding('class.logo-shrink-fix') shrinkFix = false;
+  @HostBinding('class.logo-shrink-fix') public shrinkFix: boolean;
 
-  constructor(private splashStateService: SplashStateService) {
-    splashStateService.splashState$.subscribe(
+  constructor(private splashStateService: SplashStateService) { }
+
+  ngOnInit() {
+    this.splashStateService.splashState$.subscribe(
       splashState => {
         this.splashState = splashState;
-        if (splashState === 'blur') {
-          this.shrinkFix = true;
-        } else {
-          this.shrinkFix = false;
-        }
+        this.shrinkFix = splashState !== 'focussed';
       });
-  }
-
-  ngAfterContentInit() {
-  }
-
-  ngAfterViewInit() {
   }
 
   propagateClick(event: any) {
@@ -39,5 +31,4 @@ export class NavtabComponent implements AfterContentInit, AfterViewInit {
 
      for (const child of target.children) { child.click(); }
   }
-
 }

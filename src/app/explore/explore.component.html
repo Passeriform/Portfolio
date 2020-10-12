@@ -6,7 +6,7 @@
   </app-navtab>
 </app-header>
 
-<app-scrollable [fullpage]="true" [nosplash]="true" *ngIf="selectedWork != null; else modelLoading">
+<app-scrollable [fullpage]="true" [injectSplash]="true" [collapsed]="true" *ngIf="selectedWork != null; else modelLoading">
   <div id="description" class="page" #page>
     <div class="bg-img"></div>
     <div id="content">
@@ -28,13 +28,15 @@
 </app-scrollable>
 
 <ng-template #modelLoading>
-  <div id="selected-placeholder">
-    <div class="bg-img"></div>
-    <div id="placeholder-content">
-      <h1><span>P</span>roject<br><span>E</span>xplorer.</h1>
-      <p>Start by clicking the top-right corner.</p>
+  <app-scrollable [fullpage]="true" [injectSplash]="true" [collapsed]="true">
+    <div id="selected-placeholder">
+      <div class="bg-img"></div>
+      <div id="placeholder-content">
+        <h1><span>P</span>roject<br><span>E</span>xplorer.</h1>
+        <p>Start by clicking the top-right corner.</p>
+      </div>
     </div>
-  </div>
+  </app-scrollable>
 </ng-template>
 
 <app-overlay>
