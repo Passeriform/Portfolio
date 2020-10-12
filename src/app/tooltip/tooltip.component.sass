@@ -8,16 +8,21 @@ $tooltip-arrow-height-em: 1em
 :host
   position: absolute
   width: $tooltip-window-width-em
-  left: 50%
-  top: calc(100% + 1em)
-  margin-left: -#{$tooltip-window-width-em / 2}
+  // THIS IS EXTREMELY BAD
+  margin-left: -8em
+  margin-top: 5em
+  // MUST FIX ASAP
+
   visibility: hidden
   opacity: 0
   transition: all 0.5s ease
-  z-index: 99999999
+  z-index: 1
 
   &.top
-    top: calc(0% - 1em)
+    // THIS IS EXTREMELY BAD
+    margin-left: -11.25em
+    margin-top: -9.25em
+    // MUST FIX ASAP
 
     & > .tooltip-internal::after
       top: 100%
