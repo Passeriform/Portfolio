@@ -18,7 +18,7 @@ export class MapExternalPipe implements PipeTransform {
 
     return this.fetcher.getResponse(callUrl).pipe(
       map(response => {
-        let page = (response.query.pages || [null])[0]
+        let page = (response.query ? response.query.pages : null || [{}])[0]
         const title = page.title || '';
         const description = page.description || '';
         return {
