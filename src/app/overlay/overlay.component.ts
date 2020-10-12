@@ -13,11 +13,11 @@ enum OverlayState {
 
 
 export class OverlayComponent implements OnInit {
-  private OverlayState = OverlayState;
+  public OverlayState = OverlayState;
 
-  @HostBinding('class.blink') private blinkEnabled = true;
+  @HostBinding('class.blink') public blinkEnabled = true;
 
-  private overlayState: OverlayState;
+  public overlayState: OverlayState;
 
   constructor(private elementRef: ElementRef) { }
 

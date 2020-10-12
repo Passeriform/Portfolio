@@ -24,7 +24,7 @@ export class ShowcaseComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private workState: WorkStateService) { }
+    public workState: WorkStateService) { }
 
   ngOnInit() {
     if (this.preloadMarker !== '') {

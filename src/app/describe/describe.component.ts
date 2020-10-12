@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./describe.component.sass']
 })
 export class DescribeComponent implements OnInit {
-  @Input() private model: any;
+  @Input() public model: any;
 
   constructor() { }
 

@@ -6,9 +6,9 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./tech-stack.component.sass']
 })
 export class TechStackComponent implements OnInit {
-  private tooltipShownFor: string;
+  public tooltipShownFor: string;
 
-  @Input() private model: object;
+  @Input() public model: any;
 
   constructor() { }
 

@@ -11,7 +11,7 @@ import { WorkStateService } from '../services/work-state.service';
 export class ExploreComponent implements OnInit {
   public selectedWork: object;
 
-  private marker: String;
+  public marker: String;
 
   constructor(
     private route: ActivatedRoute,
