@@ -36,6 +36,7 @@ $net-half-width: calc(50% - (#{$half-margin} / 2))
     font-size: 16px
     color: $accent-color-hex
     padding: 0 20px
+    mix-blend-mode: lighten
     box-sizing: border-box
 
     &:focus
@@ -51,6 +52,7 @@ $net-half-width: calc(50% - (#{$half-margin} / 2))
     padding: 20px
     box-sizing: border-box
     min-height: 150px
+    mix-blend-mode: lighten
 
   .flat-button
     padding: 0.5em 2em
@@ -81,7 +83,7 @@ $net-half-width: calc(50% - (#{$half-margin} / 2))
     height: 100%
     width: 100%
     background-color: $accent-color-hex
-    mix-blend-mode: difference
+    mix-blend-mode: exclusion
     -webkit-transform: translate3d(-100%, 0, 0)
     transform: translate3d(-100%, 0, 0)
     -webkit-transition: -webkit-transform .3s
