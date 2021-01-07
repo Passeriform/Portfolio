@@ -32,6 +32,10 @@ export const nonKeywords = [
     'you',
 ];
 
+export const Constants = {
+    API_URL: "https://passeriform-portfolio-api.herokuapp.com"
+}
+
 export enum WType {
   product,
   project,

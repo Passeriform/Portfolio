@@ -5,6 +5,8 @@ import { distinctUntilChanged } from 'rxjs/operators';
 import { FetchService } from '../services/fetch.service';
 import { TaggerService } from '../services/tagger.service';
 
+import { Constants } from '../common/global';
+
 @Injectable()
 export class WorkStateService {
   private workFilterSource = new BehaviorSubject<(_: any) => boolean>((_) => true);
@@ -45,7 +47,7 @@ export class WorkStateService {
   }
 
   refreshCache() {
-    let callURL = 'https://passeriform-portfolio-api.herokuapp.com/work';
+    let callURL = `${Constants.API_URL}/work`;
 
     this.fetcher.getResponse(callURL).subscribe(model => {
       model = this.tagger.appendTags(model);

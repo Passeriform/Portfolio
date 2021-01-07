@@ -3,6 +3,8 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 import { FetchService } from '../services/fetch.service';
 
+import { Constants } from '../common/global';
+
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
@@ -23,7 +25,7 @@ export class AboutComponent implements OnInit {
       this.subject = params.get('subject') || 'passeriform';
     });
 
-    this.fetcher.getResponse(`https://passeriform-portfolio-api.herokuapp.com/about/${this.subject}`).subscribe(model => {
+    this.fetcher.getResponse(`${Constants.API_URL}/about/${this.subject}`).subscribe(model => {
       this.model = model;
 
       if (this.model === undefined) {
