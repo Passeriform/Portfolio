@@ -6,29 +6,33 @@
   </app-navtab>
 </app-header>
 
-<app-scrollable [fullpage]="true" [injectSplash]="true" [collapsed]="true" *ngIf="selectedWork != null; else modelLoading">
-  <div id="description" class="page" #page>
-    <div class="bg-img"></div>
-    <div id="content">
-      <app-describe [model]="selectedWork">
-      </app-describe>
+<app-scrollable [fullpage]="true" [injectSplash]="true" [collapsed]="true">
+  <ng-template [ngIf]="selectedWork != null" [ngIfElse]="modelLoading">
+    <div id="description" class="page" #page>
+      <div class="bg-img"></div>
+      <div id="content">
+        <app-describe [model]="selectedWork">
+        </app-describe>
+      </div>
     </div>
-  </div>
-  <div id="stack" class="page" #page>
-    <div class="bg-img"></div>
-    <app-tech-stack [model]="selectedWork | retain: 'languages':'frameworks':'tools'">
-    </app-tech-stack>
-  </div>
-  <div id="stats" class="page" #page>
-    <div class="bg-img"></div>
-  </div>
-  <div id="future" class="page" #page>
-    <div class="bg-img"></div>
-  </div>
-</app-scrollable>
+    <div id="stack" class="page" #page>
+      <div class="bg-img"></div>
+      <app-tech-stack [model]="selectedWork | retain: 'languages':'frameworks':'tools'">
+      </app-tech-stack>
+    </div>
+    <div id="stats" class="page" #page>
+      <div class="bg-img"></div>
+      <!-- <app-stats [model]="activeWork">
+      </app-stats> -->
+    </div>
+    <div id="future" class="page" #page>
+      <div class="bg-img"></div>
+      <!-- <app-timeline [model]="activeWork">
+      </app-timeline> -->
+    </div>
+  </ng-template>
 
-<ng-template #modelLoading>
-  <app-scrollable [fullpage]="true" [injectSplash]="true" [collapsed]="true">
+  <ng-template #modelLoading>
     <div id="selected-placeholder">
       <div class="bg-img"></div>
       <div id="placeholder-content">
@@ -36,8 +40,9 @@
         <p>Start by clicking the top-right corner.</p>
       </div>
     </div>
-  </app-scrollable>
-</ng-template>
+  </ng-template>
+
+</app-scrollable>
 
 <app-overlay>
   <app-showcase [preloadMarker]="marker"></app-showcase>
