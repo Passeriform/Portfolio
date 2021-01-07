@@ -2,7 +2,7 @@ import { Component, QueryList, ContentChildren, OnInit, AfterContentInit, HostBi
 import { merge, fromEvent, OperatorFunction, Observable } from 'rxjs';
 import { map, tap, scan, race, takeLast, filter, throttleTime, mergeMap, switchMap, take, takeUntil, first } from 'rxjs/operators';
 
-import { SplashStateService } from '../services/splash-state.service';
+import { SplashState, SplashStateService } from '../services/splash-state.service';
 
 @Component({
   selector: 'app-scrollable',
@@ -100,8 +100,8 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
     if (this.injectSplash) {
       this.splashStateService.changeSplashState(
         (this.pageIndex === 0 && !this.collapsed)
-        ? 'focussed'
-        : 'blur'
+        ? SplashState.Focussed
+        : SplashState.Blurred
       );
     }
   }
@@ -151,7 +151,10 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
     this.swipeStream.subscribe(shiftAmt => this.pageShift(shiftAmt));
 
     merge(...this.transitionStartStreams).subscribe();
-    merge(...this.transitionEndStreams).subscribe(); }
+    merge(...this.transitionEndStreams).subscribe();
+
+    this.updateSplashState();
+  }
 }
 
 const conditionalThrottle = <T>(cond: boolean, value: number): OperatorFunction<T, T> =>

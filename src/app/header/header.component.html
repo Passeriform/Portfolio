@@ -1,4 +1,4 @@
-<div id="header-wrapper" [class.shrink-header]="splashState === 'blur'">
+<div id="header-wrapper" [ngClass]="{'shrink-header': splashState != SplashState.Focussed}">
   <div id="logo">
     <a routerLink="{{target}}">
       <img src="{{logo}}" alt="{{alt}}">

@@ -2,7 +2,7 @@ import { Component, HostBinding, OnInit, ContentChildren, QueryList } from '@ang
 
 import { NavtabDirective } from './navtab.directive';
 
-import { SplashStateService } from '../services/splash-state.service';
+import { SplashState, SplashStateService } from '../services/splash-state.service';
 
 @Component({
   selector: 'app-navtab',
@@ -12,7 +12,7 @@ import { SplashStateService } from '../services/splash-state.service';
 export class NavtabComponent implements OnInit {
   @ContentChildren(NavtabDirective) navtabItems: QueryList<NavtabDirective>;
 
-  public splashState: string;
+  public splashState: SplashState;
 
   @HostBinding('class.logo-shrink-fix') public shrinkFix: boolean;
 
@@ -22,7 +22,7 @@ export class NavtabComponent implements OnInit {
     this.splashStateService.splashState$.subscribe(
       splashState => {
         this.splashState = splashState;
-        this.shrinkFix = splashState !== 'focussed';
+        this.shrinkFix = splashState != SplashState.Focussed;
       });
   }
 

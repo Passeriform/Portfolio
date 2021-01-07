@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { SplashStateService } from '../services/splash-state.service';
+import { SplashState, SplashStateService } from '../services/splash-state.service';
 
 @Component({
   selector: 'app-header',
@@ -8,12 +8,13 @@ import { SplashStateService } from '../services/splash-state.service';
   styleUrls: ['./header.component.sass'],
 })
 export class HeaderComponent implements OnInit {
+  private SplashState = SplashState;
 
   @Input() logo: string;
   @Input() target: string;
   @Input() alt: string;
 
-  public splashState: string;
+  public splashState: SplashState;
 
   constructor(private splashStateService: SplashStateService) { }
 
