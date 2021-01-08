@@ -17,6 +17,8 @@ import { ExploreComponent } from './explore/explore.component';
 import { AboutComponent } from './about/about.component';
 
 /// Components (In orders of specificity, relationship)
+import { HarmonicLoaderComponent } from './harmonic-loader/harmonic-loader.component';
+
 import { ScrollableComponent } from './scrollable/scrollable.component';
 
 import { HeaderComponent } from './header/header.component';
@@ -53,6 +55,7 @@ import { FetchService } from './services/fetch.service';
 import { SplashStateService } from './services/splash-state.service';
 import { TaggerService } from './services/tagger.service';
 import { WorkStateService } from './services/work-state.service';
+import { LoaderService } from './services/loader.service';
 
 /// Pipes
 import { IconUriPipe } from './icon-uri.pipe';
@@ -69,6 +72,8 @@ import { MapExternalPipe } from './map-external.pipe';
   ],
   declarations: [
     AppComponent,
+
+    HarmonicLoaderComponent,
 
     HeaderComponent,
 
@@ -115,7 +120,8 @@ import { MapExternalPipe } from './map-external.pipe';
     FetchService,
     SplashStateService,
     TaggerService,
-    WorkStateService
+    WorkStateService,
+    LoaderService
   ],
   bootstrap: [AppComponent]
 })
