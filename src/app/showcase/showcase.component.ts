@@ -34,7 +34,13 @@ export class ShowcaseComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    public workState: WorkStateService) { }
+    public workState: WorkStateService) {
+      this.windowHeight = window.innerHeight / parseFloat(
+        getComputedStyle(
+          document.querySelector('body')
+        )['font-size']
+      );
+    }
 
   ngOnInit() {
     if (this.preloadMarker !== '') {
@@ -48,12 +54,6 @@ export class ShowcaseComponent implements OnInit {
         this.router.navigate(['/explore']);
       }
     });
-
-    this.windowHeight = window.innerHeight / parseFloat(
-      getComputedStyle(
-        document.querySelector('body')
-      )['font-size']
-    );
   }
 
   showLanguages(entry) {
