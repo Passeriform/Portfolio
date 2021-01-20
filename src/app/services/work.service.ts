@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
-import { FetchService } from '../services/fetch.service';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { map, distinctUntilChanged, catchError } from 'rxjs/operators';
+
 import { TaggerService } from '../services/tagger.service';
+import { LoaderService } from '../services/loader.service';
 
 import { Constants } from '../common/global';
 
 @Injectable()
-export class WorkStateService {
+export class WorkService {
   private workFilterSource = new BehaviorSubject<(_: any) => boolean>((_) => true);
   private workCacheSource = new BehaviorSubject<Array<any>>([]);
   private workActiveSource = new BehaviorSubject<Array<any>>([]);
@@ -19,7 +21,7 @@ export class WorkStateService {
   workActiveState$ = this.workActiveSource.asObservable();
   workSelectedState$ = this.workSelectedSource.asObservable();
 
-  constructor(private fetcher: FetchService, private tagger: TaggerService) {
+  constructor(private http: HttpClient, private tagger: TaggerService, private loaderService: LoaderService) {
     this.refreshCache();
   }
 
@@ -49,7 +51,14 @@ export class WorkStateService {
   refreshCache() {
     let callURL = `${Constants.API_URL}/work`;
 
-    this.fetcher.getResponse(callURL).subscribe(model => {
+    this.http.get<Array<any>>(callURL)
+    .pipe(
+      catchError((error) => {
+        console.log("ErrorService triggered error.");
+        return Observable.throw(error.message);
+      })
+    )
+    .subscribe((model) => {
       model = this.tagger.appendTags(model);
 
       model.map(entry => {
@@ -59,6 +68,7 @@ export class WorkStateService {
       });
 
       this.workCacheSource.next(model);
+
       this.buildActive();
     });
   }

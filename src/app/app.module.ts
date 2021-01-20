@@ -54,7 +54,7 @@ import { SocialGlyphsComponent } from './social-glyphs/social-glyphs.component';
 import { FetchService } from './services/fetch.service';
 import { SplashStateService } from './services/splash-state.service';
 import { TaggerService } from './services/tagger.service';
-import { WorkStateService } from './services/work-state.service';
+import { WorkService } from './services/work.service';
 import { LoaderService } from './services/loader.service';
 
 /// Pipes
@@ -120,8 +120,8 @@ import { MapExternalPipe } from './map-external.pipe';
     FetchService,
     SplashStateService,
     TaggerService,
-    WorkStateService,
     LoaderService
+    WorkService,
   ],
   bootstrap: [AppComponent]
 })

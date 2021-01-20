@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { WorkStateService } from './services/work-state.service';
+import { WorkService } from './services/work.service';
 
-describe('WorkStateService', () => {
+describe('WorkService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: WorkStateService = TestBed.get(WorkStateService);
+    const service: WorkService = TestBed.get(WorkService);
     expect(service).toBeTruthy();
   });
 });

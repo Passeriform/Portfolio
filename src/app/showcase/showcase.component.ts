@@ -4,14 +4,14 @@ import { Observable, BehaviorSubject } from 'rxjs';
 
 import { Project } from '../common/global';
 
-import { WorkStateService } from '../services/work-state.service';
+import { WorkService } from '../services/work.service';
 import { TaggerService } from '../services/tagger.service';
 
 @Component({
   selector: 'app-showcase',
   templateUrl: './showcase.component.html',
   styleUrls: ['./showcase.component.sass'],
-  providers: [ TaggerService ]
+  providers: [ WorkService, TaggerService ]
 })
 
 export class ShowcaseComponent implements OnInit {
@@ -34,7 +34,7 @@ export class ShowcaseComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    public workState: WorkStateService) {
+    public workService: WorkService) {
       this.windowHeight = window.innerHeight / parseFloat(
         getComputedStyle(
           document.querySelector('body')
@@ -44,10 +44,10 @@ export class ShowcaseComponent implements OnInit {
 
   ngOnInit() {
     if (this.preloadMarker !== '') {
-      this.workState.setFilter((entity) => entity.type == this.preloadMarker);
+      this.workService.setFilter((entity) => entity.type == this.preloadMarker);
     }
 
-    this.workState.workActiveState$.subscribe((model) => {
+    this.workService.workActiveState$.subscribe((model) => {
       this.model = model;
 
       if (this.model === undefined) {
@@ -76,7 +76,7 @@ export class ShowcaseComponent implements OnInit {
   }
 
   setSelected(entry: object) {
-    this.workState.setSelected(entry);
+    this.workService.setSelected(entry);
   }
 
   cancelClick(event) {

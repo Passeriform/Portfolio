@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { WorkStateService } from '../services/work-state.service';
+import { WorkService } from '../services/work.service';
 
 @Component({
   selector: 'app-explore',
@@ -15,13 +15,14 @@ export class ExploreComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private workState: WorkStateService
-  ) { }
+    private workService: WorkService,
+  ) {
+  }
 
   ngOnInit() {
     this.marker = this.route.snapshot.data.marker || '';
 
-    this.workState.workSelectedState$.subscribe((entity) => {
+    this.workService.workSelectedState$.subscribe((entity) => {
       this.selectedWork = entity;
     });
   }
