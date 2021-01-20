@@ -1,7 +1,10 @@
 import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
-import { FetchService } from '../services/fetch.service';
+import { Observable } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+
 import { LoadingState, LoaderService } from '../services/loader.service';
 
 import { Constants } from '../common/global';
@@ -11,6 +14,7 @@ import { Constants } from '../common/global';
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.sass']
 })
+
 export class AboutComponent implements OnInit, AfterViewInit {
   public model: any;
   private subject: string;
@@ -18,7 +22,7 @@ export class AboutComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private fetcher: FetchService,
+    private http: HttpClient,
     private loaderService: LoaderService
   ) {
     this.loaderService.beginLoading();
@@ -29,27 +33,27 @@ export class AboutComponent implements OnInit, AfterViewInit {
       this.subject = params.get('subject') || 'passeriform';
     });
 
-    this.fetcher.getResponse(`${Constants.API_URL}/about/${this.subject}`).subscribe(
-      model => {
-        this.model = model;
 
-        if (this.model === undefined) {
-          this.router.navigate(['/about']);
-        } else {
-          this.loaderService.endLoading();
-        }
+    this.http.get(`${Constants.API_URL}/about/${this.subject}`)
+    .pipe(
+      catchError((error) => {
+        console.log("ErrorService triggered error.");
+        return Observable.throw(error.message);
+      })
+    )
+    .subscribe((model) => {
+      this.model = model;
 
-        if (this.model.contributors !== undefined) {
-          this.model.contributors.map(contributor => {
-            contributor.showToggle = false;
-          });
-        }
-      },
-      (error) => {},
-      () => {
-        this.loaderService.beginLoading();
+      if (this.model === undefined) {
+        this.router.navigate(['/about']);
       }
-    );
+
+      if (this.model.contributors !== undefined) {
+        this.model.contributors.map(contributor => {
+          contributor.showToggle = false;
+        });
+      }
+    });
   }
 
   ngAfterViewInit() {

@@ -51,7 +51,6 @@ import { DynamicSearchComponent } from './dynamic-search/dynamic-search.componen
 import { SocialGlyphsComponent } from './social-glyphs/social-glyphs.component';
 
 /// Services
-import { FetchService } from './services/fetch.service';
 import { SplashStateService } from './services/splash-state.service';
 import { TaggerService } from './services/tagger.service';
 import { WorkService } from './services/work.service';
@@ -117,7 +116,6 @@ import { MapExternalPipe } from './map-external.pipe';
     RetainPipe,
   ],
   providers: [
-    FetchService,
     SplashStateService,
     TaggerService,
     LoaderService
