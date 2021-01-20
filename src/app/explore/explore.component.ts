@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { LoaderService } from '../services/loader.service';
 import { WorkService } from '../services/work.service';
 
 @Component({
@@ -8,7 +9,8 @@ import { WorkService } from '../services/work.service';
   templateUrl: './explore.component.html',
   styleUrls: ['./explore.component.sass']
 })
-export class ExploreComponent implements OnInit {
+
+export class ExploreComponent implements OnInit, AfterViewInit {
   public selectedWork: object;
   public marker: String;
 
@@ -16,7 +18,10 @@ export class ExploreComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private workService: WorkService,
+    private loaderService: LoaderService,
   ) {
+    // this.loaderService.flushJobs();
+    this.loaderService.beginLoading("[page] load");
   }
 
   ngOnInit() {
@@ -25,5 +30,9 @@ export class ExploreComponent implements OnInit {
     this.workService.workSelectedState$.subscribe((entity) => {
       this.selectedWork = entity;
     });
+  }
+
+  ngAfterViewInit() {
+    this.loaderService.endLoading("[page] load");
   }
 }

@@ -1,52 +1,136 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export enum LoadingState {
     LoadingQueued,
     Loading,
-    Loaded,
-    Finished
+    Loaded
+}
+
+// TODO: Change array of interface approach to hashmap of interface
+export interface LoadingJob {
+  readonly label: string,
+  state: LoadingState,
+  progress: number
 }
 
 @Injectable()
 export class LoaderService {
-  private loadingSource = new BehaviorSubject<LoadingState>(LoadingState.Loading);
-  private loadingJobsSource = new BehaviorSubject<number>(0);
-  private loadingProgressSource = new BehaviorSubject<number>(0.0);
+  private loadingJobsSource = new BehaviorSubject<LoadingJob[]>([]);
 
-  loadingState$ = this.loadingSource.asObservable();
-  loadingProgressState$ = this.loadingProgressSource.asObservable();
+  loadingJobsState$ = this.loadingJobsSource.asObservable();
+  loadingProgressState$ = this.loadingJobsSource.pipe(
+    map(
+      (jobs) => jobs.reduce((avg: number, job: LoadingJob) => (avg + job.progress) / 2, 0)
+    )
+  );
 
   constructor() { }
 
-  beginLoading() {
-    this.loadingSource.next(LoadingState.LoadingQueued);
-    this.loadingJobsSource.next(this.loadingJobsSource.value + 1);
+  bindLoadJob(label: string, observer: Observable<any>) {
+    this.beginLoading(label);
+    observer.subscribe((_) => this.endLoading(label))
   }
 
-  setAnimationStatus(status: LoadingState.Loading | LoadingState.Finished) {
-    if (status != LoadingState.Finished || this.loadingJobsSource.value == 0) {
-      this.loadingSource.next(status);
-    }
-  }
-
-  endLoading() {
-    this.loadingJobsSource.next(this.loadingJobsSource.value - 1);
-
-    if (this.loadingJobsSource.value == 0) {
-      this.loadingSource.next(LoadingState.Loaded);
+  beginLoading(label: string) {
+    let newLoadingJob: LoadingJob = {
+      label: label,
+      state: LoadingState.LoadingQueued,
+      progress: 0.0
     };
+
+    this.loadingJobsSource.next([...this.loadingJobsSource.value, newLoadingJob]);
   }
 
-  setLoadingProgress(progress: number) {
-    if (this.loadingSource.value != LoadingState.Loading) {
-      this.beginLoading();
+  endLoading(label: string) {
+    this.loadingJobsSource.next(
+      this.loadingJobsSource.value.map((job) => {
+        if(job.label == label) {
+          job.state = LoadingState.Loaded;
+        }
+
+        return job;
+      })
+    );
+  }
+
+  setAnimationStart(labels: string | string[]) {
+    // Guard for unnecesssary state updates (Remove if not required)
+    if (labels === undefined) {
+      return;
     }
 
-    this.loadingProgressSource.next(progress);
+    this.loadingJobsSource.next(
+      this.loadingJobsSource.value.map((job) => {
+        // For individual operations
+        if (typeof labels === "string") {
+          if(job.label == labels) {
+            job.state = LoadingState.Loading;
+          }
+        }
+        // For bulk operations
+        else {
+          if(labels.includes(job.label)) {
+            job.state = LoadingState.Loading;
+          }
+        }
 
-    // Auto-unload
-    if (progress === 100.0) this.endLoading();
+        return job;
+      })
+    );
+  }
+
+  flushJobs(labels?: string | string[]) {
+    // Flush all jobs if no label supplied (SQL-style)
+    if (labels === undefined || (Array.isArray(labels) && labels.length == 0)) {
+      this.loadingJobsSource.next([]);
+      return;
+    }
+
+    this.loadingJobsSource.next(
+      this.loadingJobsSource.value.filter((job) => {
+        // For ejecting singular jobs
+        if (typeof labels === "string") {
+          return job.label == labels;
+        }
+        // For ejecting multiple jobs
+        else {
+          return labels.includes(job.label);
+        }
+      })
+    );
+  }
+
+  get areAllJobsCompleted(): boolean {
+    for (const job of this.loadingJobsSource.value) {
+      if (job.state !== LoadingState.Loaded) {
+        return false;
+      }
+    }
+
+    return true;
+    // return this.loadingJobsSource.value.length === 0;
+  }
+
+  setLoadingProgress(label: string, progress: number) {
+    this.loadingJobsSource.value.map((job) => {
+      if (job.label === label) {
+        if (job.progress != LoadingState.Loading) {
+          this.beginLoading(job.label);
+
+          job.progress = progress;
+        }
+
+        // Auto-unload
+        if (job.progress === 100.0) this.flushJobs(job.label);
+      }
+    })
+  }
+
+  bindLoadingProgress(label: string, progressObs: Observable<number>) {
+    progressObs.subscribe((progress) => {
+      this.setLoadingProgress(label, progress);
+    })
   }
 }

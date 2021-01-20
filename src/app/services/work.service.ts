@@ -49,6 +49,8 @@ export class WorkService {
   }
 
   refreshCache() {
+    this.loaderService.beginLoading("[http] work");
+
     let callURL = `${Constants.API_URL}/work`;
 
     this.http.get<Array<any>>(callURL)
@@ -59,6 +61,9 @@ export class WorkService {
       })
     )
     .subscribe((model) => {
+      this.loaderService.endLoading("[http] work");
+
+      this.loaderService.beginLoading("[prepare] work");
       model = this.tagger.appendTags(model);
 
       model.map(entry => {
@@ -70,6 +75,8 @@ export class WorkService {
       this.workCacheSource.next(model);
 
       this.buildActive();
+
+      this.loaderService.endLoading("[prepare] work");
     });
   }
 }

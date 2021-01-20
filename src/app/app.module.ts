@@ -118,8 +118,8 @@ import { MapExternalPipe } from './map-external.pipe';
   providers: [
     SplashStateService,
     TaggerService,
-    LoaderService
     WorkService,
+    LoaderService,
   ],
   bootstrap: [AppComponent]
 })

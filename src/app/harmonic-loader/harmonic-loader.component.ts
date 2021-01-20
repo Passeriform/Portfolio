@@ -1,7 +1,8 @@
-// TODO: Remove retarder
+// TODO: Bind progress percentage to observables
+// TODO: Required a huge makeover (canvas-style animations do not mesh well with Angular-style ones)
 import { Component, ElementRef, AfterViewInit, ViewChild, HostListener, HostBinding } from '@angular/core';
 
-import { LoadingState, LoaderService } from '../services/loader.service';
+import { LoadingState, LoadingJob, LoaderService } from '../services/loader.service';
 
 import { drawDot, getDotsPos, getInPhase, generateLoaderConfig } from '../common/canvas-utils';
 
@@ -11,7 +12,7 @@ import { drawDot, getDotsPos, getInPhase, generateLoaderConfig } from '../common
   styleUrls: ['./harmonic-loader.component.sass']
 })
 export class HarmonicLoaderComponent implements AfterViewInit {
-  private LoadingState = LoadingState;
+  private loadingState = LoadingState;
 
   @ViewChild('harmonicLoader', { static: true }) loaderCanvas: ElementRef<HTMLCanvasElement>;
 
@@ -30,11 +31,14 @@ export class HarmonicLoaderComponent implements AfterViewInit {
     this.dotsPos = getDotsPos(this.loaderConfig.dotsDist);
   }
 
-  public loadingState: LoadingState;
+  public loadingJobsState: LoadingJob[];
   public loaderPerc: number;
 
   public animStartFrame: number;
   public retarder = 0;
+
+  // Guard variable (remove for cleanliness later)
+  public animationRunning: boolean = false;
 
   public loaderConfig: any;
   public dotsPos: number[];
@@ -42,27 +46,42 @@ export class HarmonicLoaderComponent implements AfterViewInit {
   public context: CanvasRenderingContext2D;
 
   constructor(private loaderService: LoaderService) {
-    this.loaderService.loadingState$.subscribe(
-      loadingState => {
-        this.loadingState = loadingState;
-
-        if (this.loadingState == LoadingState.LoadingQueued) {
-          this.loaderService.setAnimationStatus(LoadingState.Loading);
-          this.beginLoadingAnimation();
-        }
-      });
-
     this.loaderService.loadingProgressState$.subscribe(
       loadedPercentage => {
         this.loaderPerc = loadedPercentage;
       });
+
+    this.loaderService.loadingJobsState$.subscribe(
+      loadingJobsState => {
+        this.loadingJobsState = loadingJobsState;
+
+        let initiationLabels = this.loadingJobsState
+            .filter(
+              (job) => job.state === LoadingState.LoadingQueued
+            )
+            .map(
+              (job) => job.label
+            );
+
+            // Only trigger when new labels are found to be queued
+            if (Array.isArray(initiationLabels) && initiationLabels.length !== 0) {
+              this.loaderService.setAnimationStart(initiationLabels);
+
+              // Only triggers when jobs aren't all loaded and animation is not running
+              if (!this.loaderService.areAllJobsCompleted && !this.animationRunning) {
+                this.animationRunning = true;
+                this.beginLoadingAnimation();
+              }
+            }
+
+      });
   }
 
-  ngAfterViewInit() { }
+  ngAfterViewInit() {
+    this.onResize();
+  }
 
   beginLoadingAnimation = () => {
-    this.loaderService.setAnimationStatus(LoadingState.Loading);
-
     this.context = this.loaderCanvas.nativeElement.getContext('2d');
 
     this.loaderCanvas.nativeElement.width = window.innerWidth;
@@ -122,7 +141,7 @@ export class HarmonicLoaderComponent implements AfterViewInit {
       });
     });
 
-    if (this.loadingState === LoadingState.Loaded) {
+    if (this.loaderService.areAllJobsCompleted) {
       window.requestAnimationFrame(this.resolveDots);
     } else {
       window.requestAnimationFrame(this.tick);
@@ -178,11 +197,8 @@ export class HarmonicLoaderComponent implements AfterViewInit {
     if (this.retarder < this.loaderConfig.amplitude) window.requestAnimationFrame(this.resolveDots);
     else {
       this.retarder = 0;
-      this.cleanupLoader();
+      this.loaderService.flushJobs();
+      this.animationRunning = false;
     }
-  }
-
-  cleanupLoader = () => {
-    this.loaderService.setAnimationStatus(LoadingState.Finished);
   }
 }

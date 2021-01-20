@@ -25,7 +25,9 @@ export class AboutComponent implements OnInit, AfterViewInit {
     private http: HttpClient,
     private loaderService: LoaderService
   ) {
-    this.loaderService.beginLoading();
+    // TODO: Improve this loader flushing
+    // this.loaderService.flushJobs();
+    this.loaderService.beginLoading("[page] load");
   }
 
   ngOnInit() {
@@ -33,6 +35,7 @@ export class AboutComponent implements OnInit, AfterViewInit {
       this.subject = params.get('subject') || 'passeriform';
     });
 
+    this.loaderService.beginLoading("[http] about");
 
     this.http.get(`${Constants.API_URL}/about/${this.subject}`)
     .pipe(
@@ -43,6 +46,8 @@ export class AboutComponent implements OnInit, AfterViewInit {
     )
     .subscribe((model) => {
       this.model = model;
+
+      this.loaderService.endLoading("[http] about");
 
       if (this.model === undefined) {
         this.router.navigate(['/about']);
@@ -57,7 +62,7 @@ export class AboutComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.loaderService.endLoading();
+    this.loaderService.endLoading("[page] load");
   }
 
   public showTooltip(contributor): void {
