@@ -4,9 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
-// JQuery // TODO: Eliminate
-import * as $ from 'jquery';
-
 /// App component and routing
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
