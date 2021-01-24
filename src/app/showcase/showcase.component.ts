@@ -11,7 +11,6 @@ import { TaggerService } from '../services/tagger.service';
   selector: 'app-showcase',
   templateUrl: './showcase.component.html',
   styleUrls: ['./showcase.component.sass'],
-  providers: [ WorkService, TaggerService ]
 })
 
 export class ShowcaseComponent implements OnInit {
