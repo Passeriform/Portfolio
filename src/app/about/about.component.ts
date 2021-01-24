@@ -64,11 +64,4 @@ export class AboutComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.loaderService.endLoading("[page] load");
   }
-
-  public showTooltip(contributor): void {
-    contributor.showToggle = true;
-  }
-  public hideTooltip(contributor): void {
-    contributor.showToggle = false;
-  }
 }

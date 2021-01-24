@@ -27,6 +27,7 @@ import { CageGridComponent } from './cage-grid/cage-grid.component';
 import { CageGridDirective } from './cage-grid/cage-grid.directive';
 
 import { TooltipComponent } from './tooltip/tooltip.component';
+import { TooltipDirective } from './tooltip/tooltip.directive';
 
 import { OverlayComponent } from './overlay/overlay.component';
 
@@ -66,6 +67,7 @@ import { MapExternalPipe } from './map-external.pipe';
     AppRoutingModule,
     HttpClientModule
   ],
+  entryComponents: [TooltipComponent],
   declarations: [
     AppComponent,
 
@@ -95,8 +97,8 @@ import { MapExternalPipe } from './map-external.pipe';
     CageGridComponent,
     CageGridDirective,
 
-
     TooltipComponent,
+    TooltipDirective,
 
     OverlayComponent,
 

@@ -54,13 +54,16 @@
         <div id="contributors-container" class="content-wrapper" *appCaged="'Contributors'">
           <ng-container *ngFor="let contributor of model.contributors">
             <div class="contributor">
-              <app-tooltip [show]="contributor.showToggle">
+              <ng-template #tooltipTemplate>
                 <h5>{{ contributor.title }}</h5>
                 <span>{{ contributor.description }}</span>
-              </app-tooltip>
-              <a routerLink="/about/{{ contributor.aboutUrl }}">
-                <img *ngIf="contributor.img" src={{contributor.img}} (mouseover)="showTooltip(contributor)" (mouseout)="hideTooltip(contributor)" />
-              </a>
+              </ng-template>
+
+              <div tooltip [template]="tooltipTemplate" [position]="'bottom'">
+                <a routerLink="/about/{{ contributor.aboutUrl }}">
+                  <img *ngIf="contributor.img" src={{contributor.img}}/>
+                </a>
+              </div>
             </div>
           </ng-container>
         </div>

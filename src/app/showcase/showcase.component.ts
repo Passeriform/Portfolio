@@ -56,25 +56,6 @@ export class ShowcaseComponent implements OnInit {
     });
   }
 
-  showLanguages(entry) {
-    entry.showLanguagesTooltip = true;
-  }
-  showFrameworks(entry) {
-    entry.showFrameworksTooltip = true;
-  }
-  showTools(entry) {
-    entry.showToolsTooltip = true;
-  }
-  hideLanguages(entry) {
-    entry.showLanguagesTooltip = false;
-  }
-  hideFrameworks(entry) {
-    entry.showFrameworksTooltip = false;
-  }
-  hideTools(entry) {
-    entry.showToolsTooltip = false;
-  }
-
   setSelected(entry: object) {
     this.workService.setSelected(entry);
   }

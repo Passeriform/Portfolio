@@ -6,32 +6,39 @@ $tooltip-arrow-width-em: 1em
 $tooltip-arrow-height-em: 1em
 
 :host
+  display: inline-block
   position: absolute
-  width: $tooltip-window-width-em
-  // THIS IS EXTREMELY BAD
-  margin-left: -8em
-  margin-top: 5em
-  // MUST FIX ASAP
-
+  width: 0
+  height: 0
   visibility: hidden
   opacity: 0
   transition: all 0.5s ease
   z-index: 10
 
   &.top
-    // THIS IS EXTREMELY BAD
-    margin-left: -11.25em
-    margin-top: -9.25em
-    // MUST FIX ASAP
 
-    & > .tooltip-internal::after
-      top: 100%
+    & > .tooltip-internal
+      bottom: 3.5em
+
+      &::after
+        top: 100%
+
+  &.bottom
+
+    & > .tooltip-internal
+      top: 3.5em
+
+      &::after
+        top: 0%
 
   & > .tooltip-internal
+    position: absolute
+    width: $tooltip-window-width-em
     padding: 1em 2em
     color: $anti-accent-color-hex
     background-color: $accent-color-hex
     box-sizing: border-box
+    transform: translateX(-50%)
 
     &::after
       content: ''
@@ -40,7 +47,6 @@ $tooltip-arrow-height-em: 1em
       height: $tooltip-arrow-height-em
       left: 50%
       margin-left: -#{$tooltip-arrow-width-em / 2}
-      top: 0%
       margin-top: -#{$tooltip-arrow-width-em / 2}
       transform: rotate(45deg)
       background-color: $accent-color-hex
@@ -48,7 +54,6 @@ $tooltip-arrow-height-em: 1em
     &.inverted
       color: $accent-color-hex
       background-color: $anti-accent-color-hex
-      box-sizing: border-box
 
       &::after
         background-color: $anti-accent-color-hex
