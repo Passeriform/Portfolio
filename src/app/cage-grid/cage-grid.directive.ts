@@ -11,6 +11,4 @@ export class CageGridDirective {
   constructor(private templateRef: TemplateRef<any>) {
     this.cageTemplate = this.templateRef;
   }
-
-
 }

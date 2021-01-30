@@ -11,7 +11,6 @@ export interface FuzzySegment {
 export class FuzzyAnalyzer {
 
   public parseValue(value: string, input: string): FuzzySegment[] {
-
     const valueLength = value.length;
     const inputLength = input.length;
     let valueIndex = 0;

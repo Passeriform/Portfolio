@@ -1,4 +1,5 @@
-import { Component, Input, AfterContentInit, QueryList, ContentChildren } from '@angular/core';
+import { Component, AfterContentInit, QueryList, ContentChildren } from '@angular/core';
+
 import { CageGridDirective } from './cage-grid.directive';
 
 @Component({
@@ -14,5 +15,4 @@ export class CageGridComponent implements AfterContentInit {
 
   ngAfterContentInit() {
   }
-
 }

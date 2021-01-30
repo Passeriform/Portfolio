@@ -1,6 +1,6 @@
 // TODO: Bind progress percentage to observables
 // TODO: Required a huge makeover (canvas-style animations do not mesh well with Angular-style ones)
-import { Component, ElementRef, AfterViewInit, ViewChild, HostListener, HostBinding } from '@angular/core';
+import { Component, ElementRef, AfterViewInit, ViewChild, HostListener } from '@angular/core';
 
 import { LoadingState, LoadingJob, LoaderService } from '../services/loader.service';
 
@@ -12,7 +12,19 @@ import { drawDot, getDotsPos, getInPhase, generateLoaderConfig } from '../common
   styleUrls: ['./harmonic-loader.component.sass']
 })
 export class HarmonicLoaderComponent implements AfterViewInit {
-  private loadingState = LoadingState;
+  public loadingJobsState: LoadingJob[];
+  public loaderPerc: number;
+
+  public animStartFrame: number;
+  public retarder = 0;
+
+  // Guard variable (remove for cleanliness later)
+  public animationRunning = false;
+
+  public loaderConfig: any;
+  public dotsPos: number[];
+
+  public context: CanvasRenderingContext2D;
 
   @ViewChild('harmonicLoader', { static: true }) loaderCanvas: ElementRef<HTMLCanvasElement>;
 
@@ -31,20 +43,6 @@ export class HarmonicLoaderComponent implements AfterViewInit {
     this.dotsPos = getDotsPos(this.loaderConfig.dotsDist);
   }
 
-  public loadingJobsState: LoadingJob[];
-  public loaderPerc: number;
-
-  public animStartFrame: number;
-  public retarder = 0;
-
-  // Guard variable (remove for cleanliness later)
-  public animationRunning: boolean = false;
-
-  public loaderConfig: any;
-  public dotsPos: number[];
-
-  public context: CanvasRenderingContext2D;
-
   constructor(private loaderService: LoaderService) {
     this.loaderService.loadingProgressState$.subscribe(
       loadedPercentage => {
@@ -55,7 +53,7 @@ export class HarmonicLoaderComponent implements AfterViewInit {
       loadingJobsState => {
         this.loadingJobsState = loadingJobsState;
 
-        let initiationLabels = this.loadingJobsState
+        const initiationLabels = this.loadingJobsState
             .filter(
               (job) => job.state === LoadingState.LoadingQueued
             )
@@ -63,16 +61,16 @@ export class HarmonicLoaderComponent implements AfterViewInit {
               (job) => job.label
             );
 
-            // Only trigger when new labels are found to be queued
-            if (Array.isArray(initiationLabels) && initiationLabels.length !== 0) {
-              this.loaderService.setAnimationStart(initiationLabels);
+        // Only trigger when new labels are found to be queued
+        if (Array.isArray(initiationLabels) && initiationLabels.length !== 0) {
+          this.loaderService.setAnimationStart(initiationLabels);
 
-              // Only triggers when jobs aren't all loaded and animation is not running
-              if (!this.loaderService.areAllJobsCompleted && !this.animationRunning) {
-                this.animationRunning = true;
-                this.beginLoadingAnimation();
-              }
-            }
+          // Only triggers when jobs aren't all loaded and animation is not running
+          if (!this.loaderService.areAllJobsCompleted && !this.animationRunning) {
+            this.animationRunning = true;
+            this.beginLoadingAnimation();
+          }
+        }
 
       });
   }
@@ -97,7 +95,7 @@ export class HarmonicLoaderComponent implements AfterViewInit {
     window.requestAnimationFrame(this.tick);
   }
 
-  tick = (timestamp) => {
+  tick = (timestamp: number) => {
     if (this.animStartFrame === undefined) {
       this.animStartFrame = timestamp;
     }
@@ -148,7 +146,7 @@ export class HarmonicLoaderComponent implements AfterViewInit {
     }
   }
 
-  resolveDots = (timestamp) => {
+  resolveDots = (timestamp: number) => {
     if (this.animStartFrame === undefined) {
       this.animStartFrame = timestamp;
     }
@@ -194,8 +192,9 @@ export class HarmonicLoaderComponent implements AfterViewInit {
 
     this.retarder += this.loaderConfig.retardationRate;
 
-    if (this.retarder < this.loaderConfig.amplitude) window.requestAnimationFrame(this.resolveDots);
-    else {
+    if (this.retarder < this.loaderConfig.amplitude) {
+      window.requestAnimationFrame(this.resolveDots);
+    } else {
       this.retarder = 0;
       this.loaderService.flushJobs();
       this.animationRunning = false;

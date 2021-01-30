@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 
-import { LoadingState, LoaderService } from '../services/loader.service';
+import { LoaderService } from '../services/loader.service';
 
 @Component({
   selector: 'app-landing',
@@ -10,12 +10,12 @@ import { LoadingState, LoaderService } from '../services/loader.service';
 
 export class LandingComponent implements OnInit, AfterViewInit {
   constructor(private loaderService: LoaderService) {
-    this.loaderService.beginLoading("[page] load");
+    this.loaderService.beginLoading('[page] load');
   }
 
   ngOnInit() { }
 
   ngAfterViewInit() {
-    this.loaderService.endLoading("[page] load");
+    this.loaderService.endLoading('[page] load');
   }
 }

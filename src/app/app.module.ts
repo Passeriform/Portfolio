@@ -122,5 +122,4 @@ import { MapExternalPipe } from './map-external.pipe';
   ],
   bootstrap: [AppComponent]
 })
-
 export class AppModule { }

@@ -12,5 +12,4 @@ export class DescribeComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }

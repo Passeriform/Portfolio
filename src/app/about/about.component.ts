@@ -1,11 +1,11 @@
-import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 
-import { LoadingState, LoaderService } from '../services/loader.service';
+import { LoaderService } from '../services/loader.service';
 
 import { Constants } from '../common/global';
 
@@ -14,8 +14,8 @@ import { Constants } from '../common/global';
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.sass']
 })
-
 export class AboutComponent implements OnInit, AfterViewInit {
+  // TODO: Define the model for about content in separate interface.
   public model: any;
   private subject: string;
 
@@ -27,7 +27,7 @@ export class AboutComponent implements OnInit, AfterViewInit {
   ) {
     // TODO: Improve this loader flushing
     // this.loaderService.flushJobs();
-    this.loaderService.beginLoading("[page] load");
+    this.loaderService.beginLoading('[page] load');
   }
 
   ngOnInit() {
@@ -35,19 +35,19 @@ export class AboutComponent implements OnInit, AfterViewInit {
       this.subject = params.get('subject') || 'passeriform';
     });
 
-    this.loaderService.beginLoading("[http] about");
+    this.loaderService.beginLoading('[http] about');
 
     this.http.get(`${Constants.API_URL}/about/${this.subject}`)
     .pipe(
       catchError((error) => {
-        console.log("ErrorService triggered error.");
+        console.log('ErrorService triggered error.');
         return Observable.throw(error.message);
       })
     )
     .subscribe((model) => {
       this.model = model;
 
-      this.loaderService.endLoading("[http] about");
+      this.loaderService.endLoading('[http] about');
 
       if (this.model === undefined) {
         this.router.navigate(['/about']);
@@ -62,6 +62,6 @@ export class AboutComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.loaderService.endLoading("[page] load");
+    this.loaderService.endLoading('[page] load');
   }
 }

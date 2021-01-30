@@ -11,7 +11,6 @@ export class IconUriPipe implements PipeTransform {
     return this.getIcon(iconstr);
   }
 
-
   getIcon(identifier: string) {
     for (const entry of registry) {
       if (entry.identifier === EntityIdentifier[identifier]) {
@@ -19,5 +18,4 @@ export class IconUriPipe implements PipeTransform {
       }
     }
   }
-
 }

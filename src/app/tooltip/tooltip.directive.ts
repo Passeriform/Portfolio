@@ -1,19 +1,31 @@
-// TODO: Handle mouseover observable in directive and use component caching with destroyTimeout 
-
-import { Directive, AfterViewInit, OnDestroy, ViewChild, EmbeddedViewRef, ElementRef, HostListener, ViewContainerRef, Injector, ApplicationRef, Input, TemplateRef, ComponentFactoryResolver } from '@angular/core';
+// TODO: Handle mouseover observable in directive
+// TODO: Use component caching with destroyTimeout.
+import {
+  Directive,
+  Injector,
+  Input,
+  ViewChild,
+  HostListener,
+  ComponentFactoryResolver,
+  ApplicationRef,
+  ElementRef,
+  TemplateRef,
+  ViewContainerRef,
+  EmbeddedViewRef,
+} from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
 import { TooltipComponent } from './tooltip.component';
 
 @Directive({
-  selector: '[tooltip]'
+  selector: '[appTooltip]'
 })
 export class TooltipDirective {
   public showTooltip$ = new BehaviorSubject<boolean>(false);
   private componentRef: any;
 
-  @Input() position: string = 'bottom';
+  @Input() position = 'bottom';
   @Input() template: TemplateRef<any>;
 
   // TODO: Create palette service for uniform themes
@@ -37,6 +49,10 @@ export class TooltipDirective {
     private componentFactoryResolver: ComponentFactoryResolver,
   ) { }
 
+  // NOTE: Angular only supports directives in the core, so no matter how hard
+  // the docs preach, Directives do and will support AfterViewInit hook
+  // but won't allow it to extend. Ignoring until better solution implemented.
+  /* tslint:disable-next-line:use-lifecycle-interface */
   ngAfterViewInit() {
     this.componentRef = this.componentFactoryResolver
       .resolveComponentFactory(TooltipComponent)
@@ -44,14 +60,18 @@ export class TooltipDirective {
 
     this.componentRef.instance.tooltipTemplate = this.template;
     this.componentRef.instance.positionType = this.position;
-    // this.componentRef.instance.palette = {primaryColor: this.primaryColor, accentColor: this.accentColor};
+    // Use a palette service instead of this.
+    // this.componentRef.instance.palette = {
+    //   this.primaryColor,
+    //   this.accentColor
+    // };
     this.componentRef.instance.callerInstance = this.elementRef.nativeElement;
     this.componentRef.instance.showObs = this.showTooltip$.asObservable();
 
     this.appRef.attachView(this.componentRef.hostView);
 
     const domElem = (this.componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
-    // Kept on top of stacking to avoid z-index collisions
+    // NOTE: Kept on top of stacking to avoid z-index collisions
     document.body.appendChild(domElem);
   }
 }

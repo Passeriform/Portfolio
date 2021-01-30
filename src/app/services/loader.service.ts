@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -10,9 +11,9 @@ export enum LoadingState {
 
 // TODO: Change array of interface approach to hashmap of interface
 export interface LoadingJob {
-  readonly label: string,
-  state: LoadingState,
-  progress: number
+  readonly label: string;
+  state: LoadingState;
+  progress: number;
 }
 
 @Injectable()
@@ -30,12 +31,12 @@ export class LoaderService {
 
   bindLoadJob(label: string, observer: Observable<any>) {
     this.beginLoading(label);
-    observer.subscribe((_) => this.endLoading(label))
+    observer.subscribe((_) => this.endLoading(label));
   }
 
   beginLoading(label: string) {
-    let newLoadingJob: LoadingJob = {
-      label: label,
+    const newLoadingJob: LoadingJob = {
+      label,
       state: LoadingState.LoadingQueued,
       progress: 0.0
     };
@@ -46,7 +47,7 @@ export class LoaderService {
   endLoading(label: string) {
     this.loadingJobsSource.next(
       this.loadingJobsSource.value.map((job) => {
-        if(job.label == label) {
+        if (job.label === label) {
           job.state = LoadingState.Loaded;
         }
 
@@ -63,15 +64,12 @@ export class LoaderService {
 
     this.loadingJobsSource.next(
       this.loadingJobsSource.value.map((job) => {
-        // For individual operations
-        if (typeof labels === "string") {
-          if(job.label == labels) {
+        if (typeof labels === 'string') {
+          if (job.label === labels) {
             job.state = LoadingState.Loading;
           }
-        }
-        // For bulk operations
-        else {
-          if(labels.includes(job.label)) {
+        } else {
+          if (labels.includes(job.label)) {
             job.state = LoadingState.Loading;
           }
         }
@@ -83,19 +81,16 @@ export class LoaderService {
 
   flushJobs(labels?: string | string[]) {
     // Flush all jobs if no label supplied (SQL-style)
-    if (labels === undefined || (Array.isArray(labels) && labels.length == 0)) {
+    if (labels === undefined || (Array.isArray(labels) && labels.length === 0)) {
       this.loadingJobsSource.next([]);
       return;
     }
 
     this.loadingJobsSource.next(
       this.loadingJobsSource.value.filter((job) => {
-        // For ejecting singular jobs
-        if (typeof labels === "string") {
-          return job.label == labels;
-        }
-        // For ejecting multiple jobs
-        else {
+        if (typeof labels === 'string') {
+          return job.label === labels;
+        } else {
           return labels.includes(job.label);
         }
       })
@@ -116,21 +111,23 @@ export class LoaderService {
   setLoadingProgress(label: string, progress: number) {
     this.loadingJobsSource.value.map((job) => {
       if (job.label === label) {
-        if (job.progress != LoadingState.Loading) {
+        if (job.progress !== LoadingState.Loading) {
           this.beginLoading(job.label);
 
           job.progress = progress;
         }
 
         // Auto-unload
-        if (job.progress === 100.0) this.flushJobs(job.label);
+        if (job.progress === 100.0) {
+          this.flushJobs(job.label);
+        }
       }
-    })
+    });
   }
 
   bindLoadingProgress(label: string, progressObs: Observable<number>) {
     progressObs.subscribe((progress) => {
       this.setLoadingProgress(label, progress);
-    })
+    });
   }
 }

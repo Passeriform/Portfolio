@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { IconUriPipe } from '../icon-uri.pipe';
-
 @Component({
   selector: 'app-social-glyphs',
   templateUrl: './social-glyphs.component.html',
@@ -11,9 +9,7 @@ export class SocialGlyphsComponent implements OnInit {
   @Input() model: Array<any>;
   @Input() invert = false;
 
-  constructor() {
-  }
+  constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 }

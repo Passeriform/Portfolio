@@ -1,4 +1,4 @@
-<app-header logo="/assets/images/icons/passeriform.svg" target="/" alt="passeriform">
+<app-header alt="passeriform" logo="/assets/images/icons/passeriform.svg" target="/">
   <app-navtab>
     <a *appNavLink routerLink="/explore">Work</a>
     <a *appNavLink href="https://passeribird.blogspot.com/" target="_blank">Blog</a>
@@ -6,13 +6,13 @@
   </app-navtab>
 </app-header>
 
-<app-scrollable [fullpage]="true" [injectSplash]="true" [collapsed]="true">
-  <div *ngIf="model?.intro" id="intro" class="page" #page>
+<app-scrollable [collapsed]="true" [fullpage]="true" [injectSplash]="true">
+  <div *ngIf="model?.intro" class="page" id="intro" #page>
     <div class="bg-img"></div>
     <div class="content">
-      <div id="intro-container" class="content-wrapper">
+      <div class="content-wrapper" id="intro-container">
         <a routerLink="/about/{{ model.subject }}" class="avatar">
-          <img *ngIf="model.intro.img" src={{model.intro.img}} />
+          <img *ngIf="model.intro.img" alt="profile-img" src="{{ model.intro.img }}" />
         </a>
         <div class="content-text">
           <h1>{{ model.intro.heading }}</h1>
@@ -23,12 +23,12 @@
       </div>
     </div>
   </div>
-  <div *ngIf="model?.overview" id="overview" class="page" #page>
+  <div *ngIf="model?.overview" class="page" id="overview" #page>
     <div class="bg-img"></div>
     <div class="content">
-      <div id="overview-container" class="content-wrapper">
+      <div class="content-wrapper" id="overview-container">
         <section *ngFor="let section of model.overview">
-          <img *ngIf="section.img" src={{section.img}}/>
+          <img *ngIf="section.img" alt="overview-img" src="{{ section.img }}" />
           <p>
             {{ section.paragraph }}
           </p>
@@ -36,22 +36,22 @@
       </div>
     </div>
   </div>
-  <div *ngIf="model?.story" id="story" class="page" #page>
+  <div *ngIf="model?.story" class="page" id="story" #page>
     <div class="bg-img"></div>
     <div class="content">
-      <div id="story-container" class="content-wrapper">
-        <img *ngIf="model.story.img" src={{model.story.img}}  />
+      <div class="content-wrapper" id="story-container">
+        <img *ngIf="model.story.img" alt="story-img" src="{{ model.story.img }}" />
         <p>
           {{ model.story.paragraph }}
         </p>
       </div>
     </div>
   </div>
-  <div *ngIf="model?.contributors" id="contributors" class="page" #page>
+  <div *ngIf="model?.contributors" class="page" id="contributors" #page>
     <div class="bg-img"></div>
     <div class="content">
       <app-cage-grid>
-        <div id="contributors-container" class="content-wrapper" *appCaged="'Contributors'">
+        <div *appCaged="'Contributors'" class="content-wrapper" id="contributors-container">
           <ng-container *ngFor="let contributor of model.contributors">
             <div class="contributor">
               <ng-template #tooltipTemplate>
@@ -59,9 +59,9 @@
                 <span>{{ contributor.description }}</span>
               </ng-template>
 
-              <div tooltip [template]="tooltipTemplate" [position]="'bottom'">
+              <div appTooltip position="bottom" [template]="tooltipTemplate">
                 <a routerLink="/about/{{ contributor.aboutUrl }}">
-                  <img *ngIf="contributor.img" src={{contributor.img}}/>
+                  <img *ngIf="contributor.img" alt="profile-contributor-img" src="{{ contributor.img }}" />
                 </a>
               </div>
             </div>
@@ -70,35 +70,37 @@
       </app-cage-grid>
     </div>
   </div>
-  <div *ngIf="model?.contact" id="contact" class="page" #page>
+  <!-- // TODO: Create new contact component after module-based refactor. -->
+  <!-- // WTF: Contact isn't showing up. Checkout scrollable again. -->
+  <div *ngIf="model?.contact" class="page" id="contact" #page>
     <div class="bg-img"></div>
     <div class="content">
-      <div id="contact-container" class="content-wrapper">
-        <img *ngIf="model.contact.img" src={{model.contact.img}}  />
+      <div class="content-wrapper" id="contact-container">
+        <img *ngIf="model.contact.img" alt="contact-img" src="{{ model.contact.img }}" />
         <div>
           <h1>{{ model.contact.heading }}</h1>
           <p>{{ model.contact.paragraph }}</p>
           <div class="contact-form">
-            <form id="contact" autocomplete="off" _lpchecked="1">
+            <form _lpchecked="1" autocomplete="off" id="contact">
               <ul>
                 <li class="half">
-                  <input class="inputField" placeholder="Name" type="text" name="name">
+                  <input class="inputField" name="name" placeholder="Name" type="text" />
                   <label class="inputLabel"></label>
                 </li>
                 <li class="half">
-                  <input class="inputField" placeholder="Email" type="email" name="email">
+                  <input class="inputField" name="email" placeholder="Email" type="email" />
                   <label class="inputLabel"></label>
                 </li>
                 <li>
-                  <input class="inputField" placeholder="Subject" type="text" name="subject">
+                  <input class="inputField" name="subject" placeholder="Subject" type="text" />
                   <label class="inputLabel"></label>
                 </li>
                 <li>
-                  <textarea class="inputField" placeholder="Message" name="msg" spellcheck="false" style="height: 110px;"></textarea>
+                  <textarea class="inputField" name="msg" placeholder="Message" spellcheck="false"></textarea>
                   <label class="inputLabel"></label>
                 </li>
                 <li class="submit">
-                  <input id="submit" type="submit" class="flat-button" value="SEND">
+                  <input class="flat-button" id="submit" type="submit" value="SEND" />
                   <label class="inputLabel"></label>
                 </li>
               </ul>

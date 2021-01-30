@@ -1,5 +1,8 @@
 <div *ngFor="let entry of model">
-  <a [href]="entry.link">
-    <img [src]="entry.type | iconUri" [ngClass]="{'inverted' : invert}"/>
+  <a href="{{ entry.link }}">
+    <img
+        alt="icon-{{ entry.type }}"
+        src="{{ entry.type | iconUri }}"
+        [ngClass]="{'inverted' : invert}" />
   </a>
 </div>

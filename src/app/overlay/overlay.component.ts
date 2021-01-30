@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 
 enum OverlayState {
   HIDE,
@@ -10,33 +10,29 @@ enum OverlayState {
   templateUrl: './overlay.component.html',
   styleUrls: ['./overlay.component.sass'],
 })
-
-
 export class OverlayComponent implements OnInit {
   public OverlayState = OverlayState;
+  public overlayState: OverlayState;
 
   @HostBinding('class.blink') public blinkEnabled = true;
 
-  public overlayState: OverlayState;
-
-  constructor(private elementRef: ElementRef) { }
+  constructor() { }
 
   ngOnInit() { }
 
-  toggleOverlay(event: MouseEvent) {
-    if (this.overlayState == OverlayState.SHOW) {
+  toggleOverlay() {
+    if (this.overlayState === OverlayState.SHOW) {
       this.overlayState = OverlayState.HIDE;
-    }
-    else {
+    } else {
       this.overlayState = OverlayState.SHOW;
     }
   }
 
-  showOverlay(event: MouseEvent) {
+  showOverlay() {
     this.overlayState = OverlayState.SHOW;
   }
 
-  hideOverlay(event: MouseEvent) {
+  hideOverlay() {
       this.overlayState = OverlayState.HIDE;
   }
 

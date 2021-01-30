@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, distinctUntilChanged, catchError } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 
 import { TaggerService } from '../services/tagger.service';
 import { LoaderService } from '../services/loader.service';
@@ -14,7 +14,7 @@ export class WorkService {
   private workFilterSource = new BehaviorSubject<(_: any) => boolean>((_) => true);
   private workCacheSource = new BehaviorSubject<Array<any>>([]);
   private workActiveSource = new BehaviorSubject<Array<any>>([]);
-  private workSelectedSource = new BehaviorSubject<Object>(null);
+  private workSelectedSource = new BehaviorSubject<object>(null);
 
   workFilterState$ = this.workFilterSource.asObservable();
   workCacheState$ = this.workCacheSource.asObservable();
@@ -40,8 +40,7 @@ export class WorkService {
   buildActive() {
     if (this.workFilterSource.value == null) {
       this.workActiveSource.next(this.workCacheSource.value);
-    }
-    else {
+    } else {
       this.workActiveSource.next(
         this.workCacheSource.value.filter(this.workFilterSource.value)
       );
@@ -49,21 +48,21 @@ export class WorkService {
   }
 
   refreshCache() {
-    this.loaderService.beginLoading("[http] work");
+    this.loaderService.beginLoading('[http] work');
 
-    let callURL = `${Constants.API_URL}/work`;
+    const callURL = `${Constants.API_URL}/work`;
 
     this.http.get<Array<any>>(callURL)
     .pipe(
       catchError((error) => {
-        console.log("ErrorService triggered error.");
+        console.log('ErrorService triggered error.');
         return Observable.throw(error.message);
       })
     )
     .subscribe((model) => {
-      this.loaderService.endLoading("[http] work");
+      this.loaderService.endLoading('[http] work');
 
-      this.loaderService.beginLoading("[prepare] work");
+      this.loaderService.beginLoading('[prepare] work');
       model = this.tagger.appendTags(model);
 
       model.map(entry => {
@@ -76,7 +75,7 @@ export class WorkService {
 
       this.buildActive();
 
-      this.loaderService.endLoading("[prepare] work");
+      this.loaderService.endLoading('[prepare] work');
     });
   }
 }

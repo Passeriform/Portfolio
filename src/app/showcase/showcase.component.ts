@@ -1,11 +1,7 @@
-import { Component, Input, AfterViewInit, ViewChild, OnInit, HostListener } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, BehaviorSubject } from 'rxjs';
-
-import { Project } from '../common/global';
+import { Component, OnInit, HostListener, Input, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { WorkService } from '../services/work.service';
-import { TaggerService } from '../services/tagger.service';
 
 @Component({
   selector: 'app-showcase',
@@ -19,7 +15,7 @@ export class ShowcaseComponent implements OnInit {
 
   @Input() private preloadMarker: string;
 
-  @ViewChild('cardscroller', {static: false}) cardChild;
+  @ViewChild('cardscroller', {static: false}) cardChild: ElementRef;
 
   @HostListener('window:resize')
   onResize() {
@@ -31,7 +27,6 @@ export class ShowcaseComponent implements OnInit {
   }
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     public workService: WorkService) {
       this.windowHeight = window.innerHeight / parseFloat(
@@ -43,7 +38,7 @@ export class ShowcaseComponent implements OnInit {
 
   ngOnInit() {
     if (this.preloadMarker !== '') {
-      this.workService.setFilter((entity) => entity.type == this.preloadMarker);
+      this.workService.setFilter((entity) => entity.type === this.preloadMarker);
     }
 
     this.workService.workActiveState$.subscribe((model) => {
@@ -59,7 +54,7 @@ export class ShowcaseComponent implements OnInit {
     this.workService.setSelected(entry);
   }
 
-  cancelClick(event) {
+  cancelClick(event: MouseEvent) {
     event.stopPropagation();
   }
 }

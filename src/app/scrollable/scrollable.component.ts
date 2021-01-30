@@ -1,6 +1,8 @@
+// TODO: Remove lag from scroll/swipe.
 import { Component, QueryList, ContentChildren, OnInit, AfterContentInit, HostBinding, Input, ElementRef } from '@angular/core';
+
 import { merge, fromEvent, OperatorFunction, Observable } from 'rxjs';
-import { map, tap, scan, race, takeLast, filter, throttleTime, mergeMap, switchMap, take, takeUntil, first } from 'rxjs/operators';
+import { map, race, filter, throttleTime, mergeMap, take, takeUntil } from 'rxjs/operators';
 
 import { SplashState, SplashStateService } from '../services/splash-state.service';
 
@@ -9,7 +11,6 @@ import { SplashState, SplashStateService } from '../services/splash-state.servic
   templateUrl: './scrollable.component.html',
   styleUrls: ['./scrollable.component.sass']
 })
-
 export class ScrollableComponent implements OnInit, AfterContentInit {
   private pageIndex = 0;
   private scrollTolerance = 0.1; // scroll sensitivity
@@ -48,8 +49,8 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
     )
   );
 
-  private scrollStream;
-  private swipeStream;
+  private scrollStream: Observable<number>;
+  private swipeStream: Observable<number>;
 
   constructor(private hostElement: ElementRef, private splashStateService: SplashStateService) { }
 
@@ -70,11 +71,13 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
     }
   }
 
+  // TODO: Justify pulling the delta value
   pageShiftUp(delta: number) {
     this.pageIndex = Math.max(this.pageIndex - 1, 0);
     this.updateSplashState();
   }
 
+  // TODO: Justify pulling the delta value
   pageShiftDown(delta: number) {
     const vw = document.documentElement.offsetWidth / 100;
     const vh = document.documentElement.offsetHeight / 100;
@@ -121,7 +124,9 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
     this.swipeStream = fromEvent(this.hostElement.nativeElement, 'touchmove')
       .pipe(
         conditionalThrottle(this.throttle === 0, this.throttle),
-        map((event: TouchEvent) => this.horizontal ? event.touches[0].pageX : event.touches[0].pageY // No need to check for empty event as its captured by fromEvent
+        map((event: TouchEvent) =>
+          this.horizontal ? event.touches[0].pageX : event.touches[0].pageY
+          // No need to check for empty event as its captured by fromEvent
         ),
         mergeMap((init: number) =>
           fromEvent(this.hostElement.nativeElement, 'touchmove')
@@ -147,8 +152,8 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
         ),
       );
 
-    this.scrollStream.subscribe(shiftAmt => this.pageShift(shiftAmt));
-    this.swipeStream.subscribe(shiftAmt => this.pageShift(shiftAmt));
+    this.scrollStream.subscribe((shiftAmt: number) => this.pageShift(shiftAmt));
+    this.swipeStream.subscribe((shiftAmt: number) => this.pageShift(shiftAmt));
 
     merge(...this.transitionStartStreams).subscribe();
     merge(...this.transitionEndStreams).subscribe();

@@ -37,71 +37,88 @@
             <h2 class="title">{{ entry.title }}</h2>
             <p>{{ entry.subtitle }}</p>
 
-            <div class="info" *ngIf="windowHeight > 32">
+            <div *ngIf="windowHeight > 32" class="info">
               <div class="meta">
                 <ng-template #languageTooltipTemplate>
                   <h5>Languages</h5>
                   <div class="meta-icons">
                     <ng-container *ngFor="let language of entry.languages">
-                      <img [src]="language | iconUri"/>
+                      <img alt="{{ language }}" src="{{ language | iconUri }}" />
                     </ng-container>
                   </div>
                 </ng-template>
 
-                <div tooltip
-                    [template]="languageTooltipTemplate"
-                    [position]="'top'"
+                <div appTooltip
+                    *ngIf="entry.languages && entry.languages.length"
                     class="languages"
-                    *ngIf="entry.languages && entry.languages.length">
-
-                  <img src="https://img.icons8.com/color/source-code" alt="Languages" (click)="cancelClick($event)"/>
+                    position="top"
+                    [template]="languageTooltipTemplate"
+                  >
+                  <img
+                      alt="Languages"
+                      src="https://img.icons8.com/color/source-code"
+                      (click)="cancelClick($event)"
+                    />
                 </div>
 
                 <ng-template #frameworkTooltipTemplate>
                   <h5>Frameworks</h5>
                   <div class="meta-icons">
                     <ng-container *ngFor="let framework of entry.frameworks">
-                      <img [src]="framework | iconUri"/>
+                      <img alt="{{ framework }}" src="{{ framework | iconUri }}" />
                     </ng-container>
                   </div>
                 </ng-template>
 
-                <div tooltip
-                    [template]="frameworkTooltipTemplate"
-                    [position]="'top'"
+                <div appTooltip
+                    *ngIf="entry.frameworks && entry.frameworks.length"
                     class="frameworks"
-                    *ngIf="entry.frameworks && entry.frameworks.length">
-
-                  <img src="https://img.icons8.com/color/administrative-tools" alt="Frameworks" (click)="cancelClick($event)"/>
+                    position="top"
+                    [template]="frameworkTooltipTemplate"
+                  >
+                  <img
+                      alt="Frameworks"
+                      src="https://img.icons8.com/color/administrative-tools"
+                      (click)="cancelClick($event)"
+                    />
                 </div>
 
                 <ng-template #toolTooltipTemplate>
                   <h5>Tools</h5>
                   <div class="meta-icons">
                     <ng-container *ngFor="let tool of entry.tools">
-                      <img [src]="tool | iconUri"/>
+                      <img alt="{{ tool }}" src="{{ tool | iconUri }}" />
                     </ng-container>
                   </div>
                 </ng-template>
 
-                <div tooltip
-                    [template]="toolTooltipTemplate"
-                    [position]="'top'"
+                <div appTooltip
+                    *ngIf="entry.tools && entry.tools.length"
                     class="tools"
-                    *ngIf="entry.tools && entry.tools.length">
+                    position="top"
+                    [template]="toolTooltipTemplate"
+                  >
 
-                  <img src="https://img.icons8.com/color/toolbox" alt="Tools" (click)="cancelClick($event)"/>
+                  <img
+                      alt="Tools"
+                      src="https://img.icons8.com/color/toolbox"
+                      (click)="cancelClick($event)"
+                    />
                 </div>
 
               </div>
 
-              <a [href]="entry.repository" class="repo">
-                <img [src]="'github' | iconUri"/>
+              <a class="repo" href="{{ entry.repository }}">
+                <img alt="github-repo" src="{{ 'github' | iconUri }}"/>
               </a>
 
               <div class="licenses">
                 <ng-container *ngFor="let license of entry.license">
-                  <img [src]="license | iconUri" (click)="cancelClick($event)"/>
+                  <img
+                      alt="license-{{ license }}"
+                      src="{{ license | iconUri }}"
+                      (click)="cancelClick($event)"
+                    />
                 </ng-container>
               </div>
             </div>

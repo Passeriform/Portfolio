@@ -1,5 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input, HostBinding, ViewChild, TemplateRef } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { Component, OnInit, AfterViewInit, Input, HostBinding, TemplateRef } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -8,16 +7,15 @@ import { Observable } from 'rxjs';
   templateUrl: './tooltip.component.html',
   styleUrls: ['./tooltip.component.sass']
 })
-// TODO: Remove the empty line here in all files
 export class TooltipComponent implements OnInit, AfterViewInit {
-  @HostBinding('class.show') showToggle: boolean
+  @HostBinding('class.show') showToggle: boolean;
 
   // TODO: Rename to palette and infer colors
   @Input() positionType: string;
   @Input() palette: {primaryColor: string, accentColor: string};
   @Input() callerInstance: any;
   @Input() showObs: Observable<boolean>;
-  @Input() public tooltipTemplate: TemplateRef<any>
+  @Input() public tooltipTemplate: TemplateRef<any>;
 
   @HostBinding('class.top')
   get isTop() {
@@ -39,7 +37,7 @@ export class TooltipComponent implements OnInit, AfterViewInit {
     return this.callerInstance.getBoundingClientRect().left + this.callerInstance.getBoundingClientRect().width / 2;
   }
 
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor() { }
 
   ngOnInit() {
     this.showObs.subscribe((toggle) => {

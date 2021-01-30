@@ -8,7 +8,7 @@ import { SplashState, SplashStateService } from '../services/splash-state.servic
   styleUrls: ['./header.component.sass'],
 })
 export class HeaderComponent implements OnInit {
-  private SplashState = SplashState;
+  public SplashState = SplashState;
 
   @Input() logo: string;
   @Input() target: string;

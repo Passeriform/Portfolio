@@ -16,12 +16,12 @@
                 </div>
               </ng-template>
 
-              <!-- \[invert\]="true" -->
-              <div tooltip
+              <div appTooltip
+                  position="bottom"
                   [template]="tooltipTemplate"
-                  [position]="'bottom'">
+                >
 
-                  <img src="{{elem | iconUri}}"/>
+                <img alt="{{ elem }}" src="{{ elem | iconUri }}" />
               </div>
             </li>
           </ul>

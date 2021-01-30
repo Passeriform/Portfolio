@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
 
-import { FuzzyAnalyzer, FuzzySegment} from './fuzzy-analyzer';
+import { FuzzyAnalyzer } from './fuzzy-analyzer';
 
 @Component({
   selector: 'app-dynamic-search',
@@ -28,10 +27,10 @@ export class DynamicSearchComponent implements OnInit {
     this.model = this.model
       .map(entry => {
         entry.score = entry.tags
-          .map(word => {
+          .map((word: string) => {
             return this.fuzzyAnalyzer.scoreValue(word, this.queryString);
           })
-          .reduce((minScore, currScore) => {
+          .reduce((minScore: number, currScore: number) => {
             return Math.max(minScore, currScore);
           });
         return entry;

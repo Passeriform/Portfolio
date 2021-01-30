@@ -1,4 +1,4 @@
-<app-header logo="/assets/images/icons/passeriform.svg" target="/" alt="passeriform">
+<app-header alt="passeriform" logo="/assets/images/icons/passeriform.svg" target="/">
   <app-navtab>
     <a *appNavLink routerLink="/explore">Work</a>
     <a *appNavLink href="https://passeribird.blogspot.com/" target="_blank">Blog</a>
@@ -6,37 +6,41 @@
   </app-navtab>
 </app-header>
 
-<app-scrollable [fullpage]="true" [injectSplash]="true" [collapsed]="true">
-  <ng-template [ngIf]="selectedWork != null" [ngIfElse]="modelLoading">
-    <div id="description" class="page" #page>
+<app-scrollable [collapsed]="true" [fullpage]="true" [injectSplash]="true">
+  <ng-container *ngIf="selectedWork != null; else modelLoading">
+    <div class="page" id="description" #page>
       <div class="bg-img"></div>
       <div id="content">
         <app-describe [model]="selectedWork">
         </app-describe>
       </div>
     </div>
-    <div id="stack" class="page" #page>
-      <div class="bg-img"></div>
-      <app-tech-stack [model]="selectedWork | retain: 'languages':'frameworks':'tools'">
-      </app-tech-stack>
-    </div>
-    <div id="stats" class="page" #page>
+    <div class="page" id="stats" #page>
       <div class="bg-img"></div>
       <!-- <app-stats [model]="activeWork">
       </app-stats> -->
+    </div>
+    <div class="page" id="stack" #page>
+      <div class="bg-img"></div>
+      <app-tech-stack [model]="selectedWork | retain: 'languages':'frameworks':'tools'">
+      </app-tech-stack>
     </div>
     <div id="future" class="page" #page>
       <div class="bg-img"></div>
       <!-- <app-timeline [model]="activeWork">
       </app-timeline> -->
     </div>
-  </ng-template>
+  </ng-container>
 
   <ng-template #modelLoading>
     <div id="selected-placeholder">
       <div class="bg-img"></div>
       <div id="placeholder-content">
-        <h1><span>P</span>roject<br><span>E</span>xplorer.</h1>
+        <h1>
+          <span>P</span>roject
+          <br />
+          <span>E</span>xplorer.
+        </h1>
         <p>Start by clicking the top-right corner.</p>
       </div>
     </div>

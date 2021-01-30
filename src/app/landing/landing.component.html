@@ -1,4 +1,4 @@
-<app-header logo="/assets/images/icons/passeriform.svg" target="/" alt="passeriform">
+<app-header alt="passeriform" logo="/assets/images/icons/passeriform.svg" target="/">
   <app-navtab>
     <a *appNavLink routerLink="/explore">Work</a>
     <a *appNavLink href="https://passeribird.blogspot.com/" target="_blank">Blog</a>
@@ -7,11 +7,13 @@
 </app-header>
 
 <app-scrollable [fullpage]="true" [injectSplash]="true">
-  <div id="splash" class="page" #page>
+  <div class="page" id="splash" #page>
     <div class="bg-img"></div>
     <div id="live-logo">
       <h1>PASSERIFORM</h1>
-      <app-sweeper auto=true prompt="❯">
+      <!-- // WTF: Sweeper not auto-sweeping -->
+      <app-sweeper [auto]="true" leading="❯">
+        <!-- // TODO: Add sweepable directive with label for sweeped item number -->
         <p #sweepable>A pseudonym for quality.</p>
         <p #sweepable>Status: Online</p>
         <p #sweepable>Working on <code>GodWit</code></p>
@@ -27,7 +29,7 @@
           <p>&lt;Announcement list&gt;</p>
         </div>
         <div *appCaged="'Tracker'">
-          <p>&lt;Tracker component&gt;</p>
+          <app-update-roll></app-update-roll>
         </div>
         <div *appCaged="'Todolist'">
           <p>&lt;Synced github todolist&gt;</p>
@@ -36,7 +38,7 @@
     </div>
   </div>
 
-  <div id="dir-view" class="page" #page>
+  <div class="page" id="dir-view" #page>
     <div class="bg-img"></div>
   </div>
 </app-scrollable>

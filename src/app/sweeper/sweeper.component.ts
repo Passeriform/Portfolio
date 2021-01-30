@@ -10,24 +10,24 @@ import { interval } from 'rxjs';
 export class SweeperComponent implements AfterContentInit {
   private inViewIndex = 0;
 
-  @Input() prompt: string;
+  @Input() leading: boolean;
+  @Input() auto: boolean;
 
   @ContentChildren('sweepable') swipeList: QueryList<any>;
 
   constructor(private sanitizer: DomSanitizer) {
-    interval(5000).subscribe(() => {
-      this.inViewIndex = (this.inViewIndex + 1) % this.swipeList.length;
-    });
+    if (this.auto) {
+      interval(5000).subscribe(() => {
+        this.inViewIndex = (this.inViewIndex + 1) % this.swipeList.length;
+      });
+    }
   }
 
-  ngAfterContentInit() {
-
-  }
+  ngAfterContentInit() { }
 
   get swipeTranform(): SafeStyle {
     const factor: number = 100 / this.swipeList.length;
     const styleString = `translateY(-${factor * this.inViewIndex}%) translateY(-0.5em)`;
     return this.sanitizer.bypassSecurityTrustStyle(styleString);
   }
-
 }

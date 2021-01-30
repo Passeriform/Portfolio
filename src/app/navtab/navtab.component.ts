@@ -22,7 +22,7 @@ export class NavtabComponent implements OnInit {
     this.splashStateService.splashState$.subscribe(
       splashState => {
         this.splashState = splashState;
-        this.shrinkFix = splashState != SplashState.Focussed;
+        this.shrinkFix = splashState !== SplashState.Focussed;
       });
   }
 

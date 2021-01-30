@@ -1,10 +1,10 @@
 <input
-			type="text"
-			name="filter"
-			[(ngModel)]="queryString"
-			(ngModelChange)="applyFilter()"
-			placeholder="Filter by keywords...."
-			(click)="$event.stopPropagation()"
 			autofocus
 			class="filter"
+			name="filter"
+			placeholder="Filter by keywords...."
+			type="text"
+			[(ngModel)]="queryString"
+			(ngModelChange)="applyFilter()"
+			(click)="$event.stopPropagation()"
 		/>

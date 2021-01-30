@@ -6,11 +6,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class RetainPipe implements PipeTransform {
 
   transform(inObject: object, ...keepProps: string[]): any {
-    let newObject = {}
+    const newObject = {};
 
-    Object.entries(inObject).forEach(([key, value]) => {
+    Object.entries(inObject).forEach(([key, _]) => {
       if (keepProps.includes(key)) {
-        newObject[key] = inObject[key]
+        newObject[key] = inObject[key];
       }
     });
 

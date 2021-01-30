@@ -12,15 +12,5 @@ export class TechStackComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
-  showTooltip(elem: string) {
-    this.tooltipShownFor = elem;
-  }
-
-  unsetTooltip() {
-    this.tooltipShownFor = null;
-  }
-
+  ngOnInit() { }
 }
