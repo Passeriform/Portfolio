@@ -1,5 +1,4 @@
 // TODO: Handle mouseover observable in directive
-// TODO: Use component caching with destroyTimeout.
 import {
   Directive,
   Injector,
@@ -73,5 +72,10 @@ export class TooltipDirective {
     const domElem = (this.componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
     // NOTE: Kept on top of stacking to avoid z-index collisions
     document.body.appendChild(domElem);
+  }
+
+  /* tslint:disable-next-line:use-lifecycle-interface */
+  ngOnDestroy() {
+    this.componentRef.destroy();
   }
 }
