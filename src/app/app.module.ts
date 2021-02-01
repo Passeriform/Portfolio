@@ -57,6 +57,7 @@ import { SplashStateService } from './services/splash-state.service';
 import { TaggerService } from './services/tagger.service';
 import { WorkService } from './services/work.service';
 import { LoaderService } from './services/loader.service';
+import { GithubService } from './services/github.service';
 
 /// Pipes
 import { IconUriPipe } from './icon-uri.pipe';
@@ -125,6 +126,7 @@ import { MapExternalPipe } from './map-external.pipe';
     TaggerService,
     WorkService,
     LoaderService,
+    GithubService,
   ],
   bootstrap: [AppComponent]
 })
