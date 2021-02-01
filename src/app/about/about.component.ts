@@ -52,12 +52,6 @@ export class AboutComponent implements OnInit, AfterViewInit {
       if (this.model === undefined) {
         this.router.navigate(['/about']);
       }
-
-      if (this.model.contributors !== undefined) {
-        this.model.contributors.map(contributor => {
-          contributor.showToggle = false;
-        });
-      }
     });
   }
 
