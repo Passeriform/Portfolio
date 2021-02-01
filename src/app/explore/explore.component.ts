@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { WorkModel } from './work.interface';
+
 import { LoaderService } from '../services/loader.service';
 import { WorkService } from '../services/work.service';
 
@@ -9,9 +11,8 @@ import { WorkService } from '../services/work.service';
   templateUrl: './explore.component.html',
   styleUrls: ['./explore.component.sass']
 })
-
 export class ExploreComponent implements OnInit, AfterViewInit {
-  public selectedWork: object;
+  public selectedWork: WorkModel;
   public marker: string;
 
   constructor(

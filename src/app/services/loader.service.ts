@@ -29,9 +29,11 @@ export class LoaderService {
 
   constructor() { }
 
-  bindLoadJob(label: string, observer: Observable<any>) {
+  bindLoadJob(label: string, observer: Observable<boolean>) {
     this.beginLoading(label);
-    observer.subscribe((_) => this.endLoading(label));
+    observer.subscribe((value) => {
+      if (value === false) { this.endLoading(label); }
+    });
   }
 
   beginLoading(label: string) {

@@ -9,14 +9,15 @@ import { LoaderService } from '../services/loader.service';
 
 import { Constants } from '../common/global';
 
+import { AboutModel } from './about.interface';
+
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.sass']
 })
 export class AboutComponent implements OnInit, AfterViewInit {
-  // TODO: Define the model for about content in separate interface.
-  public model: any;
+  public model: AboutModel;
   private subject: string;
 
   constructor(
@@ -37,7 +38,7 @@ export class AboutComponent implements OnInit, AfterViewInit {
 
     this.loaderService.beginLoading('[http] about');
 
-    this.http.get(`${Constants.API_URL}/about/${this.subject}`)
+    this.http.get<AboutModel>(`${Constants.API_URL}/about/${this.subject}`)
     .pipe(
       catchError((error) => {
         console.log('ErrorService triggered error.');

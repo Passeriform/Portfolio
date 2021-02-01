@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+import { WorkModel } from '../explore/work.interface';
+
 import { TaggerService } from '../services/tagger.service';
 import { LoaderService } from '../services/loader.service';
 
@@ -11,10 +13,10 @@ import { Constants } from '../common/global';
 
 @Injectable()
 export class WorkService {
-  private workFilterSource = new BehaviorSubject<(_: any) => boolean>((_) => true);
-  private workCacheSource = new BehaviorSubject<Array<any>>([]);
-  private workActiveSource = new BehaviorSubject<Array<any>>([]);
-  private workSelectedSource = new BehaviorSubject<object>(null);
+  private workFilterSource = new BehaviorSubject<(_: WorkModel) => boolean>((_) => true);
+  private workCacheSource = new BehaviorSubject<WorkModel[]>([]);
+  private workActiveSource = new BehaviorSubject<WorkModel[]>([]);
+  private workSelectedSource = new BehaviorSubject<WorkModel>(null);
 
   workFilterState$ = this.workFilterSource.asObservable();
   workCacheState$ = this.workCacheSource.asObservable();
@@ -25,15 +27,15 @@ export class WorkService {
     this.refreshCache();
   }
 
-  setActive(model: Array<any>) {
+  setActive(model: WorkModel[]) {
     this.workActiveSource.next(model);
   }
 
-  setSelected(model: object) {
+  setSelected(model: WorkModel) {
     this.workSelectedSource.next(model);
   }
 
-  setFilter(comparator: (_: any) => boolean) {
+  setFilter(comparator: (_: WorkModel) => boolean) {
     this.workFilterSource.next(comparator);
   }
 
@@ -52,7 +54,7 @@ export class WorkService {
 
     const callURL = `${Constants.API_URL}/work`;
 
-    this.http.get<Array<any>>(callURL)
+    this.http.get<WorkModel[]>(callURL)
     .pipe(
       catchError((error) => {
         console.log('ErrorService triggered error.');
@@ -64,12 +66,6 @@ export class WorkService {
 
       this.loaderService.beginLoading('[prepare] work');
       model = this.tagger.appendTags(model);
-
-      model.map(entry => {
-        entry.showLanguagesTooltip = false;
-        entry.showFrameworksTooltip = false;
-        entry.showToolsTooltip = false;
-      });
 
       this.workCacheSource.next(model);
 

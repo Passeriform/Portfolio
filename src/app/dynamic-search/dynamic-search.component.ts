@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
+import { WordScore } from './dynamic-search.interface';
+
 import { FuzzyAnalyzer } from './fuzzy-analyzer';
 
 @Component({
@@ -9,9 +11,8 @@ import { FuzzyAnalyzer } from './fuzzy-analyzer';
   providers: [ FuzzyAnalyzer ]
 })
 export class DynamicSearchComponent implements OnInit {
-  // TODO: Define the model for dynamic search in separate interface.
-  @Input() model: Array<any>;
-  @Output() propagate: EventEmitter<any> = new EventEmitter();
+  @Input() model: WordScore[];
+  @Output() propagate: EventEmitter<WordScore[]> = new EventEmitter();
 
   public queryString: string;
 
@@ -23,7 +24,7 @@ export class DynamicSearchComponent implements OnInit {
   }
 
   public applyFilter(): void {
-    if ( ! this.queryString ) { return; }
+    if ( !this.queryString ) { return; }
 
     this.model = this.model
       .map(entry => {

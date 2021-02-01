@@ -13,7 +13,7 @@ export class TooltipComponent implements OnInit, AfterViewInit {
   // TODO: Rename to palette and infer colors
   @Input() positionType: string;
   @Input() palette: {primaryColor: string, accentColor: string};
-  @Input() callerInstance: any;
+  @Input() callerInstance: HTMLElement;
   @Input() showObs: Observable<boolean>;
   @Input() public tooltipTemplate: TemplateRef<any>;
 

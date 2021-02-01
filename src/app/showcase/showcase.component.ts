@@ -1,6 +1,8 @@
 import { Component, OnInit, HostListener, Input, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { WorkModel } from '../explore/work.interface';
+
 import { WorkService } from '../services/work.service';
 
 @Component({
@@ -8,9 +10,8 @@ import { WorkService } from '../services/work.service';
   templateUrl: './showcase.component.html',
   styleUrls: ['./showcase.component.sass'],
 })
-
 export class ShowcaseComponent implements OnInit {
-  public model: Array<any>;
+  public model: WorkModel[];
   public windowHeight: number;
 
   @Input() private preloadMarker: string;
@@ -50,7 +51,7 @@ export class ShowcaseComponent implements OnInit {
     });
   }
 
-  setSelected(entry: object) {
+  setSelected(entry: WorkModel) {
     this.workService.setSelected(entry);
   }
 

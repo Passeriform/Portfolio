@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
 
+import { WorkModel } from '../explore/work.interface';
+
 import { nonKeywords } from '../common/global';
 
 @Injectable()
 export class TaggerService {
   constructor() { }
 
-  getKeywords(textstr: string): Array<string> {
+  getKeywords(textstr: string): string[] {
     const keyArr = textstr.split(/[\s,:/\\?\-;\(\).']+/);
     return keyArr.filter(key => {
       return !nonKeywords.includes(key.toLowerCase()) && key !== '';
     });
   }
 
-  appendTags(modelList: Array<any>) {
+  appendTags(modelList: WorkModel[]) {
     modelList.map(model => {
       model.tags.push(
         model.type,

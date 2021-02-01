@@ -7,7 +7,6 @@ import { LoaderService } from '../services/loader.service';
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.sass'],
 })
-
 export class LandingComponent implements OnInit, AfterViewInit {
   constructor(private loaderService: LoaderService) {
     this.loaderService.beginLoading('[page] load');

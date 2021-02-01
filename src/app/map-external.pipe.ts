@@ -5,6 +5,8 @@ import { map, catchError } from 'rxjs/operators';
 
 import { registry, EntityIdentifier } from './common/global';
 
+import { WikiResponseModel } from './common/wiki.interface';
+
 @Pipe({
   name: 'mapExternal'
 })
@@ -45,9 +47,10 @@ action=query
     // TODO: Consider switching to google search results and picking the first result instead
     // TODO: Fix 404 on search results
 
-    return this.http.get<any>(callUrl).pipe(
+    return this.http.get<WikiResponseModel>(callUrl).pipe(
       map((response) => {
-        const page = (response.query ? response.query.pages : null || [{}])[0];
+        const page = response.query.pages[0];
+
         const title = page.title || '';
         const description = page.description || '';
         const href = page.fullurl || '#';

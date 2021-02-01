@@ -8,6 +8,7 @@ import {
   ApplicationRef,
   ElementRef,
   TemplateRef,
+  ComponentRef,
   ViewContainerRef,
   EmbeddedViewRef,
 } from '@angular/core';
@@ -21,7 +22,7 @@ import { TooltipComponent } from './tooltip.component';
 })
 export class TooltipDirective {
   public showTooltip$ = new BehaviorSubject<boolean>(false);
-  private componentRef: any;
+  private componentRef: ComponentRef<any>;
 
   @Input() position = 'bottom';
   @Input() template: TemplateRef<any>;

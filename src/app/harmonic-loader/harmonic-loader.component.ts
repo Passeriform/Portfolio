@@ -2,6 +2,8 @@
 // TODO: Required a huge makeover (canvas-style animations do not mesh well with Angular-style ones)
 import { Component, ElementRef, AfterViewInit, ViewChild, HostListener } from '@angular/core';
 
+import { LoaderConfig } from './loader.interface';
+
 import { LoadingState, LoadingJob, LoaderService } from '../services/loader.service';
 
 import { drawDot, getDotsPos, getInPhase, generateLoaderConfig } from '../common/canvas-utils';
@@ -21,8 +23,7 @@ export class HarmonicLoaderComponent implements AfterViewInit {
   // NOTE: Guard variable (remove for cleanliness later)
   public animationRunning = false;
 
-  // TODO: Define the model for loaderConfig in separate interface.
-  public loaderConfig: any;
+  public loaderConfig: LoaderConfig;
   public dotsPos: number[];
 
   public context: CanvasRenderingContext2D;
