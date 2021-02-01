@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { GithubEvent, GithubService } from '../services/github.service';
+import { GithubEvent } from '../common/github.interface';
+
+import { GithubService } from '../services/github.service';
 
 @Component({
   selector: 'app-update-roll',

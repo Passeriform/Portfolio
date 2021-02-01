@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { GitHubEventModel } from '../common/github.interface';
+import { GithubEvent } from '../common/github.interface';
 
 @Injectable()
 export class GithubService {
