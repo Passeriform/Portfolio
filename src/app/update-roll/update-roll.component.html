@@ -1,0 +1,33 @@
+<ng-container *ngFor="let entry of updates">
+  <div class="brief" (click)="toggleDetails(entry)">
+    <ng-template #tooltipTemplate>
+      <code class="type-desc">{{ entry.type }}</code>
+    </ng-template>
+
+    <div appTooltip
+        class="badge"
+        position="top"
+        [template]="tooltipTemplate"
+      >
+      <app-badge [name]="entry.type"></app-badge>
+    </div>
+
+    <div class="repo">
+      <a href="{{ entry.repo.url }}">{{ entry.repo.name }}</a>
+    </div>
+    <!-- <div class="org">
+      <p> {{ entry.org }} </p>
+    </div>
+    <div class="message">
+      <p> {{ entry.message | ellipsis }} </p>
+    </div> -->
+  </div>
+
+  <!-- <div *ngIf="entry.expand" class="details">
+    <div *ngFor="let commit of entry.history" #page>
+      <p *ngIf="commitMessage">{{ commit.message }}</p>
+      <p *ngIf="commitDetails">{{ commit.details }}</p>
+      <p *ngIf="relatedIssues">{{ commit.relatedIssues }}</p>
+    </div>
+  </div> -->
+</ng-container>
