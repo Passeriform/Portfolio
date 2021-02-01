@@ -40,122 +40,111 @@ export const Constants = {
 }
 
 export enum WType {
-  product,
-  project,
-  misc
+  product = 'product',
+  project = 'project',
+  misc = 'misc'
 }
 
 export enum License {
-  gpl3 = 3,
-  apache2,
-  mit,
-  free
+  gpl3 = 'gpl3',
+  apache2 = 'apache2',
+  mit = 'mit',
+  free = 'free'
 }
 
 export enum Language {
-  c = 7,
-  cpp,
-  java,
-  javascript,
-  typescript,
-  python,
-  go,
-  rust,
-  ruby,
-  shell,
-  solidity,
-  php,
-  lua,
-  elua,
-  assemblyx86,
-  bash,
-  batch,
-  qt4
+  c = 'c',
+  cpp = 'cpp',
+  java = 'java',
+  javascript = 'javascript',
+  typescript = 'typescript',
+  python = 'python',
+  go = 'go',
+  rust = 'rust',
+  ruby = 'ruby',
+  shell = 'shell',
+  solidity = 'solidity',
+  php = 'php',
+  lua = 'lua',
+  elua = 'elua',
+  assemblyx86 = 'assemblyx86',
+  bash = 'bash',
+  batch = 'batch',
+  qt4 = 'qt4'
 }
 
 export enum Framework {
-  crossterm = 25,
-  zmq,
-  yacc,
-  lex,
-  boost,
-  rabbitmq,
-  react,
-  rxjs,
-  mathjax,
-  django,
-  flask,
-  sympy,
-  numpy,
-  pygame,
-  unreal,
-  libglass,
-  cuda,
-  blas,
-  angular,
-  sass,
-  truffle,
-  ethereum,
-  rst,
-  arduino,
-  ffmpeg,
-  libav,
-  pytorch,
-  opencv,
-  airsim,
-  googleapi,
-  quovo,
-  imlib,
-  webgl,
-  praw,
+  crossterm = 'crossterm',
+  zmq = 'zmq',
+  yacc = 'yacc',
+  lex = 'lex',
+  boost = 'boost',
+  rabbitmq = 'rabbitmq',
+  react = 'react',
+  rxjs = 'rxjs',
+  mathjax = 'mathjax',
+  django = 'django',
+  flask = 'flask',
+  sympy = 'sympy',
+  numpy = 'numpy',
+  pygame = 'pygame',
+  unreal = 'unreal',
+  libglass = 'libglass',
+  cuda = 'cuda',
+  blas = 'blas',
+  angular = 'angular',
+  sass = 'sass',
+  truffle = 'truffle',
+  ethereum = 'ethereum',
+  rst = 'rst',
+  arduino = 'arduino',
+  ffmpeg = 'ffmpeg',
+  libav = 'libav',
+  pytorch = 'pytorch',
+  opencv = 'opencv',
+  airsim = 'airsim',
+  googleapi = 'googleapi',
+  quovo = 'quovo',
+  imlib = 'imlib',
+  webgl = 'webgl',
+  praw = 'praw',
 }
 
 export enum Tool {
-  cargo = 59,
-  man,
-  cmake,
-  make,
-  ganache,
-  latex,
-  photoshop,
-  illustrator,
-  ghpages,
-  blender,
-  dex,
+  cargo = 'cargo',
+  man = 'man',
+  cmake = 'cmake',
+  make = 'make',
+  ganache = 'ganache',
+  latex = 'latex',
+  photoshop = 'photoshop',
+  illustrator = 'illustrator',
+  ghpages = 'ghpages',
+  blender = 'blender',
+  dex = 'dex',
 }
 
 export enum Social {
-  email = 70,
-  gmail,
-  github,
-  gitlab,
-  linkedin,
-  dribble,
-  instagram,
-  facebook,
-  twitter,
-  pinterest,
+  email = 'email',
+  gmail = 'gmail',
+  github = 'github',
+  gitlab = 'gitlab',
+  linkedin = 'linkedin',
+  dribble = 'dribble',
+  instagram = 'instagram',
+  facebook = 'facebook',
+  twitter = 'twitter',
+  pinterest = 'pinterest',
 }
 
-export interface Project {
-  type: WType;
-  route: string;
-  title: string;
-  description: string;
-  license: Array<License>;
-  repository: string;
-  languages: Array<Language>;
-  frameworks: Array<Framework>;
-  tools: Array<Tool>;
-  tags: Array<string>;
-  children: Array<string>;
-  dependency: Array<string>;
 }
 
-export type EntityIdentifier = WType | License | Language | Framework | Tool | Social;
+// NOTE: Only used as a union type for all icon-registry based operations.
+export type EntityIdentifier = WType | License | Language | Framework | Tool | Social | GhEvent;
 
-export const EntityIdentifier = { ...WType, ...License, ...Language, ...Framework, ...Tool, ...Social };
-
+// NOTE: Enums are combined the way they are to provide pseudo-hashmaps,
+// which can be iterated over easily by pipes like iconUri.
+export const EntityIdentifier = { ...WType, ...License, ...Language, ...Framework, ...Tool, ...Social, ...GhEvent };
 
 interface EntityRegistry {
   // Casual identifier
