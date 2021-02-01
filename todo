@@ -1,6 +1,20 @@
+☐ Requires a complete project heirarchy makeover for functional first operation
+☐ Remove occurances of `any` type
+☐ Rename all directive selectors from `app` to `manakin`
+☐ Abstract all modifiable options in components to extra input variables
+☐ Remove redundant [] in templates
+☐ Replace undefined check with ?.
+☐ Check if apptooltip can use asterisk syntax
+☐ Add function return type hints
+☐ Upgrade project to Angular 10
+☐ Convert explicit type checks to typescript null safety operators
+☐ Fix lazily written interfaces
+☐ Rename interfaces and its files based on best practices
+☐ Replace all occurances of Array with [] and object with interfaces
+
 Code
-  ☐ Remove all jquery occurrences
   ☐ Fix animation timing and elasticity
+  ☐ Add ErrorService and 404 server pages
 
 Meta
   ☐ Add screenshots and logos to all projects
@@ -29,12 +43,17 @@ Feature
   ☐ Footer component
   ☐ Full working directory visualized component
   ☐ Add screenshot slideshow
+  ☐ Create slideshow component
+    ☐ Add progress navigator bar on top
+      ☐ Navigator bar must show as a line even under the leaf (use clip-path)
 
 Component level fix
+  ☐ scrollable - add support for nested scroll
   ☐ pivotnav - close on outer-wrapper click
   ☐ pivotnav - pass number of items in sass to ts
   ☐ pivotnav - dynamic model based (look into raise-card querylist)
   ☐ scrollable - dynamic page change based on scroll delta
+  ☐ scrollable - change templateRef contentChildren approach to directives like navtab
   ☐ about - fix overflow on landscape view
   ☐ about - add default values and images
   ☐ tree - complete alterRoute function
@@ -42,6 +61,11 @@ Component level fix
   ☐ navtab - responsive navtab collapse on mobile to hamburgerish
   ☐ spinner - replace with different animation
   ☐ tooltip - fix ugly hack for dynamic icon size
+  ☐ cagegrid - expand box on click and focus; blur background
+  ☐ tooltip - Needs `PaletteService` to use dynamic styling.
+  ☐ tooltip - Needs a proper destructor (issues with router navigation).
+  ☐ tooltip - Needs clarity on the need of a dynamic styling service.
+  ☐ tooltip - Needs confirmation if the component must be added to `body`
 
 IRL
   ☐ Commission backgrounds
