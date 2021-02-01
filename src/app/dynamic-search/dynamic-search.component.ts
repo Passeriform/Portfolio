@@ -9,6 +9,7 @@ import { FuzzyAnalyzer } from './fuzzy-analyzer';
   providers: [ FuzzyAnalyzer ]
 })
 export class DynamicSearchComponent implements OnInit {
+  // TODO: Define the model for dynamic search in separate interface.
   @Input() model: Array<any>;
   @Output() propagate: EventEmitter<any> = new EventEmitter();
 

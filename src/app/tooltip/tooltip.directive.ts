@@ -1,4 +1,3 @@
-// TODO: Handle mouseover observable in directive
 import {
   Directive,
   Injector,
@@ -71,6 +70,8 @@ export class TooltipDirective {
 
     const domElem = (this.componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
     // NOTE: Kept on top of stacking to avoid z-index collisions
+    // TODO: Consider packing all tooltips in a div element
+    // and attaching more on there to keep DOM clean.
     document.body.appendChild(domElem);
   }
 

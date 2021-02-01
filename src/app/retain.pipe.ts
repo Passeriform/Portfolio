@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class RetainPipe implements PipeTransform {
 
-  transform(inObject: object, ...keepProps: string[]): any {
+  transform(inObject: object, ...keepProps: string[]): object {
     const newObject = {};
 
     Object.entries(inObject).forEach(([key, _]) => {

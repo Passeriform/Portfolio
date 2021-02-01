@@ -16,7 +16,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
   private scrollTolerance = 0.1; // scroll sensitivity
   private touchTolerance = 0.1; // swipe distance in pixels
 
-  @ContentChildren('page') items: QueryList<any>;
+  @ContentChildren('page') items: QueryList<HTMLElement>;
 
   @Input() injectSplash: boolean;
   @Input() collapsed: boolean;
@@ -40,12 +40,12 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
 
   private transitionStartStreams = this.transitionStarts.map(event =>
     fromEvent(this.hostElement.nativeElement, event).pipe(
-      filter((evt: any) => evt.target === this.hostElement.nativeElement)
+      filter((evt: Event) => evt.target === this.hostElement.nativeElement)
     )
   );
   private transitionEndStreams = this.transitionEnds.map(event =>
     fromEvent(this.hostElement.nativeElement, event).pipe(
-      filter((evt: any) => evt.target === this.hostElement.nativeElement)
+      filter((evt: Event) => evt.target === this.hostElement.nativeElement)
     )
   );
 
@@ -116,7 +116,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
   ngAfterContentInit() {
     this.scrollStream = fromEvent(this.hostElement.nativeElement, 'wheel')
       .pipe(
-        map((nextEvent: any) => (this.horizontal) ? nextEvent.deltaX : nextEvent.deltaY),
+        map((nextEvent: MouseWheelEvent) => (this.horizontal) ? nextEvent.deltaX : nextEvent.deltaY),
         filter(difference => (difference >= this.scrollTolerance) || (difference <= -this.scrollTolerance)),
         conditionalThrottle(this.throttle === 0, this.throttle),
       );

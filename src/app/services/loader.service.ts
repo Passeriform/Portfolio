@@ -57,7 +57,7 @@ export class LoaderService {
   }
 
   setAnimationStart(labels: string | string[]) {
-    // Guard for unnecesssary state updates (Remove if not required)
+    // NOTE: Guard for unnecesssary state updates (Remove if not required)
     if (labels === undefined) {
       return;
     }

@@ -158,11 +158,18 @@ export const EntityIdentifier = { ...WType, ...License, ...Language, ...Framewor
 
 
 interface EntityRegistry {
+  // Casual identifier
   identifier: EntityIdentifier;
+  // Detailed description
   description?: string;
+  // Corresponding title on wikipedia used for caching of sorts
+  // Identifier is not quite robust to select the correct entity
+  // Specifically for Wikipedia API usage
+  // Eliminates usage fo the `search` endpoint
   wikiTitle?: string;
+  // Icon URL for entity, either locally server or externally handled
+  // NOTE: Must maintain in case of external URL downtime
   iconUrl?: string;
-  href?: string;
 }
 
 export const registry: Array<EntityRegistry> = [

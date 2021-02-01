@@ -18,9 +18,10 @@ export class HarmonicLoaderComponent implements AfterViewInit {
   public animStartFrame: number;
   public retarder = 0;
 
-  // Guard variable (remove for cleanliness later)
+  // NOTE: Guard variable (remove for cleanliness later)
   public animationRunning = false;
 
+  // TODO: Define the model for loaderConfig in separate interface.
   public loaderConfig: any;
   public dotsPos: number[];
 

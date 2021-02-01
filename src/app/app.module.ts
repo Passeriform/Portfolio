@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+// TODO: Split directives into funtional modules.
+
 /// Routable Pages
 import { LandingComponent } from './landing/landing.component';
 import { ExploreComponent } from './explore/explore.component';
