@@ -38,6 +38,8 @@ import { RaisecardComponent } from './raisecard/raisecard.component';
 // Landing
 import { SweeperComponent } from './sweeper/sweeper.component';
 
+import { BadgeComponent } from './badge/badge.component';
+
 // Explore
 import { ShowcaseComponent } from './showcase/showcase.component';
 
@@ -107,6 +109,8 @@ import { MapExternalPipe } from './map-external.pipe';
     DynamicSearchComponent,
 
     SocialGlyphsComponent,
+
+    BadgeComponent,
 
     RaisecardComponent,
 

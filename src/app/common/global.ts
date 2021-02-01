@@ -137,6 +137,15 @@ export enum Social {
   pinterest = 'pinterest',
 }
 
+export enum GhEvent {
+  CreateEvent = 'CreateEvent',
+  DeleteEvent = 'DeleteEvent',
+  ForkEvent = 'ForkEvent',
+  IssuesEvent = 'IssuesEvent',
+  PullRequestEvent = 'PullRequestEvent',
+  PushEvent = 'PushEvent',
+  ReleaseEvent = 'ReleaseEvent',
+  WatchEvent = 'WatchEvent',
 }
 
 // NOTE: Only used as a union type for all icon-registry based operations.
@@ -162,6 +171,15 @@ interface EntityRegistry {
 }
 
 export const registry: Array<EntityRegistry> = [
+  {identifier: GhEvent.CreateEvent, iconUrl: '/assets/images/icons/gh-create.png'},
+  {identifier: GhEvent.DeleteEvent, iconUrl: '/assets/images/icons/gh-delete.png'},
+  {identifier: GhEvent.ForkEvent, iconUrl: '/assets/images/icons/gh-fork.png'},
+  {identifier: GhEvent.IssuesEvent, iconUrl: 'https://simpleicons.org/icons/gh-issue.svg'},
+  {identifier: GhEvent.PullRequestEvent, iconUrl: '/assets/images/icons/gh-pr.png'},
+  {identifier: GhEvent.PushEvent, iconUrl: '/assets/images/icons/gh-push.png'},
+  {identifier: GhEvent.ReleaseEvent, iconUrl: '/assets/images/icons/gh-release.png'},
+  {identifier: GhEvent.WatchEvent, iconUrl: '/assets/images/icons/gh-watch.png'},
+
   {identifier: WType.product, iconUrl: 'https://img.icons8.com/product'},
   {identifier: WType.project, iconUrl: 'https://img.icons8.com/project'},
   {identifier: WType.misc, iconUrl: 'https://img.icons8.com/lab-items'},
