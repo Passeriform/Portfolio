@@ -74,7 +74,6 @@ import { MapExternalPipe } from './map-external.pipe';
     AppRoutingModule,
     HttpClientModule
   ],
-  entryComponents: [TooltipComponent],
   declarations: [
     AppComponent,
 
