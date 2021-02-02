@@ -38,14 +38,14 @@ export class ShowcaseComponent implements OnInit {
     }
 
   ngOnInit() {
-    if (this.preloadMarker !== '') {
+    if (this.preloadMarker) {
       this.workService.setFilter((entity) => entity.type === this.preloadMarker);
     }
 
     this.workService.workActiveState$.subscribe((model) => {
       this.model = model;
 
-      if (this.model === undefined) {
+      if (!this.model) {
         this.router.navigate(['/explore']);
       }
     });

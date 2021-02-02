@@ -32,7 +32,7 @@ export class LoaderService {
   bindLoadJob(label: string, observer: Observable<boolean>) {
     this.beginLoading(label);
     observer.subscribe((value) => {
-      if (value === false) { this.endLoading(label); }
+      if (value) { this.endLoading(label); }
     });
   }
 
@@ -60,7 +60,7 @@ export class LoaderService {
 
   setAnimationStart(labels: string | string[]) {
     // NOTE: Guard for unnecesssary state updates (Remove if not required)
-    if (labels === undefined) {
+    if (!labels) {
       return;
     }
 
@@ -82,8 +82,9 @@ export class LoaderService {
   }
 
   flushJobs(labels?: string | string[]) {
-    // Flush all jobs if no label supplied (SQL-style)
-    if (labels === undefined || (Array.isArray(labels) && labels.length === 0)) {
+    // Flush all jobs if no label supplied
+    if (!labels || (Array.isArray(labels) && !labels.length)) {
+      // If value not truthy or labels is an empty array
       this.loadingJobsSource.next([]);
       return;
     }
@@ -107,7 +108,7 @@ export class LoaderService {
     }
 
     return true;
-    // return this.loadingJobsSource.value.length === 0;
+    // return !this.loadingJobsSource.value.length;
   }
 
   setLoadingProgress(label: string, progress: number) {

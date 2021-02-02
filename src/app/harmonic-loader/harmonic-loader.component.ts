@@ -64,7 +64,7 @@ export class HarmonicLoaderComponent implements AfterViewInit {
             );
 
         // Only trigger when new labels are found to be queued
-        if (Array.isArray(initiationLabels) && initiationLabels.length !== 0) {
+        if (Array.isArray(initiationLabels) && initiationLabels.length) {
           this.loaderService.setAnimationStart(initiationLabels);
 
           // Only triggers when jobs aren't all loaded and animation is not running
@@ -98,7 +98,7 @@ export class HarmonicLoaderComponent implements AfterViewInit {
   }
 
   tick = (timestamp: number) => {
-    if (this.animStartFrame === undefined) {
+    if (!this.animStartFrame) {
       this.animStartFrame = timestamp;
     }
 
@@ -149,7 +149,7 @@ export class HarmonicLoaderComponent implements AfterViewInit {
   }
 
   resolveDots = (timestamp: number) => {
-    if (this.animStartFrame === undefined) {
+    if (!this.animStartFrame) {
       this.animStartFrame = timestamp;
     }
 

@@ -25,7 +25,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.marker = this.route.snapshot.data.marker || '';
+    this.marker = this.route.snapshot.data.marker ?? '';
 
     this.workService.workSelectedState$.subscribe((entity) => {
       this.selectedWork = entity;

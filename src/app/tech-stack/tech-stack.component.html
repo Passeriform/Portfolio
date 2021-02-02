@@ -1,7 +1,7 @@
 <div class="content">
   <app-cage-grid>
     <div *ngFor="let attrib of model | keyvalue">
-      <ng-container *ngIf="attrib.value.length > 0">
+      <ng-container *ngIf="attrib.value.length">
         <div *appCaged="attrib.key" class="model-attr">
           <ul>
             <li *ngFor="let elem of attrib.value">

@@ -11,7 +11,7 @@ export class TaggerService {
   getKeywords(textstr: string): string[] {
     const keyArr = textstr.split(/[\s,:/\\?\-;\(\).']+/);
     return keyArr.filter(key => {
-      return !nonKeywords.includes(key.toLowerCase()) && key !== '';
+      return key && !nonKeywords.includes(key.toLowerCase());
     });
   }
 
@@ -19,13 +19,13 @@ export class TaggerService {
     modelList.map(model => {
       model.tags.push(
         model.type,
-        ...(this.getKeywords(model.title || '') || []),
-        ...(this.getKeywords(model.subtitle || '') || []),
-        ...(this.getKeywords(model.description || '') || []),
-        ...(model.license || []),
-        ...(model.languages || []),
-        ...(model.frameworks || []),
-        ...(model.tools || [])
+        ...(this.getKeywords(model.title ?? '')),
+        ...(this.getKeywords(model.subtitle ?? '')),
+        ...(this.getKeywords(model.description ?? '')),
+        ...(model.license ?? []),
+        ...(model.languages ?? []),
+        ...(model.frameworks ?? []),
+        ...(model.tools ?? [])
       );
     });
     return modelList;

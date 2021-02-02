@@ -13,7 +13,7 @@
           #cardscroller
         >
         <app-raisecard
-            *ngIf="model === undefined || !model.length"
+            *ngIf="!(model?.length)"
             [style.cursor]="'pointer'"
             [style.height.em]="windowHeight < 32 ? 11.5 : 22"
             #page
@@ -49,7 +49,7 @@
                 </ng-template>
 
                 <div appTooltip
-                    *ngIf="entry.languages && entry.languages.length"
+                    *ngIf="entry.languages?.length"
                     class="languages"
                     position="top"
                     [template]="languageTooltipTemplate"
@@ -71,7 +71,7 @@
                 </ng-template>
 
                 <div appTooltip
-                    *ngIf="entry.frameworks && entry.frameworks.length"
+                    *ngIf="entry.frameworks?.length"
                     class="frameworks"
                     position="top"
                     [template]="frameworkTooltipTemplate"
@@ -93,7 +93,7 @@
                 </ng-template>
 
                 <div appTooltip
-                    *ngIf="entry.tools && entry.tools.length"
+                    *ngIf="entry.tools?.length"
                     class="tools"
                     position="top"
                     [template]="toolTooltipTemplate"

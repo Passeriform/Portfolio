@@ -33,7 +33,7 @@ export class AboutComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.subject = params.get('subject') || 'passeriform';
+      this.subject = params.get('subject') ?? 'passeriform';
     });
 
     this.loaderService.beginLoading('[http] about');
@@ -50,7 +50,7 @@ export class AboutComponent implements OnInit, AfterViewInit {
 
       this.loaderService.endLoading('[http] about');
 
-      if (this.model === undefined) {
+      if (!this.model) {
         this.router.navigate(['/about']);
       }
     });

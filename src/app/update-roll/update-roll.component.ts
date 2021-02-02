@@ -34,7 +34,6 @@ loadMore(after: number) {
   }
 
 toggleDetails(entry: GithubEvent & { expand: boolean }) {
-    entry.expand = entry.expand === undefined ? true : !entry.expand;
-    // TODO: Replace with `entry.expand = !entry.expand ?? true ;`
+    entry.expand = !entry.expand ?? true;
   }
 }

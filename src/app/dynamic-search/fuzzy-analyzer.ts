@@ -26,7 +26,7 @@ export class FuzzyAnalyzer {
       if ( valueChar === inputChar ) {
         inputIndex++;
 
-        if ( segment && segment.isMatch ) {
+        if ( segment?.isMatch ) {
           segment.value += valueChar;
         } else {
           segment = {
@@ -46,15 +46,16 @@ export class FuzzyAnalyzer {
           break;
         }
       } else {
-        if ( segment && ! segment.isMatch ) {
-          segment.value += valueChar;
-        } else {
+        if ( segment?.isMatch ) {
           segment = {
             value: valueChar,
             isMatch: false
           };
 
           segments.push( segment );
+        } else {
+          segment.value += valueChar;
+
         }
       }
     }
@@ -88,7 +89,7 @@ export class FuzzyAnalyzer {
           return( score -= ( valueLength - valueIndex ) );
         }
       } else {
-        score -= 1;
+        score--;
         previousIndexMatched = false;
       }
     }

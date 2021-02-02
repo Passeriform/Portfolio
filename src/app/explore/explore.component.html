@@ -7,7 +7,7 @@
 </app-header>
 
 <app-scrollable [collapsed]="true" [fullpage]="true" [injectSplash]="true">
-  <ng-container *ngIf="selectedWork != null; else modelLoading">
+  <ng-container *ngIf="selectedWork; else modelLoading">
     <div class="page" id="description" #page>
       <div class="bg-img"></div>
       <div id="content">

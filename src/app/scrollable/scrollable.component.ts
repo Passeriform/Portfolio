@@ -117,7 +117,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
     this.scrollStream = fromEvent(this.hostElement.nativeElement, 'wheel')
       .pipe(
         map((nextEvent: MouseWheelEvent) => (this.horizontal) ? nextEvent.deltaX : nextEvent.deltaY),
-        filter(difference => (difference >= this.scrollTolerance) || (difference <= -this.scrollTolerance)),
+        filter(difference => (Math.abs(difference) >= Math.abs(this.scrollTolerance))),
         conditionalThrottle(this.throttle === 0, this.throttle),
       );
 
@@ -146,7 +146,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
               ),
               map(swiped => (init - swiped)),
               take(1),
-              filter(difference => (difference >= this.touchTolerance) || (difference <= -this.touchTolerance)),
+              filter(difference => (Math.abs(difference) >= Math.abs(this.touchTolerance))),
               map(scaled => scaled / 5)
             )
         ),

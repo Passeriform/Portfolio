@@ -51,9 +51,9 @@ action=query
       map((response) => {
         const page = response.query.pages[0];
 
-        const title = page.title || '';
-        const description = page.description || '';
-        const href = page.fullurl || '#';
+        const title = page.title ?? '';
+        const description = page.description ?? '';
+        const href = page.fullurl ?? '#';
 
         return {
           title,

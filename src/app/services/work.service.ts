@@ -40,13 +40,11 @@ export class WorkService {
   }
 
   buildActive() {
-    if (this.workFilterSource.value == null) {
-      this.workActiveSource.next(this.workCacheSource.value);
-    } else {
-      this.workActiveSource.next(
-        this.workCacheSource.value.filter(this.workFilterSource.value)
-      );
-    }
+    this.workActiveSource.next(
+      this.workFilterSource.value ?
+      this.workCacheSource.value.filter(this.workFilterSource.value) :
+      this.workCacheSource.value
+    );
   }
 
   refreshCache() {

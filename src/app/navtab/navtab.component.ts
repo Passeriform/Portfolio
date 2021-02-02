@@ -28,8 +28,8 @@ export class NavtabComponent implements OnInit {
 
   propagateClick(event: MouseEvent | TouchEvent) {
     const target = (
-      event.target ||
-      event.srcElement ||
+      event.target ??
+      event.srcElement ??
       event.currentTarget
     ) as HTMLElement;
 
