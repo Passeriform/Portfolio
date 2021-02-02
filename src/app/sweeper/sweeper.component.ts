@@ -16,11 +16,11 @@ export class SweeperComponent implements AfterContentInit {
   @ContentChildren('sweepable') swipeList: QueryList<any>;
 
   constructor(private sanitizer: DomSanitizer) {
-      interval(5000).subscribe(() => {
-        if (this.auto) {
-          this.inViewIndex = (this.inViewIndex + 1) % this.swipeList.length;
-        }
-      });
+    interval(5000).subscribe(() => {
+      if (this.auto) {
+        this.inViewIndex = (this.inViewIndex + 1) % this.swipeList.length;
+      }
+    });
   }
 
   ngAfterContentInit() { }

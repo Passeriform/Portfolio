@@ -10,22 +10,22 @@ import { GithubEvent } from '../common/github.interface';
 export class GithubService {
   private githubFeedSource = new BehaviorSubject<GithubEvent[]>([]);
 
-  githubFeedState$ = this.githubFeedSource.asObservable();
+  githubFeedState$: Observable<GithubEvent[]> = this.githubFeedSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
   // TODO: Justify usage of after parameter
-  fetchUpdates(after?: number) {
+  fetchUpdates(after?: number): Observable<GithubEvent[]> {
     const callURL = 'https://api.github.com/users/Passeriform/events';
 
     this.http.get<GithubEvent[]>(callURL)
-    .pipe(
-      catchError((error) => {
-        console.log('ErrorService triggered error.');
-        return Observable.throw(error.message);
-      }),
+      .pipe(
+        catchError((error) => {
+          console.log('ErrorService triggered error.');
+          return Observable.throw(error.message);
+        }),
     )
-    .subscribe((model) => this.githubFeedSource.next(model));
+      .subscribe((model) => this.githubFeedSource.next(model));
 
     return this.githubFeedState$;
   }

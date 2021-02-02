@@ -4,7 +4,6 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'retain'
 })
 export class RetainPipe implements PipeTransform {
-
   transform(inObject: object, ...keepProps: string[]): object {
     const newObject = {};
 

@@ -65,7 +65,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
     return 'translateY(' + (-this.delta * this.pageIndex) + 'vh)';
   }
 
-  pageShift(shiftAmt: number) {
+  pageShift(shiftAmt: number): void {
     if (shiftAmt < 0) {
       this.pageShiftUp(shiftAmt);
     } else if (shiftAmt > 0) {
@@ -74,13 +74,13 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
   }
 
   // TODO: Justify pulling the delta value
-  pageShiftUp(delta: number) {
+  pageShiftUp(delta: number): void {
     this.pageIndex = Math.max(this.pageIndex - 1, 0);
     this.updateSplashState();
   }
 
   // TODO: Justify pulling the delta value
-  pageShiftDown(delta: number) {
+  pageShiftDown(delta: number): void {
     const vw = document.documentElement.offsetWidth / 100;
     const vh = document.documentElement.offsetHeight / 100;
     const scrollableWidth = this.hostElement.nativeElement.scrollWidth + this.overshoot - 100 * vw;
@@ -96,17 +96,17 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
     this.updateSplashState();
   }
 
-  pageReset() {
+  pageReset(): void {
     this.pageIndex = 0;
     this.updateSplashState();
   }
 
-  updateSplashState() {
+  updateSplashState(): void {
     if (this.injectSplash) {
       this.splashStateService.changeSplashState(
         (this.pageIndex === 0 && !this.collapsed)
-        ? SplashState.Focussed
-        : SplashState.Blurred
+          ? SplashState.Focussed
+          : SplashState.Blurred
       );
     }
   }
@@ -122,7 +122,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
         filter(difference => (Math.abs(difference) >= Math.abs(this.scrollTolerance))),
         // TODO: Consider runOutside if conditional throttling can be provided there.
         conditionalThrottle(this.throttle === 0, this.throttle),
-      );
+    );
 
     this.swipeStream = fromEvent(this.hostElement.nativeElement, 'touchmove')
       .pipe(
@@ -142,10 +142,10 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
               ),
               map((event: TouchEvent) =>
                 event.touches[0]
-                ? (this.horizontal)
-                  ? event.touches[0].pageX
-                  : event.touches[0].pageY
-                : 0 // Find a default here
+                  ? (this.horizontal)
+                    ? event.touches[0].pageX
+                    : event.touches[0].pageY
+                  : 0 // Find a default here
               ),
               map(swiped => (init - swiped)),
               take(1),
@@ -153,7 +153,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
               map(scaled => scaled / 5)
             )
         ),
-      );
+    );
 
     this.scrollStream.subscribe((shiftAmt: number) => this.pageShift(shiftAmt));
     this.swipeStream.subscribe((shiftAmt: number) => this.pageShift(shiftAmt));

@@ -23,25 +23,25 @@ action=query
 &inprop=url
 &titles=${this.getWikiTitle(entity)}`;
 
-//     const callUrl = `https://en.wikipedia.org/w/api.php?
-// action=query
-// &format=json
-// &origin=*
-// &prop=extracts
-// &formatversion=2
-// &exlimit=1
-// &exintro=1
-// &explaintext=1
-// &titles=${getWikiTitle(entity)}`;
+    //     const callUrl = `https://en.wikipedia.org/w/api.php?
+    // action=query
+    // &format=json
+    // &origin=*
+    // &prop=extracts
+    // &formatversion=2
+    // &exlimit=1
+    // &exintro=1
+    // &explaintext=1
+    // &titles=${getWikiTitle(entity)}`;
 
-//     const callUrl = `https://en.wikipedia.org/w/api.php?
-// format=json
-// &origin=*
-// &action=query
-// &list=search
-// &srlimit=1
-// &redirects=1
-// &srsearch=${srtitle}_${srcategory}`;
+    //     const callUrl = `https://en.wikipedia.org/w/api.php?
+    // format=json
+    // &origin=*
+    // &action=query
+    // &list=search
+    // &srlimit=1
+    // &redirects=1
+    // &srsearch=${srtitle}_${srcategory}`;
 
     // TODO: Use generator API to fetch proper description as well.
     // TODO: Consider switching to google search results and picking the first result instead
@@ -68,7 +68,7 @@ action=query
     );
   }
 
-  getWikiTitle(identifier: string) {
+  getWikiTitle(identifier: string): string {
     for (const entry of registry) {
       if (entry.identifier === EntityIdentifier[identifier]) {
         return entry.wikiTitle;

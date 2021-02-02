@@ -8,7 +8,7 @@ import { FuzzyAnalyzer } from './fuzzy-analyzer';
   selector: 'app-dynamic-search',
   templateUrl: './dynamic-search.component.html',
   styleUrls: ['./dynamic-search.component.sass'],
-  providers: [ FuzzyAnalyzer ]
+  providers: [FuzzyAnalyzer]
 })
 export class DynamicSearchComponent implements OnInit {
   @Input() model: WordScore[];
@@ -24,7 +24,7 @@ export class DynamicSearchComponent implements OnInit {
   }
 
   public applyFilter(): void {
-    if ( !this.queryString ) { return; }
+    if (!this.queryString) { return; }
 
     this.model = this.model
       .map(entry => {
@@ -36,15 +36,15 @@ export class DynamicSearchComponent implements OnInit {
             return Math.max(minScore, currScore);
           });
         return entry;
-        })
-        .sort((a, b) => {
-          // TODO: Consider making logic more understandable
-          return(
-            ((a.score > b.score) && -1) ||
-            ((a.score < b.score) && 1) ||
-            0
-          );
-        });
+      })
+      .sort((a, b) => {
+        // TODO: Consider making logic more understandable
+        return (
+          ((a.score > b.score) && -1) ||
+          ((a.score < b.score) && 1) ||
+          0
+        );
+      });
     this.propagate.emit(this.model);
   }
 }

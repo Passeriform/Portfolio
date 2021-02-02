@@ -31,7 +31,7 @@ export class HarmonicLoaderComponent implements AfterViewInit {
   @ViewChild('harmonicLoader', { static: true }) loaderCanvas: ElementRef<HTMLCanvasElement>;
 
   @HostListener('window:resize')
-  onResize() {
+  onResize(): void {
     this.context = this.loaderCanvas.nativeElement.getContext('2d');
 
     this.loaderCanvas.nativeElement.width = window.innerWidth;
@@ -56,12 +56,12 @@ export class HarmonicLoaderComponent implements AfterViewInit {
         this.loadingJobsState = loadingJobsState;
 
         const initiationLabels = this.loadingJobsState
-            .filter(
-              (job) => job.state === LoadingState.LoadingQueued
-            )
-            .map(
-              (job) => job.label
-            );
+          .filter(
+            (job) => job.state === LoadingState.LoadingQueued
+          )
+          .map(
+            (job) => job.label
+          );
 
         // Only trigger when new labels are found to be queued
         if (Array.isArray(initiationLabels) && initiationLabels.length) {
@@ -81,7 +81,7 @@ export class HarmonicLoaderComponent implements AfterViewInit {
     this.onResize();
   }
 
-  beginLoadingAnimation() {
+  beginLoadingAnimation(): void {
     this.context = this.loaderCanvas.nativeElement.getContext('2d');
 
     this.loaderCanvas.nativeElement.width = window.innerWidth;
@@ -98,7 +98,8 @@ export class HarmonicLoaderComponent implements AfterViewInit {
   }
 
   // TODO: Abstract these methods under a separate canvas renderer module.
-  tick = (timestamp: number) => {
+  // TODO: These methods need `this` binding, hence the arrow syntax. Resolve consistency
+  tick = (timestamp: number): void => {
     if (!this.animStartFrame) {
       this.animStartFrame = timestamp;
     }
@@ -113,13 +114,13 @@ export class HarmonicLoaderComponent implements AfterViewInit {
         context: this.context,
         x: (window.innerWidth / 2) + val + (this.loaderConfig.dotRadius / 2),
         y: this.loaderConfig.yoffset +
-            this.loaderConfig.amplitude *
-            Math.sin(
-              (this.loaderConfig.speed * elapsed) / 10000 +
-              val +
-              // this.loaderConfig.frequency * val +
-              this.loaderConfig.basePhase
-            ),
+          this.loaderConfig.amplitude *
+          Math.sin(
+            (this.loaderConfig.speed * elapsed) / 10000 +
+            val +
+            // this.loaderConfig.frequency * val +
+            this.loaderConfig.basePhase
+          ),
         radius: this.loaderConfig.dotRadius,
         color: `hsl(241, 30%, ${50 + (idx * 2)}%)`
       });
@@ -129,14 +130,14 @@ export class HarmonicLoaderComponent implements AfterViewInit {
         context: this.context,
         x: (window.innerWidth / 2) + (this.loaderConfig.dotsDist / 2) + val + (this.loaderConfig.dotRadius / 2),
         y: this.loaderConfig.yoffset +
-            this.loaderConfig.amplitude *
-            Math.sin(
-              (this.loaderConfig.speed * elapsed) / 10000 +
-              val +
-              // this.loaderConfig.frequency * ((this.loaderConfig.dotsDist / 2) + val) +
-              this.loaderConfig.basePhase +
-              getInPhase(this.loaderPerc)
-            ),
+          this.loaderConfig.amplitude *
+          Math.sin(
+            (this.loaderConfig.speed * elapsed) / 10000 +
+            val +
+            // this.loaderConfig.frequency * ((this.loaderConfig.dotsDist / 2) + val) +
+            this.loaderConfig.basePhase +
+            getInPhase(this.loaderPerc)
+          ),
         radius: this.loaderConfig.dotRadius,
         color: `hsl(241, 30%, ${50 + ((idx * 2) + 1)}%)`
       });
@@ -149,7 +150,7 @@ export class HarmonicLoaderComponent implements AfterViewInit {
     }
   }
 
-  resolveDots = (timestamp: number) => {
+  resolveDots = (timestamp: number): void => {
     if (!this.animStartFrame) {
       this.animStartFrame = timestamp;
     }
@@ -164,13 +165,13 @@ export class HarmonicLoaderComponent implements AfterViewInit {
         context: this.context,
         x: (window.innerWidth / 2) + val + (this.loaderConfig.dotRadius / 2),
         y: this.loaderConfig.yoffset +
-            Math.max(0, this.loaderConfig.amplitude - this.retarder) *
-            Math.sin(
-              (this.loaderConfig.speed * elapsed) / 10000 +
-              val +
-              // this.loaderConfig.frequency * val +
-              this.loaderConfig.basePhase
-            ),
+          Math.max(0, this.loaderConfig.amplitude - this.retarder) *
+          Math.sin(
+            (this.loaderConfig.speed * elapsed) / 10000 +
+            val +
+            // this.loaderConfig.frequency * val +
+            this.loaderConfig.basePhase
+          ),
         radius: this.loaderConfig.dotRadius,
         color: `hsl(241, 30%, ${50 + (idx * 2)}%)`
       });
@@ -180,14 +181,14 @@ export class HarmonicLoaderComponent implements AfterViewInit {
         context: this.context,
         x: (window.innerWidth / 2) + (this.loaderConfig.dotsDist / 2) + val + (this.loaderConfig.dotRadius / 2),
         y: this.loaderConfig.yoffset +
-            Math.max(0, this.loaderConfig.amplitude - this.retarder) *
-            Math.sin(
-              (this.loaderConfig.speed * elapsed) / 10000 +
-              val +
-              // this.loaderConfig.frequency * ((this.loaderConfig.dotsDist / 2) + val) +
-              this.loaderConfig.basePhase +
-              getInPhase(this.loaderPerc)
-            ),
+          Math.max(0, this.loaderConfig.amplitude - this.retarder) *
+          Math.sin(
+            (this.loaderConfig.speed * elapsed) / 10000 +
+            val +
+            // this.loaderConfig.frequency * ((this.loaderConfig.dotsDist / 2) + val) +
+            this.loaderConfig.basePhase +
+            getInPhase(this.loaderPerc)
+          ),
         radius: this.loaderConfig.dotRadius,
         color: `hsl(241, 30%, ${50 + ((idx * 2) + 1)}%)`
       });

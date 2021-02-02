@@ -31,7 +31,7 @@ export class TooltipDirective {
   @Input() primaryColor: string;
   @Input() accentColor: string;
 
-  @ViewChild(TemplateRef, { read: ViewContainerRef } ) viewContainer: ViewContainerRef;
+  @ViewChild(TemplateRef, { read: ViewContainerRef }) viewContainer: ViewContainerRef;
 
   @HostListener('focusin')
   @HostListener('mouseover')
@@ -69,7 +69,7 @@ export class TooltipDirective {
 
     this.appRef.attachView(this.componentRef.hostView);
 
-    const domElem = (this.componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
+    const domElem: HTMLElement = (this.componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0];
     // NOTE: Kept on top of stacking to avoid z-index collisions
     // TODO: Consider packing all tooltips in a div element
     // and attaching more on there to keep DOM clean.

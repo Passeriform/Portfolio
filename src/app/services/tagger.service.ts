@@ -15,7 +15,7 @@ export class TaggerService {
     });
   }
 
-  appendTags(modelList: WorkModel[]) {
+  appendTags(modelList: WorkModel[]): WorkModel[] {
     modelList.map(model => {
       model.tags.push(
         model.type,

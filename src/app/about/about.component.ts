@@ -39,21 +39,21 @@ export class AboutComponent implements OnInit, AfterViewInit {
     this.loaderService.beginLoading('[http] about');
 
     this.http.get<AboutModel>(`${Constants.API_URL}/about/${this.subject}`)
-    .pipe(
-      catchError((error) => {
-        console.log('ErrorService triggered error.');
-        return Observable.throw(error.message);
-      })
-    )
-    .subscribe((model) => {
-      this.model = model;
+      .pipe(
+        catchError((error) => {
+          console.log('ErrorService triggered error.');
+          return Observable.throw(error.message);
+        })
+      )
+      .subscribe((model) => {
+        this.model = model;
 
-      this.loaderService.endLoading('[http] about');
+        this.loaderService.endLoading('[http] about');
 
-      if (!this.model) {
-        this.router.navigate(['/about']);
-      }
-    });
+        if (!this.model) {
+          this.router.navigate(['/about']);
+        }
+      });
   }
 
   ngAfterViewInit() {

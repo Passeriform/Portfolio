@@ -1,4 +1,4 @@
-import { WType, License, Language, Framework, Tool} from '../common/global';
+import { WType, License, Language, Framework, Tool } from '../common/global';
 
 export interface WorkModel {
   type: WType;

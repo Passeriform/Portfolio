@@ -26,11 +26,11 @@ export class NavtabComponent implements OnInit {
       });
   }
 
-  propagateClick(event: MouseEvent | TouchEvent) {
+  propagateClick(event: MouseEvent | TouchEvent): void {
     const target = (
       event.target ??
-      event.srcElement ??
-      event.currentTarget
+        event.srcElement ??
+          event.currentTarget
     ) as HTMLElement;
 
     for (const child of target.children) { (child as HTMLElement).click(); }

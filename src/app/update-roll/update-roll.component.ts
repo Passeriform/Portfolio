@@ -23,17 +23,17 @@ export class UpdateRollComponent implements OnInit {
     });
   }
 
-ngOnInit() {
+  ngOnInit() {
     this.githubService.fetchUpdates();
   }
 
-refresh() { }
+  refresh(): void { }
 
-loadMore(after: number) {
+  loadMore(after: number): void {
     this.githubService.fetchUpdates(after);
   }
 
-toggleDetails(entry: GithubEvent & { expand: boolean }) {
+  toggleDetails(entry: GithubEvent & { expand: boolean }): void {
     entry.expand = !entry.expand ?? true;
   }
 }

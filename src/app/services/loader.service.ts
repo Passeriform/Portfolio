@@ -4,9 +4,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export enum LoadingState {
-    LoadingQueued,
-    Loading,
-    Loaded
+  LoadingQueued,
+  Loading,
+  Loaded
 }
 
 // TODO: Change array of interface approach to hashmap of interface
@@ -20,8 +20,8 @@ export interface LoadingJob {
 export class LoaderService {
   private loadingJobsSource = new BehaviorSubject<LoadingJob[]>([]);
 
-  loadingJobsState$ = this.loadingJobsSource.asObservable();
-  loadingProgressState$ = this.loadingJobsSource.pipe(
+  loadingJobsState$: Observable<LoadingJob[]> = this.loadingJobsSource.asObservable();
+  loadingProgressState$: Observable<number> = this.loadingJobsSource.pipe(
     map(
       (jobs) => jobs.reduce((avg: number, job: LoadingJob) => (avg + job.progress) / 2, 0)
     )
@@ -29,14 +29,14 @@ export class LoaderService {
 
   constructor() { }
 
-  bindLoadJob(label: string, observer: Observable<boolean>) {
+  bindLoadJob(label: string, observer: Observable<boolean>): void {
     this.beginLoading(label);
     observer.subscribe((value) => {
       if (value) { this.endLoading(label); }
     });
   }
 
-  beginLoading(label: string) {
+  beginLoading(label: string): void {
     const newLoadingJob: LoadingJob = {
       label,
       state: LoadingState.LoadingQueued,
@@ -46,7 +46,7 @@ export class LoaderService {
     this.loadingJobsSource.next([...this.loadingJobsSource.value, newLoadingJob]);
   }
 
-  endLoading(label: string) {
+  endLoading(label: string): void {
     this.loadingJobsSource.next(
       this.loadingJobsSource.value.map((job) => {
         if (job.label === label) {
@@ -58,7 +58,7 @@ export class LoaderService {
     );
   }
 
-  setAnimationStart(labels: string | string[]) {
+  setAnimationStart(labels: string | string[]): void {
     // NOTE: Guard for unnecesssary state updates (Remove if not required)
     if (!labels) {
       return;
@@ -81,7 +81,7 @@ export class LoaderService {
     );
   }
 
-  flushJobs(labels?: string | string[]) {
+  flushJobs(labels?: string | string[]): void {
     // Flush all jobs if no label supplied
     if (!labels || (Array.isArray(labels) && !labels.length)) {
       // If value not truthy or labels is an empty array
@@ -111,7 +111,7 @@ export class LoaderService {
     // return !this.loadingJobsSource.value.length;
   }
 
-  setLoadingProgress(label: string, progress: number) {
+  setLoadingProgress(label: string, progress: number): void {
     this.loadingJobsSource.value.map((job) => {
       if (job.label === label) {
         if (job.progress !== LoadingState.Loading) {
@@ -128,7 +128,7 @@ export class LoaderService {
     });
   }
 
-  bindLoadingProgress(label: string, progressObs: Observable<number>) {
+  bindLoadingProgress(label: string, progressObs: Observable<number>): void {
     progressObs.subscribe((progress) => {
       this.setLoadingProgress(label, progress);
     });

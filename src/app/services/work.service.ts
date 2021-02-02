@@ -18,32 +18,32 @@ export class WorkService {
   private workActiveSource = new BehaviorSubject<WorkModel[]>([]);
   private workSelectedSource = new BehaviorSubject<WorkModel>(null);
 
-  workFilterState$ = this.workFilterSource.asObservable();
-  workCacheState$ = this.workCacheSource.asObservable();
-  workActiveState$ = this.workActiveSource.asObservable();
-  workSelectedState$ = this.workSelectedSource.asObservable();
+  workFilterState$: Observable<(_: WorkModel) => boolean> = this.workFilterSource.asObservable();
+  workCacheState$: Observable<WorkModel[]> = this.workCacheSource.asObservable();
+  workActiveState$: Observable<WorkModel[]> = this.workActiveSource.asObservable();
+  workSelectedState$: Observable<WorkModel> = this.workSelectedSource.asObservable();
 
   constructor(private http: HttpClient, private tagger: TaggerService, private loaderService: LoaderService) {
     this.refreshCache();
   }
 
-  setActive(model: WorkModel[]) {
+  setActive(model: WorkModel[]): void {
     this.workActiveSource.next(model);
   }
 
-  setSelected(model: WorkModel) {
+  setSelected(model: WorkModel): void {
     this.workSelectedSource.next(model);
   }
 
-  setFilter(comparator: (_: WorkModel) => boolean) {
+  setFilter(comparator: (_: WorkModel) => boolean): void {
     this.workFilterSource.next(comparator);
   }
 
-  buildActive() {
+  buildActive(): void {
     this.workActiveSource.next(
       this.workFilterSource.value ?
-      this.workCacheSource.value.filter(this.workFilterSource.value) :
-      this.workCacheSource.value
+        this.workCacheSource.value.filter(this.workFilterSource.value) :
+        this.workCacheSource.value
     );
   }
 
@@ -53,23 +53,23 @@ export class WorkService {
     const callURL = `${Constants.API_URL}/work`;
 
     this.http.get<WorkModel[]>(callURL)
-    .pipe(
-      catchError((error) => {
-        console.log('ErrorService triggered error.');
-        return Observable.throw(error.message);
-      })
-    )
-    .subscribe((model) => {
-      this.loaderService.endLoading('[http] work');
+      .pipe(
+        catchError((error) => {
+          console.log('ErrorService triggered error.');
+          return Observable.throw(error.message);
+        })
+      )
+      .subscribe((model) => {
+        this.loaderService.endLoading('[http] work');
 
-      this.loaderService.beginLoading('[prepare] work');
-      model = this.tagger.appendTags(model);
+        this.loaderService.beginLoading('[prepare] work');
+        model = this.tagger.appendTags(model);
 
-      this.workCacheSource.next(model);
+        this.workCacheSource.next(model);
 
-      this.buildActive();
+        this.buildActive();
 
-      this.loaderService.endLoading('[prepare] work');
-    });
+        this.loaderService.endLoading('[prepare] work');
+      });
   }
 }

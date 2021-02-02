@@ -28,7 +28,7 @@ export class OverlayComponent implements OnInit {
     });
   }
 
-  toggleOverlay() {
+  toggleOverlay(): void {
     if (this.overlayState === OverlayState.SHOW) {
       this.overlayState = OverlayState.HIDE;
     } else {
@@ -36,15 +36,15 @@ export class OverlayComponent implements OnInit {
     }
   }
 
-  showOverlay() {
+  showOverlay(): void {
     this.overlayState = OverlayState.SHOW;
   }
 
-  hideOverlay() {
-      this.overlayState = OverlayState.HIDE;
+  hideOverlay(): void {
+    this.overlayState = OverlayState.HIDE;
   }
 
-  disableBlink() {
+  disableBlink(): void {
     this.blinkEnabled = false;
   }
 }

@@ -31,12 +31,12 @@ export class ShowcaseComponent implements OnInit {
     private router: Router,
     public workService: WorkService
   ) {
-      this.windowHeight = window.innerHeight / parseFloat(
-        getComputedStyle(
-          document.querySelector('body')
-        )['font-size']
-      );
-    }
+    this.windowHeight = window.innerHeight / parseFloat(
+      getComputedStyle(
+        document.querySelector('body')
+      )['font-size']
+    );
+  }
 
   ngOnInit() {
     if (this.preloadMarker) {
@@ -52,11 +52,11 @@ export class ShowcaseComponent implements OnInit {
     });
   }
 
-  setSelected(entry: WorkModel) {
+  setSelected(entry: WorkModel): void {
     this.workService.setSelected(entry);
   }
 
-  cancelClick(event: MouseEvent) {
+  cancelClick(event: MouseEvent): void {
     event.stopPropagation();
   }
 }

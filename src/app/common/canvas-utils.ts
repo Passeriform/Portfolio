@@ -1,4 +1,6 @@
-export function drawDot({context, x, y, radius, color}) {
+import { LoaderConfig } from '../harmonic-loader/loader.interface';
+
+export function drawDot({ context, x, y, radius, color }): void {
   context.beginPath();
   context.fillStyle = color;
 
@@ -13,14 +15,14 @@ export function getDotsPos(splitDist: number): number[] {
   return splitLocs;
 }
 
-export function getInPhase(percentage: number) {
+export function getInPhase(percentage: number): number {
   return 3.14 - (percentage * 3.14 / 100);
 }
 
-export function generateLoaderConfig(width: number, height: number) {
+export function generateLoaderConfig(width: number, height: number): LoaderConfig {
   return {
     amplitude: height / 12,
-    frequency: width / 10,
+    // frequency: width / 10,
     yoffset: height / 2,
     speed: 25,
     basePhase: 0,

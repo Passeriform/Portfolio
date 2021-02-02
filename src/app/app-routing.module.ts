@@ -10,16 +10,18 @@ const routes: Routes = [
 
   { path: 'explore', component: ExploreComponent },
 
-  { path: 'prod', component: ExploreComponent, data: {marker: 'product'}},
-  { path: 'proj', component: ExploreComponent, data: {marker: 'project'}},
-  { path: 'arts', component: ExploreComponent, data: {marker: 'design'}},
-  { path: 'misc', component: ExploreComponent, data: {marker: 'misc'}},
+  { path: 'prod', component: ExploreComponent, data: { marker: 'product' } },
+  { path: 'proj', component: ExploreComponent, data: { marker: 'project' } },
+  { path: 'arts', component: ExploreComponent, data: { marker: 'design' } },
+  { path: 'misc', component: ExploreComponent, data: { marker: 'misc' } },
 
-  { path: 'about', children: [
-    { path: '', component: AboutComponent },
-    { path: 'passeriform', redirectTo: '' },
-    { path: ':subject', component: AboutComponent },
-  ]},
+  {
+    path: 'about', children: [
+      { path: '', component: AboutComponent },
+      { path: 'passeriform', redirectTo: '' },
+      { path: ':subject', component: AboutComponent },
+    ]
+  },
 
   { path: '**', redirectTo: '' },
 ];

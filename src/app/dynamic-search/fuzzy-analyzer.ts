@@ -9,7 +9,6 @@ export interface FuzzySegment {
 
 @Injectable()
 export class FuzzyAnalyzer {
-
   public parseValue(value: string, input: string): FuzzySegment[] {
     const valueLength = value.length;
     const inputLength = input.length;
@@ -19,14 +18,14 @@ export class FuzzyAnalyzer {
     const segments: FuzzySegment[] = [];
     let segment: FuzzySegment;
 
-    while ( valueIndex < valueLength ) {
-      const valueChar = value.charAt( valueIndex++ ).toLowerCase();
-      const inputChar = input.charAt( inputIndex ).toLowerCase();
+    while (valueIndex < valueLength) {
+      const valueChar = value.charAt(valueIndex++).toLowerCase();
+      const inputChar = input.charAt(inputIndex).toLowerCase();
 
-      if ( valueChar === inputChar ) {
+      if (valueChar === inputChar) {
         inputIndex++;
 
-        if ( segment?.isMatch ) {
+        if (segment ?.isMatch) {
           segment.value += valueChar;
         } else {
           segment = {
@@ -34,32 +33,32 @@ export class FuzzyAnalyzer {
             isMatch: true
           };
 
-          segments.push( segment );
+          segments.push(segment);
         }
 
-        if ( ( inputIndex === inputLength ) && ( valueIndex < valueLength ) ) {
+        if ((inputIndex === inputLength) && (valueIndex < valueLength)) {
           segments.push({
-            value: value.slice( valueIndex ),
+            value: value.slice(valueIndex),
             isMatch: false
           });
 
           break;
         }
       } else {
-        if ( segment?.isMatch ) {
+        if (segment ?.isMatch) {
           segment = {
             value: valueChar,
             isMatch: false
           };
 
-          segments.push( segment );
+          segments.push(segment);
         } else {
           segment.value += valueChar;
 
         }
       }
     }
-    return( segments );
+    return (segments);
   }
 
 
@@ -76,17 +75,17 @@ export class FuzzyAnalyzer {
     let previousIndexMatched = false;
     let score = 0;
 
-    while ( valueIndex < valueLength ) {
-      const valueChar = normalizedValue.charAt( valueIndex++ );
-      const inputChar = normalizedInput.charAt( inputIndex );
+    while (valueIndex < valueLength) {
+      const valueChar = normalizedValue.charAt(valueIndex++);
+      const inputChar = normalizedInput.charAt(inputIndex);
 
-      if ( valueChar === inputChar ) {
+      if (valueChar === inputChar) {
         inputIndex++;
-        score += ( previousIndexMatched ) ? 3 : 2;
+        score += (previousIndexMatched) ? 3 : 2;
         previousIndexMatched = true;
 
-        if ( inputIndex === inputLength ) {
-          return( score -= ( valueLength - valueIndex ) );
+        if (inputIndex === inputLength) {
+          return (score -= (valueLength - valueIndex));
         }
       } else {
         score--;
@@ -94,6 +93,6 @@ export class FuzzyAnalyzer {
       }
     }
 
-    return( score );
+    return (score);
   }
 }

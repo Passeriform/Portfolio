@@ -4,6 +4,7 @@ export interface LoaderConfig {
   dotRadius: number;
   yoffset: number;
   speed: number;
+  // frequency: number;
   basePhase: number;
   retardationRate: number;
 }
