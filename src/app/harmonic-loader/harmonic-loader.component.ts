@@ -31,7 +31,7 @@ export class HarmonicLoaderComponent implements AfterViewInit {
   @ViewChild('harmonicLoader', { static: true }) loaderCanvas: ElementRef<HTMLCanvasElement>;
 
   @HostListener('window:resize')
-  onResize = () => {
+  onResize() {
     this.context = this.loaderCanvas.nativeElement.getContext('2d');
 
     this.loaderCanvas.nativeElement.width = window.innerWidth;
@@ -81,7 +81,7 @@ export class HarmonicLoaderComponent implements AfterViewInit {
     this.onResize();
   }
 
-  beginLoadingAnimation = () => {
+  beginLoadingAnimation() {
     this.context = this.loaderCanvas.nativeElement.getContext('2d');
 
     this.loaderCanvas.nativeElement.width = window.innerWidth;
@@ -97,6 +97,7 @@ export class HarmonicLoaderComponent implements AfterViewInit {
     window.requestAnimationFrame(this.tick);
   }
 
+  // TODO: Abstract these methods under a separate canvas renderer module.
   tick = (timestamp: number) => {
     if (!this.animStartFrame) {
       this.animStartFrame = timestamp;

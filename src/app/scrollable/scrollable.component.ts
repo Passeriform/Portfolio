@@ -40,11 +40,13 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
 
   private transitionStartStreams = this.transitionStarts.map(event =>
     fromEvent(this.hostElement.nativeElement, event).pipe(
+      // TODO: Configure this properly to support nested scrolling
       filter((evt: Event) => evt.target === this.hostElement.nativeElement)
     )
   );
   private transitionEndStreams = this.transitionEnds.map(event =>
     fromEvent(this.hostElement.nativeElement, event).pipe(
+      // TODO: Configure this properly to support nested scrolling
       filter((evt: Event) => evt.target === this.hostElement.nativeElement)
     )
   );
@@ -118,6 +120,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
       .pipe(
         map((nextEvent: MouseWheelEvent) => (this.horizontal) ? nextEvent.deltaX : nextEvent.deltaY),
         filter(difference => (Math.abs(difference) >= Math.abs(this.scrollTolerance))),
+        // TODO: Consider runOutside if conditional throttling can be provided there.
         conditionalThrottle(this.throttle === 0, this.throttle),
       );
 

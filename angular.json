@@ -45,8 +45,6 @@
               {
                 "input": "node_modules/document-register-element/build/document-register-element.js"
               },
-              "node_modules/sine-waves/sine-waves.js",
-              "node_modules/bootstrap/dist/js/bootstrap.js",
               "node_modules/sine-waves/sine-waves.js"
             ]
           },

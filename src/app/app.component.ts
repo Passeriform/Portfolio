@@ -14,7 +14,7 @@ export class AppComponent {
     // private loaderService: LoaderService
   ) { }
 
-  onRouteChange = () => {
+  onRouteChange() {
     // this.loaderService.flushJobs();
   }
 }

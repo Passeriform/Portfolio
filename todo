@@ -66,6 +66,8 @@ Component level fix
   ☐ tooltip - Needs a proper destructor (issues with router navigation).
   ☐ tooltip - Needs clarity on the need of a dynamic styling service.
   ☐ tooltip - Needs confirmation if the component must be added to `body`
+  ☐ harmonic-loader - Resolution is always played. Avoid running animation if everything is already resolved
+  ☐ harmonic-loader - Dots' y-position is related to width. Remove it
 
 IRL
   ☐ Commission backgrounds

@@ -38,6 +38,7 @@ export class DynamicSearchComponent implements OnInit {
         return entry;
         })
         .sort((a, b) => {
+          // TODO: Consider making logic more understandable
           return(
             ((a.score > b.score) && -1) ||
             ((a.score < b.score) && 1) ||

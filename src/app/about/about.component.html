@@ -40,10 +40,12 @@
     <div class="bg-img"></div>
     <div class="content">
       <div class="content-wrapper" id="story-container">
-        <img *ngIf="model.story.img" alt="story-img" src="{{ model.story.img }}" />
-        <p>
-          {{ model.story.paragraph }}
-        </p>
+        <section *ngFor="let section of model.story">
+          <img *ngIf="section.img" alt="story-section-img" src="{{ section.img }}" />
+          <p>
+            {{ section.paragraph }}
+          </p>
+        </section>
       </div>
     </div>
   </div>
