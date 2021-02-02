@@ -16,7 +16,7 @@ export class ShowcaseComponent implements OnInit {
 
   @Input() private preloadMarker: string;
 
-  @ViewChild('cardscroller', {static: false}) cardChild: ElementRef;
+  @ViewChild('cardscroller') cardChild: ElementRef;
 
   @HostListener('window:resize')
   onResize() {

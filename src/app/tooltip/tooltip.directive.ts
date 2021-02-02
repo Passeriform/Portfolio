@@ -31,7 +31,7 @@ export class TooltipDirective {
   @Input() primaryColor: string;
   @Input() accentColor: string;
 
-  @ViewChild(TemplateRef, { static: false, read: ViewContainerRef } ) viewContainer: ViewContainerRef;
+  @ViewChild(TemplateRef, { read: ViewContainerRef } ) viewContainer: ViewContainerRef;
 
   @HostListener('focusin')
   @HostListener('mouseover')
