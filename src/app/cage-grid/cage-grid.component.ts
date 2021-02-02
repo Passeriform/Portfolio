@@ -8,7 +8,7 @@ import { CageGridDirective } from './cage-grid.directive';
   styleUrls: ['./cage-grid.component.sass']
 })
 export class CageGridComponent implements AfterContentInit {
-  @ContentChildren(CageGridDirective) cagedList: QueryList<CageGridDirective>;
+  @ContentChildren(CageGridDirective, { descendants: true }) cagedList: QueryList<CageGridDirective>;
 
   constructor() {
   }
