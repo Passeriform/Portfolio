@@ -29,7 +29,8 @@ export class ShowcaseComponent implements OnInit {
 
   constructor(
     private router: Router,
-    public workService: WorkService) {
+    public workService: WorkService
+  ) {
       this.windowHeight = window.innerHeight / parseFloat(
         getComputedStyle(
           document.querySelector('body')

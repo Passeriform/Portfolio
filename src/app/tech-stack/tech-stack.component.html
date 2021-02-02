@@ -10,7 +10,6 @@
                   <h5>{{ (elem | mapExternal | async)?.title }}</h5>
                   <p>
                     {{ (elem | mapExternal | async)?.description }}
-
                   </p>
                   <a href="{{ (elem | mapExternal | async)?.href }}"></a>
                 </div>
@@ -20,7 +19,6 @@
                   position="bottom"
                   [template]="tooltipTemplate"
                 >
-
                 <img alt="{{ elem }}" src="{{ elem | iconUri }}" />
               </div>
             </li>
