@@ -1,5 +1,7 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 
+import { WorkService } from '../services/work.service';
+
 enum OverlayState {
   HIDE,
   SHOW
@@ -16,9 +18,15 @@ export class OverlayComponent implements OnInit {
 
   @HostBinding('class.blink') public blinkEnabled = true;
 
-  constructor() { }
+  constructor(public workService: WorkService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.workService.workSelectedState$.subscribe((model) => {
+      if (model) {
+        this.blinkEnabled = false;
+      }
+    });
+  }
 
   toggleOverlay() {
     if (this.overlayState === OverlayState.SHOW) {

@@ -1,6 +1,6 @@
 <div
     class="overlay"
-    (click)="hideOverlay(); disableBlink()"
+    (click)="hideOverlay()"
     [ngClass]="{'show': overlayState === OverlayState.SHOW}"
   >
   <ng-content></ng-content>
