@@ -1,5 +1,12 @@
 @import 'vars'
 
+$placeholder-bg-color-hex: #0E1012
+$placeholder-h1-span-color-hex: #7E0093
+$placeholder-p-color-hex: #AAAAAA
+
+$description-bg-color-hex: #0E1012
+$stack-bg-color-hex: #1F0911
+
 :host
   & .bg-img
     position: absolute
@@ -9,7 +16,7 @@
 
   & #selected-placeholder
     & > .bg-img
-      background-color: #0E1012
+      background-color: $placeholder-bg-color-hex
 
     & > #placeholder-content
       position: relative
@@ -31,7 +38,7 @@
         text-transform: initial
 
         & > span
-          color: #7E0093
+          color: $placeholder-h1-span-color-hex
 
       & > p
         text-transform: initial
@@ -44,7 +51,7 @@
         line-height: 1.2em
         position: absolute
         font-weight: 400
-        color: #AAAAAA
+        color: $placeholder-p-color-hex
         text-align: center
         top: 50%
         left: 50%
@@ -53,7 +60,7 @@
 
   & #description
     & > .bg-img
-      background-color: #0E1012
+      background-color: $description-bg-color-hex
 
     & > #content
       position: relative
@@ -62,7 +69,7 @@
 
   & #stack
     & > .bg-img
-      background-color: #1F0911
+      background-color: $stack-bg-color-hex
 
     & > #content
       position: relative

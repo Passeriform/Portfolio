@@ -1,5 +1,7 @@
 @import 'vars'
 
+$shadow-color-hex: #0E0E0E
+
 :host
   width: 100%
   position: fixed
@@ -50,7 +52,7 @@
   &.shrink-header
     height: $shrink-header-size
     background-color: $anti-accent-color-hex
-    box-shadow: 0px 0px 2px 2px #0E0E0E
+    box-shadow: 0px 0px 2px 2px $shadow-color-hex
 
     & #logo
       width: $shrink-logo-block-size

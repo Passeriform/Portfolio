@@ -1,11 +1,13 @@
 @import 'vars'
 @import 'form'
 
-$background-dark-accent-hex: #050c26
-$background-light-accent-hex: #282f4c
-
+/* About Specific Color Scheme */
+$card-background-color-hex: #050c26
+$card-border-color-hex: #282f4c
 $title-color-hex: #A8757D
 $title-background-hex: #17061E
+/* -------------------------- */
+
 $title-clip-size: 1em
 
 :host
@@ -55,9 +57,9 @@ $title-clip-size: 1em
         padding: 1em
         padding-left: 2em
         padding-right: 2em
-        background-color: $background-dark-accent-hex
+        background-color: $card-background-color-hex
         border-radius: 1em
-        border: 1px solid $background-light-accent-hex
+        border: 1px solid $card-border-color-hex
 
         & > h1
           color: $title-color-hex
