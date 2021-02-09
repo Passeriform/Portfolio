@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
 
-// import { LoaderService } from './services/loader.service';
+// Import { LoaderService } from './services/loader.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.sass']
+	selector: 'app-root',
+	templateUrl: './app.component.html',
+	styleUrls: ['./app.component.sass'],
 })
 export class AppComponent {
-  title = 'Passeriform';
+	title = 'Passeriform';
 
-  constructor(
-    // private loaderService: LoaderService
-  ) { }
+	constructor(
+		// Private loaderService: LoaderService
+	) { }
 
-  onRouteChange() {
-    // this.loaderService.flushJobs();
-  }
+	onRouteChange() {
+		// This.loaderService.flushJobs();
+	}
 }

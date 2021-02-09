@@ -1,62 +1,40 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { LoaderService } from '../core/services/loader.service';
 
-import { LoaderService } from '../services/loader.service';
-
-import { Constants } from '../common/global';
-
-import { AboutModel } from './about.interface';
+import { AboutModel } from './models/about.interface';
 
 @Component({
-  selector: 'app-about',
-  templateUrl: './about.component.html',
-  styleUrls: ['./about.component.sass']
+	selector: 'app-about',
+	templateUrl: './about.component.html',
+	styleUrls: ['./about.component.sass'],
 })
 export class AboutComponent implements OnInit, AfterViewInit {
-  public model: AboutModel;
-  private subject: string;
+	public model: AboutModel;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private http: HttpClient,
-    private loaderService: LoaderService
-  ) {
-    // TODO: Improve this loader flushing
-    // this.loaderService.flushJobs();
-    this.loaderService.beginLoading('[page] load');
-  }
+	constructor(
+		private route: ActivatedRoute,
+		private loaderService: LoaderService
+	) {
+		// TODO: Improve this loader flushing
+		// this.loaderService.flushJobs();
+		this.loaderService.beginLoading('[page] load');
+	}
 
-  ngOnInit() {
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.subject = params.get('subject') ?? 'passeriform';
-    });
+	ngOnInit() {
+		this.loaderService.beginLoading('[http] about');
 
-    this.loaderService.beginLoading('[http] about');
+		this.route.data.subscribe(
+			(data: { model: AboutModel }) => {
+				this.model = data.model;
 
-    this.http.get<AboutModel>(`${Constants.API_URL}/about/${this.subject}`)
-      .pipe(
-        catchError((error) => {
-          console.log('ErrorService triggered error.');
-          return Observable.throw(error.message);
-        })
-      )
-      .subscribe((model) => {
-        this.model = model;
+				this.loaderService.endLoading('[http] about');
+			}
+		);
+	}
 
-        this.loaderService.endLoading('[http] about');
-
-        if (!this.model) {
-          this.router.navigate(['/about']);
-        }
-      });
-  }
-
-  ngAfterViewInit() {
-    this.loaderService.endLoading('[page] load');
-  }
+	ngAfterViewInit() {
+		this.loaderService.endLoading('[page] load');
+	}
 }

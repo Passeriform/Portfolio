@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AboutComponent } from './about.component';
+import { HarmonicLoaderComponent } from './harmonic-loader.component';
 
-describe('AboutComponent', () => {
-	let component: AboutComponent;
-	let fixture: ComponentFixture<AboutComponent>;
+describe('HarmonicLoaderComponent', () => {
+	let component: HarmonicLoaderComponent;
+	let fixture: ComponentFixture<HarmonicLoaderComponent>;
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
-			declarations: [AboutComponent],
+			declarations: [HarmonicLoaderComponent],
 		})
 			.compileComponents();
 	}));
 
 	beforeEach(() => {
-		fixture = TestBed.createComponent(AboutComponent);
+		fixture = TestBed.createComponent(HarmonicLoaderComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

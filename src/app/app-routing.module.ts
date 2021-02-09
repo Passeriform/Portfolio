@@ -1,33 +1,30 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { LandingComponent } from './landing/landing.component';
-import { ExploreComponent } from './explore/explore.component';
-import { AboutComponent } from './about/about.component';
+import { LandingModule } from './landing/landing.module';
+import { WorkModule } from './work/work.module';
+import { AboutModule } from './about/about.module';
+import { SharedModule } from './shared/shared.module';
 
 const routes: Routes = [
-  { path: '', component: LandingComponent },
+	{
+		path: '',
+		loadChildren: () => import('./landing/landing.module').then((m) => m.LandingModule),
+	},
+	{
+		path: 'explore',
+		loadChildren: () => import('./work/work.module').then((m) => m.WorkModule),
+	},
+	{
+		path: 'about',
+		loadChildren: () => import('./about/about.module').then((m) => m.AboutModule),
+	},
 
-  { path: 'explore', component: ExploreComponent },
-
-  { path: 'prod', component: ExploreComponent, data: { marker: 'product' } },
-  { path: 'proj', component: ExploreComponent, data: { marker: 'project' } },
-  { path: 'arts', component: ExploreComponent, data: { marker: 'design' } },
-  { path: 'misc', component: ExploreComponent, data: { marker: 'misc' } },
-
-  {
-    path: 'about', children: [
-      { path: '', component: AboutComponent },
-      { path: 'passeriform', redirectTo: '' },
-      { path: ':subject', component: AboutComponent },
-    ]
-  },
-
-  { path: '**', redirectTo: '' },
+	{ path: '**', redirectTo: '' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forRoot(routes)],
+	exports: [RouterModule],
 })
 export class AppRoutingModule { }
