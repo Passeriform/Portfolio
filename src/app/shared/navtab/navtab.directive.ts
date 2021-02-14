@@ -1,4 +1,4 @@
-import { Directive, TemplateRef, ElementRef, HTMLElement } from '@angular/core';
+import { Directive, TemplateRef, ElementRef } from '@angular/core';
 
 @Directive({
 	selector: '[appNavLink]',

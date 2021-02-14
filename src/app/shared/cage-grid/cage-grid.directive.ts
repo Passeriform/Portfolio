@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HTMLElement, TemplateRef, Input } from '@angular/core';
+import { Directive, ElementRef, TemplateRef, Input } from '@angular/core';
 
 @Directive({
 	selector: '[appCaged]',
