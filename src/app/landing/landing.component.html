@@ -9,7 +9,7 @@
 <app-scrollable [fullpage]="true" [injectSplash]="true">
   <div class="page" id="splash" #page>
     <div class="bg-img"></div>
-    <div id="live-logo">
+    <div class="content">
       <h1>PASSERIFORM</h1>
       <app-sweeper [auto]="true" leading="❯">
         <!-- // TODO: Add sweepable directive with label for sweeped item number -->
@@ -20,9 +20,9 @@
     </div>
   </div>
 
-  <div id="overview" class="page" #page>
+  <div class="page" id="overview" #page>
     <div class="bg-img"></div>
-    <div class="cage-wrapper">
+    <div class="content">
       <app-cage-grid>
         <div *appCaged="'Announcements'">
           <p>&lt;Announcement list&gt;</p>

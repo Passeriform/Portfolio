@@ -1,47 +1,47 @@
 @import 'vars'
 
 :host
-  position: absolute
-  z-index: 1
-
-  & .bg-img
+  & .page > .bg-img
     position: absolute
     height: 100vh
     width: 100vw
     z-index: -1
 
-  & #splash > .bg-img
-    filter: blur(2px)
-    background-image: url("/assets/images/landingbg.jpg")
-    background-repeat: no-repeat
-    background-size: cover
-    -webkit-filter: blur(2px)
-    filter: brightness(50%)
+  & #splash
+    & > .bg-img
+      filter: blur(2px)
+      background-image: url("/assets/images/landingbg.jpg")
+      background-repeat: no-repeat
+      background-size: cover
+      -webkit-filter: blur(2px)
+      filter: brightness(50%)
+
+    & > .content
+      display: inline-block
+      position: relative
+      left: 50%
+      top: 50%
+      transform: translate(-50%, -50%)
+
+      & > h1
+        font-family: 'Share Tech Mono', monospace
+        font-size: max(4em, min(10vw, 10em))
+        font-weight: 500
+        padding: 0
+        margin-bottom: -0.25em
 
   & #overview
-    & > .cage-wrapper
+    & > .bg-img
+      background-image: url("/assets/images/patterns/carbonpattern@2X.png")
+      background-repeat: repeat
+      background-size: auto
+
+    & > .content
       position: relative
+      // TODO: Eliminate this hack with typescript alternative
       height: calc(100% - #{$shrink-header-size})
       top: $shrink-header-size
 
+  & #dir-view
     & > .bg-img
-    background-image: url("/assets/images/patterns/carbonpattern@2X.png")
-    background-repeat: repeat
-    background-size: auto
-
-  & #dir-view > .bg-img
-    background-color: $anti-accent-color-hex
-
-  & #live-logo
-    display: inline-block
-    position: relative
-    left: 50%
-    top: 50%
-    transform: translate(-50%, -50%)
-
-    & > h1
-      font-family: 'Share Tech Mono', monospace
-      font-size: max(4em, min(10vw, 10em))
-      font-weight: 500
-      padding: 0
-      margin-bottom: -0.25em
+      background-color: $anti-accent-color-hex

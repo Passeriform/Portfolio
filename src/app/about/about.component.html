@@ -10,7 +10,7 @@
   <div *ngIf="model?.intro" class="page" id="intro" #page>
     <div class="bg-img"></div>
     <div class="content">
-      <div class="content-wrapper" id="intro-container">
+      <div class="content-wrapper">
         <a routerLink="/about/{{ model.subject }}" class="avatar">
           <img *ngIf="model.intro.img" alt="profile-img" src="{{ model.intro.img }}" />
         </a>
@@ -26,7 +26,7 @@
   <div *ngIf="model?.overview" class="page" id="overview" #page>
     <div class="bg-img"></div>
     <div class="content">
-      <div class="content-wrapper" id="overview-container">
+      <div class="content-wrapper">
         <section *ngFor="let section of model.overview">
           <img *ngIf="section.img" alt="overview-img" src="{{ section.img }}" />
           <p>
@@ -39,7 +39,7 @@
   <div *ngIf="model?.story" class="page" id="story" #page>
     <div class="bg-img"></div>
     <div class="content">
-      <div class="content-wrapper" id="story-container">
+      <div class="content-wrapper">
         <section *ngFor="let section of model.story">
           <img *ngIf="section.img" alt="story-section-img" src="{{ section.img }}" />
           <p>
@@ -53,7 +53,7 @@
     <div class="bg-img"></div>
     <div class="content">
       <app-cage-grid>
-        <div *appCaged="'Contributors'" class="content-wrapper" id="contributors-container">
+        <div *appCaged="'Contributors'" id="contributors-container">
           <ng-container *ngFor="let contributor of model.contributors">
             <div class="contributor">
               <ng-template #tooltipTemplate>
@@ -77,13 +77,13 @@
   <div *ngIf="model?.contact" class="page" id="contact" #page>
     <div class="bg-img"></div>
     <div class="content">
-      <div class="content-wrapper" id="contact-container">
+      <div class="content-wrapper">
         <img *ngIf="model.contact.img" alt="contact-img" src="{{ model.contact.img }}" />
         <div>
           <h1>{{ model.contact.heading }}</h1>
           <p>{{ model.contact.paragraph }}</p>
           <div class="contact-form">
-            <form _lpchecked="1" autocomplete="off" id="contact">
+            <form _lpchecked="1" autocomplete="off" id="contact-form">
               <ul>
                 <li class="half">
                   <input class="inputField" name="name" placeholder="Name" type="text" />
@@ -98,6 +98,7 @@
                   <label class="inputLabel"></label>
                 </li>
                 <li>
+                  <!-- // TODO: The after element leaks out for textarea. Fix it. -->
                   <textarea class="inputField" name="msg" placeholder="Message" spellcheck="false"></textarea>
                   <label class="inputLabel"></label>
                 </li>
