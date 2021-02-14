@@ -16,6 +16,7 @@ import { TooltipComponent } from './tooltip/tooltip.component';
 import { TooltipDirective } from './tooltip/tooltip.directive';
 import { IconUriPipe } from './icon-uri.pipe';
 import { RetainPipe } from './retain.pipe';
+import { EnvPipe } from './env.pipe';
 
 // Import { ShowAuthedDirective } from './show-authed.directive';
 
@@ -39,6 +40,7 @@ import { RetainPipe } from './retain.pipe';
 		TooltipDirective,
 		IconUriPipe,
 		RetainPipe,
+		EnvPipe,
 	],
 	exports: [
 		CageGridComponent,
@@ -55,6 +57,7 @@ import { RetainPipe } from './retain.pipe';
 
 		IconUriPipe,
 		RetainPipe,
+		EnvPipe,
 
 		CommonModule,
 		FormsModule,
