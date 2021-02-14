@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
@@ -11,6 +11,8 @@ import { LandingModule } from './landing/landing.module';
 import { WorkModule } from './work/work.module';
 import { AboutModule } from './about/about.module';
 import { SharedModule } from './shared/shared.module';
+
+import { HttpErrorInterceptor } from '@app/core/interceptors/http-error.interceptor';
 
 @NgModule({
 	imports: [
@@ -26,7 +28,13 @@ import { SharedModule } from './shared/shared.module';
 		SharedModule,
 	],
 	declarations: [AppComponent],
-	providers: [],
+	providers: [
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: HttpErrorInterceptor,
+			multi: true,
+		},
+	],
 	bootstrap: [AppComponent],
 })
 export class AppModule { }
