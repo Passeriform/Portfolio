@@ -8,14 +8,14 @@
   right: 0
   width: 100vw
   height: 100vh
+  visibility: hidden
+  opacity: 0
+  transition: all 0.7s ease-in-out
+
+  &.show
+    visibility: visible
+    opacity: 1
 
   & > canvas
     position: absolute
-    visibility: hidden
-    opacity: 0
-    transition: all .7s ease-in-out
     z-index: 100
-
-    &.show
-      visibility: visible
-      opacity: 1

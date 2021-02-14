@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, HostBinding } from '@angular/core';
 
 // TODO: Try using enums in loading.
 export enum AnimationState {
@@ -14,6 +14,10 @@ export enum AnimationState {
 })
 export class LoaderComponent implements AfterViewInit {
 	public animationRunning = false;
+
+	@HostBinding('class.show') get canvasDisplay() {
+		return this.animationRunning;
+	}
 
 	constructor() { }
 
