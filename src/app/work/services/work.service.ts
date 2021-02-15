@@ -7,7 +7,6 @@ import { catchError, map } from 'rxjs/operators';
 import { environment } from '@env/environment';
 
 import { WorkModel } from '../work.interface';
-
 import { LoaderService } from '@app/core/services/loader.service';
 import { TaggerService } from '../services/tagger.service';
 

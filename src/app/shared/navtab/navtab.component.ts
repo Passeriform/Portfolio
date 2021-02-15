@@ -1,7 +1,6 @@
 import { Component, HostBinding, OnInit, ContentChildren, QueryList } from '@angular/core';
 
 import { NavtabDirective } from './navtab.directive';
-
 import { SplashState, SplashStateService } from '@app/core/services/splash-state.service';
 
 @Component({

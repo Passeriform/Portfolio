@@ -1,9 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
-import { LoaderService } from '../core/services/loader.service';
-
 import { AboutModel } from './models/about.interface';
+import { LoaderService } from '../core/services/loader.service';
 
 @Component({
 	selector: 'app-about',

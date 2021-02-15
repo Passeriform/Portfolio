@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
-import { environment } from '@env/environment';
 
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+
+import { environment } from '@env/environment';
 
 import { AboutModel } from './models/about.interface';
 

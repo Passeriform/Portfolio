@@ -4,13 +4,10 @@ import { RouterModule } from '@angular/router';
 import { LandingComponent } from './landing.component';
 // Import { LandingResolver } from './landing-resolver.service';
 import { LandingRoutingModule } from './landing-routing.module';
-
 import { SweeperComponent } from './sweeper/sweeper.component';
 import { BadgeComponent } from './badge/badge.component';
 import { UpdateRollComponent } from './update-roll/update-roll.component';
-
 import { GithubService } from './update-roll/github.service';
-
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({

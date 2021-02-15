@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { registry, EntityIdentifier } from '@app/shared/registry.interface';
-
 import { WikiResponseModel } from './wiki.interface';
 
 @Pipe({

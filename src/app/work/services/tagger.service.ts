@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { WorkModel } from '../work.interface';
-
 import { nonKeywords } from './tagger.interface';
 
 @Injectable()

@@ -2,7 +2,6 @@ import { Component, OnInit, HostListener, Input, ViewChild, ElementRef } from '@
 import { Router } from '@angular/router';
 
 import { WorkModel } from '../work.interface';
-
 import { WorkService } from '../services/work.service';
 
 @Component({

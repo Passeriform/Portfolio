@@ -13,7 +13,6 @@ import { retry, catchError } from 'rxjs/operators';
 import { environment } from '@env/environment';
 
 import { ErrorModel } from '@app/error/error.interface';
-
 import { ErrorService } from '@app/error/error.service';
 
 export class HttpErrorInterceptor implements HttpInterceptor {

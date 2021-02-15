@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { GithubEvent } from './github.interface';
-
 import { GithubService } from './github.service';
 
 @Component({

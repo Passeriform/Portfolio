@@ -1,9 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { WorkModel } from './work.interface';
-
 import { LoaderService } from '@app/core/services/loader.service';
+import { WorkModel } from './work.interface';
 import { WorkService } from './services/work.service';
 
 @Component({

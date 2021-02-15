@@ -1,5 +1,6 @@
 import { Component, Input, ElementRef, AfterContentInit, QueryList, ContentChildren } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+
 import { interval } from 'rxjs';
 
 @Component({

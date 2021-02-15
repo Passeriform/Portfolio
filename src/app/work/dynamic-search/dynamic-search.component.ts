@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { WordScore } from './dynamic-search.interface';
-
 import { FuzzyAnalyzer } from './fuzzy-analyzer';
 
 @Component({

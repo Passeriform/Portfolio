@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { catchError, map, concat, take } from 'rxjs/operators';
 
 import { WorkModel } from './work.interface';
-
 import { WorkService } from './services/work.service';
 import { TaggerService } from './services/tagger.service';
 
