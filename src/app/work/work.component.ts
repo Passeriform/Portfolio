@@ -25,9 +25,8 @@ export class WorkComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnInit() {
-		// This.marker = this.route.snapshot.url[0] ?.path ?? null;
+		this.loaderService.beginLoading('[http] work');
 
-		// TODO: Explore this alternative
 		this.route.data.subscribe(
 			(data: { model: WorkModel[] }) => {
 				this.loaderService.endLoading('[http] work');
