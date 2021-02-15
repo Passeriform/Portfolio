@@ -3,22 +3,11 @@
 import { Component, ElementRef, AfterViewInit, ViewChild, HostListener } from '@angular/core';
 
 import { HarmonicLoaderConfig } from './harmonic-loader.interface';
-
 import { LoaderComponent } from '../loader.component';
-
 import { LoadingState, LoadingJob, LoaderService } from '@app/core/services/loader.service';
 import { CanvasService } from '@app/core/services/canvas.service';
-
 import { generateLoaderConfig } from './harmonic-loader.config';
-
-import { percToPhaseAngle } from '../loader.config';
-
-// TODO: Try using enums in loading.
-export enum AnimationState {
-	Stopped,
-	Running,
-	Resolving,
-}
+import { AnimationState, getDotsPos, percToPhaseAngle } from '../loader.config';
 
 @Component({
 	selector: 'app-harmonic-loader',
@@ -35,8 +24,7 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 	public animStartFrame: number;
 	public retarder = 0;
 
-	// NOTE: Guard variable (remove for cleanliness later)
-	public animationRunning = false;
+	public animationState: AnimationState = AnimationState.Stopped;
 
 	public loaderConfig: HarmonicLoaderConfig;
 	public dotsPos: number[];
@@ -78,8 +66,10 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 					this.loaderService.setAnimationStart(initiationLabels);
 
 					// Only triggers when jobs aren't all loaded and animation is not running
-					if (!this.loaderService.areAllJobsCompleted && !this.animationRunning) {
-						this.animationRunning = true;
+					if (
+						!this.loaderService.areAllJobsCompleted &&
+						this.animationState === AnimationState.Stopped
+					) {
 						this.beginLoadingAnimation();
 					}
 				}
@@ -105,10 +95,12 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 			this.loaderCanvas.nativeElement.height
 		);
 
-		this.dotsPos = this.getDotsPos(this.loaderConfig.dotsDist);
+		this.dotsPos = getDotsPos(this.loaderConfig.dotsDist);
 	}
 
 	beginLoadingAnimation(): void {
+		this.animationState = AnimationState.Running;
+
 		this.prepareCanvas();
 
 		window.requestAnimationFrame(this.tick);
@@ -159,6 +151,7 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 		});
 
 		if (this.loaderService.areAllJobsCompleted) {
+			this.animationState = AnimationState.Resolving;
 			window.requestAnimationFrame(this.resolveDots);
 		} else {
 			window.requestAnimationFrame(this.tick);
@@ -209,12 +202,12 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 
 		this.retarder += this.loaderConfig.retardationRate;
 
-		if (this.retarder < this.loaderConfig.amplitude) {
-			window.requestAnimationFrame(this.resolveDots);
-		} else {
+		if (this.retarder > this.loaderConfig.amplitude) {
+			this.animationState = AnimationState.Stopped;
 			this.retarder = 0;
 			this.loaderService.flushJobs();
-			this.animationRunning = false;
+		} else {
+			window.requestAnimationFrame(this.resolveDots);
 		}
 	}
 }
