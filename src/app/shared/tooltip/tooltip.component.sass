@@ -16,7 +16,6 @@ $tooltip-arrow-height-em: 1em
   z-index: 10
 
   &.top
-
     & > .tooltip-internal
       bottom: 3.5em
 
@@ -24,7 +23,6 @@ $tooltip-arrow-height-em: 1em
         top: 100%
 
   &.bottom
-
     & > .tooltip-internal
       top: 3.5em
 
@@ -37,7 +35,9 @@ $tooltip-arrow-height-em: 1em
     padding: 1em 2em
     color: $anti-accent-color-hex
     background-color: $accent-color-hex
+    border: 1px solid $anti-accent-color-hex
     box-sizing: border-box
+    box-shadow: 0 0 5px -3px $accent-color-hex
     transform: translateX(-50%)
 
     &::after
@@ -49,14 +49,16 @@ $tooltip-arrow-height-em: 1em
       margin-left: -#{$tooltip-arrow-width-em / 2}
       margin-top: -#{$tooltip-arrow-width-em / 2}
       transform: rotate(45deg)
-      background-color: $accent-color-hex
+      background-color: $anti-accent-color-hex
+      box-shadow: 0 0 5px -3px $accent-color-hex
 
-    &.inverted
+    &.dark
       color: $accent-color-hex
       background-color: $anti-accent-color-hex
+      border: 1px solid $accent-color-hex
 
       &::after
-        background-color: $anti-accent-color-hex
+        background-color: $accent-color-hex
 
   &.show
     visibility: visible

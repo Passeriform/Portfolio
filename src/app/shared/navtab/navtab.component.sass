@@ -126,9 +126,13 @@ $nav-ul-height: $header-size / 2
             top: 0
             height: 2em
             width: 80%
-            background-color: complement($accent-color-hex)
+            background-color: mix(white, $accent-color-hex, 100%)
             color: $anti-accent-color-hex
             mix-blend-mode: difference
+
+      & > li:hover > a:before
+        background-color: mix(black, $anti-accent-color-hex, 100%)
+        border: 1px solid $accent-color-hex
 
   &.logo-shrink-fix
     min-width: calc(100% - #{$shrink-header-size})
