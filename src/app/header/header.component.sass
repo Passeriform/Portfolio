@@ -3,9 +3,10 @@
 $shadow-color-hex: #0E0E0E
 
 :host
-  width: 100%
-  position: fixed
-  z-index: 100
+  position: absolute
+  top: 0
+  left: 0
+  width: 100vw
 
 #header-wrapper
   height: $header-size
@@ -27,7 +28,6 @@ $shadow-color-hex: #0E0E0E
     display: flex
     align-items: flex-start
     justify-content: flex-start
-    z-index: 1
 
     & > a
       display: flex

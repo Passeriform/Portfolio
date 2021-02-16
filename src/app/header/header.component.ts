@@ -1,3 +1,4 @@
+
 import { Component, Input, OnInit } from '@angular/core';
 
 import { SplashState, SplashStateService } from '@app/core/services/splash-state.service';

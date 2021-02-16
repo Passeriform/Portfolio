@@ -4,9 +4,9 @@ import { Directive, TemplateRef, ElementRef } from '@angular/core';
 	selector: '[appNavLink]',
 })
 export class NavtabDirective {
-	public tabTemplate: TemplateRef<ElementRef<HTMLElement>>;
+	public tabTemplate: TemplateRef<ElementRef<any>>;
 
-	constructor(private templateRef: TemplateRef<ElementRef<HTMLElement>>) {
+	constructor(private templateRef: TemplateRef<ElementRef<any>>) {
 		this.tabTemplate = this.templateRef;
 	}
 }

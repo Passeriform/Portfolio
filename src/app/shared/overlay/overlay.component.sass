@@ -7,7 +7,6 @@
     left: 0
     width: 100vw
     height: 100vh
-    z-index: 10
     opacity: 0
     transition: opacity 0.5s ease, backdrop-filter 0.5s ease
     pointer-events: none
@@ -23,7 +22,6 @@
       opacity: 0
       transition: all 0.3s ease
       pointer-events: none
-      z-index: 0
 
     @supports ((-webkit-backdrop-filter: blur(2em)) or (backdrop-filter: blur(2em)))
       &
@@ -60,7 +58,6 @@
     mix-blend-mode: difference
     transition: all 0.5s ease
     cursor: pointer
-    z-index: 10
 
   & > svg
     position: absolute
@@ -77,7 +74,7 @@
       opacity: 1
       clip-path: polygon(0 0, 100% 0%, 50% 50%)
       animation: blink 1s ease-out infinite
-      z-index: 0
+      pointer-events: none
 
     & > .overlay-button
       mix-blend-mode: normal
