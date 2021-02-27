@@ -13,7 +13,7 @@ export class ShowcaseComponent implements OnInit {
 	public model: WorkModel[];
 	public windowHeight: number;
 
-	@ViewChild('cardscroller') cardChild: ElementRef;
+	@ViewChild('cardScroller') cardChild: ElementRef;
 
 	@HostListener('window:resize')
 	onResize() {
