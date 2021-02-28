@@ -2,17 +2,14 @@
   <div *ngIf="model?.intro" class="page" id="intro" #page>
     <div class="bg-img"></div>
     <div class="content">
-      <div class="content-wrapper">
-        <a routerLink="/about/{{ model.subject }}" class="avatar">
-          <img *ngIf="model.intro.img" alt="profile-img" src="{{ model.intro.img }}" />
-        </a>
-        <div class="content-text">
-          <h1>{{ model.intro.heading }}</h1>
-          <p>
-            {{ model.intro.paragraph }}
-          </p>
-        </div>
-      </div>
+      <app-namecard
+          avatarLink="/about/{{ model.subject }}"
+          [imgUrl]="model.intro.img"
+          [imgAlt]="'profile-img'"
+          [name]="model.intro.heading"
+          [description]="model.intro.paragraph"
+        >
+      </app-namecard>
     </div>
   </div>
   <div *ngIf="model?.overview" class="page" id="overview" #page>
