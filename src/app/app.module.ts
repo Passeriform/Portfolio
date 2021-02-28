@@ -11,6 +11,7 @@ import { LandingModule } from './landing/landing.module';
 import { WorkModule } from './work/work.module';
 import { AboutModule } from './about/about.module';
 import { SharedModule } from './shared/shared.module';
+import { ErrorModule } from './error/error.module';
 
 import { HttpErrorInterceptor } from '@app/core/interceptors/http-error.interceptor';
 
@@ -27,6 +28,7 @@ import { HttpErrorInterceptor } from '@app/core/interceptors/http-error.intercep
 		WorkModule,
 		AboutModule,
 		SharedModule,
+		ErrorModule,
 	],
 	declarations: [AppComponent],
 	providers: [

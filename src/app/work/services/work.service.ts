@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { environment } from '@env/environment';
 
@@ -57,11 +57,6 @@ export class WorkService {
 					this.workCacheSource.next(taggedModel);
 
 					return taggedModel;
-				}),
-				catchError((error) => {
-					console.log('ErrorService triggered error.');
-
-					return Observable.throw(error.message);
 				})
 			);
 	}

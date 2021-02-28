@@ -16,7 +16,7 @@ import { ErrorModel } from '@app/error/error.interface';
 import { ErrorService } from '@app/error/error.service';
 
 export class HttpErrorInterceptor implements HttpInterceptor {
-	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<object>> {
+	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<ErrorModel>> {
 		return next.handle(request)
 			.pipe(
 				retry(1),

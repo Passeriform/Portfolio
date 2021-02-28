@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map, concat, take } from 'rxjs/operators';
 
 import { WorkModel } from './work.interface';
 import { WorkService } from './services/work.service';
 import { TaggerService } from './services/tagger.service';
+import { ErrorService } from '@app/error/error.service';
 
 @Injectable()
 export class WorkResolver implements Resolve<WorkModel[]> {
@@ -15,6 +16,7 @@ export class WorkResolver implements Resolve<WorkModel[]> {
 		private router: Router,
 		private http: HttpClient,
 		private workService: WorkService,
+		private errorService: ErrorService,
 	) { }
 
 	resolve(route: ActivatedRouteSnapshot): Observable<WorkModel[]> {
@@ -53,9 +55,9 @@ export class WorkResolver implements Resolve<WorkModel[]> {
 					return model;
 				}),
 				catchError((error) => {
-					console.log(`ErrorService triggered error. ${error.message}`);
+					this.errorService.displayError(error);
 
-					return Observable.throw(error.message);
+					return of(undefined);
 				})
 			);
 	}
