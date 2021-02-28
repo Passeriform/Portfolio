@@ -18,7 +18,6 @@ export class UpdateRollComponent implements OnInit {
 			this.updates.forEach((update) => {
 				update.expand = false;
 			});
-
 		});
 	}
 

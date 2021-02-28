@@ -8,7 +8,6 @@ import { Component, OnInit, Input } from '@angular/core';
 export class TechStackComponent implements OnInit {
 	public tooltipShownFor: string;
 
-	// TODO: object must be replaced
 	@Input() public model: object[];
 
 	constructor() { }

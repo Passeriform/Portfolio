@@ -59,7 +59,7 @@ export class TooltipDirective {
 
 		this.componentRef.instance.tooltipTemplate = this.template;
 		this.componentRef.instance.positionType = this.position;
-		// Use a palette service instead of this.
+		// NOTE: Use a palette service instead of this.
 		// this.componentRef.instance.palette = {
 		//   this.primaryColor,
 		//   this.accentColor

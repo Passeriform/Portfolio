@@ -1,8 +1,7 @@
-export interface HarmonicLoaderConfig {
+export interface HarmonicLoaderConfig extends LoaderConfig {
 	yoffset: number;
 	amplitude: number;
 	speed: number;
-	// Frequency: number;
 	basePhase: number;
 	dotsDist: number;
 	dotRadius: number;
