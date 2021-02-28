@@ -103,7 +103,11 @@
         background-size: cover
         filter: brightness(50%)
 
-      & > .content > .content-wrapper > img
-        width: 150px
-        height: 150px
-        border-radius: 50%
+      & > .content > .content-wrapper
+        & > img
+          width: 150px
+          height: 150px
+          border-radius: 50%
+
+        & > .contact-details > .postform
+          clear: both
