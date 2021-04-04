@@ -109,7 +109,7 @@ export class LoaderService {
 		}
 
 		return true;
-		// Return !this.loadingJobsSource.value.length;
+		// return !this.loadingJobsSource.value.length;
 	}
 
 	setLoadingProgress(label: string, progress: number): void {

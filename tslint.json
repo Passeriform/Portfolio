@@ -29,7 +29,6 @@
     "comment-format": [
       true,
       "check-space",
-      "check-uppercase",
       "allow-trailing-lowercase"
     ],
     "completed-docs": false,

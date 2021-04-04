@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-// Import { LoaderService } from './services/loader.service';
+// import { LoaderService } from './services/loader.service';
 
 @Component({
 	selector: 'app-root',
@@ -11,10 +11,10 @@ export class AppComponent {
 	title = 'Passeriform';
 
 	constructor(
-		// Private loaderService: LoaderService
+		// private loaderService: LoaderService
 	) { }
 
 	onRouteChange() {
-		// This.loaderService.flushJobs();
+		// this.loaderService.flushJobs();
 	}
 }

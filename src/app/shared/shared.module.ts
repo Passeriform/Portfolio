@@ -15,7 +15,7 @@ import { IconUriPipe } from './icon-uri.pipe';
 import { RetainPipe } from './retain.pipe';
 import { EnvPipe } from './env.pipe';
 
-// Import { ShowAuthedDirective } from './show-authed.directive';
+// import { ShowAuthedDirective } from './show-authed.directive';
 
 @NgModule({
 	imports: [

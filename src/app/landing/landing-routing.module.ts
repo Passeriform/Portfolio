@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { LandingComponent } from './landing.component';
-// Import { PersonalityGuard } from '../core';
+// import { PersonalityGuard } from '../core';
 
 const routes: Routes = [
 	{

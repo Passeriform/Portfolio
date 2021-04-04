@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { WorkComponent } from './work.component';
 import { WorkResolver } from './work-resolver.service';
 import { routeFilters } from './work.config';
-// Import { PersonalityGuard } from '../core';
+// import { PersonalityGuard } from '../core';
 import { SharedModule } from '../shared/shared.module';
 
 const routes: Routes = [

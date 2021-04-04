@@ -126,7 +126,7 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 					Math.sin(
 						(this.loaderConfig.speed * elapsed) / 10000 +
 						val +
-						// This.loaderConfig.frequency * val +
+						// this.loaderConfig.frequency * val +
 						this.loaderConfig.basePhase
 					),
 				radius: this.loaderConfig.dotRadius,
@@ -141,7 +141,7 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 					Math.sin(
 						(this.loaderConfig.speed * elapsed) / 10000 +
 						val +
-						// This.loaderConfig.frequency * ((this.loaderConfig.dotsDist / 2) + val) +
+						// this.loaderConfig.frequency * ((this.loaderConfig.dotsDist / 2) + val) +
 						this.loaderConfig.basePhase +
 						percToPhaseAngle(this.loaderPerc)
 					),
@@ -176,7 +176,7 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 					Math.sin(
 						(this.loaderConfig.speed * elapsed) / 10000 +
 						val +
-						// This.loaderConfig.frequency * val +
+						// this.loaderConfig.frequency * val +
 						this.loaderConfig.basePhase
 					),
 				radius: this.loaderConfig.dotRadius,
@@ -191,7 +191,7 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 					Math.sin(
 						(this.loaderConfig.speed * elapsed) / 10000 +
 						val +
-						// This.loaderConfig.frequency * ((this.loaderConfig.dotsDist / 2) + val) +
+						// this.loaderConfig.frequency * ((this.loaderConfig.dotsDist / 2) + val) +
 						this.loaderConfig.basePhase +
 						percToPhaseAngle(this.loaderPerc)
 					),

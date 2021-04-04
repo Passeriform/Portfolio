@@ -20,7 +20,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
 		private loaderService: LoaderService,
 		private route: ActivatedRoute,
 	) {
-		// This.loaderService.flushJobs();
+		// this.loaderService.flushJobs();
 		this.loaderService.beginLoading('[page] load');
 	}
 

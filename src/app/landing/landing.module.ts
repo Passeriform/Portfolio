@@ -2,7 +2,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { LandingComponent } from './landing.component';
-// Import { LandingResolver } from './landing-resolver.service';
+// import { LandingResolver } from './landing-resolver.service';
 import { LandingRoutingModule } from './landing-routing.module';
 import { SweeperComponent } from './sweeper/sweeper.component';
 import { BadgeComponent } from './badge/badge.component';

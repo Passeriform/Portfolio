@@ -5,7 +5,7 @@ export function generateLoaderConfig(width: number, height: number): HarmonicLoa
 		yoffset: height / 2,
 		amplitude: height / 12,
 		speed: 25,
-		// Frequency: width / 10,
+		// frequency: width / 10,
 		basePhase: 0,
 		dotsDist: width / 10,
 		dotRadius: (width / 600) + 2,

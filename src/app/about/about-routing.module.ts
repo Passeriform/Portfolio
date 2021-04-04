@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AboutComponent } from './about.component';
 import { AboutResolver } from './about-resolver.service';
-// Import { PersonalityGuard } from '../core';
+// import { PersonalityGuard } from '../core';
 // import { SharedModule } from '../shared';
 
 const routes: Routes = [
