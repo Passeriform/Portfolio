@@ -1,0 +1,127 @@
+@import 'vars'
+
+$inactive-link-color-hex: #9C9C9C
+$inactive-quick-link-color-hex: #9C9C55
+$active-link-color-hex: #FFFFFF
+
+
+@mixin expanded
+  &
+    height: calc(100% - 4em)
+
+    & > #footer-content
+      flex-grow: 1
+
+@mixin linear
+  & > #footer-content
+    & > #links
+      flex-direction: row
+
+@mixin stacked
+  & > #footer-content
+    height: 28em
+
+    & > .separator
+      height: 100%
+
+    & > #brand
+      margin: auto 1em
+
+    & > #links
+      margin: 1em
+      flex-direction: column
+      flex-grow: 1
+      flex-wrap: wrap
+      justify-content: flex-start
+
+  @media (orientation: portrait), (max-width: 50em)
+    @include expanded
+
+:host
+  @include linear
+  display: flex
+  position: absolute
+  left: 0
+  bottom: 0
+  flex-direction: column
+
+  &.linear
+    @include linear
+
+  &.stacked
+    @include stacked
+
+  @media (orientation: portrait), (max-width: 50em)
+    @include expanded
+
+  & > #footer-content
+    display: flex
+    width: 100vw
+    height: 28em
+    padding: 2em 0
+    background-color: $header-footer-bgcolor-hex
+    flex-direction: row
+    justify-content: space-around
+
+    & > .separator
+      height: 100%
+
+    & > #brand
+      margin: auto 1em
+      width: 14em
+      text-align: center
+
+      & > div
+        & > p
+          margin: 0
+          font-family: "Share Tech Mono", monospace
+          font-size: 1.8em
+          font-weight: 800
+
+        & > img
+          width: 10em
+          filter: invert(1)
+          mix-blend-mode: difference
+
+        & > small
+          white-space: nowrap
+
+    & > #links
+      display: flex
+      margin: 1em
+      flex-direction: column
+      flex-grow: 1
+      flex-wrap: wrap
+      justify-content: flex-start
+
+      & > .section
+        margin: 1em
+
+        & > h6
+          font-weight: 800
+          margin-bottom: 1em
+
+        & > div
+          padding-left: 0.1em
+
+          & > a
+            display: flex
+            color: $inactive-link-color-hex
+            flex-direction: column
+            font-weight: 500
+            white-space: nowrap
+            line-height: 5vh
+            text-decoration: none
+            cursor: pointer
+            transition: all 0.3s ease-out
+
+            &:hover
+              color: $active-link-color-hex
+
+  & > #post-note
+    text-align: center
+    background-color: $anti-accent-color-hex
+
+    & > h6
+      margin: 1em
+      font-family: Fira Code

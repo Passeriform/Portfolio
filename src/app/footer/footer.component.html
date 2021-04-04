@@ -1,0 +1,60 @@
+<div id="footer-content">
+  <div id="brand">
+    <div>
+      <img src="/assets/images/icons/passeriform.svg" alt="logo" />
+      <p>
+        PASSERIFORM
+      </p>
+    </div>
+    <app-social-glyphs [model]="socials"></app-social-glyphs>
+    <div>
+      <small>&copy; Copyright 2021, Passeriform</small>
+    </div>
+  </div>
+  <div class="separator"></div>
+  <div id="links">
+    <div class="section" id="navigator">
+      <h6>NAVIGATE</h6>
+      <div>
+        <ng-container *ngFor="let product of products">
+          <a routerLink="{{ product.link }}" class="quick-links">{{ product.name }}</a>
+        </ng-container>
+        <div class="separator horizontal"></div>
+        <a routerLink="/explore">Explore</a>
+        <a routerLink="/trickle">Trickle Explore</a>
+        <a (click)="popupSitemap()">Sitemap</a>
+      </div>
+    </div>
+    <div class="section" id="about">
+      <h6>ABOUT US</h6>
+      <div>
+        <ng-container *ngFor="let entity of abouts">
+          <a routerLink="{{ entity.link }}">{{ entity.name }}</a>
+        </ng-container>
+      </div>
+    </div>
+    <div class="section" id="legal">
+      <h6>MORE</h6>
+      <div>
+        <a routerLink="tos">Terms of Service</a>
+        <a routerLink="privacy">Privacy Policy</a>
+        <a routerLink="personalization-privacy">Data Collection</a>
+      </div>
+    </div>
+    <div class="section" id="personality">
+      <h6>ABOUT YOU</h6>
+      <div>
+        <a (click)="popupPersonalitySelector()">Personalize</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="post-note">
+  <h6>Made by
+    <app-chirpy
+        [say]="['Chirp!', 'Birds Unite', 'Cheep! Cheep!', 'Peckers']"
+      >
+      🐦
+    </app-chirpy>
+  </h6>
+</div>

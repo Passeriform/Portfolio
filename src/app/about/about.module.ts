@@ -22,5 +22,8 @@ import { SharedModule } from '../shared/shared.module';
 		SocialGlyphsComponent,
 	],
 	providers: [AboutResolver],
+	exports: [
+		SocialGlyphsComponent,
+	],
 })
 export class AboutModule { }
