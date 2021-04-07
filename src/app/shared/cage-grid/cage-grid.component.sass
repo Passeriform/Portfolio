@@ -4,6 +4,7 @@
 $cage-grid-border-size: 0.2em
 $title-flap-size-em: 3em
 $h2-font-size-em: 1.75em
+$h2-padding-x-em: 0.5em
 $h2-padding-y-em: 0.25em
 $content-shift-x-em: 0.2em
 $content-shift-y-em: 0.2em
@@ -46,21 +47,13 @@ $left-border-shift-em: $title-flap-size-em - $cage-grid-border-size
 
       & > h2
         margin: 0
-        padding: $h2-padding-y-em 0.5em
+        padding: $h2-padding-y-em $h2-padding-x-em
         display: inline-block
         color: map-deep-get($theme, "foreground", "hex")
         background-color: map-deep-get($theme, "background", "hex")
         font-size: $h2-font-size-em
-
-      &:after
-        content: ''
-        position: relative
-        width: $title-flap-size-em
-        height: $title-flap-size-em
-        display: inline-block
-        background-color: $accent-color-hex
-        clip-path: polygon(0 0, 100% 0, 0 100%)
-        vertical-align: bottom
+        padding-right: $h2-padding-x-em + ($title-flap-size-em / 2)
+        clip-path: polygon(0 0, 100% 0, calc(100% - #{($title-flap-size-em / 2) + $h2-padding-y-em}) 100%, 0 100%)
 
     & > .content
       position: relative
