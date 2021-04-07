@@ -1,3 +1,5 @@
+import { LoaderConfig } from '../loader.interface';
+
 export interface HarmonicLoaderConfig extends LoaderConfig {
 	yoffset: number;
 	amplitude: number;
