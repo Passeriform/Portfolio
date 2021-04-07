@@ -1,6 +1,5 @@
 @import 'vars'
-
-$cage-grid-border-color-hex: #3D3D3D99
+@import './cage-grid.colors'
 
 $cage-grid-border-size: 0.2em
 $title-flap-size-em: 3em
@@ -49,8 +48,8 @@ $left-border-shift-em: $title-flap-size-em - $cage-grid-border-size
         margin: 0
         padding: $h2-padding-y-em 0.5em
         display: inline-block
-        color: $anti-accent-color-hex
-        background-color: $accent-color-hex
+        color: map-deep-get($theme, "foreground", "hex")
+        background-color: map-deep-get($theme, "background", "hex")
         font-size: $h2-font-size-em
 
       &:after
@@ -69,6 +68,6 @@ $left-border-shift-em: $title-flap-size-em - $cage-grid-border-size
       left: $content-shift-x-em
       padding: 2em
       background-color: transparent
-      border: $cage-grid-size solid $cage-grid-border-color-hex
+      border: $cage-grid-size solid map-deep-get($theme, "accent", "hex")
       // clip-path: polygon(0 0, 0 calc(100% - #{$cage-grid-cut-size}), #{$cage-grid-cut-size} 100% , 100% 100%, 100% #{$cage-grid-cut-size}, calc(100% - #{$cage-grid-cut-size}) 0)
       clip-path: polygon(0 0, calc(30% + #{$top-border-shift-em}) 0, 30% $top-border-shift-em, calc(100% - #{$top-border-shift-em}) $top-border-shift-em, calc(100% - #{$top-border-shift-em}) calc(100% - #{$top-border-shift-em}), $top-border-shift-em calc(100% - #{$top-border-shift-em}), $left-border-shift-em $title-flap-size-em + $top-border-shift-em + $content-shift-y-em, 0 $title-flap-size-em + $content-shift-y-em)

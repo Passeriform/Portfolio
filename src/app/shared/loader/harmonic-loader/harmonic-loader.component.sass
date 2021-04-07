@@ -1,5 +1,6 @@
 @import 'vars'
+@import '../loader.colors'
 
 :host
   & > canvas
-      background-color: $anti-accent-color-hex
+      background-color: map-deep-get($theme, "background", "hex")

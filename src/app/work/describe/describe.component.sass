@@ -1,6 +1,5 @@
 @import 'vars'
-
-$subtitle-color-hex: #556B2F
+@import './describe.colors'
 
 :host
   & > .content
@@ -38,7 +37,7 @@ $subtitle-color-hex: #556B2F
           font-weight: 700
 
         & > p
-          color: $subtitle-color-hex
+          color: map-deep-get($theme, "accent", "hex")
           font-size: 1.25em
           font-weight: 500
 

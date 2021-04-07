@@ -1,9 +1,21 @@
 @import 'vars'
+@import './tooltip.colors'
 
 $tooltip-window-width-em: 20em
 $tooltip-window-height-em: 20em
 $tooltip-arrow-width-em: 1em
 $tooltip-arrow-height-em: 1em
+
+@mixin light-theming
+  color: invert(map-deep-get($theme, "foreground", "hex"))
+  background-color: invert(map-deep-get($theme, "background", "hex"))
+  border: 1px solid invert(map-deep-get($theme, "accent", "hex"))
+
+@mixin dark-theming
+  color: map-deep-get($theme, "foreground", "hex")
+  background-color: map-deep-get($theme, "background", "hex")
+  border: 1px solid map-deep-get($theme, "accent", "hex")
+
 
 :host
   display: inline-block
@@ -30,17 +42,16 @@ $tooltip-arrow-height-em: 1em
         top: 0%
 
   & > .tooltip-internal
+    +light-theming
     position: absolute
     width: $tooltip-window-width-em
     padding: 1em 2em
-    color: $anti-accent-color-hex
-    background-color: $accent-color-hex
-    border: 1px solid $anti-accent-color-hex
     box-sizing: border-box
-    box-shadow: 0 0 5px -3px $accent-color-hex
+    box-shadow: 0 0 5px -3px map-deep-get($theme, "shadow", "hex")
     transform: translateX(-50%)
 
     &::after
+      +light-theming
       content: ''
       position: absolute
       width: $tooltip-arrow-width-em
@@ -49,17 +60,14 @@ $tooltip-arrow-height-em: 1em
       margin-left: -#{$tooltip-arrow-width-em / 2}
       margin-top: -#{$tooltip-arrow-width-em / 2}
       transform: rotate(45deg)
-      background-color: $anti-accent-color-hex
-      box-shadow: 0 0 5px -3px $accent-color-hex
+      box-shadow: 0 0 5px -3px map-deep-get($theme, "shadow", "hex")
 
     &.dark
-      color: $accent-color-hex
-      background-color: $anti-accent-color-hex
-      border: 1px solid $accent-color-hex
+      +dark-theming
 
       &::after
-        background-color: $accent-color-hex
-
+        +dark-theming
+  
   &.show
     visibility: visible
     opacity: 1

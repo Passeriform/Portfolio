@@ -1,11 +1,5 @@
 @import 'vars'
-
-/* About Specific Color Scheme */
-$card-background-color-hex: #050c26
-$card-border-color-hex: #282f4c
-$title-color-hex: #A8757D
-$title-background-hex: #17061E
-/* -------------------------- */
+@import './namecard.colors'
 
 $title-clip-size: 1em
 
@@ -31,17 +25,18 @@ $title-clip-size: 1em
     padding: 1em
     padding-left: 2em
     padding-right: 2em
-    background-color: $card-background-color-hex
+    background-color: map-deep-get($theme, "background", "hex")
     border-radius: 1em
-    border: 1px solid $card-border-color-hex
+    border: 1px solid map-deep-get($theme, "accent", "hex")
 
     & > h1
-      color: $title-color-hex
-      background-color: $title-background-hex
+      color: map-deep-get($theme, "foreground", "hex")
+      background-color: map-deep-get($theme, "canvas", "hex")
       clip-path: polygon(0 $title-clip-size, 0 100%, calc(100% - #{$title-clip-size}) 100%, 100% calc(100% - #{$title-clip-size}), 100% 0, $title-clip-size 0)
       padding-left: 0.7em
       padding-right: 0.7em
       font-size: $h1-responsive-font-size
+      font-weight: 800
 
     & > p
       font-family: DM Mono

@@ -1,6 +1,5 @@
 @import 'vars'
-
-$entry-bg-color-hex: #3D3D3D99
+@import './update-roll.colors'
 
 :host
   display: grid
@@ -18,8 +17,8 @@ $entry-bg-color-hex: #3D3D3D99
       margin-top: -1px
 
     & > *
-      background-color: $entry-bg-color-hex
-      border: 1px solid $accent-color-hex
+      background-color: map-deep-get($theme, "canvas", "hex")
+      border: 1px solid map-deep-get($theme, "accent", "hex")
 
     & > .badge
       border-radius: 0
@@ -50,4 +49,4 @@ $entry-bg-color-hex: #3D3D3D99
 
 code.type-desc
     font-size: 2em
-    color: $anti-accent-color-hex
+    color: map-deep-get($theme, "background", "hex")

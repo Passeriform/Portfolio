@@ -1,9 +1,5 @@
 @import 'vars'
-
-$inactive-link-color-hex: #9C9C9C
-$inactive-quick-link-color-hex: #9C9C55
-$active-link-color-hex: #FFFFFF
-
+@import './footer.colors'
 
 @mixin expanded
   &
@@ -59,7 +55,7 @@ $active-link-color-hex: #FFFFFF
     width: 100vw
     height: 28em
     padding: 2em 0
-    background-color: $header-footer-bgcolor-hex
+    background-color: map-deep-get($theme, "background", "hex")
     flex-direction: row
     justify-content: space-around
 
@@ -106,7 +102,7 @@ $active-link-color-hex: #FFFFFF
 
           & > a
             display: flex
-            color: $inactive-link-color-hex
+            color: map-deep-get($theme, "foreground", "dark-35%", "hex")
             flex-direction: column
             font-weight: 500
             white-space: nowrap
@@ -116,11 +112,11 @@ $active-link-color-hex: #FFFFFF
             transition: all 0.3s ease-out
 
             &:hover
-              color: $active-link-color-hex
+              color: map-deep-get($theme, "foreground", "light-35%", "hex")
 
   & > #post-note
     text-align: center
-    background-color: $anti-accent-color-hex
+    background-color: map-deep-get($theme, "background", "light-10%", "hex")
 
     & > h6
       margin: 1em

@@ -1,4 +1,11 @@
 @import 'vars'
+@import 'colors'
+
+$theme: generateColorSwatch($highlight: #ADFF22, $shadow: #0000000F)
+
+*
+  scrollbar-color: map-deep-get($global-colors, "scrollbar", "thumb") map-deep-get($global-colors, "scrollbar", "track")
+  scrollbar-width: thin
 
 html > body
   font-family: Raleway, sans-serif
@@ -6,8 +13,8 @@ html > body
   font-weight: 400
   line-height: $line-height-px
   letter-spacing: 1px
-  text-shadow: 1px 1px 1px rgba(0,0,0,.1)
-  color: $accent-color-hex
+  text-shadow: 1px 1px 1px map-deep-get($theme, "shadow", "hex")
+  color: map-deep-get($theme, "accent", "hex")
   list-style: none
 
   height: 100vh
@@ -16,5 +23,5 @@ html > body
   margin: 0
 
   code
-    color: greenyellow
+    color: map-deep-get($theme, "highlight", "hex")
     font-family: 'DM Mono', monospace

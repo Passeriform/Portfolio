@@ -1,4 +1,5 @@
 @import 'vars'
+@import './navtab.colors'
 
 /* Check once */
 $nav-ul-height: $header-size / 2
@@ -43,16 +44,16 @@ $nav-ul-height: $header-size / 2
           text-align: center
 
           &:hover > a
-            color: $accent-color-hex
+            color: map-deep-get($theme, "accent", "hex")
 
           & > a
-            color: $accent-color-hex
+            color: map-deep-get($theme, "accent", "hex")
 
             &:before
               top: 0
               height: 2.5em
               width: 100%
-              background-color: complement($anti-accent-color-hex)
+              background-color: complement(map-deep-get($theme, "background", "hex"))
               mix-blend-mode: difference
               transform: scaleX(0.05)
               transform-origin: left
@@ -71,7 +72,7 @@ $nav-ul-height: $header-size / 2
       transition: all 0.5s ease
 
       & > a
-        color: $accent-color-hex
+        color: map-deep-get($theme, "accent", "hex")
         font-weight: 500
         text-decoration: none
         text-transform: uppercase
@@ -81,7 +82,7 @@ $nav-ul-height: $header-size / 2
         transition: all 0.5s ease
 
         &:hover
-          color: $anti-accent-color-hex
+          color: map-deep-get($theme, "background", "hex")
 
           &:before
             visibility: visible
@@ -97,7 +98,7 @@ $nav-ul-height: $header-size / 2
           left: 0
           right: 0
           margin: auto
-          background-color: $anti-accent-color-hex
+          background-color: map-deep-get($theme, "background", "hex")
           visibility: hidden
           -webkit-transform: scaleX(0)
           transform: scaleX(0)
@@ -105,7 +106,7 @@ $nav-ul-height: $header-size / 2
           transition: all 0.5s ease
 
       &:hover > a
-        color: $anti-accent-color-hex
+        color: map-deep-get($theme, "background", "hex")
 
         &:before
           visibility: visible
@@ -119,20 +120,20 @@ $nav-ul-height: $header-size / 2
         padding: 1em
 
         & > a
-          color: $accent-color-hex
+          color: map-deep-get($theme, "accent", "hex")
 
           &:before
             bottom: 0
             top: 0
             height: 2em
             width: 80%
-            background-color: mix(white, $accent-color-hex, 100%)
-            color: $anti-accent-color-hex
+            background-color: mix(white, map-deep-get($theme, "accent", "hex"), 100%)
+            color: map-deep-get($theme, "background", "hex")
             mix-blend-mode: difference
 
       & > li:hover > a:before
-        background-color: mix(black, $anti-accent-color-hex, 100%)
-        border: 1px solid $accent-color-hex
+        background-color: mix(black, map-deep-get($theme, "background", "hex"), 100%)
+        border: 1px solid map-deep-get($theme, "accent", "hex")
 
   &.logo-shrink-fix
     min-width: calc(100% - #{$shrink-header-size})

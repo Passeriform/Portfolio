@@ -1,7 +1,14 @@
 @import 'vars'
+@import './contact-form.colors'
 
 $half-margin: 1em
 $net-half-width: calc(50% - (#{$half-margin} / 2))
+
+@mixin form-element
+  border: 1px solid map-deep-get($theme, "accent", "hex")
+  background: map-deep-get($theme, "background", "dark-5%", "hex")
+  color: white
+  backdrop-filter: blur(5px)
 
 :host > form#contact-form > ul
   padding: 0
@@ -29,12 +36,10 @@ $net-half-width: calc(50% - (#{$half-margin} / 2))
       margin-right: 1em
 
   & input[type=text], input[type=email]
+    +form-element
     width: 100%
-    border: 0
-    background: $anti-accent-color-hex
     height: 3em
     font-size: 16px
-    color: $accent-color-hex
     padding: 0 20px
     mix-blend-mode: lighten
     box-sizing: border-box
@@ -43,22 +48,18 @@ $net-half-width: calc(50% - (#{$half-margin} / 2))
       outline: 0
 
   & textarea
+    +form-element
     width: 100%
-    border: 0
-    background: $anti-accent-color-hex
     height: 3em
     font-size: 16px
-    color: $accent-color-hex
     padding: 20px
     box-sizing: border-box
     min-height: 150px
     mix-blend-mode: lighten
 
   .flat-button
+    +form-element
     padding: 0.5em 2em
-    border: 1px solid $accent-color-hex
-    color: $accent-color-hex
-    background-color: transparent
     font-size: 0.85em
     letter-spacing: 0.2em
 
@@ -82,7 +83,7 @@ $net-half-width: calc(50% - (#{$half-margin} / 2))
     pointer-events: none
     height: 100%
     width: 100%
-    background-color: $accent-color-hex
+    background-color: invert(map-deep-get($theme, "background", "hex"))
     mix-blend-mode: exclusion
     -webkit-transform: translate3d(-100%, 0, 0)
     transform: translate3d(-100%, 0, 0)

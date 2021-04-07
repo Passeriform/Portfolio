@@ -1,11 +1,5 @@
 @import 'vars'
-
-$placeholder-bg-color-hex: #0E1012
-$placeholder-h1-span-color-hex: #7E9300
-$placeholder-p-color-hex: #AAAAAA
-
-$description-bg-color-hex: #0E1012
-$stack-bg-color-hex: #1F0911
+@import './work.colors'
 
 :host
   & .bg-img
@@ -16,7 +10,7 @@ $stack-bg-color-hex: #1F0911
 
   & #selected-placeholder
     & > .bg-img
-      background-color: $placeholder-bg-color-hex
+      background-color: map-deep-get($theme, "background", "hex")
 
     & > #placeholder-content
       position: relative
@@ -38,7 +32,7 @@ $stack-bg-color-hex: #1F0911
         text-transform: initial
 
         & > span
-          color: $placeholder-h1-span-color-hex
+          color: map-deep-get($theme, "accent", "hex")
 
       & > p
         text-transform: initial
@@ -51,7 +45,7 @@ $stack-bg-color-hex: #1F0911
         line-height: 1.2em
         position: absolute
         font-weight: 400
-        color: $placeholder-p-color-hex
+        color: map-deep-get($theme, "background", "hex")
         text-align: center
         top: 50%
         left: 50%
@@ -60,7 +54,7 @@ $stack-bg-color-hex: #1F0911
 
   & #description
     & > .bg-img
-      background-color: $description-bg-color-hex
+      background-color: map-deep-get($theme, "background", "hex")
 
     & > #content
       position: relative
@@ -69,7 +63,7 @@ $stack-bg-color-hex: #1F0911
 
   & #stack
     & > .bg-img
-      background-color: $stack-bg-color-hex
+      background-color: map-deep-get($theme, "background", "light-5%", "hex")
 
     & > #content
       position: relative

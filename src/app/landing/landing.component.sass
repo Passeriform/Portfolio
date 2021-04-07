@@ -1,4 +1,5 @@
 @import 'vars'
+@import './landing.colors'
 
 :host
   & .page > .bg-img
@@ -44,4 +45,4 @@
 
   & #dir-view
     & > .bg-img
-      background-color: $anti-accent-color-hex
+      background-color: map-deep-get($theme, "background", "hex")

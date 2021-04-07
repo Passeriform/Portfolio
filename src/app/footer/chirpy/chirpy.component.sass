@@ -1,4 +1,5 @@
 @import 'vars'
+@import './chirpy.colors'
 
 :host
   display: inline-block
@@ -6,7 +7,7 @@
   & > .popup
     position: absolute
     transform: translate(0, -3em)
-    background-color: $accent-color-hex
+    background-color: invert(map-deep-get($theme, "background", "hex"))
     padding: 0.5em
     border-radius: 0.5em
     visibility: hidden
@@ -22,9 +23,9 @@
       left: 0
       width: 1em
       height: 1em
-      background-color: $accent-color-hex
+      background-color: invert(map-deep-get($theme, "background", "hex"))
       clip-path: polygon(0 0, 100% 0, 0 100%)
 
     & > p
       margin: 0
-      color: $anti-accent-color-hex
+      color: invert(map-deep-get($theme, "accent", "hex"))
