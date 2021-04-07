@@ -2,14 +2,15 @@
 @import './landing.colors'
 
 :host
-  & .page > .bg-img
-    position: absolute
-    height: 100vh
-    width: 100vw
-    z-index: -1
+  & .page > .bg-img-wrapper
+    & > .bg-img
+      position: absolute
+      height: 100vh
+      width: 100vw
+      z-index: -1
 
   & #splash
-    & > .bg-img
+    & > .bg-img-wrapper > .bg-img
       filter: blur(2px)
       background-image: url("/assets/images/landingbg.jpg")
       background-repeat: no-repeat
@@ -32,17 +33,15 @@
         margin-bottom: -0.25em
 
   & #overview
-    & > .bg-img
+    & > .bg-img-wrapper > .bg-img
       background-image: url("/assets/images/patterns/carbonpattern@2X.png")
       background-repeat: repeat
       background-size: auto
 
     & > .content
       position: relative
-      // TODO: Eliminate this hack with typescript alternative
-      height: calc(100% - #{$shrink-header-size})
       top: $shrink-header-size
 
   & #dir-view
-    & > .bg-img
+    & > .bg-img-wrapper > .bg-img
       background-color: map-deep-get($theme, "background", "hex")
