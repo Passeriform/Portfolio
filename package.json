@@ -10,7 +10,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "publish:gh-pages": "npm run build:prod && angular-cli-ghpages --repo git@github.com:Passeriform/passeriform.github.io --message 'Deploy: New publish to gh-pages.' --dir dist/passeriform --branch master"
+    "cpcname": "cp CNAME dist/passeriform",
+    "publish:gh-pages": "npm run build:prod && npm run cpcname && angular-cli-ghpages --repo git@github.com:Passeriform/passeriform.github.io --message 'Deploy: New publish to gh-pages.' --dir dist/passeriform --branch master"
   },
   "private": true,
   "dependencies": {
@@ -39,7 +40,7 @@
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
-    "codelyzer": "^5.1.2",
+    "codelyzer": "^6.0.1",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.0",
     "json-loader": "^0.5.7",
