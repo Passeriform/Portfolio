@@ -47,7 +47,16 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 		this.loaderService.loadingProgressState$.subscribe(
 			(loadedPercentage) => {
 				this.loaderPerc = loadedPercentage;
-			});
+			}
+		);
+	}
+
+	ngAfterViewInit() {
+		this.canvasService.setCanvasElement(this.loaderCanvas);
+
+		this.prepareCanvas();
+
+		this.canvasService.canvasContext$.subscribe((ctx) => this.context = ctx);
 
 		this.loaderService.loadingJobsState$.subscribe(
 			(loadingJobsState) => {
@@ -73,15 +82,8 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 						this.beginLoadingAnimation();
 					}
 				}
-			});
-	}
-
-	ngAfterViewInit() {
-		this.canvasService.setCanvasElement(this.loaderCanvas);
-
-		this.prepareCanvas();
-
-		this.canvasService.canvasContext$.subscribe((ctx) => this.context = ctx);
+			}
+		);
 	}
 
 	prepareCanvas() {
