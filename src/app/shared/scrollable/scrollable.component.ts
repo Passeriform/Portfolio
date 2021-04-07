@@ -89,9 +89,11 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
 		const scrollableHeight = this.hostElement.nativeElement.scrollHeight + this.overshoot - vh * 100;
 
 		if (this.horizontal) {
-			if (this.delta * (this.pageIndex + 1) * vw > scrollableWidth) { return; }
+			const expectedScrollWidth = Math.floor(this.delta * (this.pageIndex + 1) * vw);
+			if (expectedScrollWidth > scrollableWidth) { return; }
 		} else {
-			if (this.delta * (this.pageIndex + 1) * vh > scrollableHeight) { return; }
+			const expectedScrollHeight = Math.floor(this.delta * (this.pageIndex + 1) * vh);
+			if (expectedScrollHeight > scrollableHeight) { return; }
 		}
 
 		this.pageIndex++;
