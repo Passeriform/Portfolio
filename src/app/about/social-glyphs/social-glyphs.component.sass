@@ -1,11 +1,16 @@
+$no-of-items: 5
+$max-inter-item-width: 1em
+$max-width: ($no-of-items * 2em) + ($no-of-items + 1) * $max-inter-item-width
+
 :host
   display: flex
+  width: min(54em, 100%)
   flex-direction: row
-  justify-content: center
+  justify-content: space-evenly
   flex-wrap: wrap
 
   & > *
-    padding: 1em 2em
+    padding: 1em 0
 
   & img
     width: 2em
