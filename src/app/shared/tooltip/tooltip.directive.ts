@@ -27,9 +27,7 @@ export class TooltipDirective {
 	@Input() position = 'bottom';
 	@Input() template: TemplateRef<any>;
 
-	// TODO: Create palette service for uniform themes
-	@Input() primaryColor: string;
-	@Input() accentColor: string;
+	@Input() darkMode: boolean;
 
 	@ViewChild(TemplateRef, { read: ViewContainerRef }) viewContainer: ViewContainerRef;
 
@@ -59,11 +57,7 @@ export class TooltipDirective {
 
 		this.componentRef.instance.tooltipTemplate = this.template;
 		this.componentRef.instance.positionType = this.position;
-		// NOTE: Use a palette service instead of this.
-		// this.componentRef.instance.palette = {
-		//   this.primaryColor,
-		//   this.accentColor
-		// };
+		this.componentRef.instance.darkMode = this.darkMode;
 		this.componentRef.instance.callerInstance = this.elementRef.nativeElement;
 		this.componentRef.instance.showObs = this.showTooltip$.asObservable();
 

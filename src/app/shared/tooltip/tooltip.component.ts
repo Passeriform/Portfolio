@@ -10,11 +10,10 @@ import { Observable } from 'rxjs';
 export class TooltipComponent implements OnInit, AfterViewInit {
 	@HostBinding('class.show') showToggle: boolean;
 
-	// TODO: Rename to palette and infer colors
 	@Input() positionType: string;
-	@Input() palette: { primaryColor: string; accentColor: string };
 	@Input() callerInstance: HTMLElement;
 	@Input() showObs: Observable<boolean>;
+	@Input() public darkMode: boolean;
 	@Input() public tooltipTemplate: TemplateRef<any>;
 
 	@HostBinding('class.top')

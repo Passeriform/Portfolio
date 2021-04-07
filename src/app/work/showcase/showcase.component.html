@@ -53,6 +53,7 @@
                   *ngIf="entry.languages?.length"
                   class="languages"
                   position="top"
+                  [darkMode]="true"
                   [template]="languageTooltipTemplate"
                 >
                 <img
@@ -75,6 +76,7 @@
                   *ngIf="entry.frameworks?.length"
                   class="frameworks"
                   position="top"
+                  [darkMode]="true"
                   [template]="frameworkTooltipTemplate"
                 >
                 <img
@@ -97,6 +99,7 @@
                   *ngIf="entry.tools?.length"
                   class="tools"
                   position="top"
+                  [darkMode]="true"
                   [template]="toolTooltipTemplate"
                 >
                 <img
