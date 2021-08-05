@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderModule } from './header/header.module';
 import { FooterModule } from './footer/footer.module';
+import { NavigatorModule } from './navigator/navigator.module';
 import { CoreModule } from './core/core.module';
 import { LandingModule } from './landing/landing.module';
 import { WorkModule } from './work/work.module';
@@ -25,6 +26,7 @@ import { HttpErrorInterceptor } from '@app/core/interceptors/http-error.intercep
 		AppRoutingModule,
 		HeaderModule,
 		FooterModule,
+		NavigatorModule,
 		CoreModule,
 		LandingModule,
 		WorkModule,

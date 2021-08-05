@@ -1,0 +1,10 @@
+<div class="flap-button" (click)="expand($event)" [ngClass]="{'expanded': expanded}">
+  <div id="before"></div>
+  <div id="after"></div>
+  <div id="idle-icon">
+    <img src="/assets/images/icons/terminal.svg" alt="Console" />
+  </div>
+  <div id="hide-icon">&raquo;</div>
+  <div id="click-capture" #clickCapture></div>
+  <div id="command-init"><b>$</b><textarea></textarea></div>
+</div>
