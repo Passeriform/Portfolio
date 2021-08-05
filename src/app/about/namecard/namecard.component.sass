@@ -14,11 +14,17 @@ $title-clip-size: 1em
   text-align: left
 
   @media (orientation: landscape)
-    & .content-wrapper
       flex-direction: row
 
   @media (orientation: portrait)
-    & > .content-wrapper
+      flex-direction: column
+
+
+  & .content-wrapper
+    @media (orientation: landscape)
+      flex-direction: row
+
+    @media (orientation: portrait)
       flex-direction: column
 
   & > .content-text
@@ -45,24 +51,15 @@ $title-clip-size: 1em
       line-height: 1.2
       letter-spacing: 0
 
-  & > a.avatar > img
-    width: 150px
-    height: 150px
-    border-radius: 50%
-    filter: grayscale(1) contrast(1.3)
+  & > a.avatar
+    @media (orientation: portrait)
+        margin-bottom: 5vw
 
-  @media (orientation: portrait)
-    & > a.avatar
-      margin-bottom: 5vw
+    @media (orientation: landscape)
+        margin-right: 5vw
 
-  @media (orientation: landscape)
-    & > a.avatar
-      margin-right: 5vw
-
-@media (orientation: landscape)
-  :host
-    flex-direction: row
-
-@media (orientation: portrait)
-  :host
-    flex-direction: column
+    & > img
+      width: 150px
+      height: 150px
+      border-radius: 50%
+      filter: grayscale(1) contrast(1.3)

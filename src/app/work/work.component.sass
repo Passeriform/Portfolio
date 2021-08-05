@@ -35,6 +35,9 @@
           color: map-deep-get($theme, "accent", "hex")
 
       & > p
+        @media (max-height: 30em)
+          display: none
+
         text-transform: initial
         font-size: 2em
         letter-spacing: 0.1em
