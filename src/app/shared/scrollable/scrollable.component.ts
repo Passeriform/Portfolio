@@ -1,8 +1,8 @@
 // TODO: Remove lag from scroll/swipe.
-import { Component, QueryList, ContentChildren, OnInit, AfterContentInit, HostBinding, Input, ElementRef } from '@angular/core';
+import { Component, QueryList, ContentChildren, OnInit, AfterViewInit, HostBinding, Input, ElementRef } from '@angular/core';
 
-import { merge, fromEvent, OperatorFunction, Observable } from 'rxjs';
-import { map, race, filter, throttleTime, mergeMap, take, takeUntil } from 'rxjs/operators';
+import { merge, fromEvent, OperatorFunction, Observable, of } from 'rxjs';
+import { tap, map, race, filter, throttleTime, mergeMap, take, takeUntil } from 'rxjs/operators';
 
 import { SplashState, SplashStateService } from '@app/core/services/splash-state.service';
 
@@ -11,18 +11,20 @@ import { SplashState, SplashStateService } from '@app/core/services/splash-state
 	templateUrl: './scrollable.component.html',
 	styleUrls: ['./scrollable.component.sass'],
 })
-export class ScrollableComponent implements OnInit, AfterContentInit {
+export class ScrollableComponent implements OnInit, AfterViewInit {
 	private pageIndex = 0;
 	private scrollTolerance = 0.1; // Scroll sensitivity
 	private touchTolerance = 0.1; // Swipe distance in pixels
 
-	@ContentChildren('page') items: QueryList<HTMLElement>;
+	@ContentChildren('page', { read: ElementRef }) items: QueryList<ElementRef>;
 
 	@Input() injectSplash: boolean;
 	@Input() collapsed: boolean;
 	@Input() fullpage: boolean;
 	@Input() horizontal: boolean;
 	// TODO: Add smoothen input to remove scrollcancel
+	// TODO: Throw error if nestedScroll is enabled without fullpage
+	@Input() nestedScroll = false;
 	@Input() delta = 100;
 	@Input() overshoot = 0;
 	@Input() throttle = 500;
@@ -83,16 +85,29 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
 
 	// TODO: Justify pulling the delta value
 	pageShiftDown(delta: number): void {
-		const vw = document.documentElement.offsetWidth / 100;
-		const vh = document.documentElement.offsetHeight / 100;
-		const scrollableWidth = this.hostElement.nativeElement.scrollWidth + this.overshoot - vw * 100;
-		const scrollableHeight = this.hostElement.nativeElement.scrollHeight + this.overshoot - vh * 100;
+		const childElements = this.items.toArray().map((elementRef) => elementRef.nativeElement);
+		if (!childElements.length) {
+			return;
+		}
+		// NOTE: Assumes all elements are equal and thus picks first and computes styles
+		// NOTE: Major performance hit. For specific cases, consider providing an option for manual overshoot specification
+		const itemWidth = childElements[0].offsetWidth +
+			parseFloat(getComputedStyle(childElements[0]).getPropertyValue('margin-left')) +
+			parseFloat(getComputedStyle(childElements[0]).getPropertyValue('margin-right'));
+		const itemHeight = childElements[0].offsetHeight +
+			parseFloat(getComputedStyle(childElements[0]).getPropertyValue('margin-top')) +
+			parseFloat(getComputedStyle(childElements[0]).getPropertyValue('margin-bottom'));
+		const scrollableWidth = (childElements.length - 1) * itemWidth;
+		const scrollableHeight = (childElements.length - 1) * itemHeight;
+
+		const vw = document.documentElement.offsetWidth;
+		const vh = document.documentElement.offsetHeight;
 
 		if (this.horizontal) {
-			const expectedScrollWidth = Math.floor(this.delta * (this.pageIndex + 1) * vw);
+			const expectedScrollWidth = Math.ceil(this.delta * (vw / 100) * (this.pageIndex + 1));
 			if (expectedScrollWidth > scrollableWidth) { return; }
 		} else {
-			const expectedScrollHeight = Math.floor(this.delta * (this.pageIndex + 1) * vh);
+			const expectedScrollHeight = Math.ceil(this.delta * (vh / 100) * (this.pageIndex + 1));
 			if (expectedScrollHeight > scrollableHeight) { return; }
 		}
 
@@ -115,15 +130,38 @@ export class ScrollableComponent implements OnInit, AfterContentInit {
 		}
 	}
 
+	private nestedScrollFilter = (shiftAmt: number) => {
+		if (!this.nestedScroll) {
+			return true;
+		}
+
+		const pageElement = this.items.toArray()[this.pageIndex].nativeElement;
+
+		const { offsetWidth, offsetHeight, scrollWidth, scrollHeight, scrollLeft, scrollTop } = pageElement;
+		const offsetAxis = this.horizontal ? offsetWidth : offsetHeight;
+		const scrollAxis = this.horizontal ? scrollWidth : scrollHeight;
+		const scrollAxisDistance = this.horizontal ? scrollLeft : scrollTop;
+
+		if (shiftAmt < 0) {
+			// Scrolling up
+			return scrollTop === 0;
+		}
+
+		// Scrolling down
+		return (scrollHeight - offsetHeight) === scrollTop;
+		// return true;
+	}
+
 	ngOnInit() {
 		this.updateSplashState();
 	}
 
-	ngAfterContentInit() {
+	ngAfterViewInit() {
 		this.scrollStream = fromEvent(this.hostElement.nativeElement, 'wheel')
 			.pipe(
 				map((nextEvent: MouseWheelEvent) => (this.horizontal) ? nextEvent.deltaX : nextEvent.deltaY),
 				filter((difference) => (Math.abs(difference) >= Math.abs(this.scrollTolerance))),
+				filter(this.nestedScrollFilter),
 				// TODO: Consider runOutside if conditional throttling can be provided there.
 				conditionalThrottle(this.throttle === 0, this.throttle),
 		);
