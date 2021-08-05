@@ -2,9 +2,14 @@
   <div id="before"></div>
   <div id="after"></div>
   <div id="idle-icon">
-    <img src="/assets/images/icons/terminal.svg" alt="Console" />
+    <img src="/assets/images/icons/terminal-solid.svg" alt="Console" />
   </div>
-  <div id="hide-icon">&raquo;</div>
+  <div id="hide-icon">
+    <img src="/assets/images/icons/double-right-chevron-solid.svg" alt="Hide" />
+  </div>
   <div id="click-capture" #clickCapture></div>
-  <div id="command-init"><b>$</b><textarea></textarea></div>
+  <div id="command-init">
+    <div id="prompt">$</div>
+    <input type="text" placeholder="help" />
+  </div>
 </div>
