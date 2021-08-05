@@ -2,6 +2,8 @@ import { Component, Input, OnInit, HostBinding } from '@angular/core';
 
 import { LinkModel } from './link.interface';
 import { FooterService } from './footer.service';
+
+// TODO: Add as an overflow object in scrollable overflow attribute. The footer must reveal from below the scrollabe
 @Component({
 	selector: 'app-footer',
 	templateUrl: './footer.component.html',
@@ -32,8 +34,10 @@ export class FooterComponent implements OnInit {
 	ngOnInit() { }
 
 	popupSitemap() {
+		// TODO: Call SitemapService
 	}
 
 	popupPersonalitySelector() {
+		// TODO: Call PersonalitySelectorService
 	}
 }

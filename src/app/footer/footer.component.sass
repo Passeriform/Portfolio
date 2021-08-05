@@ -1,5 +1,6 @@
 @import 'vars'
 @import './footer.colors'
+@import './separator'
 
 @mixin expanded
   &
@@ -10,18 +11,35 @@
 
 @mixin linear
   & > #footer-content
+    flex-direction: column
+    height: unset
+
+    & > #brand
+      width: calc(100vw - 2em)
+      margin: 0 auto
+
+    & > #brand-separator
+      @include separator-horizontal
+
     & > #links
       flex-direction: row
+      flex-wrap: wrap
+
+      & > section
+        min-width: calc((100vw / 2) - 4em)
+
 
 @mixin stacked
   & > #footer-content
+    flex-direction: row
     height: 28em
 
-    & > .separator
-      height: 100%
-
     & > #brand
+      width: 14em
       margin: auto 1em
+
+    & > #brand-separator
+      @include separator-vertical
 
     & > #links
       margin: 1em
@@ -32,6 +50,15 @@
 
   @media (orientation: portrait), (max-width: 50em)
     @include expanded
+
+.separator
+  @include separator-horizontal
+
+  &.vertical
+    @include separator-vertical
+
+  &.horizontal
+    @include separator-horizontal
 
 :host
   @include linear
@@ -46,9 +73,14 @@
 
   &.stacked
     @include stacked
+    @media (orientation: portrait), (max-width: 40em)
+      @include linear
 
   @media (orientation: portrait), (max-width: 50em)
     @include expanded
+
+  @media (orientation: portrait), (max-width: 40em)
+    @include linear
 
   & > #footer-content
     display: flex
@@ -56,15 +88,10 @@
     height: 28em
     padding: 2em 0
     background-color: map-deep-get($theme, "background", "hex")
-    flex-direction: row
     justify-content: space-around
-
-    & > .separator
-      height: 100%
 
     & > #brand
       margin: auto 1em
-      width: 14em
       text-align: center
 
       & > div
