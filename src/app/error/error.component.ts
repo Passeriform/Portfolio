@@ -21,13 +21,7 @@ export class ErrorComponent implements OnInit, AfterViewInit {
 	constructor(
 		private renderer: Renderer2,
 		private errorService: ErrorService
-	) {
-		this.renderer.listen('window', 'click', (e: Event) => {
-			if (!this.debugWindow.nativeElement.contains(e.target)) {
-				this.debugExpanded = false;
-			}
-		});
-	}
+	) { }
 
 	ngOnInit() {
 		this.errorService.errorDetails$.subscribe((model) => {
@@ -35,7 +29,13 @@ export class ErrorComponent implements OnInit, AfterViewInit {
 		});
 	}
 
-	ngAfterViewInit() { }
+	ngAfterViewInit() {
+		this.renderer.listen('window', 'click', (e: Event) => {
+			if (!this.debugWindow.nativeElement.contains(e.target)) {
+				this.debugExpanded = false;
+			}
+		});
+	}
 
 	debugExpand() {
 		this.debugExpanded = true;

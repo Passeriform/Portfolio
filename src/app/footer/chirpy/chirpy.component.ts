@@ -34,8 +34,6 @@ export class ChirpyComponent implements OnInit {
 	sayMessage() {
 		this.shuffleSay();
 
-		console.log(this.sayTarget.nativeElement.firstChild);
-
 		const sayText = this.renderer.createText(this.say[0]);
 		this.renderer.setProperty(this.sayTarget.nativeElement.firstChild, 'innerHTML', this.say[0]);
 		this.renderer.addClass(this.sayTarget.nativeElement, 'show');
