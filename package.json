@@ -4,11 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:debug": "ng serve --configuration debug",
     "build": "ng build",
     "build:prod": "ng build --prod",
     "live": "lite-server",
     "test": "ng test",
     "lint": "ng lint",
+    "lint:fix": "ng lint --fix",
     "e2e": "ng e2e",
     "cpcname": "cp CNAME dist/passeriform",
     "publish:gh-pages": "npm run build:prod && npm run cpcname && angular-cli-ghpages --repo git@github.com:Passeriform/passeriform.github.io --message 'Deploy: New publish to gh-pages.' --dir dist/passeriform --branch master"
