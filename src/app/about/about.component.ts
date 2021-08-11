@@ -13,8 +13,8 @@ export class AboutComponent implements OnInit, AfterViewInit {
 	public model: AboutModel;
 
 	constructor(
-		private route: ActivatedRoute,
-		private loaderService: LoaderService
+		private readonly route: ActivatedRoute,
+		private readonly loaderService: LoaderService
 	) {
 		// TODO: Improve this loader flushing
 		// this.loaderService.flushJobs();
@@ -22,13 +22,9 @@ export class AboutComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnInit() {
-		this.loaderService.beginLoading('[http] about');
-
 		this.route.data.subscribe(
 			(data: { model: AboutModel }) => {
 				this.model = data.model;
-
-				this.loaderService.endLoading('[http] about');
 			}
 		);
 	}

@@ -16,20 +16,17 @@ export class WorkComponent implements OnInit, AfterViewInit {
 	public marker: string;
 
 	constructor(
-		private workService: WorkService,
-		private loaderService: LoaderService,
-		private route: ActivatedRoute,
+		private readonly workService: WorkService,
+		private readonly loaderService: LoaderService,
+		private readonly route: ActivatedRoute,
 	) {
 		// this.loaderService.flushJobs();
 		this.loaderService.beginLoading('[page] load');
 	}
 
 	ngOnInit() {
-		this.loaderService.beginLoading('[http] work');
-
 		this.route.data.subscribe(
 			(data: { model: WorkModel[] }) => {
-				this.loaderService.endLoading('[http] work');
 				this.model = data.model;
 			}
 		);

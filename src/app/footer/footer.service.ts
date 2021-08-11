@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, BehaviorSubject, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, BehaviorSubject, merge, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 import { environment } from '@env/environment';
 
 import { LinkModel } from './link.interface';
 import { LoaderService } from '@app/core/services/loader.service';
+import { ErrorService } from '@app/error/error.service';
 
 @Injectable()
 export class FooterService {
@@ -20,8 +21,9 @@ export class FooterService {
 	socialsState$: Observable<LinkModel[]> = this.topSocialsSource.asObservable();
 
 	constructor(
-		private http: HttpClient,
-		private loaderService: LoaderService
+		private readonly http: HttpClient,
+		private readonly loaderService: LoaderService,
+		private readonly errorService: ErrorService,
 	) { }
 
 	refreshLinks(maxItemCount: number): void {
@@ -39,7 +41,13 @@ export class FooterService {
 				'rename=name,link'
 			)
 			.pipe(
-				map((products: { data: any[] }) => products.data)
+				map((products: { data: LinkModel[] }) => products.data),
+				catchError((error) => {
+					this.loaderService.endLoading('[http] [footer] products');
+					this.errorService.displayError(error);
+
+					return of([]);
+				})
 			)
 			.subscribe((products) => {
 				this.loaderService.endLoading('[http] [footer] products');
@@ -57,7 +65,13 @@ export class FooterService {
 				'rename=name,link'
 			)
 			.pipe(
-				map((aboutDocs: { data: any[] }) => aboutDocs.data)
+				map((aboutDocs: { data: LinkModel[] }) => aboutDocs.data),
+				catchError((error) => {
+					this.loaderService.endLoading('[http] [footer] about');
+					this.errorService.displayError(error);
+
+					return of([]);
+				})
 			)
 			.subscribe((aboutDocs) => {
 				this.loaderService.endLoading('[http] [footer] about');
@@ -73,7 +87,13 @@ export class FooterService {
 				'rename=links'
 			)
 			.pipe(
-				map((socialDocs: { links: any[] }) => socialDocs.links.slice(0, 4))
+				map((socialDocs: { links: LinkModel[] }) => socialDocs.links.slice(0, 4)),
+				catchError((error) => {
+					this.loaderService.endLoading('[http] [footer] social');
+					this.errorService.displayError(error);
+
+					return of([]);
+				})
 			)
 			.subscribe((socialDocs) => {
 				this.loaderService.endLoading('[http] [footer] social');

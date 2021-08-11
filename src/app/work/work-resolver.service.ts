@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, concat, take } from 'rxjs/operators';
 
+import { LoaderService } from '@app/core/services/loader.service';
 import { WorkModel } from './work.interface';
 import { WorkService } from './services/work.service';
 import { TaggerService } from './services/tagger.service';
@@ -13,13 +14,15 @@ import { ErrorService } from '@app/error/error.service';
 @Injectable()
 export class WorkResolver implements Resolve<WorkModel[]> {
 	constructor(
-		private router: Router,
-		private http: HttpClient,
-		private workService: WorkService,
-		private errorService: ErrorService,
+		private readonly router: Router,
+		private readonly http: HttpClient,
+		private readonly workService: WorkService,
+		private readonly errorService: ErrorService,
+		private readonly loaderService: LoaderService,
 	) { }
 
 	resolve(route: ActivatedRouteSnapshot): Observable<WorkModel[]> {
+		this.loaderService.beginLoading('[http] work');
 
 		return this.workService.refreshCache()
 			.pipe(
@@ -52,9 +55,12 @@ export class WorkResolver implements Resolve<WorkModel[]> {
 						}
 					}
 
+					this.loaderService.endLoading('[http] work');
+
 					return model;
 				}),
 				catchError((error) => {
+					this.loaderService.endLoading('[http] work');
 					this.errorService.displayError(error);
 
 					return of(undefined);
