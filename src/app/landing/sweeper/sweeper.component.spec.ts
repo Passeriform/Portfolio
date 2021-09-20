@@ -1,8 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed, async   } from "@angular/core/testing";
+import type { ComponentFixture     } from "@angular/core/testing";
 
-import { SweeperComponent } from './sweeper.component';
+import { SweeperComponent } from "./sweeper.component";
 
-describe('SweeperComponent', () => {
+describe("SweeperComponent", () => {
 	let component: SweeperComponent;
 	let fixture: ComponentFixture<SweeperComponent>;
 
@@ -19,7 +20,7 @@ describe('SweeperComponent', () => {
 		fixture.detectChanges();
 	});
 
-	it('should create', () => {
+	it("should create", () => {
 		expect(component).toBeTruthy();
 	});
 });

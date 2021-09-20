@@ -1,4 +1,4 @@
 export interface WordScore {
 	score: number;
-	tags: string[];
+	readonly tags: readonly string[];
 }

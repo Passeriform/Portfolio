@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "sass"
+          "style": "scss"
         }
       },
       "root": "",
@@ -29,13 +29,14 @@
               "src/config"
             ],
             "styles": [
-              "src/styles.sass",
+							"src/styles.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "src",
-                "src/assets/stylesheets"
+								"src/styles",
+								"src/assets/stylesheets"
               ]
             },
             "scripts": [
@@ -44,8 +45,7 @@
               },
               {
                 "input": "node_modules/document-register-element/build/document-register-element.js"
-              },
-              "node_modules/sine-waves/sine-waves.js"
+              }
             ]
           },
           "configurations": {
@@ -59,7 +59,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -76,72 +75,28 @@
                   "maximumError": "10kb"
                 }
               ]
-            }
-          }
-        },
-        "debug": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "dist/passeriform",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.debug.json",
-            "aot": false,
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/config"
-            ],
-            "styles": [
-              "src/styles.sass",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
-            ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "src",
-                "src/assets/stylesheets"
-              ]
             },
-            "scripts": [
-              {
-                "input": "node_modules/document-register-element/build/document-register-element.js"
-              },
-              {
-                "input": "node_modules/document-register-element/build/document-register-element.js"
-              },
-              "node_modules/sine-waves/sine-waves.js"
-            ]
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
-                }
-              ]
-            }
+						"development": {
+		          "optimization": false,
+							"outputHashing": "none",
+		          "sourceMap": true,
+		          "namedChunks": true,
+		          "extractLicenses": true,
+		          "vendorChunk": true,
+		          "buildOptimizer": false,
+		          "budgets": [
+		            {
+		              "type": "initial",
+		              "maximumWarning": "2mb",
+		              "maximumError": "5mb"
+		            },
+		            {
+		              "type": "anyComponentStyle",
+		              "maximumWarning": "6kb",
+		              "maximumError": "10kb"
+		            }
+		          ]
+		        }
           }
         },
         "serve": {
@@ -153,8 +108,8 @@
             "production": {
               "browserTarget": "passeriform:build:production"
             },
-            "debug": {
-              "browserTarget": "passeriform:debug"
+            "development": {
+              "browserTarget": "passeriform:build:development"
             }
           }
         },
@@ -176,37 +131,49 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.sass"
-            ],
-            "scripts": []
+              "src/styles.scss"
+            ]
           }
         },
+				"e2e": {
+					"builder": "@angular-devkit/build-angular:protractor",
+					"options": {
+						"protractorConfig": "e2e/protractor.conf.js",
+						"devServerTarget": "passeriform:serve"
+					},
+					"configurations": {
+						"production": {
+							"devServerTarget": "passeriform:serve:production"
+						}
+					}
+				},
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "eslintConfig": ".eslintrc.js",
             "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
+              "src/app/**/!(*.spec).ts",
+              "src/app/**/*.html",
+							"src/assets/**/*.ts",
+              "src/assets/**/*.html",
+							"src/config/**/*.ts",
+              "src/config/**/*.html",
+							"src/environments/**/*.ts",
+              "src/environments/**/*.html",
+							"src/utility/**/*.ts",
+              "src/utility/**/*.html",
+              "src/index.html"
             ]
           }
         },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "passeriform:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "passeriform:serve:production"
-            }
-          }
-        },
-        "deploy": {
-          "builder": "angular-cli-ghpages:deploy",
-          "options": {}
-        }
+				"stylelint": {
+				  "builder": "@bmatei/stylelint-builder-angular:lint",
+					"options": {
+						"files": [
+							"src/**/*.(css|less|pcss|sass|scss)"
+						]
+					}
+				}
       }
     }
   },

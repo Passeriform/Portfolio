@@ -1,0 +1,56 @@
+@use "global";
+@use "sass:map";
+
+@import "./describe.colors";
+
+:host {
+	& > .content {
+		display: flex;
+		flex-flow: row wrap;
+		align-content: space-evenly;
+		justify-content: space-evenly;
+		height: 100%;
+
+		& > * {
+			padding: 0 3em;
+		}
+
+		& > #screenshot {
+			display: flex;
+			justify-content: space-around;
+			min-width: 25em;
+			max-width: 40em;
+
+			& > img {
+				margin: auto;
+				width: 100%;
+			}
+		}
+
+		& > #text {
+			min-width: 30em;
+			max-width: 80em;
+			width: 60vw;
+
+			& > #logo {
+				padding: 0 2em;
+
+				& > h1 {
+					margin-bottom: -0.1em;
+					font-size: 5em;
+					font-weight: 700;
+				}
+
+				& > p {
+					color: map.get($theme, "accent", "hex");
+					font-size: 1.25em;
+					font-weight: 500;
+				}
+
+				& > img {
+					width: 30em;
+				}
+			}
+		}
+	}
+}

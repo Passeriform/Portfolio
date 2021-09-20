@@ -1,0 +1,78 @@
+@use "global";
+
+.meta-icons {
+	display: flex;
+	justify-content: space-evenly;
+
+	& > img {
+		margin: 0 0.5em;
+		width: 100%;
+		height: 45px;
+		object-fit: scale-down;
+	}
+}
+
+:host {
+	& .content {
+		position: relative;
+		top: global.$shrink-header-size;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+		padding: 1em;
+		width: 100%;
+		height: calc(100% - #{global.$shrink-header-size});
+		overflow: hidden;
+		text-align: center;
+		text-transform: none;
+
+		& > * {
+			margin: 1em;
+		}
+
+		& .card-internal {
+			display: flex;
+			flex-flow: column nowrap;
+			justify-content: space-between;
+			height: 100%;
+
+			& > .info {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-around;
+
+				& > * {
+					flex-basis: 0;
+					flex-grow: 1;
+				}
+
+				& > .repo {
+					padding: 2em;
+
+					& > img {
+						width: 4em;
+						height: 4em;
+					}
+				}
+
+				& > .licenses {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+
+					& > * {
+						margin: 0.5em;
+					}
+				}
+
+				& > .meta > .frameworks, .languages, .tools {
+					& > img {
+						width: 30px;
+						height: 30px;
+					}
+				}
+			}
+		}
+	}
+}

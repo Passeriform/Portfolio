@@ -1,0 +1,72 @@
+@use "global";
+@use "sass:map";
+
+@import "./header.colors";
+
+:host {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+
+	& > #header-wrapper {
+		display: flex;
+		height: global.$header-size;
+		transition: all 0.5s ease;
+
+		#logo {
+			display: flex;
+			align-items: flex-start;
+			justify-content: flex-start;
+			width: global.$logo-size;
+			height: global.$logo-size;
+
+			& > a {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: global.$logo-size;
+				height: global.$logo-size;
+				transition: all 0.5s ease;
+
+				& > img {
+					width: global.$logo-img-size;
+					height: global.$logo-img-size;
+					filter: invert(1);
+					transition: all 0.5s ease;
+				}
+			}
+		}
+
+		&.shrink-header {
+			height: global.$shrink-header-size;
+			background-color: map.get($theme, "background", "dark-5%", "hex");
+
+			& #logo {
+				width: global.$shrink-logo-block-size;
+				height: global.$shrink-logo-block-size;
+
+				& > a {
+					position: absolute;
+					top: 0;
+					left: 0;
+					display: block;
+					width: global.$logo-flap-size;
+					height: global.$logo-flap-size;
+					clip-path: polygon(0 0, 0% 100%, 100% 0%);
+					background-color: map.get($theme, "accent", "hex");
+
+					& > img {
+						position: absolute;
+						top: 1em;
+						left: 0;
+						display: block;
+						width: global.$shrink-header-size;
+						height: global.$shrink-header-size;
+						filter: invert(0);
+					}
+				}
+			}
+		}
+	}
+}

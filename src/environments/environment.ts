@@ -1,6 +1,10 @@
-import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+/* eslint-disable-next-line import/no-unassigned-import */
+import "zone.js/dist/zone-error";
 
-export const environment = {
+export const environment: {
+	readonly apiUrl: string;
+	readonly production: boolean;
+} = {
+	apiUrl: "http://localhost:3000",
 	production: false,
-	apiUrl: 'http://localhost:3000',
 };

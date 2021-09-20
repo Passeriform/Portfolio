@@ -1,0 +1,91 @@
+@use "global";
+@use "sass:map";
+@use "sass:math";
+
+@import "./tooltip.colors";
+
+$tooltip-window-width-em: 20em;
+$tooltip-window-height-em: 20em;
+$tooltip-arrow-width-em: 1em;
+$tooltip-arrow-height-em: 1em;
+
+@mixin light-theming {
+	border: 1px solid invert(map.get($theme, "accent", "hex"));
+	background-color: invert(map.get($theme, "background", "hex"));
+	color: invert(map.get($theme, "foreground", "hex"));
+}
+
+@mixin dark-theming {
+	border: 1px solid map.get($theme, "accent", "hex");
+	background-color: map.get($theme, "background", "hex");
+	color: map.get($theme, "foreground", "hex");
+}
+
+:host {
+	position: absolute;
+	z-index: 10;
+	display: inline-block;
+	width: 0;
+	height: 0;
+	visibility: hidden;
+	opacity: 0;
+	transition: visibility 0.5s ease, opacity 0.5s ease;
+
+	& > .tooltip-internal {
+		position: absolute;
+		box-sizing: border-box;
+		padding: 1em 2em;
+		width: $tooltip-window-width-em;
+		box-shadow: 0 0 5px -3px map.get($theme, "shadow", "hex");
+		transform: translateX(-50%);
+
+		@include light-theming;
+
+		&:after {
+			content: "";
+			position: absolute;
+			left: 50%;
+			margin-top: -#{math.div($tooltip-arrow-width-em, 2)};
+			margin-left: -#{math.div($tooltip-arrow-width-em, 2)};
+			width: $tooltip-arrow-width-em;
+			height: $tooltip-arrow-height-em;
+			box-shadow: 0 0 5px -3px map.get($theme, "shadow", "hex");
+			transform: rotate(45deg);
+
+			@include light-theming;
+		}
+
+		&.dark {
+			@include dark-theming;
+
+			&:after {
+				@include dark-theming;
+			}
+		}
+	}
+
+	&.top {
+		& > .tooltip-internal {
+			bottom: 3.5em;
+
+			&:after {
+				top: 100%;
+			}
+		}
+	}
+
+	&.bottom {
+		& > .tooltip-internal {
+			top: 3.5em;
+
+			&:after {
+				top: 0%;
+			}
+		}
+	}
+
+	&.show {
+		visibility: visible;
+		opacity: 1;
+	}
+}

@@ -1,43 +1,61 @@
-import { Component, Input, OnInit, HostBinding } from '@angular/core';
+import { Component, HostBinding, Input } from "@angular/core";
+import type { OnInit } from "@angular/core";
 
-import { LinkModel } from './link.interface';
-import { FooterService } from './footer.service';
+import { Constants } from "./footer.config";
+import { FooterService } from "./footer.service";
 
 // TODO: Add as an overflow object in scrollable overflow attribute. The footer must reveal from below the scrollabe
+
 @Component({
-	selector: 'app-footer',
-	templateUrl: './footer.component.html',
-	styleUrls: ['./footer.component.sass', './separator.sass'],
+	selector: "app-footer",
+	styleUrls: [
+		"./footer.component.scss",
+		"./separator.scss",
+	],
+	templateUrl: "./footer.component.html",
 })
 export class FooterComponent implements OnInit {
+	@Input() public readonly maxItemCount = Constants.INITIAL_MAX_ITEM_COUNT;
+
+	@Input() public readonly variant: string;
 
 	public products;
+
 	public abouts;
+
 	public socials;
 
-	@Input() maxItemCount = 5;
-
-	@HostBinding('class')
-	get Class() {
+	@HostBinding("class")
+	public get Class(): string {
 		return this.variant;
 	}
 
-	@Input() variant: string;
-
-	constructor(private footerService: FooterService) {
+	constructor(private readonly footerService: FooterService) {
 		this.footerService.refreshLinks(this.maxItemCount);
-		this.footerService.productsState$.subscribe((products) => this.products = products);
-		this.footerService.aboutState$.subscribe((abouts) => this.abouts = abouts);
-		this.footerService.socialsState$.subscribe((socials) => this.socials = socials);
+		this.footerService.productsState$.subscribe((products) => {
+			this.products = products
+		});
+		this.footerService.aboutState$.subscribe((abouts) => {
+			this.abouts = abouts
+		});
+		this.footerService.socialsState$.subscribe((socials) => {
+			this.socials = socials
+		});
 	}
 
-	ngOnInit() { }
+	ngOnInit() {
+		// ngOnInit
+	}
 
-	popupSitemap() {
+	public popupSitemap(): void {
+
 		// TODO: Call SitemapService
+
 	}
 
-	popupPersonalitySelector() {
+	public popupPersonalitySelector(): void {
+
 		// TODO: Call PersonalitySelectorService
+
 	}
 }

@@ -1,8 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed, async   } from "@angular/core/testing";
+import type { ComponentFixture     } from "@angular/core/testing";
 
-import { UpdateRollComponent } from './update-roll.component';
+import { UpdateRollComponent } from "./update-roll.component";
 
-describe('UpdateRollComponent', () => {
+describe("UpdateRollComponent", () => {
 	let component: UpdateRollComponent;
 	let fixture: ComponentFixture<UpdateRollComponent>;
 
@@ -19,7 +20,7 @@ describe('UpdateRollComponent', () => {
 		fixture.detectChanges();
 	});
 
-	it('should create', () => {
+	it("should create", () => {
 		expect(component).toBeTruthy();
 	});
 });

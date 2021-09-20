@@ -1,55 +1,58 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 
-import { CageGridComponent } from './cage-grid/cage-grid.component';
-import { CageGridDirective } from './cage-grid/cage-grid.directive';
-import { LoaderComponent } from './loader/loader.component';
-import { HarmonicLoaderComponent } from './loader/harmonic-loader/harmonic-loader.component';
-import { OverlayComponent } from './overlay/overlay.component';
-import { ScrollableComponent } from './scrollable/scrollable.component';
-import { TooltipComponent } from './tooltip/tooltip.component';
-import { TooltipDirective } from './tooltip/tooltip.directive';
-import { IconUriPipe } from './icon-uri.pipe';
-import { RetainPipe } from './retain.pipe';
-import { EnvPipe } from './env.pipe';
+import { CageGridComponent } from "./cage-grid/cage-grid.component";
+import { OverlayComponent } from "./overlay/overlay.component";
+import { ScrollableComponent } from "./scrollable/scrollable.component";
+import { TooltipComponent } from "./tooltip/tooltip.component";
+import { TooltipDirective } from "./tooltip/tooltip.directive";
+import { CageGridDirective } from "./cage-grid/cage-grid.directive";
+import { NavigatorComponent } from "./navigator/navigator.component";
+import { IconUriPipe } from "./pipes/icon-uri.pipe";
+import { RetainPipe } from "./pipes/retain.pipe";
+import { EnvironmentPipe } from "./pipes/environment.pipe";
+import { WikiPipe } from "./pipes/wiki.pipe";
+// import { BreadcrumbComponent } from "./breadcrumb/breadcrumb.component";
 
-// import { ShowAuthedDirective } from './show-authed.directive';
+// import { ShowAuthedDirective } from "./show-authed.directive";
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		RouterModule,
-	],
 	declarations: [
+		// BreadcrumbComponent,
 		CageGridComponent,
 		CageGridDirective,
-		LoaderComponent,
-		HarmonicLoaderComponent,
+		EnvironmentPipe,
+		IconUriPipe,
+		WikiPipe,
+		NavigatorComponent,
 		OverlayComponent,
+		RetainPipe,
 		ScrollableComponent,
 		TooltipComponent,
 		TooltipDirective,
-		IconUriPipe,
-		RetainPipe,
-		EnvPipe,
 	],
 	exports: [
+		// BreadcrumbComponent,
 		CageGridComponent,
 		CageGridDirective,
-		LoaderComponent,
-		HarmonicLoaderComponent,
+		CommonModule,
+		EnvironmentPipe,
+		FormsModule,
+		IconUriPipe,
+
+		NavigatorComponent,
 		OverlayComponent,
+
+		RetainPipe,
 		ScrollableComponent,
+
 		TooltipComponent,
 		TooltipDirective,
 
-		IconUriPipe,
-		RetainPipe,
-		EnvPipe,
-
+		WikiPipe,
+	],
+	imports: [
 		CommonModule,
 		FormsModule,
 	],

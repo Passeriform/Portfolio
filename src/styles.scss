@@ -1,0 +1,31 @@
+@use "global";
+@use "sass:math";
+@use "sass:map";
+@use "colors";
+
+$theme: colors.generate-color-swatch($highlight: #ADFF22, $shadow: #0000000F);
+
+* {
+	scrollbar-color: map.get(global.$scrollbar-colors, "scrollbar", "thumb") map.get(global.$scrollbar-colors, "scrollbar", "track");
+	scrollbar-width: thin;
+}
+
+html > body {
+	margin: 0;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	color: map.get($theme, "accent", "hex");
+	font-family: "Raleway", sans-serif;
+	font-size: 13px;
+	font-weight: 400;
+	letter-spacing: 1px;
+	line-height: global.$line-height-px;
+	list-style: none;
+	text-shadow: 1px 1px 1px map.get($theme, "shadow", "hex");
+
+	code {
+		color: map.get($theme, "highlight", "hex");
+		font-family: "DM Mono", monospace;
+	}
+}

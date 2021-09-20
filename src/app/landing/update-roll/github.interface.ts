@@ -1,164 +1,155 @@
-export interface GithubUser {
-	id: number;
-	login: string;
-	url: string;
-	avatar_url: string;
+/* eslint-disable max-len, camelcase */
+interface GithubUser {
+	readonly avatar_url: string;
+	readonly id: number;
+	readonly login: string;
+	readonly url: string;
 }
 
-export interface GithubRepo {
-	id: number;
-	name: string;
-	url: string;
-}
-
-export interface GithubEvent {
-	id: number;
-	type: string;
-	actor: GithubUser;
-	repo: GithubRepo;
-	payload?:
-	| object
-	| CommitCommentEventPayload
-	| CreateDeleteEventPayload
-	| ForkEventPayload
-	| GollumEventPayload
-	| IssueCommentEventPayload
-	| IssuesEventPayload
-	| MemberEventPayload
-	| PullRequestEventPayload
-	| PullRequestReviewCommentEventPayload
-	| PushEventPayload
-	| ReleaseEventPayload
-	| SponsorshipEventPayload
-	| WatchEventPayload;
-	public: boolean;
-	created_at: string;
+interface GithubRepo {
+	readonly id: number;
+	readonly name: string;
+	readonly url: string;
 }
 
 interface CommitCommentEventPayload {
-	action: string;
-	comment: object;
+	readonly action: string;
+	readonly comment: Record<string, unknown>;
 }
 
 interface CreateDeleteEventPayload {
-	ref: string;
-	ref_type: string;
-	master_branch?: string;
-	description?: string;
+	readonly ref: string;
+	readonly ref_type: string;
+	readonly description?: string;
+	readonly master_branch?: string;
 }
 
 interface ForkEventPayload {
-	forkee: object;
+	readonly forkee: Record<string, unknown>;
 }
 
 interface GollumEventPayload {
-	pages: {
-		page_name: string;
-		title: string;
-		action: string;
-		sha: string;
-		html_url: string;
+	readonly pages: readonly {
+		readonly action: string;
+		readonly html_url: string;
+		readonly page_name: string;
+		readonly sha: string;
+		readonly title: string;
 	}[];
 }
 
 interface IssueCommentEventPayload {
-	action: string;
-	changes: {
-		body: {
-			from: string;
+	readonly action: string;
+	readonly changes: {
+		readonly body: {
+			readonly from: string;
 		};
 	};
-	issue: object;
-	comment: object;
+	readonly comment: Record<string, unknown>;
+	readonly issue: Record<string, unknown>;
 }
 
 interface IssuesEventPayload {
-	action: string;
-	issue: object;
-	changes: {
-		title: { from: string };
-		body: { from: string };
+	readonly action: string;
+	readonly assignee: Record<string, unknown>;
+	readonly changes: {
+		readonly body: { readonly from: string };
+		readonly title: { readonly from: string };
 	};
-	assignee: object;
-	label: object;
+	readonly issue: Record<string, unknown>;
+	readonly label: Record<string, unknown>;
 }
 
 interface MemberEventPayload {
-	action: string;
-	member: object;
-	changes: {
-		old_permission: {
-			from: string;
+	readonly action: string;
+	readonly changes: {
+		readonly old_permission: {
+			readonly from: string;
 		};
 	};
+	readonly member: Record<string, unknown>;
 }
 
 interface PullRequestEventPayload {
-	action: string;
-	number: number;
-	changes: {
-		title: { from: string };
-		body: { from: string };
+	readonly action: string;
+	readonly changes: {
+		readonly body: { readonly from: string };
+		readonly title: { readonly from: string };
 	};
-	pull_request: object;
+	/* eslint-disable-next-line id-denylist */
+	readonly number: number;
+	readonly pull_request: Record<string, unknown>;
 }
 
 interface PullRequestReviewCommentEventPayload {
-	action: string;
-	changes: {
-		body: {
-			from: string;
+	readonly action: string;
+	readonly changes: {
+		readonly body: {
+			readonly from: string;
 		};
 	};
-	pull_request: object;
-	comment: object;
+	readonly comment: Record<string, unknown>;
+	readonly pull_request: Record<string, unknown>;
 }
 
 interface PushEventPayload {
-	push_id: number;
-	size: number;
-	distinct_size: number;
-	ref: string;
-	head: string;
-	before: string;
-	commits: {
-		sha: string;
-		message: string;
-		author: {
-			name: string;
-			email: string;
+	readonly before: string;
+	readonly commits: readonly {
+		readonly author: {
+			readonly email: string;
+			readonly name: string;
 		};
-		url: string;
-		distinct: boolean;
+		readonly distinct: boolean;
+		readonly message: string;
+		readonly sha: string;
+		readonly url: string;
 	}[];
+	readonly distinct_size: number;
+	readonly head: string;
+	readonly push_id: number;
+	readonly ref: string;
+	readonly size: number;
 }
 
 interface ReleaseEventPayload {
-	action: string;
-	changes: {
-		body: {
-			from: string;
+	readonly action: string;
+	readonly changes: {
+		readonly body: {
+			readonly from: string;
 		};
-		name: {
-			from: string;
+		readonly name: {
+			readonly from: string;
 		};
-		release: object;
+		readonly release: Record<string, unknown>;
 	};
 }
 
 interface SponsorshipEventPayload {
-	action: string;
-	effective_date: string;
-	changes: {
-		tier: {
-			from: object;
+	readonly action: string;
+	readonly changes: {
+		readonly privacy_level: {
+			readonly from: string;
 		};
-		privacy_level: {
-			from: string;
+		readonly tier: {
+			readonly from: Record<string, unknown>;
 		};
 	};
+	readonly effective_date: string;
 }
 
 interface WatchEventPayload {
-	action: string;
+	readonly action: string;
 }
+
+export interface GithubEvent {
+	readonly actor: GithubUser;
+	readonly created_at: string;
+	readonly id: number;
+	readonly public: boolean;
+	readonly repo: GithubRepo;
+	readonly type: string;
+	readonly payload?:
+	CommitCommentEventPayload | CreateDeleteEventPayload | ForkEventPayload | GollumEventPayload | IssueCommentEventPayload | IssuesEventPayload | MemberEventPayload | PullRequestEventPayload | PullRequestReviewCommentEventPayload | PushEventPayload | Record<string, unknown> | ReleaseEventPayload | SponsorshipEventPayload | WatchEventPayload;
+}
+
+/* eslint-enable max-len, camelcase */

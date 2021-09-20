@@ -1,19 +1,27 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from "@angular/core";
+import type { OnInit } from "@angular/core";
+
+// TODO: Improve the placeholder styling
 
 @Component({
-	selector: 'app-namecard',
-	templateUrl: './namecard.component.html',
-	styleUrls: ['./namecard.component.sass'],
+	selector: "app-namecard",
+	styleUrls: [ "./namecard.component.scss" ],
+	templateUrl: "./namecard.component.html",
 })
 export class NamecardComponent implements OnInit {
-	@Input() avatarHref;
-	@Input() avatarLink;
-	@Input() imgUrl;
-	@Input() imgAlt;
-	@Input() name;
-	@Input() description;
+	@Input() public readonly avatarHref;
 
-	constructor() { }
+	@Input() public readonly avatarLink;
 
-	ngOnInit() { }
+	@Input() public readonly description;
+
+	@Input() public readonly imgUrl;
+
+	@Input() public readonly imgAlt;
+
+	@Input() public readonly name;
+
+	ngOnInit() {
+		// ngOnInit
+	}
 }

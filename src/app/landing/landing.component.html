@@ -1,11 +1,11 @@
-<app-scrollable [fullpage]="true" [nestedScroll]="true" [injectSplash]="true">
+<app-scrollable [fullpage]="true" [nestedScroll]="true" (pageChangeEvent)="handlePageChange($event)">
   <div class="page" id="splash" #page>
     <div class="bg-img-wrapper">
       <div class="bg-img"></div>
     </div>
     <div class="content">
       <h1>PASSERIFORM</h1>
-      <app-sweeper [auto]="true" leading="❯">
+      <app-sweeper i18n-leading [auto]="true" leading="❯">
         <!-- // TODO: Add sweepable directive with label for sweeped item number -->
         <p #sweepable>A pseudonym for quality.</p>
         <p #sweepable>Status: Online</p>

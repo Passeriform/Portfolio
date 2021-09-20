@@ -1,46 +1,52 @@
-import { Component, Input, OnInit, HostListener, Renderer2, ViewChild } from '@angular/core';
+import { Component, HostListener, Input, ViewChild, ElementRef, Renderer2 } from "@angular/core";
+import type { OnInit } from "@angular/core";
 
 @Component({
-	selector: 'app-chirpy',
-	templateUrl: './chirpy.component.html',
-	styleUrls: ['./chirpy.component.sass'],
+	selector: "app-chirpy",
+	styleUrls: [ "./chirpy.component.scss" ],
+	templateUrl: "./chirpy.component.html",
 })
 export class ChirpyComponent implements OnInit {
-	@Input() say: string[];
+	@Input() public say: readonly string[];
 
-	@ViewChild('sayTarget', { static: false }) sayTarget;
+	@ViewChild("sayTarget", { read: ElementRef }) public readonly sayTarget: ElementRef<HTMLElement>;
 
-	@HostListener('mouseover')
-	onMouseover() {
+	@HostListener("mouseover")
+	public onMouseover(): void {
 		this.sayMessage();
 	}
 
-	@HostListener('mouseout')
-	onMouseout() {
+	@HostListener("mouseout")
+	public onMouseout(): void {
 		this.destroyMessage();
 	}
 
-	constructor(private renderer: Renderer2) { }
+	constructor(private readonly renderer: Renderer2) { }
 
-	ngOnInit() { }
-
-	shuffleSay() {
-		this.say = this.say
-			.map((message) => ({ msg: message, val: Math.random() }))
-			.sort((a, b) => a.val - b.val)
-			.map((msgObj) => msgObj.msg);
+	ngOnInit() {
+		// ngOnInit
 	}
 
-	sayMessage() {
+	public shuffleSay(): void {
+		this.say = this.say
+			.map((message: string) => ({
+				msg: message,
+				val: Math.random(),
+			}))
+			.sort((first, second) => first.val - second.val)
+			.map((messageObject) => messageObject.msg);
+	}
+
+	public sayMessage(): void {
 		this.shuffleSay();
 
-		const sayText = this.renderer.createText(this.say[0]);
-		this.renderer.setProperty(this.sayTarget.nativeElement.firstChild, 'innerHTML', this.say[0]);
-		this.renderer.addClass(this.sayTarget.nativeElement, 'show');
+		const sayText: HTMLElement = this.renderer.createText(this.say[0]);
+		this.renderer.setProperty(this.sayTarget.nativeElement.firstChild, "innerHTML", sayText);
+		this.renderer.addClass(this.sayTarget.nativeElement, "show");
 	}
 
-	destroyMessage() {
-		this.renderer.removeClass(this.sayTarget.nativeElement, 'show');
-		this.renderer.setProperty(this.sayTarget.nativeElement.firstChild, 'innerHTML', '');
+	public destroyMessage(): void {
+		this.renderer.removeClass(this.sayTarget.nativeElement, "show");
+		this.renderer.setProperty(this.sayTarget.nativeElement.firstChild, "innerHTML", "");
 	}
 }

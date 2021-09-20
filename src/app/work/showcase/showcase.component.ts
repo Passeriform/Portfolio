@@ -1,38 +1,36 @@
-import { Component, OnInit, HostListener, Input, ViewChild, ElementRef } from '@angular/core';
-import { Router } from '@angular/router';
+import type { OnInit } from "@angular/core";
+import { Component, HostListener, ViewChild, ElementRef } from "@angular/core";
+import { Router } from "@angular/router";
 
-import { WorkModel } from '../work.interface';
-import { WorkService } from '../services/work.service';
+import type { WorkModel } from "../work.interface";
+import { WorkService } from "../services/work.service";
 
 @Component({
-	selector: 'app-showcase',
-	templateUrl: './showcase.component.html',
-	styleUrls: ['./showcase.component.sass'],
+	selector: "app-showcase",
+	styleUrls: [ "./showcase.component.scss" ],
+	templateUrl: "./showcase.component.html",
 })
 export class ShowcaseComponent implements OnInit {
-	public model: WorkModel[];
+	@ViewChild("cardScroller", { read: ElementRef }) public readonly cardChild: ElementRef<HTMLElement>;
+
+	public model: readonly WorkModel[];
+
 	public windowHeight: number;
 
-	@ViewChild('cardScroller') cardChild: ElementRef;
-
-	@HostListener('window:resize')
-	onResize() {
-		this.windowHeight = window.innerHeight / parseFloat(
-			getComputedStyle(
-				document.querySelector('body')
-			)['font-size']
-		);
+	@HostListener("window:resize")
+	public onResize(): void {
+		this.updateWindowHeight();
 	}
 
 	constructor(
-		private router: Router,
-		public workService: WorkService
+			private readonly router: Router,
+			private readonly workService: WorkService,
 	) {
-		this.windowHeight = window.innerHeight / parseFloat(
-			getComputedStyle(
-				document.querySelector('body')
-			)['font-size']
-		);
+		this.updateWindowHeight();
+	}
+
+	public cancelClick(event: MouseEvent): void {
+		event.stopPropagation();
 	}
 
 	ngOnInit() {
@@ -41,11 +39,23 @@ export class ShowcaseComponent implements OnInit {
 		});
 	}
 
-	setSelected(entry: WorkModel): void {
+	public updateWindowHeight(): void {
+		const bodyElement: HTMLBodyElement | null = document.querySelector("body");
+
+		this.windowHeight = bodyElement
+			? window.innerHeight / Number.parseFloat(
+				getComputedStyle(
+					bodyElement,
+				)["font-size"] as string,
+			)
+			: 0;
+	}
+
+	public setSelected(entry: WorkModel): void {
 		this.workService.setSelected(entry);
 	}
 
-	cancelClick(event: MouseEvent): void {
-		event.stopPropagation();
+	public setActive(activeModel: readonly WorkModel[]): void {
+		this.workService.setActive(activeModel);
 	}
 }

@@ -1,63 +1,76 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
-import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import type { Observable } from "rxjs";
+import { BehaviorSubject, combineLatest } from "rxjs";
+import { map } from "rxjs/operators";
 
-import { environment } from '@env/environment';
+import { environment } from "@env/environment";
+import { LoaderService } from "@app/loader/loader.service";
 
-import { WorkModel } from '../work.interface';
-import { LoaderService } from '@app/core/services/loader.service';
-import { TaggerService } from '../services/tagger.service';
+import type { WorkModel } from "../work.interface";
+import { TaggerService } from "./tagger.service";
 
 @Injectable()
 export class WorkService {
-	private workFilterSource = new BehaviorSubject<(_: WorkModel) => boolean>((_) => true);
-	private workCacheSource = new BehaviorSubject<WorkModel[]>([]);
-	private workSelectedSource = new BehaviorSubject<WorkModel>(undefined);
+	private readonly workFilterSource$ = new BehaviorSubject<(_: WorkModel) => boolean>(() => true);
 
-	workFilterState$: Observable<(_: WorkModel) => boolean> = this.workFilterSource.asObservable();
-	workCacheState$: Observable<WorkModel[]> = this.workCacheSource.asObservable();
-	workActiveState$: Observable<WorkModel[]> = combineLatest(
-		this.workCacheState$,
-		this.workFilterState$,
-		(cache: WorkModel[], filterfn) => cache.filter(filterfn)
+	private readonly workCacheSource$ = new BehaviorSubject<readonly WorkModel[]>([]);
+
+	private readonly workSelectedSource$ = new BehaviorSubject<WorkModel>({ } as WorkModel);
+
+	public readonly workFilterState$: Observable<(_: WorkModel) => boolean> = this.workFilterSource$.asObservable();
+
+	public readonly workCacheState$: Observable<readonly WorkModel[]> = this.workCacheSource$.asObservable();
+
+	public readonly workActiveState$: Observable<readonly WorkModel[]> = combineLatest(
+		[
+			this.workCacheState$,
+			this.workFilterState$,
+		],
+		(cache: readonly WorkModel[], filterfn) => cache.filter(filterfn),
 	);
-	workSelectedState$: Observable<WorkModel> = this.workSelectedSource.asObservable();
 
-	constructor(private http: HttpClient, private tagger: TaggerService, private loaderService: LoaderService) { }
+	public readonly workSelectedState$: Observable<WorkModel> = this.workSelectedSource$.asObservable();
 
-	setSelected(model: WorkModel): void {
-		this.workSelectedSource.next(model);
+	constructor(
+			private readonly http: HttpClient,
+			private readonly tagger: TaggerService,
+			private readonly loaderService: LoaderService,
+	) { }
+
+	public setSelected(model: WorkModel): void {
+		this.workSelectedSource$.next(model);
 	}
 
-	setFilter(comparator: (_: WorkModel) => boolean): void {
-		this.workFilterSource.next(comparator);
+	public setFilter(comparator: (_: WorkModel) => boolean): void {
+		this.workFilterSource$.next(comparator);
 	}
 
-	setActive(model: WorkModel[]): void {
+	public setActive(model: readonly WorkModel[]): void {
 		// TODO: Figure out a solution around forcing cache change
-		this.workCacheSource.next(model);
+
+		this.workCacheSource$.next(model);
 	}
 
-	refreshCache(): Observable<WorkModel[]> {
-		this.loaderService.beginLoading('[http] work');
+	public refreshCache$(): Observable<readonly WorkModel[]> {
+		this.loaderService.beginLoading("[http] work");
 
-		return this.http.get<WorkModel[]>(`${environment.apiUrl}/work`)
+		return this.http.get<readonly WorkModel[]>(`${environment.apiUrl}/work`)
 			.pipe(
-				map((model: WorkModel[]) => {
-					this.loaderService.endLoading('[http] work');
+				map((model: readonly WorkModel[]) => {
+					this.loaderService.endLoading("[http] work");
 
-					this.loaderService.beginLoading('[tag] work');
+					this.loaderService.beginLoading("[tag] work");
 
 					const taggedModel = this.tagger.appendTags(model);
 
-					this.loaderService.endLoading('[tag] work');
+					this.loaderService.endLoading("[tag] work");
 
-					this.workCacheSource.next(taggedModel);
+					this.workCacheSource$.next(taggedModel);
 
 					return taggedModel;
-				})
+				}),
 			);
 	}
 }

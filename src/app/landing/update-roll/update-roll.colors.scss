@@ -1,0 +1,3 @@
+@use "colors";
+
+$theme: colors.generate-color-swatch($canvas: #3D3D3D99);

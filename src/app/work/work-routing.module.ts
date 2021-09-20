@@ -1,55 +1,67 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from "@angular/router";
+import type { Routes } from "@angular/router";
+import { NgModule } from "@angular/core";
 
-import { WorkComponent } from './work.component';
-import { WorkResolver } from './work-resolver.service';
-import { routeFilters } from './work.config';
-// import { PersonalityGuard } from '../core';
-import { SharedModule } from '../shared/shared.module';
+import { routeFilters } from "./work.config";
+import { WorkComponent } from "./work.component";
+import { WorkResolver } from "./work-resolver.service";
+// import { PersonalityGuard } from "../core";
 
 const routes: Routes = [
-	{
-		path: '',
-		component: WorkComponent,
-		// TODO: Add personality selector here.
-		// canActivate: [PersonalityGuard],
-		resolve: { model: WorkResolver },
-	},
-	...routeFilters.map((tag: string) =>
-		({
-			path: tag,
+	...routeFilters.map(
+		(tag: string) => ({
 			component: WorkComponent,
+			path: tag,
+
 			// TODO: Add personality selector here.
+
 			// canActivate: [PersonalityGuard],
 
 			// TODO: Add another resolver for setting url according to filters
+
 			resolve: { model: WorkResolver },
-		})),
+		}),
+	),
 	{
-		path: ':package',
 		component: WorkComponent,
+		path: ":package",
+
 		// TODO: Add personality selector here.
+
 		// canActivate: [PersonalityGuard],
 		resolve: { model: WorkResolver },
 	},
 	{
-		path: ':package/:module',
 		component: WorkComponent,
+		path: ":package/:module",
+
 		// TODO: Add personality selector here.
+
 		// canActivate: [PersonalityGuard],
 		resolve: { model: WorkResolver },
 	},
 	{
-		path: ':package/:module/:submodule',
 		component: WorkComponent,
+		path: ":package/:module/:submodule",
+
 		// TODO: Add personality selector here.
+
+		// canActivate: [PersonalityGuard],
+		resolve: { model: WorkResolver },
+	},
+	{
+		component: WorkComponent,
+		path: "",
+
+		// TODO: Add personality selector here.
+
 		// canActivate: [PersonalityGuard],
 		resolve: { model: WorkResolver },
 	},
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes)],
-	exports: [RouterModule],
+	exports: [ RouterModule ],
+	imports: [ RouterModule.forChild(routes) ],
 })
 export class WorkRoutingModule { }

@@ -1,6 +1,6 @@
 export const routeFilters = [
-	'product',
-	'project',
-	'design',
-	'misc',
+	"product",
+	"project",
+	"design",
+	"misc",
 ];

@@ -1,0 +1,24 @@
+$no-of-items: 5;
+$max-inter-item-width: 1em;
+$max-width: ($no-of-items * 2em) + ($no-of-items + 1) * $max-inter-item-width;
+
+:host {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-evenly;
+	width: min(54em, 100%);
+
+	& > * {
+		padding: 1em 0;
+	}
+
+	& img {
+		width: 2em;
+		height: 2em;
+		filter: invert(1);
+
+		&.inverted {
+			filter: invert(0);
+		}
+	}
+}

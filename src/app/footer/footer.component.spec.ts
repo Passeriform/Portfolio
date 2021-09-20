@@ -1,8 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed, async   } from "@angular/core/testing";
+import type { ComponentFixture     } from "@angular/core/testing";
 
-import { FooterComponent } from './footer.component';
+import { FooterComponent } from "./footer.component";
 
-describe('FooterComponent', () => {
+describe("FooterComponent", () => {
 	let component: FooterComponent;
 	let fixture: ComponentFixture<FooterComponent>;
 
@@ -19,7 +20,7 @@ describe('FooterComponent', () => {
 		fixture.detectChanges();
 	});
 
-	it('should create', () => {
+	it("should create", () => {
 		expect(component).toBeTruthy();
 	});
 });

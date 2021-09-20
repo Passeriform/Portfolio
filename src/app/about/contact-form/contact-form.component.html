@@ -1,25 +1,25 @@
-<form _lpchecked="1" autocomplete="off" id="contact-form">
+<form i18n-autocomplete i18n-_lpchecked _lpchecked="1" autocomplete="off" id="contact-form">
   <ul>
     <li class="half">
-      <input class="inputField" name="name" placeholder="Name" type="text" />
-      <label class="inputLabel"></label>
+      <input i18n-placeholder i18n-name class="inputField" name="name" placeholder="Name" type="text" />
+      <label class="input-label"></label>
     </li>
     <li class="half">
-      <input class="inputField" name="email" placeholder="Email" type="email" />
-      <label class="inputLabel"></label>
+      <input i18n-placeholder i18n-name class="inputField" name="email" placeholder="Email" type="email" />
+      <label class="input-label"></label>
     </li>
     <li>
-      <input class="inputField" name="subject" placeholder="Subject" type="text" />
-      <label class="inputLabel"></label>
+      <input i18n-placeholder i18n-name class="inputField" name="subject" placeholder="Subject" type="text" />
+      <label class="input-label"></label>
     </li>
     <li>
       <!-- // TODO: The after element leaks out for textarea. Fix it. -->
-      <textarea class="inputField" name="msg" placeholder="Message" spellcheck="false"></textarea>
-      <label class="inputLabel"></label>
+      <textarea i18n-placeholder i18n-name class="inputField" name="msg" placeholder="Message" spellcheck="false"></textarea>
+      <label class="input-label"></label>
     </li>
     <li class="submit">
-      <input class="flat-button" id="submit" type="submit" value="SEND" />
-      <label class="inputLabel"></label>
+      <input i18n-value class="flat-button" id="submit" type="submit" value="SEND" />
+      <label class="input-label"></label>
     </li>
   </ul>
 </form>

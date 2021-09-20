@@ -1,34 +1,41 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import type { AfterViewInit, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 
-import { LoaderService } from '@app/core/services/loader.service';
-import { WorkModel } from './work.interface';
-import { WorkService } from './services/work.service';
+import { LoaderService } from "@app/loader/loader.service";
+
+import { SplashState } from "@core/services/splash-state.interface";
+import { SplashStateService } from "@core/services/splash-state.service";
+import type { WorkModel } from "./work.interface";
+import { WorkService } from "./services/work.service";
 
 @Component({
-	selector: 'app-work',
-	templateUrl: './work.component.html',
-	styleUrls: ['./work.component.sass'],
+	selector: "app-work",
+	styleUrls: [ "./work.component.scss" ],
+	templateUrl: "./work.component.html",
 })
 export class WorkComponent implements OnInit, AfterViewInit {
-	public model: WorkModel[];
+	public model: readonly WorkModel[];
+
 	public selected: WorkModel;
-	public marker: string;
+
+	public readonly marker: string;
 
 	constructor(
-		private readonly workService: WorkService,
-		private readonly loaderService: LoaderService,
-		private readonly route: ActivatedRoute,
+			private readonly workService: WorkService,
+			private readonly loaderService: LoaderService,
+			private readonly route: ActivatedRoute,
+			private readonly splashStateService: SplashStateService,
 	) {
 		// this.loaderService.flushJobs();
-		this.loaderService.beginLoading('[page] load');
+		this.loaderService.beginLoading("[page] load");
 	}
 
 	ngOnInit() {
 		this.route.data.subscribe(
-			(data: { model: WorkModel[] }) => {
+			(data: { readonly model: readonly WorkModel[] }) => {
 				this.model = data.model;
-			}
+			},
 		);
 
 		this.workService.workSelectedState$.subscribe((entity) => {
@@ -37,6 +44,8 @@ export class WorkComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit() {
-		this.loaderService.endLoading('[page] load');
+		this.loaderService.endLoading("[page] load");
+
+		this.splashStateService.changeSplashState(SplashState.BLURRED);
 	}
 }

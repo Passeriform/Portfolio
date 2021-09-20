@@ -1,19 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from "rxjs";
+import type { Observable } from "rxjs";
 
-export enum SplashState {
-	Focussed,
-	Blurred,
-}
+import { SplashState } from "./splash-state.interface";
 
 @Injectable()
 export class SplashStateService {
-	private splashStateSource = new BehaviorSubject<SplashState>(SplashState.Focussed);
+	public SplashState = SplashState;
 
-	splashState$: Observable<SplashState> = this.splashStateSource.asObservable();
+	private readonly splashStateSource$ = new BehaviorSubject<SplashState>(SplashState.FOCUSSED);
 
-	changeSplashState(splashState: SplashState): void {
-		this.splashStateSource.next(splashState);
+	public readonly splashState$: Observable<SplashState> = this.splashStateSource$.asObservable();
+
+	public changeSplashState(splashState: SplashState): void {
+		this.splashStateSource$.next(splashState);
 	}
 }

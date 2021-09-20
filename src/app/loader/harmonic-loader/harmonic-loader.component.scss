@@ -1,0 +1,9 @@
+@use "sass:map";
+
+@import "../loader.colors";
+
+:host {
+	& > canvas {
+		background-color: map.get($theme, "background", "hex");
+	}
+}

@@ -1,24 +1,24 @@
-import { WType, License, Language, Framework, Tool } from '@app/shared/registry.interface';
+import type { Framework, Language, License, Tool, WType } from "@shared/models/registry.interface";
 
 export interface WorkModel {
-	ref: string;
-	type: WType;
-	title: string;
-	subtitle: string;
-	description: string;
-	license: License[];
-	languages: Language[];
-	frameworks: Framework[];
-	tools: Tool[];
-	tags: string[];
-	children: string[];
-	dependency: string[];
+	readonly children: readonly string[];
+	readonly dependency: readonly string[];
+	readonly description: string;
+	readonly frameworks: readonly Framework[];
+	readonly languages: readonly Language[];
+	readonly license: readonly License[];
+	readonly ref: string;
+	readonly subtitle: string;
+	readonly tags: string[];
+	readonly title: string;
+	readonly tools: readonly Tool[];
+	readonly type: WType;
 }
 
 export interface WorkDescriptionModel {
-	title: string;
-	subtitle: string;
-	description: string;
-	logo: string;
-	screenshots: string[];
+	readonly description: string;
+	readonly logo: string;
+	readonly screenshots: readonly string[];
+	readonly subtitle: string;
+	readonly title: string;
 }

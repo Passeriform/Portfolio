@@ -1,0 +1,188 @@
+@use "global";
+@use "sass:map";
+
+@import "./footer.colors";
+@import "./separator";
+
+@mixin expanded {
+	& {
+		height: calc(100% - 4em);
+
+		& > #footer-content {
+			flex-grow: 1;
+		}
+	}
+}
+
+@mixin linear {
+	& > #footer-content {
+		flex-direction: column;
+		height: unset;
+
+		& > #brand {
+			margin: 0 auto;
+			width: calc(100vw - 2em);
+		}
+
+		& > #brand-separator {
+			@include separator-horizontal;
+		}
+
+		& > #links {
+			flex-flow: row wrap;
+
+			& > section {
+				min-width: calc((100vw / 2) - 4em);
+			}
+		}
+	}
+}
+
+@mixin stacked {
+	@media (orientation: portrait), (max-width: 50em) {
+		@include expanded;
+	}
+
+	& > #footer-content {
+		flex-direction: row;
+		height: 28em;
+
+		& > #brand {
+			margin: auto 1em;
+			width: 14em;
+		}
+
+		& > #brand-separator {
+			@include separator-vertical;
+		}
+
+		& > #links {
+			flex-flow: column wrap;
+			flex-grow: 1;
+			justify-content: flex-start;
+			margin: 1em;
+		}
+	}
+}
+
+.separator {
+	@include separator-horizontal;
+
+	&.vertical {
+		@include separator-vertical;
+	}
+
+	&.horizontal {
+		@include separator-horizontal;
+	}
+}
+
+:host {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+
+	@include linear;
+
+	@media (orientation: portrait), (max-width: 50em) {
+		@include expanded;
+	}
+
+	@media (orientation: portrait), (max-width: 40em) {
+		@include linear;
+	}
+
+	&.linear {
+		@include linear;
+	}
+
+	&.stacked {
+		@include stacked;
+
+		@media (orientation: portrait), (max-width: 40em) {
+			@include linear;
+		}
+	}
+
+	& > #post-note {
+		background-color: map.get($theme, "background", "light-10%", "hex");
+		text-align: center;
+
+		& > h6 {
+			margin: 1em;
+			font-family: "Fira Code", monospace;
+		}
+	}
+
+	& > #footer-content {
+		display: flex;
+		justify-content: space-around;
+		padding: 2em 0;
+		width: 100vw;
+		height: 28em;
+		background-color: map.get($theme, "background", "hex");
+
+		& > #brand {
+			margin: auto 1em;
+			text-align: center;
+
+			& > div {
+				& > p {
+					margin: 0;
+					font-family: "Share Tech Mono", monospace;
+					font-size: 1.8em;
+					font-weight: 800;
+				}
+
+				& > img {
+					width: 10em;
+					filter: invert(1);
+					mix-blend-mode: difference;
+				}
+
+				& > small {
+					white-space: nowrap;
+				}
+			}
+		}
+
+		& > #links {
+			display: flex;
+			flex-flow: column wrap;
+			flex-grow: 1;
+			justify-content: flex-start;
+			margin: 1em;
+
+			& > .section {
+				margin: 1em;
+
+				& > h6 {
+					margin-bottom: 1em;
+					font-weight: 800;
+				}
+
+				& > div {
+					padding-left: 0.1em;
+
+					& > a {
+						display: flex;
+						flex-direction: column;
+						color: map.get($theme, "foreground", "dark-35%", "hex");
+						font-weight: 500;
+						line-height: 5vh;
+						text-decoration: none;
+						white-space: nowrap;
+						cursor: pointer;
+						transition: all 0.3s ease-out;
+
+						&:hover {
+							color: map.get($theme, "foreground", "light-35%", "hex");
+						}
+					}
+				}
+			}
+		}
+	}
+}

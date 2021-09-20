@@ -1,8 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed, async   } from "@angular/core/testing";
+import type { ComponentFixture     } from "@angular/core/testing";
 
-import { TechStackComponent } from './tech-stack.component';
+import { TechStackComponent } from "./tech-stack.component";
 
-describe('TechStackComponent', () => {
+describe("TechStackComponent", () => {
 	let component: TechStackComponent;
 	let fixture: ComponentFixture<TechStackComponent>;
 
@@ -19,7 +20,7 @@ describe('TechStackComponent', () => {
 		fixture.detectChanges();
 	});
 
-	it('should create', () => {
+	it("should create", () => {
 		expect(component).toBeTruthy();
 	});
 });

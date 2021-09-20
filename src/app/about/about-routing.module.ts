@@ -1,26 +1,30 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule } from "@angular/router";
+import type { Routes } from "@angular/router";
 
-import { AboutComponent } from './about.component';
-import { AboutResolver } from './about-resolver.service';
-// import { PersonalityGuard } from '../core';
-// import { SharedModule } from '../shared';
+import { AboutComponent } from "./about.component";
+import { AboutResolver } from "./about-resolver.service";
+// import { PersonalityGuard } from "../core";
 
 const routes: Routes = [
 	{
-		path: '',
 		component: AboutComponent,
+		path: "",
+
 		// TODO: Add personality selector here.
+
 		// canActivate: [PersonalityGuard],
 		resolve: {
 			model: AboutResolver,
 		},
 	},
-	{ path: 'passeriform', redirectTo: '' },
+	{ path: "passeriform", redirectTo: "" },
 	{
-		path: ':slug',
 		component: AboutComponent,
+		path: ":slug",
+
 		// TODO: Add personality selector here.
+
 		// canActivate: [PersonalityGuard],
 		resolve: {
 			model: AboutResolver,
@@ -29,7 +33,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes)],
-	exports: [RouterModule],
+	exports: [ RouterModule ],
+	imports: [ RouterModule.forChild(routes) ],
 })
 export class AboutRoutingModule { }

@@ -1,0 +1,127 @@
+@use "global";
+@use "sass:map";
+@use "sass:math";
+
+@import "./contact-form.colors";
+
+$half-margin: 1em;
+$net-half-width: calc(50% - #{math.div($half-margin, 2)});
+
+@mixin form-element {
+	border: 1px solid map.get($theme, "accent", "hex");
+	background: map.get($theme, "background", "dark-5%", "hex");
+	color: white;
+	backdrop-filter: blur(5px);
+}
+
+:host > form#contact-form > ul {
+	margin: 0;
+	padding: 0;
+
+	& li {
+		position: relative;
+		display: block;
+		margin-bottom: 1em;
+		clear: both;
+		overflow: hidden;
+		list-style: none;
+
+		&.half {
+			margin-left: $half-margin;
+			width: $net-half-width;
+			float: left;
+			clear: none;
+
+			&:first-child {
+				margin-left: 0;
+			}
+		}
+
+		&.submit {
+			margin-right: 1em;
+			float: right;
+		}
+	}
+
+	& input[ type=text ], input[ type=email ] {
+		box-sizing: border-box;
+		padding: 0 20px;
+		width: 100%;
+		height: 3em;
+		font-size: 16px;
+		mix-blend-mode: lighten;
+
+		@include form-element;
+
+		&:focus {
+			outline: 0;
+		}
+	}
+
+	& textarea {
+		box-sizing: border-box;
+		padding: 20px;
+		min-height: 150px;
+		width: 100%;
+		height: 3em;
+		font-size: 16px;
+		mix-blend-mode: lighten;
+
+		@include form-element;
+	}
+
+	.flat-button {
+		padding: 0.5em 2em;
+		font-size: 0.85em;
+		letter-spacing: 0.2em;
+
+		@include form-element;
+
+		&:hover + .input-label:after {
+			transform: translate3d(0, 0, 0);
+		}
+	}
+}
+
+.input-label {
+	&:before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		pointer-events: none;
+	}
+
+	&:after {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		pointer-events: none;
+		width: 100%;
+		height: 100%;
+		transform: translate3d(-100%, 0, 0);
+		background-color: invert(map.get($theme, "background", "hex"));
+		transition: transform 0.3s;
+		mix-blend-mode: exclusion;
+	}
+}
+
+.inputField:focus + .input-label:after, .input--filled .input-label:after, .input:focus + .input-label:after, .input--filled .input-label:after {
+	transform: translate3d(0, 0, 0);
+}
+
+.required {
+	.inputField + .input-label:after, .input--filled .input-label:after {
+		border-color: red;
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+.inputField:focus + .input-label .input-label-content, .input--filled .input-label-content {
+	animation: anim-1 0.3s forwards;
+}
+
+.submit > .input-label:after {
+	clip-path: polygon(0 0, 100% 0, calc(100% - 1em) 100%, 0 100%);
+}

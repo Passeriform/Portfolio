@@ -1,16 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
-import { Subject, Observable } from 'rxjs';
+import { Subject } from "rxjs";
+import type { Observable } from "rxjs";
 
-import { ErrorModel } from './error.interface';
+import type { ErrorModel } from "./error.interface";
 
 @Injectable()
 export class ErrorService {
-	private errorDetailsSource = new Subject<ErrorModel>();
+	private readonly errorDetailsSource$ = new Subject<ErrorModel>();
 
-	errorDetails$: Observable<ErrorModel> = this.errorDetailsSource.asObservable();
+	public readonly errorDetails$: Observable<ErrorModel> = this.errorDetailsSource$.asObservable();
 
-	displayError(errorModel: ErrorModel): void {
-		this.errorDetailsSource.next(errorModel);
+	public displayError(errorModel: ErrorModel): void {
+		this.errorDetailsSource$.next(errorModel);
 	}
 }

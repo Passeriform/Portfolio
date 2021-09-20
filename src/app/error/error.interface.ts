@@ -1,15 +1,32 @@
-export enum ErrorType {
-	UnknownError = 0,
-	BadRequest = 400,
-	Unauthorized = 401,
-	Forbidden = 403,
-	NotFound = 404,
-	InternalServer = 500,
+import type { HttpErrorResponse } from "@angular/common/http";
+
+export enum HttpErrors {
+	/* eslint-disable @typescript-eslint/no-magic-numbers */
+	BAD_REQUEST = 400,
+	FORBIDDEN = 403,
+	INTERNAL_SERVER_ERROR = 500,
+	NOT_FOUND = 404,
+	UNKNOWN_ERROR = 0,
+	UNAUTHORIZED = 401,
+	/* eslint-enable @typescript-eslint/no-magic-numbers */
 }
 
-export interface ErrorModel extends ReadonlyMap<string, string | ErrorType> {
-	name: string;
-	status: ErrorType;
-	statusText?: string;
-	message: string;
+export interface ApiErrorResponse extends HttpErrorResponse {
+	readonly error: {
+		readonly name: string
+		readonly status: HttpErrors
+		readonly statusText: string
+		readonly message: string
+	}
 }
+
+export interface ErrorModel {
+	readonly message: string;
+	readonly name: string;
+	readonly status: HttpErrors;
+	readonly statusText: string;
+}
+
+export const isErrorModel = (maybeError: any): maybeError is ErrorModel => maybeError?.name !== undefined
+	&& maybeError?.message !== undefined
+	&& maybeError?.status !== undefined;

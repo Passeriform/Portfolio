@@ -1,6 +1,8 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, HostBinding } from "@angular/core";
+import type { OnInit } from "@angular/core";
 
-import { WorkService } from '../../work/services/work.service';
+import { WorkService } from "@app/work/services/work.service";
+import type { WorkModel } from "@app/work/work.interface";
 
 enum OverlayState {
 	HIDE,
@@ -8,41 +10,42 @@ enum OverlayState {
 }
 
 @Component({
-	selector: 'app-overlay',
-	templateUrl: './overlay.component.html',
-	styleUrls: ['./overlay.component.sass'],
+	selector: "app-overlay",
+	styleUrls: [ "./overlay.component.scss" ],
+	templateUrl: "./overlay.component.html",
 })
 export class OverlayComponent implements OnInit {
-	public OverlayState = OverlayState;
+	@HostBinding("class.blink") public blinkEnabled = true;
+
+	public readonly OverlayState = OverlayState;
+
 	public overlayState: OverlayState;
 
-	@HostBinding('class.blink') public blinkEnabled = true;
-
-	constructor(public workService: WorkService) { }
+	constructor(private readonly workService: WorkService) { }
 
 	ngOnInit() {
-		this.workService.workSelectedState$.subscribe((model) => {
+		this.workService.workSelectedState$.subscribe((model: WorkModel | undefined) => {
 			if (model) {
 				this.blinkEnabled = false;
 			}
 		});
 	}
 
-	toggleOverlay(): void {
-		this.overlayState === OverlayState.SHOW ?
-			this.overlayState = OverlayState.HIDE :
-			this.overlayState = OverlayState.SHOW;
+	public toggleOverlay(): void {
+		this.overlayState = this.overlayState === OverlayState.SHOW
+			? OverlayState.HIDE
+			: OverlayState.SHOW;
 	}
 
-	showOverlay(): void {
+	public showOverlay(): void {
 		this.overlayState = OverlayState.SHOW;
 	}
 
-	hideOverlay(): void {
+	public hideOverlay(): void {
 		this.overlayState = OverlayState.HIDE;
 	}
 
-	disableBlink(): void {
+	public disableBlink(): void {
 		this.blinkEnabled = false;
 	}
 }

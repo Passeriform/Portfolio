@@ -1,47 +1,41 @@
-import { NgModule } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+/* eslint import/max-dependencies: [ "error", { "max": 20 } ] */
+import { NgModule } from "@angular/core";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { Router } from "@angular/router";
+import { BrowserModule } from "@angular/platform-browser";
+import { FormsModule } from "@angular/forms";
 
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-import { HeaderModule } from './header/header.module';
-import { FooterModule } from './footer/footer.module';
-import { NavigatorModule } from './navigator/navigator.module';
-import { CoreModule } from './core/core.module';
-import { LandingModule } from './landing/landing.module';
-import { WorkModule } from './work/work.module';
-import { AboutModule } from './about/about.module';
-import { SharedModule } from './shared/shared.module';
-import { ErrorModule } from './error/error.module';
-
-import { HttpErrorInterceptor } from '@app/core/interceptors/http-error.interceptor';
+import { HttpErrorInterceptor } from "@core/interceptors/http-error.interceptor";
+import { HeaderModule } from "./header/header.module";
+import { FooterModule } from "./footer/footer.module";
+import { CoreModule } from "./core/core.module";
+import { LoaderModule } from "./loader/loader.module";
+import { SharedModule } from "./shared/shared.module";
+import { ErrorModule } from "./error/error.module";
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
 
 @NgModule({
+	bootstrap: [ AppComponent ],
+	declarations: [ AppComponent ],
 	imports: [
-		FormsModule,
-		BrowserModule,
-		HttpClientModule,
-
 		AppRoutingModule,
-		HeaderModule,
-		FooterModule,
-		NavigatorModule,
+		BrowserModule,
 		CoreModule,
-		LandingModule,
-		WorkModule,
-		AboutModule,
-		SharedModule,
 		ErrorModule,
+		FooterModule,
+		FormsModule,
+		HeaderModule,
+		HttpClientModule,
+		LoaderModule,
+		SharedModule,
 	],
-	declarations: [AppComponent],
 	providers: [
 		{
+			multi: true,
 			provide: HTTP_INTERCEPTORS,
 			useClass: HttpErrorInterceptor,
-			multi: true,
 		},
 	],
-	bootstrap: [AppComponent],
 })
 export class AppModule { }

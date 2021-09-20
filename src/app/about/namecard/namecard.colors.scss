@@ -1,0 +1,3 @@
+@use "colors";
+
+$theme: colors.generate-color-swatch($accent: #282F4C, $background: #050C26, $foreground: #A8757D, $canvas: #17061E);

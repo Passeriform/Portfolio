@@ -1,28 +1,32 @@
+import { Component, Input } from "@angular/core";
+import type { OnInit } from "@angular/core";
 
-import { Component, Input, OnInit } from '@angular/core';
-
-import { SplashState, SplashStateService } from '@app/core/services/splash-state.service';
+import { SplashState } from "@core/services/splash-state.interface";
+import { SplashStateService } from "@core/services/splash-state.service";
 
 @Component({
-	selector: 'app-header',
-	templateUrl: './header.component.html',
-	styleUrls: ['./header.component.sass'],
+	selector: "app-header",
+	styleUrls: [ "./header.component.scss" ],
+	templateUrl: "./header.component.html",
 })
 export class HeaderComponent implements OnInit {
-	public SplashState = SplashState;
+	@Input() public readonly alt: string;
 
-	@Input() logo: string;
-	@Input() target: string;
-	@Input() alt: string;
+	@Input() public readonly logo: string;
+
+	@Input() public readonly target: string;
+
+	public readonly SplashState = SplashState;
 
 	public splashState: SplashState;
 
-	constructor(private splashStateService: SplashStateService) { }
+	constructor(private readonly splashStateService: SplashStateService) { }
 
 	ngOnInit() {
 		this.splashStateService.splashState$.subscribe(
 			(splashState) => {
 				this.splashState = splashState;
-			});
+			},
+		);
 	}
 }

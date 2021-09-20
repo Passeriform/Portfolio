@@ -1,43 +1,45 @@
-import { Component, OnInit, Input, AfterViewInit, HostBinding, ElementRef, ViewChild, Renderer2 } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Component, HostBinding, ViewChild, ElementRef, Renderer2 } from "@angular/core";
+import type { AfterViewInit, OnInit } from "@angular/core";
 
-import { ErrorModel } from './error.interface';
-import { ErrorService } from './error.service';
+import type { ErrorModel } from "./error.interface";
+import { ErrorService } from "./error.service";
 
 @Component({
-	selector: 'app-error',
-	templateUrl: './error.component.html',
-	styleUrls: ['./error.component.sass'],
+	selector: "app-error",
+	styleUrls: [ "./error.component.scss" ],
+	templateUrl: "./error.component.html",
 })
 export class ErrorComponent implements OnInit, AfterViewInit {
+	@ViewChild("debugWindow", { read: ElementRef }) private readonly debugWindow: ElementRef<HTMLElement>;
+
 	public error: ErrorModel;
+
 	public debugExpanded: boolean;
 
-	@ViewChild('debugWindow') debugWindow: ElementRef;
-
-	@HostBinding('style.display') get errorOcurred() {
-		return this.error ? 'block' : 'none';
+	@HostBinding("style.display") public get errorOcurred(): string {
+		return this.error ? "block" : "none";
 	}
+
 	constructor(
-		private renderer: Renderer2,
-		private errorService: ErrorService
+			private readonly renderer: Renderer2,
+			private readonly errorService: ErrorService,
 	) { }
 
 	ngOnInit() {
-		this.errorService.errorDetails$.subscribe((model) => {
+		this.errorService.errorDetails$.subscribe((model: ErrorModel) => {
 			this.error = model;
 		});
 	}
 
 	ngAfterViewInit() {
-		this.renderer.listen('window', 'click', (e: Event) => {
-			if (!this.debugWindow.nativeElement.contains(e.target)) {
+		this.renderer.listen("window", "click", (event: Event) => {
+			if (!this.debugWindow?.nativeElement?.contains(event.target as Node)) {
 				this.debugExpanded = false;
 			}
 		});
 	}
 
-	debugExpand() {
+	public debugExpand(): void {
 		this.debugExpanded = true;
 	}
 }

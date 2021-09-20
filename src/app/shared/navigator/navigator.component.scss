@@ -1,0 +1,145 @@
+@use "global";
+@use "sass:map";
+@use "sass:math";
+
+@import "./navigator.colors";
+
+$idle-icon-size: math.div(global.$navigator-flap-size, 3);
+$hide-icon-size: math.div(global.$navigator-flap-size, 4);
+
+:host {
+	& > .flap-button {
+		position: absolute;
+		right: -(global.$navigator-expand-length - global.$navigator-flap-size);
+		bottom: 0;
+		width: global.$navigator-expand-length;
+		height: global.$navigator-flap-size;
+		cursor: pointer;
+		transition: right 0.2s, clip-path 0.4s;
+		clip-path: polygon(global.$navigator-flap-size 0, 100% 0, 100% 100%, 0 100%);
+
+		& > #before {
+			position: relative;
+			display: block;
+			width: 100%;
+			height: 50%;
+			background-color: map.get($theme, "accent", "hex");
+			clip-path: polygon(global.$navigator-flap-size 0, 100% 0, 100% 100%, math.div(global.$navigator-flap-size, 2) 100%);
+		}
+
+		& > #after {
+			position: relative;
+			display: block;
+			width: 100%;
+			height: math.div(global.$navigator-flap-size, 2);
+			background-color: map.get($theme, "accent", "hex");
+			clip-path: polygon((math.div(global.$navigator-flap-size, 2)) 0, 100% 0, 100% 100%, 0 100%);
+			transform-origin: top;
+			transition: all 0.4s ease;
+			mix-blend-mode: difference;
+		}
+
+		& > #idle-icon {
+			position: absolute;
+			right: global.$navigator-expand-length - global.$navigator-flap-size;
+			bottom: 0;
+			display: block;
+			color: map.get($theme, "accent", "invert", "hex");
+			transition: all 0.2s;
+
+			& > img {
+				$flap-incircle-radius: (2 - math.sqrt(2)) * math.div(global.$navigator-flap-size, 2);
+				margin: ($flap-incircle-radius - (math.div($idle-icon-size, 2)));
+				width: $idle-icon-size;
+				height: $idle-icon-size;
+			}
+		}
+
+		& > #hide-icon {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			display: none;
+			color: map.get($theme, "accent", "invert", "hex");
+			transition: all 0.2s;
+
+			& > img {
+				$flap-incircle-radius: ((2 - math.sqrt(2)) * math.div(global.$navigator-flap-size, 2) * math.sqrt(2));
+				// margin: 0 ($flap-incircle-radius - (math.div($hide-icon-size, 2)));
+				margin: 0;
+				width: $hide-icon-size;
+				height: $hide-icon-size;
+			}
+		}
+
+		// TODO: Remove later
+		& > #command-init {
+			position: absolute;
+			right: 0;
+			bottom: (math.div(global.$navigator-flap-size, 2)) + 0.5em;
+			display: flex;
+			width: 0;
+			height: 50%;
+			border: none;
+			background: none;
+			color: yellow;
+			opacity: 0;
+			transition: all 0.2s;
+
+			& > #prompt {
+				margin: auto 0.5em;
+				margin-right: 0;
+				font-weight: 700;
+			}
+
+			& > input {
+				margin: auto 0.5em;
+				width: 100%;
+				height: 100%;
+				border: none;
+				background: none;
+				color: yellow;
+				outline: none;
+			}
+		}
+
+		& > #click-capture {
+			position: absolute;
+			right: (global.$navigator-expand-length - global.$navigator-flap-size);
+			bottom: 50%;
+			display: block;
+			width: global.$navigator-flap-size;
+			height: 50%;
+			background: transparent;
+			clip-path: polygon(0 0, 100% 0, 50% 100%);
+		}
+
+		&.expanded {
+			right: 0;
+			clip-path: polygon(0 0, 100% 0, 100% 50%, (math.div(global.$navigator-flap-size, 2)) 50%);
+			transition: right 0.2s;
+
+			& > #after {
+				transform: rotateX(180deg);
+				mix-blend-mode: difference;
+			}
+
+			& > #idle-icon {
+				right: 0;
+				display: none;
+			}
+
+			& > #hide-icon {
+				right: global.$navigator-expand-length - math.div(global.$navigator-flap-size, 2) - math.div($hide-icon-size, 2);
+				bottom: ((math.div(global.$navigator-flap-size, 2)) + math.div(global.$navigator-flap-size, 4)) - math.div(math.div(global.$navigator-flap-size, (2 * math.sqrt(2))), 4);
+				display: block;
+			}
+
+			& > #command-init {
+				width: (global.$navigator-expand-length - global.$navigator-flap-size);
+				height: 2em;
+				opacity: 1;
+			}
+		}
+	}
+}

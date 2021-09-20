@@ -1,0 +1,6 @@
+@mixin disallow-selection {
+	& {
+		-webkit-touch-callout: none;
+		user-select: none;
+	}
+}

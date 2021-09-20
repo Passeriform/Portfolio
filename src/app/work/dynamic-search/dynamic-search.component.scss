@@ -1,0 +1,23 @@
+@use "global";
+@use "sass:map";
+
+@import "./dynamic-search.colors";
+
+:host > input {
+	padding: 0.5em 2em;
+	width: 80vw;
+	height: 3em;
+	border: 0.2em solid map.get($theme, "accent", "hex");
+	border-radius: global.$curve-threshold;
+	background-clip: border-box;
+	background-color: transparent;
+	color: map.get($theme, "accent", "hex");
+	font-weight: 500;
+	word-wrap: break-word;
+	transition: color 0.5s ease, background-color 0.5s ease;
+
+	&:focus {
+		background-color: map.get($theme, "background", "dark-10%", "hex");
+		color: map.get($theme, "accent", "hex");
+	}
+}

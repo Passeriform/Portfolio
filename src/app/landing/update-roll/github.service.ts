@@ -1,24 +1,27 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
 
-import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject } from "rxjs";
+import type { Observable } from "rxjs";
 
-import { GithubEvent } from './github.interface';
+import type { GithubEvent } from "./github.interface";
 
 @Injectable()
 export class GithubService {
-	private githubFeedSource = new BehaviorSubject<GithubEvent[]>([]);
+	private readonly githubFeedSource$ = new BehaviorSubject<readonly GithubEvent[]>([]);
 
-	githubFeedState$: Observable<GithubEvent[]> = this.githubFeedSource.asObservable();
+	public readonly githubFeedState$: Observable<readonly GithubEvent[]> = this.githubFeedSource$.asObservable();
 
-	constructor(private http: HttpClient) { }
+	constructor(private readonly http: HttpClient) { }
 
 	// TODO: Justify usage of after parameter
-	fetchUpdates(after?: number): Observable<GithubEvent[]> {
+
+	public fetchUpdate$(after?: number): Observable<readonly GithubEvent[]> {
 		this.http
-			.get<GithubEvent[]>('https://api.github.com/users/Passeriform/events')
-			.subscribe((model) => this.githubFeedSource.next(model));
+			.get<readonly GithubEvent[]>("https://api.github.com/users/Passeriform/events")
+			.subscribe((model) => {
+				this.githubFeedSource$.next(model);
+			});
 
 		return this.githubFeedState$;
 	}

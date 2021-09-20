@@ -1,0 +1,33 @@
+@use "global";
+@use "sass:map";
+
+@import "./raisecard.colors";
+
+:host {
+	display: inline-block;
+	flex-shrink: 0;
+	margin: 0.5em;
+	width: max(23em, min(80vw, 30em));
+	height: 22em;
+
+	& > .card {
+		padding: 1em;
+		width: 100%;
+		height: 100%;
+		overflow: visible;
+		border: none;
+		background-color: map.get($theme, "foreground", "hex");
+		color: map.get($theme, "background", "hex");
+
+		& > .marker {
+			position: absolute;
+			padding: 0.3em 0.8em;
+			background-color: map.get($theme, "background", "hex");
+			color: map.get($theme, "foreground", "hex");
+		}
+
+		& > .content {
+			position: relative;
+		}
+	}
+}

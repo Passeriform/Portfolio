@@ -1,11 +1,11 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { CanvasService } from './services/canvas.service';
+import { CanvasService } from "./services/canvas.service";
 
-describe('CanvasService', () => {
+describe("CanvasService", () => {
 	beforeEach(() => TestBed.configureTestingModule({ }));
 
-	it('should be created', () => {
+	it("should be created", () => {
 		const service: CanvasService = TestBed.get(CanvasService);
 		expect(service).toBeTruthy();
 	});

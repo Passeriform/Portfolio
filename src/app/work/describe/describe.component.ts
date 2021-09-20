@@ -1,16 +1,17 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from "@angular/core";
+import type { OnInit } from "@angular/core";
 
-import { WorkDescriptionModel } from '../work.interface';
+import type { WorkDescriptionModel } from "../work.interface";
 
 @Component({
-	selector: 'app-describe',
-	templateUrl: './describe.component.html',
-	styleUrls: ['./describe.component.sass'],
+	selector: "app-describe",
+	styleUrls: [ "./describe.component.scss" ],
+	templateUrl: "./describe.component.html",
 })
 export class DescribeComponent implements OnInit {
-	@Input() public model: WorkDescriptionModel;
+	@Input() public readonly model: WorkDescriptionModel;
 
-	constructor() { }
-
-	ngOnInit() { }
+	ngOnInit() {
+		// ngOnInit
+	}
 }

@@ -1,14 +1,14 @@
-import { Directive, ElementRef, TemplateRef, Input } from '@angular/core';
+import { Directive, Input, TemplateRef, ElementRef } from "@angular/core";
 
 @Directive({
-	selector: '[appCaged]',
+	selector: "[appCaged]",
 })
 export class CageGridDirective {
-	public cageTemplate: TemplateRef<ElementRef<HTMLElement>>;
+	@Input("appCaged") public readonly title: string;
 
-	@Input('appCaged') title: string;
+	public readonly cageTemplate: TemplateRef<ElementRef<HTMLElement>>;
 
-	constructor(private templateRef: TemplateRef<ElementRef<HTMLElement>>) {
-		this.cageTemplate = this.templateRef;
+	constructor(private readonly templateReference: TemplateRef<ElementRef<HTMLElement>>) {
+		this.cageTemplate = this.templateReference;
 	}
 }

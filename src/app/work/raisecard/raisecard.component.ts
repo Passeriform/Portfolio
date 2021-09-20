@@ -1,13 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input } from "@angular/core";
 
 @Component({
-	selector: 'app-raisecard',
-	templateUrl: './raisecard.component.html',
-	styleUrls: ['./raisecard.component.sass'],
+	selector: "app-raisecard",
+	styleUrls: [ "./raisecard.component.scss" ],
+	templateUrl: "./raisecard.component.html",
 })
 export class RaisecardComponent {
-	@Input() title: string;
-	@Input() marker: string;
+	@Input() public readonly title: string;
 
-	constructor() { }
+	@Input() public readonly marker: string;
 }

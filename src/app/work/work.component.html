@@ -1,4 +1,4 @@
-<app-scrollable [collapsed]="true" [fullpage]="true" [nestedScroll]="true" [injectSplash]="true">
+<app-scrollable [fullpage]="true" [nestedScroll]="true">
   <ng-container *ngIf="selected; else modelPlaceholder">
     <div class="page" id="description" #page>
       <div class="bg-img"></div>
@@ -14,7 +14,7 @@
     </div>
     <div class="page" id="stack" #page>
       <div class="bg-img"></div>
-      <app-tech-stack [model]="selected | retain: 'languages':'frameworks':'tools'">
+      <app-tech-stack [model]="$any(selected) | retain: 'languages':'frameworks':'tools'">
       </app-tech-stack>
     </div>
     <div id="future" class="page" #page>

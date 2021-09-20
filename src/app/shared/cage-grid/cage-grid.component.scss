@@ -1,0 +1,86 @@
+@use "global";
+@use "sass:map";
+@use "sass:math";
+
+@import "./cage-grid.colors";
+
+$cage-grid-border-size: 0.2em;
+$title-flap-size-em: 3em;
+$h2-font-size-em: 1.75em;
+$h2-padding-x-em: 0.5em;
+$h2-padding-y-em: 0.25em;
+$content-shift-x-em: 0.2em;
+$content-shift-y-em: 0.2em;
+$top-border-shift-em: $title-flap-size-em - $cage-grid-border-size;
+$left-border-shift-em: $title-flap-size-em - $cage-grid-border-size;
+
+:host {
+	display: flex;
+	flex-flow: row wrap;
+	padding: 2em;
+	width: 100%;
+
+	@media screen and (orientation: landscape) and (max-height: 400px) {
+		flex-wrap: nowrap;
+		overflow-x: visible;
+		overflow-y: hidden;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+
+		&::-webkit-scrollbar {
+			width: 0px;
+			background: transparent;
+		}
+
+		& > * {
+			flex-shrink: 0;
+		}
+	}
+
+	& > * {
+		flex-grow: 1;
+		margin: 1em;
+		background-color: transparent;
+
+		& > .title {
+			position: relative;
+			z-index: 1;
+			margin-bottom: -3em;
+			overflow: hidden;
+			text-transform: capitalize;
+			white-space: nowrap;
+
+			& > h2 {
+				display: inline-block;
+				margin: 0;
+				padding: $h2-padding-y-em $h2-padding-x-em;
+				padding-right: $h2-padding-x-em + (math.div($title-flap-size-em, 2));
+				background-color: map.get($theme, "background", "hex");
+				color: map.get($theme, "foreground", "hex");
+				font-size: $h2-font-size-em;
+				clip-path: polygon(0 0, 100% 0, calc(100% - #{(math.div($title-flap-size-em, 2)) + $h2-padding-y-em}) 100%, 0 100%);
+			}
+		}
+
+		& > .content {
+			position: relative;
+			top: $content-shift-y-em;
+			left: $content-shift-x-em;
+			padding: 2em;
+			border: global.$cage-grid-size solid map.get($theme, "accent", "hex");
+			background-color: transparent;
+			// clip-path: polygon(0 0, 0 calc(100% - #{$cage-grid-cut-size}), #{$cage-grid-cut-size} 100% , 100% 100%, 100% #{$cage-grid-cut-size}, calc(100% - #{$cage-grid-cut-size}) 0);
+			clip-path:
+				polygon(
+					0 0,
+					calc(30% + #{$top-border-shift-em}) 0,
+					30% $top-border-shift-em,
+					calc(100% - #{$top-border-shift-em}) $top-border-shift-em,
+					calc(100% - #{$top-border-shift-em}) calc(100% - #{$top-border-shift-em}),
+					$top-border-shift-em calc(100% - #{$top-border-shift-em}),
+					$left-border-shift-em $title-flap-size-em + $top-border-shift-em + $content-shift-y-em,
+					0 $title-flap-size-em + $content-shift-y-em
+				);
+		}
+	}
+}

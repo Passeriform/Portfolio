@@ -1,30 +1,24 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
 
-import { LandingComponent } from './landing.component';
-// import { LandingResolver } from './landing-resolver.service';
-import { LandingRoutingModule } from './landing-routing.module';
-import { SweeperComponent } from './sweeper/sweeper.component';
-import { BadgeComponent } from './badge/badge.component';
-import { UpdateRollComponent } from './update-roll/update-roll.component';
-import { GithubService } from './update-roll/github.service';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from "@shared/shared.module";
+import { SweeperComponent } from "./sweeper/sweeper.component";
+import { BadgeComponent } from "./badge/badge.component";
+import { UpdateRollComponent } from "./update-roll/update-roll.component";
+import { GithubService } from "./update-roll/github.service";
+import { LandingRoutingModule } from "./landing-routing.module";
+import { LandingComponent } from "./landing.component";
 
 @NgModule({
-	imports: [
-		// RouterModule,
-		SharedModule,
-		LandingRoutingModule,
-	],
 	declarations: [
+		BadgeComponent,
 		LandingComponent,
 		SweeperComponent,
-		BadgeComponent,
 		UpdateRollComponent,
 	],
-	providers: [
-		// LandingResolver,
-		GithubService,
+	imports: [
+		LandingRoutingModule,
+		SharedModule,
 	],
+	providers: [ GithubService ],
 })
 export class LandingModule { }

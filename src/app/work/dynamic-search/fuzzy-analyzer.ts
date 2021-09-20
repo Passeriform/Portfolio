@@ -1,65 +1,64 @@
-import { Injectable } from '@angular/core';
+/* eslint-disable complexity, functional/no-let, functional/no-loop-statement, @typescript-eslint/no-magic-numbers */
+import { Injectable } from "@angular/core";
 
 export type FuzzyScore = number;
 
 export interface FuzzySegment {
-	value: string;
 	isMatch: boolean;
+	value: string;
 }
 
 @Injectable()
 export class FuzzyAnalyzer {
-	public parseValue(value: string, input: string): FuzzySegment[] {
+	public parseValue(value: string, input: string): readonly FuzzySegment[] {
+		// TODO: Refactor method to make more modern.
+
 		const valueLength = value.length;
 		const inputLength = input.length;
 		let valueIndex = 0;
 		let inputIndex = 0;
 
 		const segments: FuzzySegment[] = [];
-		let segment: FuzzySegment;
 
 		while (valueIndex < valueLength) {
 			const valueChar = value.charAt(valueIndex++).toLowerCase();
 			const inputChar = input.charAt(inputIndex).toLowerCase();
+			const segment: FuzzySegment = {
+				isMatch: false,
+				value: valueChar,
+			};
 
 			if (valueChar === inputChar) {
 				inputIndex++;
 
-				if (segment ?.isMatch) {
+				if (segment.isMatch) {
 					segment.value += valueChar;
-				} else {
-					segment = {
-						value: valueChar,
-						isMatch: true,
-					};
-
-					segments.push(segment);
 				}
 
-				if ((inputIndex === inputLength) && (valueIndex < valueLength)) {
+				segment.isMatch = true;
+
+				segments.push(segment);
+
+				if (inputIndex === inputLength && valueIndex < valueLength) {
 					segments.push({
-						value: value.slice(valueIndex),
 						isMatch: false,
+						value: value.slice(valueIndex),
 					});
 
 					break;
 				}
 			} else {
-				if (segment ?.isMatch) {
-					segment = {
-						value: valueChar,
-						isMatch: false,
-					};
+				if (segment.isMatch) {
+					segment.isMatch = false;
 
 					segments.push(segment);
 				} else {
 					segment.value += valueChar;
-
 				}
 			}
 		}
 
-		return (segments);
+		return segments;
 	}
 
 	public scoreValue(value: string, input: string): FuzzyScore {
@@ -81,11 +80,11 @@ export class FuzzyAnalyzer {
 
 			if (valueChar === inputChar) {
 				inputIndex++;
-				score += (previousIndexMatched) ? 3 : 2;
+				score += previousIndexMatched ? 3 : 2;
 				previousIndexMatched = true;
 
 				if (inputIndex === inputLength) {
-					return (score -= (valueLength - valueIndex));
+					return score -= valueLength - valueIndex;
 				}
 			} else {
 				score--;
@@ -93,6 +92,8 @@ export class FuzzyAnalyzer {
 			}
 		}
 
-		return (score);
+		return score;
 	}
 }
+
+/* eslint-enable complexity, functional/no-let, functional/no-loop-statement, @typescript-eslint/no-magic-numbers */

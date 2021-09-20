@@ -1,8 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed, async   } from "@angular/core/testing";
+import type { ComponentFixture     } from "@angular/core/testing";
 
-import { LandingComponent } from './landing.component';
+import { LandingComponent } from "./landing.component";
 
-describe('LandingComponent', () => {
+describe("LandingComponent", () => {
 	let component: LandingComponent;
 	let fixture: ComponentFixture<LandingComponent>;
 
@@ -19,7 +20,7 @@ describe('LandingComponent', () => {
 		fixture.detectChanges();
 	});
 
-	it('should create', () => {
+	it("should create", () => {
 		expect(component).toBeTruthy();
 	});
 });

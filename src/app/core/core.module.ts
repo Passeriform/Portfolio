@@ -1,17 +1,12 @@
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 
-import { SplashStateService } from './services/splash-state.service';
-import { LoaderService } from './services/loader.service';
-import { CanvasService } from './services/canvas.service';
+import { CanvasService } from "./services/canvas.service";
+import { SplashStateService } from "./services/splash-state.service";
 
 @NgModule({
-	imports: [],
-	declarations: [],
 	providers: [
-		SplashStateService,
-		LoaderService,
 		CanvasService,
+		SplashStateService,
 	],
-	bootstrap: [],
 })
 export class CoreModule { }

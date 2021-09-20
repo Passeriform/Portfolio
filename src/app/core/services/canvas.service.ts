@@ -1,40 +1,55 @@
-import { Injectable, ElementRef } from '@angular/core';
+import { Injectable } from "@angular/core";
+import type { ElementRef } from "@angular/core";
 
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject } from "rxjs";
+import type { Observable } from "rxjs";
 
 @Injectable()
 export class CanvasService {
-	private canvasElementSource = new BehaviorSubject<ElementRef<HTMLCanvasElement>>(undefined);
-	private canvasContextSource = new BehaviorSubject<CanvasRenderingContext2D>(undefined);
+	private canvasElement: ElementRef<HTMLCanvasElement>;
 
-	canvasElement$: Observable<ElementRef<HTMLCanvasElement>> = this.canvasElementSource.asObservable();
-	canvasContext$: Observable<CanvasRenderingContext2D> = this.canvasContextSource.asObservable();
+	private canvasContext: CanvasRenderingContext2D;
 
-	constructor() { }
+	private readonly canvasElementSource$ = new BehaviorSubject<ElementRef<HTMLCanvasElement> | undefined>(undefined);
 
-	setCanvasElement(canvas: ElementRef<HTMLCanvasElement>): void {
-		this.canvasElementSource.next(canvas);
+	private readonly canvasContextSource$ = new BehaviorSubject<CanvasRenderingContext2D | undefined>(undefined);
+
+	public readonly canvasElement$: Observable<ElementRef<HTMLCanvasElement> | undefined> = this.canvasElementSource$.asObservable();
+
+	public readonly canvasContext$: Observable<CanvasRenderingContext2D | undefined> = this.canvasContextSource$.asObservable();
+
+	constructor() {
+		this.canvasElementSource$.subscribe((canvasElement: ElementRef<HTMLCanvasElement>) => {
+			this.canvasElement = canvasElement;
+		});
+		this.canvasContextSource$.subscribe((canvasContext: CanvasRenderingContext2D) => {
+			this.canvasContext = canvasContext;
+		});
 	}
 
-	refreshContext(): void {
-		this.canvasContextSource.next(
-			this.canvasElementSource.value.nativeElement.getContext('2d')
+	public setCanvasElement(canvas: ElementRef<HTMLCanvasElement>): void {
+		this.canvasElementSource$.next(canvas);
+	}
+
+	public refreshContext(): void {
+		this.canvasContextSource$.next(
+			this.canvasElement.nativeElement.getContext("2d") as CanvasRenderingContext2D | undefined,
 		);
 	}
 
-	drawDot(
-		{ x, y, radius, color }:
+	public drawDot(
+			{ color, radius, xPos, yPos }:
 			{
-				x: number;
-				y: number;
-				radius: number;
-				color: string;
-			}
+				readonly color: string;
+				readonly radius: number;
+				readonly xPos: number;
+				readonly yPos: number;
+			},
 	): void {
-		this.canvasContextSource.value.beginPath();
-		this.canvasContextSource.value.fillStyle = color;
-		this.canvasContextSource.value.arc(x, y, radius, 0, Math.PI * 2, true);
-		this.canvasContextSource.value.fill();
+		this.canvasContext.beginPath();
+		this.canvasContext.fillStyle = color;
+		/* eslint-disable-next-line no-magic-numbers */
+		this.canvasContext.arc(xPos, yPos, radius, 0, Math.PI * 2, true);
+		this.canvasContext.fill();
 	}
 }

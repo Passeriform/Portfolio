@@ -1,17 +1,19 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
-// import { LoaderService } from './services/loader.service';
+// import { LoaderService } from "@app/loader/loader.service";
 
 @Component({
-	selector: 'app-root',
-	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.sass'],
+	selector: "app-root",
+	styleUrls: [ "./app.component.scss" ],
+	templateUrl: "./app.component.html",
 })
 export class AppComponent {
-	title = 'Passeriform';
+	// TODO: Support i18n
+
+	public readonly title = "Passeriform";
 
 	constructor(
-		// private loaderService: LoaderService
+			// private loaderService: LoaderService
 	) { }
 
 	onRouteChange() {

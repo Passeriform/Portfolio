@@ -1,0 +1,147 @@
+@use "global";
+
+:host {
+	& .page {
+		& > .bg-img {
+			position: absolute;
+			z-index: -1;
+			width: 100vw;
+			height: 100vh;
+		}
+
+		& > .content {
+			position: relative;
+			top: global.$shrink-header-size;
+			padding: 1em;
+			padding-top: 2em;
+			width: 100%;
+			// TODO: Again with the weird hack. This needs to be removed
+			height: calc(100% - #{global.$shrink-header-size});
+			text-transform: none;
+
+			& > .content-wrapper {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				margin: auto;
+				width: 80%;
+				height: 100%;
+				text-align: justify;
+
+				& > .content-text {
+					padding: 2em;
+
+					& > p {
+						font-size: global.$p-responsive-font-size;
+						line-height: 1.2;
+					}
+				}
+			}
+		}
+
+		&#intro {
+			& > .bg-img {
+				background-image: url("/assets/images/contour_bg.jpg");
+				background-repeat: no-repeat;
+				background-size: cover;
+				filter: brightnzess(50%);
+			}
+		}
+
+		&#contact {
+			& > .bg-img {
+				background-image: url("/assets/images/neon_square_bg.jpg");
+				background-repeat: no-repeat;
+				background-size: cover;
+				filter: brightness(50%);
+			}
+
+			& > .content > .content-wrapper {
+				& > img {
+					width: 150px;
+					height: 150px;
+					border-radius: 50%;
+				}
+
+				& > .contact-details {
+					& > h1 {
+						font-size: 3rem;
+						font-weight: 100;
+					}
+
+					& > .postform {
+						clear: both;
+					}
+				}
+			}
+		}
+
+		&#overview {
+			& > .bg-img {
+				background-image: url("/assets/images/neon_square_bg.jpg");
+				background-repeat: no-repeat;
+				background-size: cover;
+				filter: brightness(50%);
+			}
+
+			& > .content > .content-wrapper {
+				& > section {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					justify-content: center;
+					margin: auto;
+					width: 100%;
+					height: 100%;
+					text-align: justify;
+
+					& > * {
+						margin: 0.5em 1em;
+					}
+
+					& > img {
+						flex-shrink: 0;
+						align-self: center;
+						width: 100px;
+						height: 100px;
+					}
+				}
+			}
+		}
+
+		&#story {
+			& > .bg-img {
+				background-image: url("/assets/images/neon_square_bg.jpg");
+				background-repeat: no-repeat;
+				background-size: cover;
+				filter: brightness(50%);
+			}
+		}
+
+		&#contributors {
+			& > .bg-img {
+				background-image: url("/assets/images/neon_square_bg.jpg");
+				background-repeat: no-repeat;
+				background-size: cover;
+				filter: brightness(50%);
+			}
+
+			& #contributors-container {
+				display: flex;
+				justify-content: space-evenly;
+
+				& > .contributor {
+					position: relative;
+					margin: 1em;
+
+					& a > img {
+						width: 50px;
+						height: 50px;
+						border-radius: 50%;
+					}
+				}
+			}
+		}
+	}
+}

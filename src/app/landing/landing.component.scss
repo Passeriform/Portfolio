@@ -1,0 +1,61 @@
+@use "global";
+@use "sass:map";
+
+@import "./landing.colors";
+
+:host {
+	& .page > .bg-img-wrapper {
+		& > .bg-img {
+			position: absolute;
+			z-index: -1;
+			width: 100vw;
+			height: 100vh;
+		}
+	}
+
+	& #splash {
+		& > .bg-img-wrapper > .bg-img {
+			filter: blur(2px);
+			background-image: url("/assets/images/landingbg.jpg");
+			background-repeat: no-repeat;
+			background-size: cover;
+			filter: brightness(50%);
+			// TODO: Add support check for blur and apply only if available
+		}
+
+		& > .content {
+			position: relative;
+			top: 50%;
+			left: 50%;
+			display: inline-block;
+			transform: translate(-50%, -50%);
+
+			& > h1 {
+				margin-bottom: -0.25em;
+				padding: 0;
+				font-family: "Share Tech Mono", monospace;
+				font-size: max(4em, min(10vw, 10em));
+				font-weight: 500;
+			}
+		}
+	}
+
+	& #overview {
+		& > .bg-img-wrapper > .bg-img {
+			background-image: url("/assets/images/patterns/carbonpattern@2X.png");
+			background-repeat: repeat;
+			background-size: auto;
+		}
+
+		& > .content {
+			position: relative;
+			top: global.$shrink-header-size;
+		}
+	}
+
+	& #dir-view {
+		& > .bg-img-wrapper > .bg-img {
+			background-color: map.get($theme, "background", "hex");
+		}
+	}
+}

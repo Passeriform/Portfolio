@@ -1,50 +1,55 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import type { ActivatedRouteSnapshot, Resolve } from "@angular/router";
+import { Router } from "@angular/router";
+import { HttpClient } from "@angular/common/http";
 
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { throwError } from "rxjs";
+import type { Observable } from "rxjs";
+import { catchError, map } from "rxjs/operators";
 
-import { environment } from '@env/environment';
+import { environment } from "@env/environment";
 
-import { AboutModel } from './models/about.interface';
-import { ErrorModel } from '@app/error/error.interface';
-import { ErrorService } from '@app/error/error.service';
-import { LoaderService } from '../core/services/loader.service';
+import { isErrorModel } from "@app/error/error.interface";
+import type { ErrorModel } from "@app/error/error.interface";
+import { ErrorService } from "@app/error/error.service";
+import { LoaderService } from "@app/loader/loader.service";
+import type { AboutModel } from "./models/about.interface";
 
 @Injectable()
 export class AboutResolver implements Resolve<AboutModel> {
 	constructor(
-		private readonly router: Router,
-		private readonly http: HttpClient,
-		private readonly errorService: ErrorService,
-		private readonly loaderService: LoaderService
+			private readonly router: Router,
+			private readonly http: HttpClient,
+			private readonly errorService: ErrorService,
+			private readonly loaderService: LoaderService,
 	) { }
 
-	resolve(route: ActivatedRouteSnapshot): Observable<AboutModel | undefined> {
-		this.loaderService.beginLoading('[http] about');
+	resolve(route: ActivatedRouteSnapshot): Observable<AboutModel> {
+		this.loaderService.beginLoading("[http] about");
 
 		return this.http
-			.get<AboutModel>(
-				`${environment.apiUrl}/about/${route.params.slug ?? 'passeriform'}`
-			)
+			.get<AboutModel>(`${environment.apiUrl}/about/${route.params.slug as string || "passeriform"}`)
 			.pipe(
-				map((model: AboutModel) => {
-					if (!model) {
-						// TODO: Check if this needs modification.
-						this.router.navigate(['/']);
-					}
+				map((model?: AboutModel) => {
+					this.loaderService.endLoading("[http] about");
 
-					this.loaderService.endLoading('[http] about');
+					if (!model) {
+						this.router.navigate([ "/" ]);
+
+						/* eslint-disable-next-line unicorn/no-useless-undefined */
+						return undefined;
+					}
 
 					return model;
 				}),
 				catchError((error: ErrorModel) => {
-					this.loaderService.endLoading('[http] about');
-					this.errorService.displayError(error);
+					this.loaderService.endLoading("[http] about");
+					if (isErrorModel(error)) {
+						this.errorService.displayError(error);
+					}
 
-					return of(undefined);
-				})
-			);
+					return throwError(() => new Error(error.message));
+				}),
+			) as Observable<AboutModel>;
 	}
 }

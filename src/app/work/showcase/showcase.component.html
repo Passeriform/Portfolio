@@ -1,7 +1,7 @@
 <div class="content">
   <app-dynamic-search
       [model]="model"
-      (propagate)="workService.setActive($event)"
+      (propagate)="setActive(model)"
     >
   </app-dynamic-search>
 
@@ -49,14 +49,14 @@
                 </div>
               </ng-template>
 
-              <div appTooltip
+              <div i18n-position appTooltip
                   *ngIf="entry.languages?.length"
                   class="languages"
                   position="top"
                   [darkMode]="true"
                   [template]="languageTooltipTemplate"
                 >
-                <img
+                <img i18n-alt
                     alt="Languages"
                     src="https://img.icons8.com/color/source-code"
                     (click)="cancelClick($event)"
@@ -72,14 +72,14 @@
                 </div>
               </ng-template>
 
-              <div appTooltip
+              <div i18n-position appTooltip
                   *ngIf="entry.frameworks?.length"
                   class="frameworks"
                   position="top"
                   [darkMode]="true"
                   [template]="frameworkTooltipTemplate"
                 >
-                <img
+                <img i18n-alt
                     alt="Frameworks"
                     src="https://img.icons8.com/color/administrative-tools"
                     (click)="cancelClick($event)"
@@ -95,14 +95,14 @@
                 </div>
               </ng-template>
 
-              <div appTooltip
+              <div i18n-position appTooltip
                   *ngIf="entry.tools?.length"
                   class="tools"
                   position="top"
                   [darkMode]="true"
                   [template]="toolTooltipTemplate"
                 >
-                <img
+                <img i18n-alt
                     alt="Tools"
                     src="https://img.icons8.com/color/toolbox"
                     (click)="cancelClick($event)"
@@ -111,7 +111,7 @@
             </div>
 
             <a class="repo" href="{{ entry.repository }}">
-              <img alt="github-repo" src="{{ 'github' | iconUri }}"/>
+              <img i18n-alt alt="github-repo" src="{{ 'github' | iconUri }}"/>
             </a>
 
             <div class="licenses">

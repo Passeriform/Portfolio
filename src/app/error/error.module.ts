@@ -1,23 +1,16 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
 
-import { ErrorComponent } from './error.component';
-import { ErrorService } from './error.service';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from "@shared/shared.module";
+import { ErrorComponent } from "./error.component";
+import { ErrorService } from "./error.service";
 
 @NgModule({
+	declarations: [ ErrorComponent ],
+	exports: [ ErrorComponent ],
 	imports: [
 		// RouterModule,
 		SharedModule,
 	],
-	declarations: [
-		ErrorComponent,
-	],
-	providers: [
-		ErrorService,
-	],
-	exports: [
-		ErrorComponent,
-	],
+	providers: [ ErrorService ],
 })
 export class ErrorModule { }

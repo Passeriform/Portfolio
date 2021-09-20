@@ -1,8 +1,8 @@
-<app-footer variant="stacked" maxItemCount="6"></app-footer>
+<app-footer i18n-maxItemCount i18n-variant variant="stacked" maxItemCount="6"></app-footer>
 <router-outlet (activate)="onRouteChange()"></router-outlet>
 <app-navigator>
 </app-navigator>
-<app-header alt="passeriform" logo="/assets/images/icons/passeriform.svg" target="/">
+<app-header i18n-logo i18n-alt alt="passeriform" logo="/assets/images/icons/passeriform.svg" target="/">
   <app-navtab>
     <a *appNavLink routerLink="/explore">Work</a>
     <a *appNavLink href="http://blog.passeriform.com/" target="_blank">Blog</a>

@@ -1,30 +1,32 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import type { Route, Routes, LoadChildrenCallback } from "@angular/router";
+import { RouterModule } from "@angular/router";
 
-import { LandingModule } from './landing/landing.module';
-import { WorkModule } from './work/work.module';
-import { AboutModule } from './about/about.module';
-import { SharedModule } from './shared/shared.module';
+const constructLazy = (urlPath: string, childrenLoader: LoadChildrenCallback): Route => (
+	{
+		path: urlPath,
+		children: [
+			{
+				loadChildren: childrenLoader,
+				path: "",
+			},
+		],
+	}
+)
 
 const routes: Routes = [
-	{
-		path: '',
-		loadChildren: () => import('./landing/landing.module').then((m) => m.LandingModule),
-	},
-	{
-		path: 'explore',
-		loadChildren: () => import('./work/work.module').then((m) => m.WorkModule),
-	},
-	{
-		path: 'about',
-		loadChildren: () => import('./about/about.module').then((m) => m.AboutModule),
-	},
-
-	{ path: '**', redirectTo: '' },
+	constructLazy("explore", async () => import("./work/work.module").then((childModule) => childModule.WorkModule)),
+	constructLazy("about", async () => import("./about/about.module").then((childModule) => childModule.AboutModule)),
+	constructLazy("", async () => import("./landing/landing.module").then((childModule) => childModule.LandingModule))
 ];
 
 @NgModule({
-	imports: [RouterModule.forRoot(routes)],
-	exports: [RouterModule],
+	exports: [ RouterModule ],
+	imports: [
+		RouterModule.forRoot(routes, {
+			 relativeLinkResolution: "corrected",
+			paramsInheritanceStrategy: "always"
+		}),
+	],
 })
 export class AppRoutingModule { }

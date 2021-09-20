@@ -1,8 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed, async   } from "@angular/core/testing";
+import type { ComponentFixture     } from "@angular/core/testing";
 
-import { DynamicSearchComponent } from './dynamic-search.component';
+import { DynamicSearchComponent } from "./dynamic-search.component";
 
-describe('DynamicSearchComponent', () => {
+describe("DynamicSearchComponent", () => {
 	let component: DynamicSearchComponent;
 	let fixture: ComponentFixture<DynamicSearchComponent>;
 
@@ -19,7 +20,7 @@ describe('DynamicSearchComponent', () => {
 		fixture.detectChanges();
 	});
 
-	it('should create', () => {
+	it("should create", () => {
 		expect(component).toBeTruthy();
 	});
 });

@@ -1,33 +1,33 @@
-import { SocialGlyphModel } from '../social-glyphs/social-glyphs.interface';
+import type { LinkModel } from "@shared/models/link.interface";
 
 export interface TextSection {
-	heading?: string;
-	paragraph: string;
-	img?: string;
+	readonly paragraph: string;
+	readonly heading?: string;
+	readonly img?: string;
 }
 
 export interface TimelineSection {
-	img: string;
-	period: string;
-	entry: TextSection;
+	readonly entry: TextSection;
+	readonly img: string;
+	readonly period: string;
 }
 
 export interface ContributorModel {
-	title: string;
-	description: string;
-	img: string;
+	readonly description: string;
+	readonly img: string;
+	readonly title: string;
 }
 
-export interface ContactModel extends TextSection {
-	mediaplugpara: string;
-	links: SocialGlyphModel;
-}
+export type ContactModel = TextSection & {
+	readonly links: LinkModel;
+	readonly mediaplugpara: string;
+};
 
 export interface AboutModel {
-	subject: string;
-	intro?: TextSection;
-	overview?: TextSection[];
-	story?: TimelineSection[];
-	contributors?: ContributorModel[];
-	contact?: ContactModel;
+	readonly subject: string;
+	readonly contact?: ContactModel;
+	readonly contributors?: readonly ContributorModel[];
+	readonly intro?: TextSection;
+	readonly overview?: readonly TextSection[];
+	readonly story?: readonly TimelineSection[];
 }

@@ -1,0 +1,38 @@
+@use "global";
+@use "sass:map";
+
+@import "./chirpy.colors";
+
+:host {
+	display: inline-block;
+
+	& > .popup {
+		position: absolute;
+		padding: 0.5em;
+		visibility: hidden;
+		border-radius: 0.5em;
+		transform: translate(0, -3em);
+		background-color: invert(map.get($theme, "background", "hex"));
+		opacity: 0;
+
+		&.show {
+			visibility: visible;
+			opacity: 1;
+		}
+
+		&:after {
+			content: "";
+			position: absolute;
+			left: 0;
+			width: 1em;
+			height: 1em;
+			background-color: invert(map.get($theme, "background", "hex"));
+			clip-path: polygon(0 0, 100% 0, 0 100%);
+		}
+
+		& > p {
+			margin: 0;
+			color: invert(map.get($theme, "accent", "hex"));
+		}
+	}
+}

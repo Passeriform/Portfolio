@@ -1,0 +1,34 @@
+$separator-fading-measure: 1em;
+$gradient-fade-color-hex: #19191900;
+$gradient-solid-color-hex: #3D3D3D99;
+
+@mixin separator-vertical {
+	& {
+		margin: 0 0.5em;
+		width: 1px;
+		height: 100%;
+		background:
+			linear-gradient(
+				180deg,
+				$gradient-fade-color-hex,
+				$gradient-solid-color-hex $separator-fading-measure,
+				$gradient-solid-color-hex calc(100% - #{$separator-fading-measure}),
+				$gradient-fade-color-hex
+			);
+	}
+}
+
+@mixin separator-horizontal {
+	& {
+		margin: 0.5em 0;
+		width: 100%;
+		height: 1px;
+		background: linear-gradient(
+			90deg,
+			$gradient-fade-color-hex,
+			$gradient-solid-color-hex $separator-fading-measure,
+			$gradient-solid-color-hex calc(100% - #{$separator-fading-measure}),
+			$gradient-fade-color-hex
+		);
+	}
+}

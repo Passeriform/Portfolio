@@ -1,16 +1,12 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule } from "@angular/router";
 
-import { HeaderComponent } from './header.component';
-import { NavtabComponent } from './navtab/navtab.component';
-import { NavtabDirective } from './navtab/navtab.directive';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from "@shared/shared.module";
+import { NavtabComponent } from "./navtab/navtab.component";
+import { NavtabDirective } from "./navtab/navtab.directive";
+import { HeaderComponent } from "./header.component";
 
 @NgModule({
-	imports: [
-		RouterModule,
-		SharedModule,
-	],
 	declarations: [
 		HeaderComponent,
 		NavtabComponent,
@@ -20,6 +16,10 @@ import { SharedModule } from '../shared/shared.module';
 		HeaderComponent,
 		NavtabComponent,
 		NavtabDirective,
+	],
+	imports: [
+		RouterModule,
+		SharedModule,
 	],
 })
 export class HeaderModule { }

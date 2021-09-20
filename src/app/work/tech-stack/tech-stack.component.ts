@@ -1,16 +1,19 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from "@angular/core";
+import type { OnInit } from "@angular/core";
+
+// import { WikiPipe } from "@shared/pipes/wiki.pipe";
 
 @Component({
-	selector: 'app-tech-stack',
-	templateUrl: './tech-stack.component.html',
-	styleUrls: ['./tech-stack.component.sass'],
+	selector: "app-tech-stack",
+	styleUrls: [ "./tech-stack.component.scss" ],
+	templateUrl: "./tech-stack.component.html",
 })
 export class TechStackComponent implements OnInit {
-	public tooltipShownFor: string;
+	@Input() public readonly model: readonly Record<string, unknown>[];
 
-	@Input() public model: object[];
+	public readonly tooltipShownFor: string;
 
-	constructor() { }
-
-	ngOnInit() { }
+	ngOnInit() {
+		// ngOnInit
+	}
 }

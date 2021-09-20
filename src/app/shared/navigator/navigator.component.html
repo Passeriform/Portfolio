@@ -1,0 +1,15 @@
+<div class="flap-button" (click)="expand($event)" [ngClass]="{'expanded': expanded}">
+  <div id="before"></div>
+  <div id="after"></div>
+  <div id="idle-icon">
+    <img i18n-alt src="/assets/images/icons/terminal-solid.svg" alt="Console" />
+  </div>
+  <div id="hide-icon">
+    <img i18n-alt src="/assets/images/icons/double-right-chevron-solid.svg" alt="Hide" />
+  </div>
+  <div id="click-capture" #clickCapture></div>
+  <div id="command-init">
+    <div id="prompt">$</div>
+    <input i18n-placeholder type="text" placeholder="help" />
+  </div>
+</div>

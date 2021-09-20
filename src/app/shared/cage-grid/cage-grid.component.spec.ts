@@ -1,8 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed, async   } from "@angular/core/testing";
+import type { ComponentFixture     } from "@angular/core/testing";
 
-import { CageGridComponent } from './cage-grid.component';
+import { CageGridComponent } from "./cage-grid.component";
 
-describe('CageGridComponent', () => {
+describe("CageGridComponent", () => {
 	let component: CageGridComponent;
 	let fixture: ComponentFixture<CageGridComponent>;
 
@@ -19,7 +20,7 @@ describe('CageGridComponent', () => {
 		fixture.detectChanges();
 	});
 
-	it('should create', () => {
+	it("should create", () => {
 		expect(component).toBeTruthy();
 	});
 });

@@ -1,18 +1,23 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from "@angular/core";
+import type { OnInit } from "@angular/core";
 
-import { SocialGlyphModel } from './social-glyphs.interface';
+import type { LinkModel } from "@shared/models/link.interface";
+
+// TODO: Move to SharedModule instead
 
 @Component({
-	selector: 'app-social-glyphs',
-	templateUrl: './social-glyphs.component.html',
-	styleUrls: ['./social-glyphs.component.sass'],
+	selector: "app-social-glyphs",
+	styleUrls: [ "./social-glyphs.component.scss" ],
+	templateUrl: "./social-glyphs.component.html",
 })
 export class SocialGlyphsComponent implements OnInit {
-	@Input() model: SocialGlyphModel[];
+	@Input() public readonly model: readonly LinkModel[];
+
 	// TODO: Add dynamic palette support
-	@Input() invert = false;
 
-	constructor() { }
+	@Input() public readonly invert = false;
 
-	ngOnInit() { }
+	ngOnInit() {
+		// ngOnInit
+	}
 }

@@ -1,13 +1,13 @@
-<app-scrollable [collapsed]="true" [fullpage]="true" [nestedScroll]="true" [injectSplash]="true">
+<app-scrollable [fullpage]="true" [nestedScroll]="true">
   <div *ngIf="model?.intro" class="page" id="intro" #page>
     <div class="bg-img"></div>
     <div class="content">
       <app-namecard
           avatarLink="/about/{{ model.subject }}"
-          [imgUrl]="model.intro.img"
+          [imgUrl]="model.intro?.img"
           [imgAlt]="'profile-img'"
-          [name]="model.intro.heading"
-          [description]="model.intro.paragraph"
+          [name]="model.intro?.heading"
+          [description]="model.intro?.paragraph"
         >
       </app-namecard>
     </div>
@@ -17,7 +17,7 @@
     <div class="content">
       <div class="content-wrapper">
         <section *ngFor="let section of model.overview">
-          <img *ngIf="section.img" alt="overview-img" src="{{ section.img }}" />
+          <img i18n-alt *ngIf="section.img" alt="overview-img" src="{{ section.img }}" />
           <p>
             {{ section.paragraph }}
           </p>
@@ -30,7 +30,7 @@
     <div class="content">
       <div class="content-wrapper">
         <section *ngFor="let section of model.story">
-          <img *ngIf="section.img" alt="story-section-img" src="{{ section.img }}" />
+          <img i18n-alt *ngIf="section.img" alt="story-section-img" src="{{ section.img }}" />
           <p>
             {{ section.paragraph }}
           </p>
@@ -50,9 +50,9 @@
                 <span>{{ contributor.description }}</span>
               </ng-template>
 
-              <div appTooltip position="bottom" [template]="tooltipTemplate">
+              <div i18n-position appTooltip position="bottom" [template]="tooltipTemplate">
                 <a routerLink="/about/{{ contributor.aboutUrl }}">
-                  <img *ngIf="contributor.img" alt="profile-contributor-img" src="{{ contributor.img }}" />
+                  <img i18n-alt *ngIf="contributor.img" alt="profile-contributor-img" src="{{ contributor.img }}" />
                 </a>
               </div>
             </div>
@@ -65,18 +65,18 @@
     <div class="bg-img"></div>
     <div class="content">
       <div class="content-wrapper">
-        <img *ngIf="model.contact.img" alt="contact-img" src="{{ model.contact.img }}" />
+        <img i18n-alt *ngIf="model.contact?.img" alt="contact-img" src="{{ model.contact?.img }}" />
         <div class="contact-details">
-          <h1>{{ model.contact.heading }}</h1>
-          <p>{{ model.contact.paragraph }}</p>
+          <h1>{{ model.contact?.heading }}</h1>
+          <p>{{ model.contact?.paragraph }}</p>
 
           <app-contact-form></app-contact-form>
 
           <p class="postform">
-            {{ model.contact.mediaplugpara }}
+            {{ model.contact?.mediaplugpara }}
           </p>
         </div>
-        <app-social-glyphs [model]="model.contact.links"></app-social-glyphs>
+        <app-social-glyphs [model]="model.contact?.links"></app-social-glyphs>
       </div>
     </div>
   </div>

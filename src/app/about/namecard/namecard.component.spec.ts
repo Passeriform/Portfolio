@@ -1,8 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed, async   } from "@angular/core/testing";
+import type { ComponentFixture     } from "@angular/core/testing";
 
-import { NamecardComponent } from './namecard.component';
+import { NamecardComponent } from "./namecard.component";
 
-describe('NamecardComponent', () => {
+describe("NamecardComponent", () => {
 	let component: NamecardComponent;
 	let fixture: ComponentFixture<NamecardComponent>;
 
@@ -19,7 +20,7 @@ describe('NamecardComponent', () => {
 		fixture.detectChanges();
 	});
 
-	it('should create', () => {
+	it("should create", () => {
 		expect(component).toBeTruthy();
 	});
 });

@@ -1,0 +1,79 @@
+@use "global";
+@use "sass:map";
+
+@import "./namecard.colors";
+
+$title-clip-size: 1em;
+
+:host {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: auto;
+	width: min(80%, 60em);
+	height: 100%;
+	text-align: left;
+
+	@media (orientation: landscape) {
+		flex-direction: row;
+	}
+
+	@media (orientation: portrait) {
+		flex-direction: column;
+	}
+
+	& .content-wrapper {
+		@media (orientation: landscape) {
+			flex-direction: row;
+		}
+
+		@media (orientation: portrait) {
+			flex-direction: column;
+		}
+	}
+
+	& > .content-text {
+		padding: 1em;
+		padding-right: 2em;
+		padding-left: 2em;
+		border: 1px solid map.get($theme, "accent", "hex");
+		border-radius: 1em;
+		background-color: map.get($theme, "background", "hex");
+
+		& > h1 {
+			padding-right: 0.7em;
+			padding-left: 0.7em;
+			background-color: map.get($theme, "canvas", "hex");
+			color: map.get($theme, "foreground", "hex");
+			clip-path: polygon(0 $title-clip-size, 0 100%, calc(100% - #{$title-clip-size}) 100%, 100% calc(100% - #{$title-clip-size}), 100% 0, $title-clip-size 0);
+			font-size: global.$h1-responsive-font-size;
+			font-weight: 800;
+		}
+
+		& > p {
+			font-family: "DM Mono", monospace;
+			font-size: global.$p-responsive-font-size;
+			font-weight: 500;
+			letter-spacing: 0;
+			line-height: 1.2;
+		}
+	}
+
+	& > a.avatar {
+		@media (orientation: portrait) {
+			margin-bottom: 5vw;
+		}
+
+		@media (orientation: landscape) {
+			margin-right: 5vw;
+		}
+
+		& > img {
+			width: 150px;
+			height: 150px;
+			border-radius: 50%;
+			filter: grayscale(1) contrast(1.3);
+		}
+	}
+}

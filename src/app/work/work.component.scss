@@ -1,0 +1,91 @@
+@use "global";
+@use "sass:map";
+@use "sass:math";
+
+@import "./work.colors";
+
+:host {
+	& .bg-img {
+		position: absolute;
+		z-index: -1;
+		width: 100vw;
+		height: 100vh;
+	}
+
+	& #selected-placeholder {
+		& > .bg-img {
+			background-color: map.get($theme, "background", "hex");
+		}
+
+		& > #placeholder-content {
+			position: relative;
+			top: global.$shrink-header-size;
+			padding: 2em 5em;
+			height: calc(100vh - #{global.$shrink-header-size});
+			overflow: hidden;
+
+			@media screen and (max-width: 400px) {
+				padding: 2em 1em;
+			}
+
+			& > h1 {
+				width: min(max(5em, 10vw), 7em);
+				height: 2em;
+				font-size: min(max(5em, 10vw), 7em);
+				line-height: 0.9em;
+				text-align: start;
+				text-transform: initial;
+
+				& > span {
+					color: map.get($theme, "accent", "hex");
+				}
+			}
+
+			& > p {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin: auto;
+				width: 11em;
+				transform: translate(-50%, -50%);
+				color: map.get($theme, "accent", "hex");
+				font-size: 2em;
+				font-weight: 400;
+				letter-spacing: 0.1em;
+				line-height: 1.2em;
+				// TODO: Cross check
+				text-align: start;
+				text-transform: initial;
+				word-spacing: 0.21em;
+
+				@media (max-height: 30em) {
+					display: none;
+				}
+			}
+		}
+	}
+
+	& #description {
+		& > .bg-img {
+			background-color: map.get($theme, "background", "hex");
+		}
+
+		& > #content {
+			position: relative;
+			top: global.$shrink-header-size;
+			height: calc(100% - #{global.$shrink-header-size});
+		}
+	}
+
+	& #stack {
+		& > .bg-img {
+			background-color: map.get($theme, "background", "light-5%", "hex");
+		}
+
+		& > #content {
+			position: relative;
+			top: global.$shrink-header-size;
+			height: calc(100% - #{global.$shrink-header-size});
+		}
+	}
+}
