@@ -56,7 +56,7 @@ export class FooterService {
 					this.loaderService.endLoading("[http] [footer] products");
 					this.loaderService.endLoading("[http] about");
 					if (isErrorModel(error)) {
-						this.errorService.displayError(error as ErrorModel);
+						this.errorService.displayError(error! as ErrorModel);
 					}
 
 					return of([]);
@@ -82,7 +82,7 @@ export class FooterService {
 				catchError((error: unknown) => {
 					this.loaderService.endLoading("[http] [footer] about");
 					if (isErrorModel(error)) {
-						this.errorService.displayError(error as ErrorModel);
+						this.errorService.displayError(error! as ErrorModel);
 					}
 
 					return of([]);
@@ -107,7 +107,7 @@ export class FooterService {
 				catchError((error: unknown) => {
 					this.loaderService.endLoading("[http] [footer] social");
 					if (isErrorModel(error)) {
-						this.errorService.displayError(error as ErrorModel);
+						this.errorService.displayError(error! as ErrorModel);
 					}
 
 					return of([]);

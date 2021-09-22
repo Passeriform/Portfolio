@@ -5,6 +5,7 @@ export const environment: {
 	readonly apiUrl: string;
 	readonly production: boolean;
 } = {
+	/* eslint-disable-next-line unicorn/string-content */
 	apiUrl: "http://localhost:3000",
 	production: false,
 };

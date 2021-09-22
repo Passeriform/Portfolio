@@ -13,11 +13,11 @@ export enum HttpErrors {
 
 export interface ApiErrorResponse extends HttpErrorResponse {
 	readonly error: {
-		readonly name: string
-		readonly status: HttpErrors
-		readonly statusText: string
-		readonly message: string
-	}
+		readonly message: string;
+		readonly name: string;
+		readonly status: HttpErrors;
+		readonly statusText: string;
+	};
 }
 
 export interface ErrorModel {

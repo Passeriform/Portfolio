@@ -33,10 +33,6 @@ $nav-ul-height: math.div(global.$header-size, 2);
 				& > li {
 					text-align: center;
 
-					&:hover > a {
-						color: map.get($theme, "accent", "hex");
-					}
-
 					& > a {
 						color: map.get($theme, "accent", "hex");
 
@@ -51,6 +47,10 @@ $nav-ul-height: math.div(global.$header-size, 2);
 							background-color: complement(map.get($theme, "background", "hex"));
 							mix-blend-mode: difference;
 						}
+					}
+
+					&:hover > a {
+						color: map.get($theme, "accent", "hex");
 					}
 				}
 			}
@@ -70,15 +70,6 @@ $nav-ul-height: math.div(global.$header-size, 2);
 				text-transform: uppercase;
 				transition: all 0.5s ease;
 
-				&:hover {
-					color: map.get($theme, "background", "hex");
-
-					&:before {
-						visibility: visible;
-						transform: scaleX(1);
-					}
-				}
-
 				&:before {
 					content: "";
 					position: absolute;
@@ -92,6 +83,15 @@ $nav-ul-height: math.div(global.$header-size, 2);
 					transform: scaleX(0);
 					background-color: map.get($theme, "background", "hex");
 					transition: all 0.5s ease;
+				}
+
+				&:hover {
+					color: map.get($theme, "background", "hex");
+
+					&:before {
+						visibility: visible;
+						transform: scaleX(1);
+					}
 				}
 			}
 

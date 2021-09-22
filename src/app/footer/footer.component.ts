@@ -33,13 +33,13 @@ export class FooterComponent implements OnInit {
 	constructor(private readonly footerService: FooterService) {
 		this.footerService.refreshLinks(this.maxItemCount);
 		this.footerService.productsState$.subscribe((products) => {
-			this.products = products
+			this.products = products;
 		});
 		this.footerService.aboutState$.subscribe((abouts) => {
-			this.abouts = abouts
+			this.abouts = abouts;
 		});
 		this.footerService.socialsState$.subscribe((socials) => {
-			this.socials = socials
+			this.socials = socials;
 		});
 	}
 

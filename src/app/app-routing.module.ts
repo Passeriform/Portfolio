@@ -4,28 +4,28 @@ import { RouterModule } from "@angular/router";
 
 const constructLazy = (urlPath: string, childrenLoader: LoadChildrenCallback): Route => (
 	{
-		path: urlPath,
 		children: [
 			{
 				loadChildren: childrenLoader,
 				path: "",
 			},
 		],
+		path: urlPath,
 	}
-)
+);
 
 const routes: Routes = [
 	constructLazy("explore", async () => import("./work/work.module").then((childModule) => childModule.WorkModule)),
 	constructLazy("about", async () => import("./about/about.module").then((childModule) => childModule.AboutModule)),
-	constructLazy("", async () => import("./landing/landing.module").then((childModule) => childModule.LandingModule))
+	constructLazy("", async () => import("./landing/landing.module").then((childModule) => childModule.LandingModule)),
 ];
 
 @NgModule({
 	exports: [ RouterModule ],
 	imports: [
 		RouterModule.forRoot(routes, {
-			 relativeLinkResolution: "corrected",
-			paramsInheritanceStrategy: "always"
+			paramsInheritanceStrategy: "always",
+			relativeLinkResolution: "corrected",
 		}),
 	],
 })

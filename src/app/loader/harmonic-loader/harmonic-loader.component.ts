@@ -116,7 +116,7 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 		} else {
 			window.requestAnimationFrame(this.tick);
 		}
-	}
+	};
 
 	private readonly resolveDots = (timestamp: number): void => {
 		if (!this.animStartFrame) {
@@ -169,7 +169,7 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 		} else {
 			window.requestAnimationFrame(this.resolveDots);
 		}
-	}
+	};
 
 	ngAfterViewInit() {
 		this.canvasService.setCanvasElement(this.loaderCanvas);
@@ -177,7 +177,7 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 		this.prepareCanvas();
 
 		this.canvasService.canvasContext$.subscribe((context) => {
-			this.context = context
+			this.context = context;
 		});
 
 		this.loaderService.loadingJobsState$.subscribe(

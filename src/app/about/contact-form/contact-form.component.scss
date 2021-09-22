@@ -37,9 +37,37 @@ $net-half-width: calc(50% - #{math.div($half-margin, 2)});
 			}
 		}
 
+		& .input-label {
+			&:before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				pointer-events: none;
+			}
+
+			&:after {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				pointer-events: none;
+				width: 100%;
+				height: 100%;
+				transform: translate3d(-100%, 0, 0);
+				background-color: invert(map.get($theme, "background", "hex"));
+				transition: transform 0.3s;
+				mix-blend-mode: exclusion;
+			}
+		}
+
 		&.submit {
 			margin-right: 1em;
 			float: right;
+
+			& > .input-label:after {
+				clip-path: polygon(0 0, 100% 0, calc(100% - 1em) 100%, 0 100%);
+			}
 		}
 	}
 
@@ -83,30 +111,6 @@ $net-half-width: calc(50% - #{math.div($half-margin, 2)});
 	}
 }
 
-.input-label {
-	&:before {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		pointer-events: none;
-	}
-
-	&:after {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		pointer-events: none;
-		width: 100%;
-		height: 100%;
-		transform: translate3d(-100%, 0, 0);
-		background-color: invert(map.get($theme, "background", "hex"));
-		transition: transform 0.3s;
-		mix-blend-mode: exclusion;
-	}
-}
-
 .inputField:focus + .input-label:after, .input--filled .input-label:after, .input:focus + .input-label:after, .input--filled .input-label:after {
 	transform: translate3d(0, 0, 0);
 }
@@ -120,8 +124,4 @@ $net-half-width: calc(50% - #{math.div($half-margin, 2)});
 
 .inputField:focus + .input-label .input-label-content, .input--filled .input-label-content {
 	animation: anim-1 0.3s forwards;
-}
-
-.submit > .input-label:after {
-	clip-path: polygon(0 0, 100% 0, calc(100% - 1em) 100%, 0 100%);
 }

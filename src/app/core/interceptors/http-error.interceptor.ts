@@ -21,7 +21,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 					// TODO: Recheck if this assignment works for client-side errors
 
 					// TODO: Add type for errorModel
-					const errorModel =  error instanceof ErrorEvent ? error : error.error;
+					const errorModel = error instanceof ErrorEvent ? error : error.error;
 
 					// TODO: Use custom error-type
 

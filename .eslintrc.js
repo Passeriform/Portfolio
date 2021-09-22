@@ -709,7 +709,7 @@ module.exports = {
 				],
 				"id-length": ["error", {
 					"min": 2,
-					"max": 24,
+					"max": 25,
 					"exceptionPatterns": [
 						"^_$"
 					]

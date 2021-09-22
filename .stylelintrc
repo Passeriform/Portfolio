@@ -121,7 +121,8 @@
       "after",
       "hover",
       "focus",
-      "first-child"
+      "first-child",
+			"not"
     ],
     "selector-pseudo-element-allowed-list": [
       "link",
@@ -190,12 +191,17 @@
     "declaration-bang-space-after": "never",
     "declaration-bang-space-before": "always",
     "declaration-colon-newline-after": "always-multi-line",
-    "declaration-colon-space-after": "always",
-    "declaration-colon-space-before": "never",
+    "declaration-colon-space-after": "always-single-line",
+		"declaration-colon-space-before": "never",
     "declaration-empty-line-before": "never",
     "block-closing-brace-empty-line-before": "never",
     "block-closing-brace-newline-before": "always-multi-line",
-    "block-closing-brace-newline-after": "always",
+    "block-closing-brace-newline-after": ["always", {
+      "ignoreAtRules": [
+        "if",
+        "else"
+      ]
+    }],
     "block-closing-brace-space-after": "always-single-line",
     "block-closing-brace-space-before": "always-single-line",
     "block-opening-brace-newline-after": "always-multi-line",
@@ -241,7 +247,10 @@
         "except": [
           "first-nested",
           "blockless-after-same-name-blockless"
-        ]
+        ],
+				"ignore": [
+					"after-comment"
+				]
       }
     ],
     "at-rule-name-case": "lower",

@@ -26,7 +26,7 @@ export class ScrollableComponent implements OnInit, AfterViewInit {
 	@Input() private readonly fullpage: boolean;
 	@Input() private readonly horizontal: boolean;
 
-	@Output() private readonly pageChangeEvent: EventEmitter<number> = new EventEmitter();
+	@Output() private readonly pageChangeEvent: EventEmitter<number> = new EventEmitter<number>();
 
 	@ContentChildren("page", { read: ElementRef }) private readonly items: QueryList<ElementRef>;
 

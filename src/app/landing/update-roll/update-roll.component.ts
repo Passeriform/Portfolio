@@ -20,7 +20,7 @@ export class UpdateRollComponent implements OnInit {
 
 			this.updates.forEach(
 				(update: GithubEventUIState) => {
-					update.expand = false
+					update.expand = false;
 				},
 			);
 		});
@@ -29,6 +29,8 @@ export class UpdateRollComponent implements OnInit {
 	ngOnInit() {
 		this.githubService.fetchUpdate$();
 	}
+
+	// TODO: Move this method out of class
 
 	public toggleDetails(entry: GithubEventUIState): void {
 		entry.expand = !entry?.expand ?? true;

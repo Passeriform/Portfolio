@@ -15,6 +15,8 @@ import type { WikiResponseModel } from "@shared/models/wiki.interface";
 export class WikiPipe implements PipeTransform {
 	constructor(private readonly http: HttpClient) { }
 
+	// TODO: Move this method out of class
+
 	public getWikiTitle(identifier: string): string {
 		return registry.find(
 			(entry: EntityRegistry) => entry.identifier === EntityIdentifier[identifier],

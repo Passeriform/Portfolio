@@ -47,7 +47,7 @@
 		transition: opacity 0.5s ease, backdrop-filter 0.5s ease;
 		pointer-events: none;
 
-		@supports ((-webkit-backdrop-filter: blur(2em)) or (backdrop-filter: blur(2em))) {
+		@supports (backdrop-filter: blur(2em)) {
 			& {
 				backdrop-filter: none;
 			}
@@ -70,7 +70,7 @@
 			opacity: 1;
 			pointer-events: all;
 
-			@supports ((-webkit-backdrop-filter: blur(2em)) or (backdrop-filter: blur(2em))) {
+			@supports (backdrop-filter: blur(2em)) {
 				& {
 					backdrop-filter: blur(2em);
 
@@ -80,13 +80,15 @@
 				}
 			}
 
+			@supports not (backdrop-filter: blur(2em)) {
+				&:before {
+					opacity: 0.9;
+				}
+			}
+
 			& ~ .overlay-button {
 				width: 1.25 * global.$overlay-flap-size;
 				height: 1.25 * global.$overlay-flap-size;
-			}
-
-			&:before {
-				opacity: 0.9;
 			}
 		}
 	}

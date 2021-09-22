@@ -118,7 +118,7 @@ export class LoaderService {
 	}
 
 	public setLoadingProgress(label: string, progress: number): void {
-		this.loadingJobs.map((job) => {
+		this.loadingJobs.forEach((job) => {
 			if (job.label === label) {
 				if (job.progress !== LoadingState.LOADING) {
 					this.beginLoading(job.label);

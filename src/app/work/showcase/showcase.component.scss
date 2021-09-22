@@ -66,10 +66,12 @@
 					}
 				}
 
-				& > .meta > .frameworks, .languages, .tools {
-					& > img {
-						width: 30px;
-						height: 30px;
+				& > .meta {
+					& > .frameworks, & > .languages, & > .tools {
+						& > img {
+							width: 30px;
+							height: 30px;
+						}
 					}
 				}
 			}

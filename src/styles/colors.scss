@@ -10,6 +10,7 @@ $theme-registry: ("default": generate-color-swatch());
 	@if ($theme-accessor == null) {
 		@error "Must specify an accessor string as key for registering swatch.";
 	}
+
 	@if (type-of($swatch) != map) {
 		@warn "Specified argument is not a color swatch map.";
 	}

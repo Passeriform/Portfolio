@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
 import type { AfterViewInit, OnInit } from "@angular/core";
 
-import { LoaderService } from "@app/loader/loader.service";
 import { SplashState } from "@core/services/splash-state.interface";
 import { SplashStateService } from "@core/services/splash-state.service";
+import { LoaderService } from "@app/loader/loader.service";
 
 @Component({
 	selector: "app-landing",
@@ -11,10 +11,9 @@ import { SplashStateService } from "@core/services/splash-state.service";
 	templateUrl: "./landing.component.html",
 })
 export class LandingComponent implements OnInit, AfterViewInit {
-
 	constructor(
-		private readonly loaderService: LoaderService,
-		private readonly splashStateService: SplashStateService
+			private readonly loaderService: LoaderService,
+			private readonly splashStateService: SplashStateService,
 	) {
 		this.loaderService.beginLoading("[page] load");
 	}
@@ -27,8 +26,7 @@ export class LandingComponent implements OnInit, AfterViewInit {
 		this.loaderService.endLoading("[page] load");
 	}
 
-	public handlePageChange(pageIndex: number) {
-		console.log("CHANGED PAGE CHANGE", pageIndex);
+	public handlePageChange(pageIndex: number): void {
 		this.splashStateService.changeSplashState(
 			pageIndex === 0
 				? SplashState.FOCUSSED

@@ -1,7 +1,6 @@
 /* eslint import/max-dependencies: [ "error", { "max": 20 } ] */
 import { NgModule } from "@angular/core";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
-import { Router } from "@angular/router";
 import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from "@angular/forms";
 

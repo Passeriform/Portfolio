@@ -20,6 +20,8 @@ export class HeaderComponent implements OnInit {
 
 	public splashState: SplashState;
 
+	// TODO: Add accent color border-bottom based on page theme.
+
 	constructor(private readonly splashStateService: SplashStateService) { }
 
 	ngOnInit() {

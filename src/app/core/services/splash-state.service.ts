@@ -7,9 +7,9 @@ import { SplashState } from "./splash-state.interface";
 
 @Injectable()
 export class SplashStateService {
-	public SplashState = SplashState;
-
 	private readonly splashStateSource$ = new BehaviorSubject<SplashState>(SplashState.FOCUSSED);
+
+	public SplashState = SplashState;
 
 	public readonly splashState$: Observable<SplashState> = this.splashStateSource$.asObservable();
 
