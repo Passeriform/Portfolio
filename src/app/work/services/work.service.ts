@@ -17,7 +17,7 @@ export class WorkService {
 
 	private readonly workCacheSource$ = new BehaviorSubject<readonly WorkModel[]>([]);
 
-	private readonly workSelectedSource$ = new BehaviorSubject<WorkModel>({ } as WorkModel);
+	private readonly workSelectedSource$ = new BehaviorSubject<WorkModel | undefined>(undefined);
 
 	public readonly workFilterState$: Observable<(_: WorkModel) => boolean> = this.workFilterSource$.asObservable();
 
@@ -31,7 +31,7 @@ export class WorkService {
 		(cache: readonly WorkModel[], filterfn) => cache.filter(filterfn),
 	);
 
-	public readonly workSelectedState$: Observable<WorkModel> = this.workSelectedSource$.asObservable();
+	public readonly workSelectedState$: Observable<WorkModel | undefined> = this.workSelectedSource$.asObservable();
 
 	constructor(
 			private readonly http: HttpClient,
