@@ -53,10 +53,9 @@
 				font-weight: 400;
 				letter-spacing: 0.1em;
 				line-height: 1.2em;
-				// TODO: Cross check
-				text-align: start;
+				text-align: center;
 				text-transform: initial;
-				word-spacing: 0.21em;
+				word-spacing: 0.2em;
 
 				@media (max-height: 30em) {
 					display: none;
