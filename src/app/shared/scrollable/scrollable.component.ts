@@ -1,11 +1,15 @@
 // TODO: Remove lag from scroll/swipe.
 
-import type { AfterViewInit, OnInit, QueryList } from "@angular/core";
+import type { AfterViewInit, AfterContentInit, OnInit, QueryList } from "@angular/core";
 import { Component, ContentChildren, ElementRef, HostBinding, Input, Output, EventEmitter } from "@angular/core";
 
-import { fromEvent, merge, identity } from "rxjs";
+import { fromEvent, merge, identity, NEVER } from "rxjs";
 import type { Observable } from "rxjs";
-import { filter, map, mergeMap, raceWith, first, takeUntil, throttleTime } from "rxjs/operators";
+import { race, filter, mergeMap, take, map, takeUntil, throttleTime } from "rxjs/operators";
+
+import { SplashState } from "@core/services/splash-state.interface";
+import { SplashStateService } from "@core/services/splash-state.service";
+import { FooterService } from "@app/footer/footer.service";
 
 import { Constants } from "./scrollable.config";
 
@@ -14,7 +18,9 @@ import { Constants } from "./scrollable.config";
 	styleUrls: [ "./scrollable.component.scss" ],
 	templateUrl: "./scrollable.component.html",
 })
-export class ScrollableComponent implements OnInit, AfterViewInit {
+export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewInit {
+	// TODO: Add boolean flag that gets set in nested scroll detection filter. Once the nested scroll filter is enabled, throttle the scroll to create sticky feel
+
 	// TODO: Add smoothen input to remove scrollcancel
 
 	// TODO: Throw error if nestedScroll is enabled without fullpage
@@ -23,8 +29,14 @@ export class ScrollableComponent implements OnInit, AfterViewInit {
 	@Input() private readonly delta = Constants.DELTA_DEFAULT;
 	@Input() private readonly overshoot = Constants.OVERSHOOT_DEFAULT;
 	@Input() private readonly throttle = Constants.THROTTLE_DEFAULT;
+	@Input() private readonly horizontal = Constants.VERTICAL;
+	@Input() private endReveal = false;
+	@Input() private startReveal = false;
 	@Input() private readonly fullpage: boolean;
-	@Input() private readonly horizontal: boolean;
+	@Input() private readonly allowStartReveal: boolean;
+	@Input() private readonly allowEndReveal: boolean;
+	@Input() private startRevealElement: HTMLElement;
+	@Input() private endRevealElement: HTMLElement;
 
 	@Output() private readonly pageChangeEvent: EventEmitter<number> = new EventEmitter<number>();
 
@@ -69,7 +81,6 @@ export class ScrollableComponent implements OnInit, AfterViewInit {
 
 	private readonly transitionEndStreams = this.transitionEnds.map(
 		(eventName: string) => fromEvent(this.hostElement.nativeElement as EventTarget, eventName).pipe(
-
 			// TODO: Configure this properly to support nested scrolling
 
 			filter(
@@ -82,7 +93,11 @@ export class ScrollableComponent implements OnInit, AfterViewInit {
 
 	private swipeStream$: Observable<number>;
 
-	constructor(private readonly hostElement: ElementRef) { }
+	constructor(
+			private readonly hostElement: ElementRef,
+			private readonly splashStateService: SplashStateService,
+			private readonly footerService: FooterService,
+	) { }
 
 	@HostBinding("style.-webkit-transform")
 	@HostBinding("style.-ms-transform")
@@ -94,6 +109,54 @@ export class ScrollableComponent implements OnInit, AfterViewInit {
 		return `translateY(${-this.delta * this.pageIndex}vh)`;
 	}
 
+	@HostBinding("style.top") get top(): string {
+		if (this.horizontal || !(this.startReveal || this.endReveal)) {
+			return "0px";
+		}
+
+		if (this.startReveal) {
+			return `${Math.min(this.startRevealElement.clientHeight, document.documentElement.clientHeight)}px`;
+		} else {
+			return `-${Math.min(this.endRevealElement.clientHeight, document.documentElement.clientHeight)}px`;
+		}
+	}
+
+	@HostBinding("style.left") get left(): string {
+		if (!this.horizontal || !(this.startReveal || this.endReveal)) {
+			return "0px";
+		}
+
+		if (this.startReveal) {
+			return `${Math.min(this.startRevealElement.clientWidth, document.documentElement.clientWidth)}px`;
+		} else {
+			return `-${Math.min(this.endRevealElement.clientWidth, document.documentElement.clientWidth)}px`;
+		}
+	}
+
+	private handleStartReveal(): void {
+		if (this.allowStartReveal) {
+			this.startReveal = true;
+		}
+	}
+
+	private handleEndReveal(): void {
+		if (this.allowEndReveal) {
+			this.endReveal = true;
+		}
+	}
+
+	private resetStartReveal(): void {
+		if (this.allowStartReveal) {
+			this.startReveal = false;
+		}
+	}
+
+	private resetEndReveal(): void {
+		if (this.allowEndReveal) {
+			this.endReveal = false;
+		}
+	}
+
 	private pageShift(shiftAmt: number): void {
 		if (shiftAmt < 0) {
 			this.pageShiftUp(shiftAmt);
@@ -102,16 +165,30 @@ export class ScrollableComponent implements OnInit, AfterViewInit {
 		}
 	}
 
+	// TODO: Justify pulling the delta value
 	private pageShiftUp(delta: number): void {
-		// TODO: Justify pulling the delta value
+		if (this.endReveal) {
+			this.resetEndReveal();
+
+			return;
+		}
+
+		if (this.pageIndex === 0) {
+			this.handleStartReveal();
+		}
 
 		this.pageIndex = Math.max(this.pageIndex - 1, 0);
 
 		this.pageChangeEvent.emit(this.pageIndex);
 	}
 
+	// TODO: Justify pulling the delta value
 	private pageShiftDown(delta: number): void {
-		// TODO: Justify pulling the delta value
+		if (this.startReveal) {
+			this.resetStartReveal();
+
+			return;
+		}
 
 		const childElements = this.items.toArray().map(
 			(elementReference: ElementRef<HTMLElement>) => elementReference.nativeElement,
@@ -124,26 +201,30 @@ export class ScrollableComponent implements OnInit, AfterViewInit {
 
 		// NOTE: Major performance hit. For specific cases, consider providing an option for manual overshoot specification
 
-		const itemWidth: number = childElements[0].offsetWidth
+		const itemWidth: number = childElements[0].clientWidth
 			+ Number.parseFloat(getComputedStyle(childElements[0]).getPropertyValue("margin-left"))
 			+ Number.parseFloat(getComputedStyle(childElements[0]).getPropertyValue("margin-right"));
-		const itemHeight: number = childElements[0].offsetHeight
+		const itemHeight: number = childElements[0].clientHeight
 			+ Number.parseFloat(getComputedStyle(childElements[0]).getPropertyValue("margin-top"))
 			+ Number.parseFloat(getComputedStyle(childElements[0]).getPropertyValue("margin-bottom"));
 		const scrollableWidth: number = (childElements.length - 1) * itemWidth;
 		const scrollableHeight: number = (childElements.length - 1) * itemHeight;
 
-		const vw: number = document.documentElement.offsetWidth;
-		const vh: number = document.documentElement.offsetHeight;
+		const vw: number = document.documentElement.clientWidth;
+		const vh: number = document.documentElement.clientHeight;
 
 		if (this.horizontal) {
 			const expectedScrollWidth: number = Math.ceil(this.delta * (vw / 100) * (this.pageIndex + 1));
 			if (expectedScrollWidth > scrollableWidth) {
+				this.handleEndReveal();
+
 				return;
 			}
 		} else {
 			const expectedScrollHeight: number = Math.ceil(this.delta * (vh / 100) * (this.pageIndex + 1));
 			if (expectedScrollHeight > scrollableHeight) {
+				this.handleEndReveal();
+
 				return;
 			}
 		}
@@ -158,85 +239,154 @@ export class ScrollableComponent implements OnInit, AfterViewInit {
 		this.pageChangeEvent.emit(this.pageIndex);
 	}
 
+	private readonly getRevealElementEvent = (element: HTMLElement, listener: string): Observable<Event> => fromEvent(element, listener)
+		.pipe(
+			filter(() => element?.[this.horizontal ? "scrollLeft" : "scrollTop"] === 0),
+		);
+
+	private readonly getStartRevealElementEvent = (listener: string): Observable<Event> => this.getRevealElementEvent(
+		// TODO: Change to detect the first element in DOM tree that is scrollable.
+		this.startRevealElement.firstChild as HTMLElement,
+		listener,
+	);
+
+	private readonly getEndRevealElementEvent = (listener: string): Observable<Event> => this.getRevealElementEvent(
+		// TODO: Change to detect the first element in DOM tree that is scrollable.
+		this.endRevealElement.firstChild as HTMLElement,
+		listener,
+	);
+
 	private readonly nestedScrollFilter = (shiftAmt: number) => {
 		if (!this.nestedScroll) {
 			return true;
 		}
 
-		const pageElement: HTMLElement = this.items.toArray()[this.pageIndex].nativeElement;
+		if (this.startReveal || this.endReveal) {
+			return true;
+		}
+
+		const pageElement: HTMLElement = this.items.toArray()?.[this.pageIndex]?.nativeElement;
+
+		if (!pageElement) {
+			return false;
+		}
 
 		const {
-			offsetHeight,
-			offsetWidth,
+			clientHeight,
+			clientWidth,
 			scrollHeight,
 			scrollLeft,
 			scrollTop,
 			scrollWidth,
 		}: {
-			readonly offsetHeight: number;
-			readonly offsetWidth: number;
+			readonly clientHeight: number;
+			readonly clientWidth: number;
 			readonly scrollHeight: number;
 			readonly scrollLeft: number;
 			readonly scrollTop: number;
 			readonly scrollWidth: number;
 		} = pageElement;
-		const offsetAxis: number = this.horizontal ? offsetWidth : offsetHeight;
-		const scrollAxis: number = this.horizontal ? scrollWidth : scrollHeight;
-		const scrollAxisDistance: number = this.horizontal ? scrollLeft : scrollTop;
+
+		let elementSize: number;
+		let scrollableSize: number;
+		let scrolled: number;
+
+		if (this.horizontal) {
+			elementSize = clientWidth;
+			scrollableSize = scrollWidth;
+			scrolled = scrollLeft;
+		} else {
+			elementSize = clientHeight;
+			scrollableSize = scrollHeight;
+			scrolled = scrollTop;
+		}
 
 		if (shiftAmt < 0) {
 			// Scrolling up
-			return scrollAxisDistance === 0;
+			return scrolled === 0;
 		}
 
 		// Scrolling down
-		return scrollAxis - offsetAxis === scrollAxisDistance;
+		return (scrollableSize - elementSize) === scrolled;
 	};
+
+	private readonly applyScrollOptimization = (scrollStream: Observable<MouseWheelEvent>): Observable<number> => scrollStream
+		.pipe(
+			map((nextEvent: MouseWheelEvent) => (this.horizontal) ? nextEvent.deltaX : nextEvent.deltaY),
+			filter((difference) => (Math.abs(difference) >= Math.abs(this.scrollTolerance))),
+			filter(this.nestedScrollFilter),
+			(this.throttle !== 0) ? throttleTime(this.throttle) : identity,
+	)
+
+	private readonly applySwipeOptimization = (scrollStream: Observable<TouchEvent>, element: HTMLElement): Observable<number> => scrollStream
+		.pipe(
+			map((event: TouchEvent) =>
+				this.horizontal ? event.touches[0].pageX : event.touches[0].pageY
+				// No need to check for empty event as its captured by fromEvent
+			),
+			mergeMap((init: number) =>
+				fromEvent(element, "touchmove")
+					.pipe(
+						// tap((moveValue) => console.log(init, moveValue)),
+						race(
+							fromEvent(element, "touchend")
+								.pipe(
+									takeUntil(fromEvent(element, "touchstart"))
+								),
+						),
+						map((event: TouchEvent) =>
+							event.touches[0]
+								? (this.horizontal)
+									? event.touches[0].pageX
+									: event.touches[0].pageY
+								: 0 // Find a default here
+						),
+						map((swiped) => (init - swiped)),
+						take(1),
+						filter((difference) => (Math.abs(difference) >= Math.abs(this.touchTolerance))),
+						map((scaled) => scaled / 5)
+					)
+			),
+			(this.throttle !== 0) ? throttleTime(this.throttle) : identity,
+	)
 
 	ngOnInit() {
 		// ngOnInit
 	}
 
+	ngAfterContentInit() { }
+
 	ngAfterViewInit() {
-		this.scrollStream$ = fromEvent(this.hostElement.nativeElement as EventTarget, "wheel")
-			.pipe(
-				map((nextEvent: WheelEvent) => this.horizontal ? nextEvent.deltaX : nextEvent.deltaY),
-				filter((difference: number) => Math.abs(difference) >= Math.abs(this.scrollTolerance)),
-				filter((difference: number) => this.nestedScrollFilter(difference)),
+		this.footerService.footerElement$.subscribe((footerElement: HTMLElement) => {
+			this.endRevealElement = footerElement!;
+		});
 
-				// TODO: Consider runOutside if conditional throttling can be provided there.
+		this.scrollStream$ = merge(
+			this.applyScrollOptimization(
+				fromEvent(this.hostElement.nativeElement, "wheel")
+			),
+			this.allowStartReveal ? this.applyScrollOptimization(
+				this.getStartRevealElementEvent("wheel") as Observable<MouseWheelEvent>
+			) : NEVER,
+			this.allowEndReveal ? this.applyScrollOptimization(
+				this.getEndRevealElementEvent("wheel") as Observable<MouseWheelEvent>
+			) : NEVER,
+		);
 
-				this.throttle === 0 ? identity : throttleTime(this.throttle),
-			);
-
-		this.swipeStream$ = fromEvent(this.hostElement.nativeElement as EventTarget, "touchmove")
-			.pipe(
-				this.throttle === 0 ? identity : throttleTime(this.throttle),
-				map(
-					// NOTE: No need to check for empty event as its captured by fromEvent
-					(event: TouchEvent) => this.horizontal ? event.touches[0].pageX : event.touches[0].pageY,
-				),
-				mergeMap(
-					(init: number) => fromEvent(this.hostElement.nativeElement as EventTarget, "touchmove")
-						.pipe(
-							raceWith(
-								fromEvent(this.hostElement.nativeElement as EventTarget, "touchend")
-									.pipe(
-										takeUntil(fromEvent(this.hostElement.nativeElement as EventTarget, "touchstart")),
-									),
-							),
-							map(
-								(event: TouchEvent) => this.horizontal
-									? event.touches[0].pageX ?? 0
-									: event.touches[0].pageY ?? 0,
-							),
-							map((swiped: number) => init - swiped),
-							first(),
-							filter((difference: number) => Math.abs(difference) >= Math.abs(this.touchTolerance)),
-							map((scaled: number) => scaled / Constants.SWIPE_SCALE_FACTOR),
-						),
-				),
-			);
+		this.swipeStream$ = merge(
+			this.applySwipeOptimization(
+				fromEvent(this.hostElement.nativeElement, "touchmove"),
+				this.hostElement.nativeElement
+			),
+			this.allowStartReveal ? this.applySwipeOptimization(
+				this.getStartRevealElementEvent("touchmove") as Observable<TouchEvent>,
+				this.startRevealElement
+			) : NEVER,
+			this.allowEndReveal ? this.applySwipeOptimization(
+				this.getEndRevealElementEvent("touchmove") as Observable<TouchEvent>,
+				this.endRevealElement
+			) : NEVER,
+		);
 
 		this.scrollStream$.subscribe((shiftAmt: number) => {
 			this.pageShift(shiftAmt);

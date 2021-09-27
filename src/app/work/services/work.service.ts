@@ -13,16 +13,13 @@ import { TaggerService } from "./tagger.service";
 
 @Injectable()
 export class WorkService {
-	private readonly workFilterSource$ = new BehaviorSubject<(_: WorkModel) => boolean>(() => true);
-
+	private readonly workFilterSource$ = new BehaviorSubject<(_: WorkModel) => boolean>((_) => true);
 	private readonly workCacheSource$ = new BehaviorSubject<readonly WorkModel[]>([]);
-
 	private readonly workSelectedSource$ = new BehaviorSubject<WorkModel | undefined>(undefined);
 
 	public readonly workFilterState$: Observable<(_: WorkModel) => boolean> = this.workFilterSource$.asObservable();
-
 	public readonly workCacheState$: Observable<readonly WorkModel[]> = this.workCacheSource$.asObservable();
-
+	public readonly workSelectedState$: Observable<WorkModel | undefined> = this.workSelectedSource$.asObservable();
 	public readonly workActiveState$: Observable<readonly WorkModel[]> = combineLatest(
 		[
 			this.workCacheState$,
@@ -30,8 +27,6 @@ export class WorkService {
 		],
 		(cache: readonly WorkModel[], filterfn) => cache.filter(filterfn),
 	);
-
-	public readonly workSelectedState$: Observable<WorkModel | undefined> = this.workSelectedSource$.asObservable();
 
 	constructor(
 			private readonly http: HttpClient,

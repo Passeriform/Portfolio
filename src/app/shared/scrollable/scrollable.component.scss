@@ -1,17 +1,13 @@
 :host {
+	position: relative;
 	display: block;
-	transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+	transition:
+		transform 0.5s cubic-bezier(0.19, 1, 0.22, 1),
+		inset 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 	white-space: nowrap;
 
-	& ::ng-deep {
-		& > * {
-			white-space: normal;
-		}
-
-		& > .page {
-			width: 100vw;
-			height: 100vh;
-			overflow: auto;
-		}
+	& > ::ng-deep * {
+		box-sizing: border-box;
+		white-space: normal;
 	}
 }

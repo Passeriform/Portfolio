@@ -17,7 +17,7 @@ import { WorkService } from "./services/work.service";
 export class WorkComponent implements OnInit, AfterViewInit {
 	public model: readonly WorkModel[];
 
-	public selected: WorkModel | undefined;
+	public selected?: WorkModel;
 
 	public readonly marker: string;
 

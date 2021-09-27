@@ -39,21 +39,15 @@
 		@each $key, $value in $map2 {
 			@if (type-of(map-get($result, $key)) == map and type-of($value) == map) {
 				$result: map-merge($result, ($key: map-merge-recursive(map-get($result, $key), $value)));
-			}
-
-			@else if (map-get($config, "merge-lists") and type-of(map-get($result, $key)) == list and type-of($value) == list) {
+			} @else if (map-get($config, "merge-lists") and type-of(map-get($result, $key)) == list and type-of($value) == list) {
 				$result: map-merge($result, ($key: join(map-get($result, $key), $value)));
-			}
-
-			@else {
+			} @else {
 				$result: map-merge($result, ($key: $value));
 			}
 		}
 
 		@return $result;
-	}
-
-	@else {
+	} @else {
 		@warn "map-deep-merge() expects it's parameters to be map types!";
 
 		@return null;
@@ -67,9 +61,7 @@
 		$merged: map-merge-all(nth($arg-maps, 1), $leftover...);
 
 		$map-collector: map-merge($map-collector, $merged);
-	}
-
-	@else {
+	} @else {
 		$map-collector: map-merge-recursive($map-collector, nth($arg-maps, 1));
 	}
 

@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 export const Constants: {
+	readonly VERTICAL: boolean;
+	readonly HORIZONTAL: boolean;
 	readonly DELTA_DEFAULT: number;
 	readonly INITIAL_PAGE_INDEX: number;
 	readonly OVERSHOOT_DEFAULT: number;
@@ -8,6 +10,8 @@ export const Constants: {
 	readonly THROTTLE_DEFAULT: number;
 	readonly TOUCH_TOLERANCE: number;
 } = {
+	HORIZONTAL: true,
+	VERTICAL: false,
 	DELTA_DEFAULT: 100,
 	INITIAL_PAGE_INDEX: 0,
 	OVERSHOOT_DEFAULT: 0,
