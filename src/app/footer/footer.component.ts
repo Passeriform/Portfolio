@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input } from "@angular/core";
+import { Component, ElementRef, HostBinding, Input } from "@angular/core";
 import type { OnInit } from "@angular/core";
 
 import { Constants } from "./footer.config";
@@ -19,7 +19,7 @@ export class FooterComponent implements OnInit {
 
 	@Input() public readonly variant: string;
 
-	public products;
+	public works;
 
 	public abouts;
 
@@ -30,10 +30,14 @@ export class FooterComponent implements OnInit {
 		return this.variant;
 	}
 
-	constructor(private readonly footerService: FooterService) {
+	constructor(
+		private readonly footerElement: ElementRef,
+		private readonly footerService: FooterService,
+	) {
+		this.footerService.setFooterElement(footerElement.nativeElement);
 		this.footerService.refreshLinks(this.maxItemCount);
-		this.footerService.productsState$.subscribe((products) => {
-			this.products = products;
+		this.footerService.worksState$.subscribe((works) => {
+			this.works = works;
 		});
 		this.footerService.aboutState$.subscribe((abouts) => {
 			this.abouts = abouts;

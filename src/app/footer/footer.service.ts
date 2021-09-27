@@ -20,11 +20,15 @@ export class FooterService {
 
 	private readonly topSocialsSource$ = new BehaviorSubject<readonly LinkModel[]>([]);
 
+	private readonly footerElementSource$ = new BehaviorSubject<HTMLElement | undefined>(undefined);
+
 	public readonly aboutState$: Observable<readonly LinkModel[]> = this.topAboutSource$.asObservable();
 
-	public readonly productsState$: Observable<readonly LinkModel[]> = this.topProductsSource$.asObservable();
+	public readonly worksState$: Observable<readonly LinkModel[]> = this.topProductsSource$.asObservable();
 
 	public readonly socialsState$: Observable<readonly LinkModel[]> = this.topSocialsSource$.asObservable();
+
+	public readonly footerElement$: Observable<HTMLElement | undefined> = this.footerElementSource$.asObservable();
 
 	constructor(
 			private readonly http: HttpClient,
@@ -32,28 +36,40 @@ export class FooterService {
 			private readonly errorService: ErrorService,
 	) { }
 
+	setFooterElement(footerElement: HTMLElement): void {
+		this.footerElementSource$.next(footerElement);
+	}
+
 	public refreshLinks(maxItemCount: number): void {
 		const aboutCount = maxItemCount;
-		const productCount = maxItemCount - 2;
+		const workCount = maxItemCount - 2;
 		const socialCount = 4;
 
-		this.loaderService.beginLoading("[http] [footer] products");
+		this.loaderService.beginLoading("[http] [footer] works");
 		this.loaderService.beginLoading("[http] [footer] about");
 		this.loaderService.beginLoading("[http] [footer] social");
 
 		this.http
 			.get(
 				`${environment.apiUrl}/work?`
-				+ `epp=${productCount}&`
+				+ `epp=${workCount}&`
 				+ "page=1&"
-				+ "select=title,route&"
-				+ "attribs=title,route&"
-				+ "rename=name,link",
+				+ "select=title,type,ref&"
+				+ "attribs=title,type,ref&"
+				+ "rename=name,label,link",
 			)
 			.pipe(
-				map((products: { readonly data: readonly LinkModel[] }) => products.data),
+				map((works: { data: (LinkModel & { label: string })[]	}) => works.data),
+				map(
+					(works: (LinkModel & { label: string })[]): LinkModel[] => works.map(
+						(work: LinkModel & { label: string }): LinkModel => ({
+							name: work.name,
+							link: `${work.label}/${work.link}`,
+						})
+					)
+				),
 				catchError((error: unknown) => {
-					this.loaderService.endLoading("[http] [footer] products");
+					this.loaderService.endLoading("[http] [footer] works");
 					this.loaderService.endLoading("[http] about");
 					if (isErrorModel(error)) {
 						this.errorService.displayError(error! as ErrorModel);
@@ -62,10 +78,10 @@ export class FooterService {
 					return of([]);
 				}),
 			)
-			.subscribe((products) => {
-				this.loaderService.endLoading("[http] [footer] products");
+			.subscribe((works: LinkModel[]) => {
+				this.loaderService.endLoading("[http] [footer] works");
 
-				this.topProductsSource$.next(products);
+				this.topProductsSource$.next(works);
 			});
 
 		this.http
