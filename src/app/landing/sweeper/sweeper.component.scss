@@ -1,6 +1,5 @@
 @use "global";
-
-@import "modifiers";
+@use "modifiers";
 
 $sweep-padding: 0.5em;
 $font-size: max(3vw, 1.25em);
@@ -18,7 +17,8 @@ $window-height: calc(#{global.$line-height-px} + (2 * #{$sweep-padding}));
 
 	& > span {
 		margin: 0.5em;
-		@include disallow-selection;
+
+		@include modifiers.disallow-selection;
 	}
 }
 

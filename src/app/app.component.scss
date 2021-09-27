@@ -1,0 +1,12 @@
+@use "global";
+
+* {
+	box-sizing: border-box;
+	white-space: normal;
+}
+
+::ng-deep .page {
+	width: 100vw;
+	height: 100vh;
+	overflow: auto;
+}

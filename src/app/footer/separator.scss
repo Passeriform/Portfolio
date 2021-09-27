@@ -23,12 +23,13 @@ $gradient-solid-color-hex: #3D3D3D99;
 		margin: 0.5em 0;
 		width: 100%;
 		height: 1px;
-		background: linear-gradient(
-			90deg,
-			$gradient-fade-color-hex,
-			$gradient-solid-color-hex $separator-fading-measure,
-			$gradient-solid-color-hex calc(100% - #{$separator-fading-measure}),
-			$gradient-fade-color-hex
-		);
+		background:
+			linear-gradient(
+				90deg,
+				$gradient-fade-color-hex,
+				$gradient-solid-color-hex $separator-fading-measure,
+				$gradient-solid-color-hex calc(100% - #{$separator-fading-measure}),
+				$gradient-fade-color-hex
+			);
 	}
 }

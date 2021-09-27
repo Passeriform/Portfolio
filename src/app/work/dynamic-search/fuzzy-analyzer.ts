@@ -62,7 +62,6 @@ export class FuzzyAnalyzer {
 	}
 
 	public scoreValue(value: string, input: string): FuzzyScore {
-
 		const normalizedValue = value.toLowerCase();
 		const normalizedInput = input.toLowerCase();
 

@@ -24,7 +24,7 @@ export class OverlayComponent implements OnInit {
 	constructor(private readonly workService: WorkService) { }
 
 	ngOnInit() {
-		this.workService.workSelectedState$.subscribe((model: WorkModel | undefined) => {
+		this.workService.workSelectedState$.subscribe((model?: WorkModel) => {
 			if (model) {
 				this.blinkEnabled = false;
 			}

@@ -1,5 +1,5 @@
-import { Directive, HostListener, Input, Injector, TemplateRef, ViewChild, ViewContainerRef, ApplicationRef, ElementRef, ComponentFactoryResolver } from "@angular/core";
-import type { AfterViewInit, OnDestroy, ComponentRef, EmbeddedViewRef } from "@angular/core";
+import { ApplicationRef, ComponentFactoryResolver, Directive, ElementRef, HostListener, Injector, Input, TemplateRef, ViewChild, ViewContainerRef } from "@angular/core";
+import type { AfterViewInit, ComponentRef, EmbeddedViewRef, OnDestroy } from "@angular/core";
 
 import { BehaviorSubject } from "rxjs";
 
@@ -63,6 +63,8 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
 		this.appReference.attachView(this.componentRef.hostView);
 
 		// NOTE: Kept on top of stacking to avoid z-index collisions
+		// TODO: Consider packing all tooltips in a div element
+		// and attaching more on there to keep DOM clean.
 		const domElement: HTMLElement = (this.componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
 		document.body.append(domElement);
 	}

@@ -4,23 +4,24 @@
 @import "./landing.colors";
 
 :host {
-	& .page > .bg-img-wrapper {
-		& > .bg-img {
-			position: absolute;
-			z-index: -1;
-			width: 100vw;
-			height: 100vh;
-		}
+	& .bg-img-wrapper > .bg-img {
+		position: absolute;
+		z-index: -1;
+		width: 100vw;
+		height: 100vh;
 	}
 
 	& #splash {
 		& > .bg-img-wrapper > .bg-img {
-			filter: blur(2px);
 			background-image: url("/assets/images/landingbg.jpg");
 			background-repeat: no-repeat;
 			background-size: cover;
 			filter: brightness(50%);
-			// TODO: Add support check for blur and apply only if available
+
+			@supports (filter: blur(2em)) {
+				filter: brightness(50%) blur(2px);
+				transform: scale(1.02);
+			}
 		}
 
 		& > .content {

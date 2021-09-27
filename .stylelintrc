@@ -250,11 +250,14 @@
         ],
 				"ignore": [
 					"after-comment"
-				]
+				],
+        "ignoreAtRules": [
+          "else"
+        ]
       }
     ],
     "at-rule-name-case": "lower",
-    "at-rule-name-newline-after": "always-multi-line",
+    "at-rule-name-newline-after": null,
     "at-rule-name-space-after": "always",
     "comment-empty-line-before": "always",
     "comment-whitespace-inside": "always",

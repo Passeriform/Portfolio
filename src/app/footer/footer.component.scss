@@ -17,7 +17,9 @@
 @mixin linear {
 	& > #footer-content {
 		flex-direction: column;
+		justify-content: start;
 		height: unset;
+		overflow-y: scroll;
 
 		& > #brand {
 			margin: 0 auto;

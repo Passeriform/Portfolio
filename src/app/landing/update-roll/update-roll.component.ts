@@ -4,7 +4,7 @@ import type { OnInit } from "@angular/core";
 import type { GithubEvent } from "./github.interface";
 import { GithubService } from "./github.service";
 
-type GithubEventUIState = GithubEvent & { expand?: boolean };
+type GithubEventUIState = GithubEvent & { expand: boolean };
 
 @Component({
 	selector: "app-update-roll",
