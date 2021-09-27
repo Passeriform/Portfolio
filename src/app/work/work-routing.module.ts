@@ -8,56 +8,54 @@ import { WorkResolver } from "./work-resolver.service";
 // import { PersonalityGuard } from "../core";
 
 const routes: Routes = [
+	// Register default explore route
+	{
+		component: WorkComponent,
+		path: "explore",
+
+		// TODO: Add personality selector here.
+
+		// canActivate: [PersonalityGuard],
+		resolve: { model: WorkResolver },
+	},
+	// Register filter routes.
 	...routeFilters.map(
-		(tag: string) => ({
-			component: WorkComponent,
-			path: tag,
+		(filter: string) => ({
+				component: WorkComponent,
+				path: `explore/${filter}`,
 
-			// TODO: Add personality selector here.
+				// TODO: Add personality selector here.
 
-			// canActivate: [PersonalityGuard],
-
-			// TODO: Add another resolver for setting url according to filters
-
-			resolve: { model: WorkResolver },
-		}),
+				// canActivate: [PersonalityGuard],
+				resolve: { model: WorkResolver },
+			}),
 	),
+	// Register explore catch-all.
 	{
-		component: WorkComponent,
-		path: ":package",
-
-		// TODO: Add personality selector here.
-
-		// canActivate: [PersonalityGuard],
-		resolve: { model: WorkResolver },
+		children: [{
+			// TODO: Add another route entry for explore/product/someproduct -> product/someproduct
+			path: "**",
+			redirectTo: ""
+		}],
+		path: "explore",
 	},
-	{
-		component: WorkComponent,
-		path: ":package/:module",
+	// Register showcase-only routes.
+	...routeFilters.map(
+		(filter: string) => [
+			`${filter}`,
+			`${filter}/:package`,
+			`${filter}/:package/:module`,
+			`${filter}/:package/:module/:submodule`
+		].map(routeSelector => ({
+				component: WorkComponent,
+				path: routeSelector,
 
-		// TODO: Add personality selector here.
+				// TODO: Add personality selector here.
 
-		// canActivate: [PersonalityGuard],
-		resolve: { model: WorkResolver },
-	},
-	{
-		component: WorkComponent,
-		path: ":package/:module/:submodule",
-
-		// TODO: Add personality selector here.
-
-		// canActivate: [PersonalityGuard],
-		resolve: { model: WorkResolver },
-	},
-	{
-		component: WorkComponent,
-		path: "",
-
-		// TODO: Add personality selector here.
-
-		// canActivate: [PersonalityGuard],
-		resolve: { model: WorkResolver },
-	},
+				// canActivate: [PersonalityGuard],
+				resolve: { model: WorkResolver },
+			}))
+	).flat(),
 ];
 
 @NgModule({

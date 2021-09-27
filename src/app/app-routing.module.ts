@@ -15,8 +15,8 @@ const constructLazy = (urlPath: string, childrenLoader: LoadChildrenCallback): R
 );
 
 const routes: Routes = [
-	constructLazy("explore", async () => import("./work/work.module").then((childModule) => childModule.WorkModule)),
 	constructLazy("about", async () => import("./about/about.module").then((childModule) => childModule.AboutModule)),
+	constructLazy("", async () => import("./work/work.module").then((childModule) => childModule.WorkModule)),
 	constructLazy("", async () => import("./landing/landing.module").then((childModule) => childModule.LandingModule)),
 ];
 

@@ -11,6 +11,7 @@ import { LoaderService } from "@app/loader/loader.service";
 import { ErrorService } from "@app/error/error.service";
 import { isErrorModel } from "@app/error/error.interface";
 import type { ErrorModel } from "@app/error/error.interface";
+import { routeFilters } from "./work.config";
 import type { WorkModel } from "./work.interface";
 import { WorkService } from "./services/work.service";
 
@@ -31,7 +32,8 @@ export class WorkResolver implements Resolve<readonly WorkModel[]> {
 			.pipe(
 				concatWith(this.workService.workActiveState$),
 				first(),
-				map((model: readonly WorkModel[] | undefined): readonly WorkModel[] => {
+				map((model?: readonly WorkModel[]): readonly WorkModel[] => {
+					// Fatal error (mostly API hit issue)
 					if (!model) {
 						/* eslint-disable-next-line no-void */
 						void this.router.navigate([ "/" ]);
@@ -39,36 +41,35 @@ export class WorkResolver implements Resolve<readonly WorkModel[]> {
 						return [];
 					}
 
-					/*
-					 * Condition matrix
-					 *
-					 * ┌───────┬────────────────────┬─────────────────────┬──────────────────────┐
-					 * │ Index │ Expected Operation │ route.url[0]?.path  │ route.params         │
-					 * ├───────┼────────────────────┼─────────────────────┼──────────────────────┤
-					 * │ 1     │ SetSelected        │ godwit              │ {package: "godwit"}  │
-					 * ├───────┼────────────────────┼─────────────────────┼──────────────────────┤
-					 * │ 2     │ Redirect           │ xyz                 │ {package: "xyz"}     │
-					 * ├───────┼────────────────────┼─────────────────────┼──────────────────────┤
-					 * │ 3     │ Filter             │ misc                │ {}                   │
-					 * ├───────┼────────────────────┼─────────────────────┼──────────────────────┤
-					 * │ 4     │ Do Nothing         │ <null>              │ {}                   │
-					 * └───────┴────────────────────┴─────────────────────┴──────────────────────┘
-					 */
-
 					// TODO: Define RouteSnapshot type in types.d.ts
 
-					if (route.url[0]?.path) {
-						if (route.params.package) {
-							const concatRoute = Object.values(route.params).join("/");
-							const queriedEntry: WorkModel | undefined = model!.find((entry) => entry.ref === concatRoute);
+					// Showcasing only
+					if (routeFilters.includes(route.url[0]?.path)) {
+						// Keep this active filter local only. Let explore flap explore all entities.
+						const activeFilter = route.url[0].path;
 
-							if (queriedEntry) {
-								this.workService.setSelected(queriedEntry);
-							} else {
-								this.router.navigate([ "/" ]);
-							}
+						// Redirect to filtering
+						if (!route.params.package) {
+							this.router.navigate([ `/explore/${activeFilter}` ]);
+						}
+
+						const concatRoute = Object.values(route.params).join("/");
+						const queriedEntry: WorkModel | undefined = model!.find((entry) => (entry.ref === concatRoute && entry.type === activeFilter));
+
+						if (queriedEntry) {
+							this.workService.setSelected(queriedEntry);
 						} else {
-							this.workService.setFilter((entity) => entity.type === route.url[0].path);
+							// TODO: Redirect with a message that project wasn't found and try searching for it in explore view.
+							this.router.navigate([ "/explore" ]);
+						}
+					}
+
+					if (route.url[0]?.path === "explore") {
+						const activeFilter = route.url[1]?.path;
+						if (routeFilters.includes(activeFilter)) {
+							this.workService.setFilter((entity) => entity.type === activeFilter);
+						} else if (activeFilter) {
+							this.router.navigate([ "/explore" ])
 						}
 					}
 
