@@ -14,10 +14,11 @@ const constructLazy = (urlPath: string, childrenLoader: LoadChildrenCallback): R
 	}
 );
 
+// NOTE: Reordering landing and work modules as a hack to make same-named paths work.
 const routes: Routes = [
 	constructLazy("about", async () => import("./about/about.module").then((childModule) => childModule.AboutModule)),
-	constructLazy("", async () => import("./work/work.module").then((childModule) => childModule.WorkModule)),
 	constructLazy("", async () => import("./landing/landing.module").then((childModule) => childModule.LandingModule)),
+	constructLazy("", async () => import("./work/work.module").then((childModule) => childModule.WorkModule)),
 ];
 
 @NgModule({
