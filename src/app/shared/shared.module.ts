@@ -13,6 +13,7 @@ import { IconUriPipe } from "./pipes/icon-uri.pipe";
 import { RetainPipe } from "./pipes/retain.pipe";
 import { EnvironmentPipe } from "./pipes/environment.pipe";
 import { WikiPipe } from "./pipes/wiki.pipe";
+import { SocialGlyphsComponent } from "./social-glyphs/social-glyphs.component";
 // import { BreadcrumbComponent } from "./breadcrumb/breadcrumb.component";
 
 // import { ShowAuthedDirective } from "./show-authed.directive";
@@ -28,6 +29,7 @@ import { WikiPipe } from "./pipes/wiki.pipe";
 		OverlayComponent,
 		RetainPipe,
 		ScrollableComponent,
+		SocialGlyphsComponent,
 		TooltipComponent,
 		TooltipDirective,
 		WikiPipe,
@@ -40,16 +42,13 @@ import { WikiPipe } from "./pipes/wiki.pipe";
 		EnvironmentPipe,
 		FormsModule,
 		IconUriPipe,
-
 		NavigatorComponent,
 		OverlayComponent,
-
 		RetainPipe,
 		ScrollableComponent,
-
+		SocialGlyphsComponent,
 		TooltipComponent,
 		TooltipDirective,
-
 		WikiPipe,
 	],
 	imports: [
