@@ -7,7 +7,7 @@ import { map } from "rxjs/operators";
 
 import { EntityIdentifier, registry } from "@shared/models/registry.interface";
 import type { EntityRegistry } from "@shared/models/registry.interface";
-import type { WikiResponseModel } from "@shared/models/wiki.interface";
+import type { WikiResponseModel, WikiResponsePage } from "@shared/models/wiki.interface";
 
 @Pipe({
 	name: "wiki",
@@ -24,7 +24,7 @@ export class WikiPipe implements PipeTransform {
 	}
 
 	transform(entity: string): Observable<Record<string, unknown>> {
-		const callUrl = "https://en.wikipedia.org/w/api.php?"
+		const callUrl: string = "https://en.wikipedia.org/w/api.php?"
 			+ "action=query"
 			+ "&format=json"
 			+ "&origin=*"
@@ -36,7 +36,7 @@ export class WikiPipe implements PipeTransform {
 		/*
 		 * Alternative Wiki APIs (extraction)
 		 *
-		 * const callUrl = "https://en.wikipedia.org/w/api.php?"
+		 * const callUrl: string = "https://en.wikipedia.org/w/api.php?"
 		 *   + "action=query"
 		 *   + "&format=json"
 		 *   + "&origin=*"
@@ -51,7 +51,7 @@ export class WikiPipe implements PipeTransform {
 		/*
 		 * Alternative Wiki APIs (list-search)
 		 *
-		 * const callUrl = "https://en.wikipedia.org/w/api.php?"
+		 * const callUrl: string = "https://en.wikipedia.org/w/api.php?"
 		 *   + "action=query"
 		 *   + "&format=json"
 		 *   + "&origin=*"
@@ -69,9 +69,13 @@ export class WikiPipe implements PipeTransform {
 
 		return this.http.get<WikiResponseModel>(callUrl).pipe(
 			map((response: WikiResponseModel) => {
-				const [ page ] = response.query.pages;
+				const [ page ]: readonly WikiResponsePage[] = response.query.pages;
 
-				const { description, fullurl: href, title } = page;
+				const {
+					description,
+					fullurl: href,
+					title,
+				}: WikiResponsePage = page;
 
 				return {
 					description,

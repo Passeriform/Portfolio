@@ -19,7 +19,7 @@
 		flex-direction: column;
 		justify-content: start;
 		height: unset;
-		overflow-y: scroll;
+		overflow-y: auto;
 
 		& > #brand {
 			margin: 0 auto;

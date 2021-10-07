@@ -12,13 +12,10 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
 	@ViewChild(TemplateRef, { read: ViewContainerRef }) private readonly viewContainer: ViewContainerRef;
 
 	@Input() public readonly position = "bottom";
-
 	@Input() public readonly template: TemplateRef<any>;
-
 	@Input() public darkMode: boolean;
 
 	private componentRef: ComponentRef<any>;
-
 	private readonly showTooltip$ = new BehaviorSubject<boolean>(false);
 
 	@HostListener("focusin")

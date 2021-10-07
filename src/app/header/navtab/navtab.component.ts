@@ -22,7 +22,7 @@ export class NavtabComponent implements OnInit {
 
 	ngOnInit() {
 		this.splashStateService.splashState$.subscribe(
-			(splashState) => {
+			(splashState: SplashState) => {
 				this.splashState = splashState;
 				this.shrinkFix = splashState !== SplashState.FOCUSSED;
 			},
@@ -32,7 +32,7 @@ export class NavtabComponent implements OnInit {
 	// TODO: Shift to external utility
 
 	public propagateClick(event: MouseEvent | TouchEvent): void {
-		const target = (
+		const target: HTMLElement = (
 			event.target ?? event.currentTarget
 		) as HTMLElement;
 

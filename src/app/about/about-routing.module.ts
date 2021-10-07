@@ -18,7 +18,10 @@ const routes: Routes = [
 			model: AboutResolver,
 		},
 	},
-	{ path: "passeriform", redirectTo: "" },
+	{
+		path: "passeriform",
+		redirectTo: "",
+	},
 	{
 		component: AboutComponent,
 		path: ":slug",

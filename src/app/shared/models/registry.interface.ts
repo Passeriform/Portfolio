@@ -1,5 +1,3 @@
-/* eslint-disable max-lines, max-len */
-
 // NOTE: Don"t touch this interface unless a better design approach is reached
 
 export enum WType {
@@ -560,5 +558,3 @@ export const registry: readonly EntityRegistry[] = [
 		identifier: Social.pinterest,
 	},
 ];
-
-/* eslint-enable max-lines, max-len */

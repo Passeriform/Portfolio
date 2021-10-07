@@ -81,8 +81,9 @@
 			max-height: 25vh;
 			width: 60%;
 			height: 100%;
+			overflow: auto;
 			border-radius: 0.5rem;
-			box-shadow: 0 0 5px 1px map.get($theme, "shadow", "hex") inset;
+			box-shadow: 0 0 2px 2px map.get($theme, "shadow", "hex") inset;
 			background-color: map.get($theme, "background", "dark-10%", "hex");
 			transition: all 0.3s ease-in-out;
 
@@ -90,22 +91,33 @@
 				max-height: 80vh;
 				width: 80vw;
 				transform: translateY(-32vh);
+				background-color: map.get($theme, "background", "hex");
 			}
 
 			& > .debug-wrapper {
+				display: table;
 				height: 100%;
-				overflow: auto;
 				text-align: left;
+				border-collapse: collapse;
 
-				& > div > p {
-					margin: 0;
-					color: map.get($theme, "highlight", "hex");
-					font-weight: 500;
-					white-space: nowrap;
+				& > div {
+					display: table-row;
 
 					& > span {
-						color: map.get($theme, "accent", "hex");
-						font-weight: 200;
+						display: table-cell;
+						padding: 0.5rem;
+						height: 100%;
+						vertical-align: middle;
+
+						&.entry-key {
+							color: map.get($theme, "highlight", "hex");
+							font-weight: 500;
+						}
+
+						&.entry-value {
+							color: map.get($theme, "accent", "hex");
+							font-weight: 200;
+						}
 					}
 				}
 			}

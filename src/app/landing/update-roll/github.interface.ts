@@ -1,4 +1,3 @@
-/* eslint-disable max-len, camelcase */
 interface GithubUser {
 	readonly avatar_url: string;
 	readonly id: number;
@@ -151,5 +150,3 @@ export interface GithubEvent {
 	readonly payload?:
 	CommitCommentEventPayload | CreateDeleteEventPayload | ForkEventPayload | GollumEventPayload | IssueCommentEventPayload | IssuesEventPayload | MemberEventPayload | PullRequestEventPayload | PullRequestReviewCommentEventPayload | PushEventPayload | Record<string, unknown> | ReleaseEventPayload | SponsorshipEventPayload | WatchEventPayload;
 }
-
-/* eslint-enable max-len, camelcase */

@@ -9,33 +9,32 @@ import { throwError } from "rxjs";
 import type { Observable } from "rxjs";
 import { catchError, retry } from "rxjs/operators";
 
-import type { ApiErrorResponse, ErrorModel } from "@app/error/error.interface";
+import type { ApiErrorResponse } from "@app/error/error.interface";
+import { ApiError, ClientError } from "@app/error/error.interface";
 
 export class HttpErrorInterceptor implements HttpInterceptor {
-	intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<ErrorModel>> {
+	intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<ApiError | ClientError>> {
 		return next.handle(request)
 			.pipe(
 				retry(1),
-				/* eslint-disable-next-line rxjs/no-implicit-any-catch */
-				catchError((error: ApiErrorResponse) => {
-					// TODO: Recheck if this assignment works for client-side errors
-
-					// TODO: Add type for errorModel
-					const errorModel = error instanceof ErrorEvent ? error : error.error;
-
-					// TODO: Use custom error-type
-
-					return throwError(
-						() => (
-							{
-								message: errorModel?.message,
-								name: errorModel?.name,
-								status: errorModel?.status,
-								statusText: errorModel?.statusText,
-							}
-						),
-					);
-				}),
+				catchError((error: ApiErrorResponse | ErrorEvent) => error instanceof ErrorEvent
+					? throwError(
+						// Client error
+						() => new ClientError({
+							message: error.message,
+							name: (error.error as Error).name,
+						}),
+					)
+					: throwError(
+						// Server error
+						() => new ApiError({
+							message: error.message,
+							name: error.name,
+							status: error.status,
+							statusText: error.statusText,
+						}),
+					),
+				),
 			);
 	}
 }

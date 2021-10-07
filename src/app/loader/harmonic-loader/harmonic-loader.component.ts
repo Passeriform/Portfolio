@@ -3,12 +3,12 @@
 // TODO: Required a huge makeover (canvas-style animations do not mesh well with Angular-style ones)
 
 import type { AfterViewInit } from "@angular/core";
-import { Component, HostListener, ViewChild, ElementRef } from "@angular/core";
+import { Component, ElementRef, HostListener, HostBinding, ViewChild } from "@angular/core";
 
 import { CanvasService } from "@core/services/canvas.service";
-import { LoadingState } from "@app/loader/loader.interface";
-import type { LoadingJob } from "@app/loader/loader.service";
-import { LoaderService } from "@app/loader/loader.service";
+import { LoadingState } from "../loader.interface";
+import type { LoadingJob } from "../loader.service";
+import { LoaderService } from "../loader.service";
 import { AnimationState, getDotsPos, percToPhaseAngle } from "../loader.config";
 import { generateLoaderConfig, Constants } from "./harmonic-loader.config";
 import type { HarmonicLoaderConfig } from "./harmonic-loader.interface";
@@ -30,20 +30,12 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 		static: true,
 	}) private readonly loaderCanvas: ElementRef<HTMLCanvasElement>;
 
-	public animationState: AnimationState = AnimationState.STOPPED;
-
 	public retarder: number = Constants.DEFAULT_RETARDER;
-
 	public animStartFrame: number;
-
 	public context?: CanvasRenderingContext2D;
-
 	public dotsPos: readonly number[];
-
 	public loaderConfig: HarmonicLoaderConfig;
-
 	public loaderPerc: number;
-
 	public loadingJobsState: readonly LoadingJob[];
 
 	// TODO: Shift this into canvas.service
@@ -73,7 +65,7 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 			this.animStartFrame = timestamp;
 		}
 
-		const elapsed = timestamp - this.animStartFrame;
+		const elapsed: number = timestamp - this.animStartFrame;
 
 		this.context?.clearRect(0, 0, this.loaderCanvas.nativeElement.width, this.loaderCanvas.nativeElement.height);
 
@@ -123,7 +115,7 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 			this.animStartFrame = timestamp;
 		}
 
-		const elapsed = timestamp - this.animStartFrame;
+		const elapsed: number = timestamp - this.animStartFrame;
 
 		this.context?.clearRect(0, 0, this.loaderCanvas.nativeElement.width, this.loaderCanvas.nativeElement.height);
 
@@ -165,7 +157,6 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 		if (this.retarder > this.loaderConfig.amplitude) {
 			this.animationState = AnimationState.STOPPED;
 			this.retarder = 0;
-			this.loaderService.flushJobs();
 		} else {
 			window.requestAnimationFrame(this.resolveDots);
 		}
@@ -184,12 +175,12 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 			(loadingJobsState) => {
 				this.loadingJobsState = loadingJobsState;
 
-				const initiationLabels = this.loadingJobsState
+				const initiationLabels: string[] = this.loadingJobsState
 					.filter(
-						(job) => job.state === LoadingState.LOADING_QUEUED,
+						(job: LoadingJob) => job.state === LoadingState.LOADING_QUEUED,
 					)
 					.map(
-						(job) => job.label,
+						(job: LoadingJob) => job.label,
 					);
 
 				// Only trigger when new labels are found to be queued

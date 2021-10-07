@@ -18,14 +18,12 @@ export interface LoadingJob {
 @Injectable()
 export class LoaderService {
 	private loadingJobs$: readonly LoadingJob[];
-
 	private readonly loadingJobsSource$ = new BehaviorSubject<readonly LoadingJob[]>([]);
 
 	public readonly loadingJobsState$: Observable<readonly LoadingJob[]> = this.loadingJobsSource$.asObservable();
-
 	public readonly loadingProgressState$: Observable<number> = this.loadingJobsSource$.pipe(
 		map(
-			(jobs) => jobs.reduce((sum: number, job: LoadingJob) => sum + job.progress, 0) / jobs.length,
+			(jobs: readonly LoadingJob[]) => jobs.reduce((sum: number, job: LoadingJob) => sum + job.progress, 0) / jobs.length,
 		),
 	);
 
@@ -37,7 +35,7 @@ export class LoaderService {
 
 	public bindLoadJob(label: string, job$: Observable<boolean>): void {
 		this.beginLoading(label);
-		job$.subscribe((value) => {
+		job$.subscribe((value: boolean) => {
 			if (value) {
 				this.endLoading(label);
 			}
@@ -59,7 +57,7 @@ export class LoaderService {
 
 	public endLoading(label: string): void {
 		this.loadingJobsSource$.next(
-			this.loadingJobs$.map((job) => {
+			this.loadingJobs$.map((job: LoadingJob) => {
 				if (job.label === label) {
 					job.state = LoadingState.LOADED;
 				}
@@ -76,7 +74,7 @@ export class LoaderService {
 		}
 
 		this.loadingJobsSource$.next(
-			this.loadingJobs$.map((job) => {
+			this.loadingJobs$.map((job: LoadingJob) => {
 				if (typeof labels === "string" && job.label === labels) {
 					job.state = LoadingState.LOADING;
 				} else if (labels.includes(job.label)) {
@@ -98,7 +96,7 @@ export class LoaderService {
 		}
 
 		this.loadingJobsSource$.next(
-			this.loadingJobs$.filter((job) => {
+			this.loadingJobs$.filter((job: LoadingJob) => {
 				if (typeof labels === "string") {
 					return job.label === labels;
 				}
@@ -118,24 +116,19 @@ export class LoaderService {
 	}
 
 	public setLoadingProgress(label: string, progress: number): void {
-		this.loadingJobs$.forEach((job) => {
+		this.loadingJobs$.forEach((job: LoadingJob) => {
 			if (job.label === label) {
 				if (job.progress !== LoadingState.LOADING) {
 					this.beginLoading(job.label);
 
 					job.progress = progress;
 				}
-
-				// Auto-unload
-				if (job.progress === Progress.COMPLETE) {
-					this.flushJobs(job.label);
-				}
 			}
 		});
 	}
 
 	public bindLoadingProgress(label: string, jobProgress$: Observable<number>): void {
-		jobProgress$.subscribe((progress) => {
+		jobProgress$.subscribe((progress: number) => {
 			this.setLoadingProgress(label, progress);
 		});
 	}

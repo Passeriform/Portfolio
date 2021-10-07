@@ -10,13 +10,9 @@ import type { Observable } from "rxjs";
 })
 export class TooltipComponent implements OnInit, AfterViewInit {
 	@Input() public positionType: string;
-
 	@Input() public callerInstance: HTMLElement;
-
 	@Input() public showObs$: Observable<boolean>;
-
 	@Input() public darkMode: boolean;
-
 	@Input() public tooltipTemplate: TemplateRef<any>;
 
 	@HostBinding("class.show") public showToggle: boolean;

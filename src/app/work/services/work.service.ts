@@ -13,7 +13,7 @@ import { TaggerService } from "./tagger.service";
 
 @Injectable()
 export class WorkService {
-	private readonly workFilterSource$ = new BehaviorSubject<(_: WorkModel) => boolean>((_) => true);
+	private readonly workFilterSource$ = new BehaviorSubject<(_: WorkModel) => boolean>((_: WorkModel) => true);
 	private readonly workCacheSource$ = new BehaviorSubject<readonly WorkModel[]>([]);
 	private readonly workSelectedSource$ = new BehaviorSubject<WorkModel | undefined>(undefined);
 
@@ -25,7 +25,7 @@ export class WorkService {
 			this.workCacheState$,
 			this.workFilterState$,
 		],
-		(cache: readonly WorkModel[], filterfn) => cache.filter(filterfn),
+		(cache: readonly WorkModel[], filterfn: (_: WorkModel) => boolean) => cache.filter(filterfn),
 	);
 
 	constructor(
@@ -58,7 +58,7 @@ export class WorkService {
 
 					this.loaderService.beginLoading("[tag] work");
 
-					const taggedModel = this.tagger.appendTags(model);
+					const taggedModel: readonly WorkModel[] = this.tagger.appendTags(model);
 
 					this.loaderService.endLoading("[tag] work");
 

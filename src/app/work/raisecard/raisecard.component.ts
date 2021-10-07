@@ -7,6 +7,5 @@ import { Component, Input } from "@angular/core";
 })
 export class RaisecardComponent {
 	@Input() public readonly title: string;
-
 	@Input() public readonly marker: string;
 }

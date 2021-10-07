@@ -8,43 +8,41 @@ import { catchError, map } from "rxjs/operators";
 import type { LinkModel } from "@shared/models/link.interface";
 import { environment } from "@env/environment";
 import { LoaderService } from "@app/loader/loader.service";
-import type { ErrorModel } from "@app/error/error.interface";
-import { isErrorModel } from "@app/error/error.interface";
+import { ApiError, ClientError, isError } from "@app/error/error.interface";
 import { ErrorService } from "@app/error/error.service";
 
 @Injectable()
 export class FooterService {
-	private readonly topProductsSource$ = new BehaviorSubject<readonly LinkModel[]>([]);
-
+	private readonly footerElementSource$ = new BehaviorSubject<HTMLElement | undefined>(undefined);
 	private readonly topAboutSource$ = new BehaviorSubject<readonly LinkModel[]>([]);
-
+	private readonly topProductsSource$ = new BehaviorSubject<readonly LinkModel[]>([]);
 	private readonly topSocialsSource$ = new BehaviorSubject<readonly LinkModel[]>([]);
 
-	private readonly footerElementSource$ = new BehaviorSubject<HTMLElement | undefined>(undefined);
-
+	public readonly footerElement$: Observable<HTMLElement | undefined> = this.footerElementSource$.asObservable();
 	public readonly aboutState$: Observable<readonly LinkModel[]> = this.topAboutSource$.asObservable();
-
+	public readonly socialsState$: Observable<readonly LinkModel[]> = this.topSocialsSource$.asObservable();
 	public readonly worksState$: Observable<readonly LinkModel[]> = this.topProductsSource$.asObservable();
 
-	public readonly socialsState$: Observable<readonly LinkModel[]> = this.topSocialsSource$.asObservable();
-
-	public readonly footerElement$: Observable<HTMLElement | undefined> = this.footerElementSource$.asObservable();
-
 	constructor(
+			private readonly errorService: ErrorService,
 			private readonly http: HttpClient,
 			private readonly loaderService: LoaderService,
-			private readonly errorService: ErrorService,
 	) { }
 
-	setFooterElement(footerElement: HTMLElement): void {
+	public setFooterElement(footerElement: HTMLElement): void {
 		this.footerElementSource$.next(footerElement);
 	}
 
-	public refreshLinks(maxItemCount: number): void {
-		const aboutCount = maxItemCount;
-		const workCount = maxItemCount - 2;
-		const socialCount = 4;
-
+	public refreshLinks({
+			aboutCount,
+			socialCount,
+			workCount,
+		}: {
+			aboutCount: number;
+			socialCount: number;
+			workCount: number;
+		},
+	): void {
 		this.loaderService.beginLoading("[http] [footer] works");
 		this.loaderService.beginLoading("[http] [footer] about");
 		this.loaderService.beginLoading("[http] [footer] social");
@@ -59,26 +57,26 @@ export class FooterService {
 				+ "rename=name,label,link",
 			)
 			.pipe(
-				map((works: { data: (LinkModel & { label: string })[]	}) => works.data),
+				map((works: { data: (LinkModel & { label: string })[] }) => works.data),
 				map(
-					(works: (LinkModel & { label: string })[]): LinkModel[] => works.map(
-						(work: LinkModel & { label: string }): LinkModel => ({
-							name: work.name,
+					(works: (LinkModel & { label: string })[]) => works.map(
+						(work: LinkModel & { label: string }) => ({
 							link: `${work.label}/${work.link}`,
-						})
-					)
+							name: work.name,
+						}),
+					),
 				),
-				catchError((error: unknown) => {
+				catchError((error: any): Observable<LinkModel[]> => {
 					this.loaderService.endLoading("[http] [footer] works");
 					this.loaderService.endLoading("[http] about");
-					if (isErrorModel(error)) {
-						this.errorService.displayError(error! as ErrorModel);
+					if (isError(error)) {
+						this.errorService.displayError(error);
 					}
 
 					return of([]);
 				}),
 			)
-			.subscribe((works: LinkModel[]) => {
+			.subscribe((works: LinkModel[]): void => {
 				this.loaderService.endLoading("[http] [footer] works");
 
 				this.topProductsSource$.next(works);
@@ -95,16 +93,16 @@ export class FooterService {
 			)
 			.pipe(
 				map((aboutDocuments: { readonly data: readonly LinkModel[] }) => aboutDocuments.data),
-				catchError((error: unknown) => {
+				catchError((error: any): Observable<LinkModel[]> => {
 					this.loaderService.endLoading("[http] [footer] about");
-					if (isErrorModel(error)) {
-						this.errorService.displayError(error! as ErrorModel);
+					if (isError(error)) {
+						this.errorService.displayError(error);
 					}
 
 					return of([]);
 				}),
 			)
-			.subscribe((aboutDocuments) => {
+			.subscribe((aboutDocuments: LinkModel[]): void => {
 				this.loaderService.endLoading("[http] [footer] about");
 
 				this.topAboutSource$.next(aboutDocuments);
@@ -120,16 +118,16 @@ export class FooterService {
 			.pipe(
 				/* eslint-enable-next-line @typescript-eslint/no-magic-numbers */
 				map((socialDocuments: { readonly links: readonly LinkModel[] }) => socialDocuments.links.slice(0, socialCount)),
-				catchError((error: unknown) => {
+				catchError((error: any): Observable<LinkModel[]> => {
 					this.loaderService.endLoading("[http] [footer] social");
-					if (isErrorModel(error)) {
-						this.errorService.displayError(error! as ErrorModel);
+					if (isError(error)) {
+						this.errorService.displayError(error);
 					}
 
 					return of([]);
 				}),
 			)
-			.subscribe((socialDocuments) => {
+			.subscribe((socialDocuments: LinkModel[]): void => {
 				this.loaderService.endLoading("[http] [footer] social");
 
 				this.topSocialsSource$.next(socialDocuments);

@@ -6,7 +6,7 @@ import type { PipeTransform } from "@angular/core";
 })
 export class RetainPipe implements PipeTransform {
 	transform(inObject: Record<string, unknown>, ...keepProperties: readonly string[]): Record<string, unknown> {
-		const outObject = { };
+		const outObject: Record<string, unknown> = { };
 
 		Object.keys(inObject).forEach(
 			(key: string) => {

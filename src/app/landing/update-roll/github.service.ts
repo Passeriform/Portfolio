@@ -19,7 +19,7 @@ export class GithubService {
 	public fetchUpdate$(after?: number): Observable<readonly GithubEvent[]> {
 		this.http
 			.get<readonly GithubEvent[]>("https://api.github.com/users/Passeriform/events")
-			.subscribe((model) => {
+			.subscribe((model: GithubEvent[]) => {
 				this.githubFeedSource$.next(model);
 			});
 

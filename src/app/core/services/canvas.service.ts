@@ -7,15 +7,11 @@ import type { Observable } from "rxjs";
 @Injectable()
 export class CanvasService {
 	private canvasElement: ElementRef<HTMLCanvasElement>;
-
 	private canvasContext: CanvasRenderingContext2D;
-
 	private readonly canvasElementSource$ = new BehaviorSubject<ElementRef<HTMLCanvasElement> | undefined>(undefined);
-
 	private readonly canvasContextSource$ = new BehaviorSubject<CanvasRenderingContext2D | undefined>(undefined);
 
 	public readonly canvasElement$: Observable<ElementRef<HTMLCanvasElement> | undefined> = this.canvasElementSource$.asObservable();
-
 	public readonly canvasContext$: Observable<CanvasRenderingContext2D | undefined> = this.canvasContextSource$.asObservable();
 
 	constructor() {

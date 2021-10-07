@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostBinding, Input } from "@angular/core";
 import type { OnInit } from "@angular/core";
 
+import { LinkModel } from "@shared/models/link.interface";
 import { Constants } from "./footer.config";
 import { FooterService } from "./footer.service";
 
@@ -16,14 +17,14 @@ import { FooterService } from "./footer.service";
 })
 export class FooterComponent implements OnInit {
 	@Input() public readonly maxItemCount = Constants.INITIAL_MAX_ITEM_COUNT;
-
+	@Input() public readonly aboutCount = this.maxItemCount;
+	@Input() public readonly socialCount = Constants.SOCIAL_LINKS_COUNT;
+	@Input() public readonly workCount = this.maxItemCount - 2;
 	@Input() public readonly variant: string;
 
-	public works;
-
-	public abouts;
-
-	public socials;
+	public abouts: LinkModel[];
+	public socials: LinkModel[];
+	public works: LinkModel[];
 
 	@HostBinding("class")
 	public get Class(): string {
@@ -31,18 +32,22 @@ export class FooterComponent implements OnInit {
 	}
 
 	constructor(
-		private readonly footerElement: ElementRef,
-		private readonly footerService: FooterService,
+			private readonly footerElement: ElementRef,
+			private readonly footerService: FooterService,
 	) {
 		this.footerService.setFooterElement(footerElement.nativeElement);
-		this.footerService.refreshLinks(this.maxItemCount);
-		this.footerService.worksState$.subscribe((works) => {
-			this.works = works;
+		this.footerService.refreshLinks({
+			aboutCount: this.aboutCount,
+			socialCount: this.socialCount,
+			workCount: this.workCount,
 		});
-		this.footerService.aboutState$.subscribe((abouts) => {
+		this.footerService.aboutState$.subscribe((abouts: LinkModel[]): void => {
 			this.abouts = abouts;
 		});
-		this.footerService.socialsState$.subscribe((socials) => {
+		this.footerService.worksState$.subscribe((works: LinkModel[]): void => {
+			this.works = works;
+		});
+		this.footerService.socialsState$.subscribe((socials: LinkModel[]): void => {
 			this.socials = socials;
 		});
 	}

@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, ViewChild, ElementRef, Renderer2 } from "@angular/core";
+import { Component, ElementRef, HostListener, Input, Renderer2, ViewChild } from "@angular/core";
 import type { OnInit } from "@angular/core";
 
 @Component({
@@ -28,20 +28,26 @@ export class ChirpyComponent implements OnInit {
 	}
 
 	public shuffleSay(): void {
+		interface MessageValue {
+			msg: string;
+			val: number;
+		}
+
 		this.say = this.say
 			.map((message: string) => ({
 				msg: message,
 				val: Math.random(),
 			}))
-			.sort((first, second) => first.val - second.val)
-			.map((messageObject) => messageObject.msg);
+			.sort(
+				(first: MessageValue, second: MessageValue) => first.val - second.val,
+			)
+			.map((messageObject: MessageValue) => messageObject.msg);
 	}
 
 	public sayMessage(): void {
 		this.shuffleSay();
 
-		const sayText: HTMLElement = this.renderer.createText(this.say[0]);
-		this.renderer.setProperty(this.sayTarget.nativeElement.firstChild, "innerHTML", sayText);
+		this.renderer.setProperty(this.sayTarget.nativeElement.firstChild, "innerHTML", this.say[0]);
 		this.renderer.addClass(this.sayTarget.nativeElement, "show");
 	}
 

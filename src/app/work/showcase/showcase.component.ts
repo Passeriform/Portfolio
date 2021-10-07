@@ -1,6 +1,5 @@
 import type { OnInit } from "@angular/core";
 import { Component, HostListener, ViewChild, ElementRef } from "@angular/core";
-import { Router } from "@angular/router";
 
 import type { WorkModel } from "../work.interface";
 import { WorkService } from "../services/work.service";
@@ -14,7 +13,6 @@ export class ShowcaseComponent implements OnInit {
 	@ViewChild("cardScroller", { read: ElementRef }) public readonly cardChild: ElementRef<HTMLElement>;
 
 	public model: readonly WorkModel[];
-
 	public windowHeight: number;
 
 	@HostListener("window:resize")
@@ -22,10 +20,7 @@ export class ShowcaseComponent implements OnInit {
 		this.updateWindowHeight();
 	}
 
-	constructor(
-			private readonly router: Router,
-			private readonly workService: WorkService,
-	) {
+	constructor(private readonly workService: WorkService) {
 		this.updateWindowHeight();
 	}
 

@@ -1,7 +1,7 @@
-import { Component, HostBinding, ViewChild, ElementRef, Renderer2 } from "@angular/core";
+import { Component, ElementRef, HostBinding, Renderer2, ViewChild } from "@angular/core";
 import type { AfterViewInit, OnInit } from "@angular/core";
 
-import type { ErrorModel } from "./error.interface";
+import type { ApiError, ClientError, HttpErrorCodes } from "./error.interface";
 import { ErrorService } from "./error.service";
 
 @Component({
@@ -12,8 +12,7 @@ import { ErrorService } from "./error.service";
 export class ErrorComponent implements OnInit, AfterViewInit {
 	@ViewChild("debugWindow", { read: ElementRef }) private readonly debugWindow: ElementRef<HTMLElement>;
 
-	public error: ErrorModel;
-
+	public error: Record<string, string | HttpErrorCodes> | undefined;
 	public debugExpanded: boolean;
 
 	@HostBinding("style.display") public get errorOcurred(): string {
@@ -26,22 +25,24 @@ export class ErrorComponent implements OnInit, AfterViewInit {
 	) { }
 
 	ngOnInit() {
-		this.errorService.errorDetails$.subscribe((model: ErrorModel) => {
-			this.error = model;
+		this.errorService.errorDetails$.subscribe((model: ApiError | ClientError) => {
+			this.error = model as unknown as Record<string, string | HttpErrorCodes>;
 		});
 	}
 
 	ngAfterViewInit() {
 		this.renderer.listen("window", "click", (event: Event) => {
-			if (this.error) {
-				if (!this.debugWindow?.nativeElement?.contains(event.target as Node)) {
-					this.debugExpanded = false;
-				}
+			if (!this.debugWindow?.nativeElement?.contains(event.target as Node)) {
+				this.debugExpanded = false;
 			}
 		});
 	}
 
 	public debugExpand(): void {
 		this.debugExpanded = true;
+	}
+
+	public scrollFired(event: Event): void {
+		event.stopPropagation();
 	}
 }

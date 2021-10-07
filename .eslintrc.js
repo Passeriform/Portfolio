@@ -360,7 +360,11 @@ module.exports = {
         "import/no-named-as-default": "error",
         "import/no-named-default": "error",
         "import/no-nodejs-modules": "error",
-        "import/no-unassigned-import": "error",
+        "import/no-unassigned-import": ["error", {
+					"allow": [
+						"zone.js/**",
+					]
+				}],
         "import/no-unresolved": ["error", {
           "caseSensitive": true,
         }],
@@ -871,7 +875,9 @@ module.exports = {
 				"rest-spread-spacing": "error",
 				"semi-spacing": "error",
         "semi-style": "error",
-				"sort-imports": "off",
+				'sort-imports': ['error', {
+					'ignoreDeclarationSort': true,
+				}],
 				"sort-keys": ["error", "asc", {
 					"natural": true,
 				}],

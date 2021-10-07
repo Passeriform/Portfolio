@@ -16,9 +16,7 @@ import { WorkService } from "./services/work.service";
 })
 export class WorkComponent implements OnInit, AfterViewInit {
 	public model: readonly WorkModel[];
-
 	public selected?: WorkModel;
-
 	public readonly marker: string;
 
 	constructor(
@@ -38,7 +36,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
 			},
 		);
 
-		this.workService.workSelectedState$.subscribe((entity) => {
+		this.workService.workSelectedState$.subscribe((entity: WorkModel) => {
 			this.selected = entity;
 		});
 	}

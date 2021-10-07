@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import type { Route, Routes, LoadChildrenCallback } from "@angular/router";
+import type { LoadChildrenCallback, Route, Routes } from "@angular/router";
 import { RouterModule } from "@angular/router";
 
 const constructLazy = (urlPath: string, childrenLoader: LoadChildrenCallback): Route => (
@@ -27,6 +27,7 @@ const routes: Routes = [
 		RouterModule.forRoot(routes, {
 			paramsInheritanceStrategy: "always",
 			relativeLinkResolution: "corrected",
+			// enableTracing: true,
 		}),
 	],
 })

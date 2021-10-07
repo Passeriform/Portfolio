@@ -1,15 +1,16 @@
 import { Injectable } from "@angular/core";
 
+import { Framework, License, Language, Tool } from "@shared/models/registry.interface";
 import type { WorkModel } from "../work.interface";
 import { nonKeywords } from "./tagger.interface";
 
 @Injectable()
 export class TaggerService {
 	public readonly getKeywords = (textstr: string): readonly string[] => {
-		const keyArray = textstr.split(/[\s"(),./:;?\\\-]+/);
+		const keyArray: string[] = textstr.split(/[\s"(),./:;?\\\-]+/);
 
 		return keyArray.filter(
-			(key) => key && !nonKeywords.includes(key.toLowerCase()),
+			(key: string) => key && !nonKeywords.includes(key.toLowerCase()),
 		);
 	};
 
@@ -20,10 +21,10 @@ export class TaggerService {
 				...this.getKeywords(model.title),
 				...this.getKeywords(model.subtitle),
 				...this.getKeywords(model.description),
-				...model.license.map((license) => license.toString()),
-				...model.languages.map((language) => language.toString()),
-				...model.frameworks.map((framework) => framework.toString()),
-				...model.tools.map((tool) => tool.toString()),
+				...model.license.map((license: License) => license.toString()),
+				...model.languages.map((language: Language) => language.toString()),
+				...model.frameworks.map((framework: Framework) => framework.toString()),
+				...model.tools.map((tool: Tool) => tool.toString()),
 			);
 
 			return model;

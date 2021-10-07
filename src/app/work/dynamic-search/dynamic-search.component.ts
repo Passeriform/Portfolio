@@ -32,7 +32,7 @@ export class DynamicSearchComponent implements OnInit {
 
 		this.model = this.model
 			.map(
-				(entry) => {
+				(entry: WordScore) => {
 					entry.score = entry.tags
 						.map((word: string) => this.fuzzyAnalyzer.scoreValue(word, this.queryString))
 						.reduce((minScore: number, currentScore: number) => Math.max(minScore, currentScore));
@@ -41,7 +41,7 @@ export class DynamicSearchComponent implements OnInit {
 				},
 			)
 			.sort(
-				(first, second) => (first.score > second.score && Number.MIN_SAFE_INTEGER)
+				(first: WordScore, second: WordScore) => (first.score > second.score && Number.MIN_SAFE_INTEGER)
 					|| (first.score < second.score && Number.MAX_SAFE_INTEGER)
 					/* eslint-disable-next-line no-magic-numbers */
 					|| 0,

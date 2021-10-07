@@ -14,9 +14,7 @@ import { Constants } from "./sweeper.config";
 })
 export class SweeperComponent implements AfterContentInit {
 	@Input() public readonly leading: boolean;
-
 	@Input() public readonly auto: boolean;
-
 	@Input() public readonly delay: number = Constants.INITIAL_DELAY;
 
 	// TODO: Add read argument
@@ -41,7 +39,7 @@ export class SweeperComponent implements AfterContentInit {
 
 	public get swipeTranform(): SafeStyle {
 		const factor: number = 100 / this.swipeList.length;
-		const styleString = `translateY(-${factor * this.inViewIndex}%) translateY(-0.5em)`;
+		const styleString: string = `translateY(-${factor * this.inViewIndex}%) translateY(-0.5em)`;
 
 		return this.sanitizer.bypassSecurityTrustStyle(styleString);
 	}

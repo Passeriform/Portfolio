@@ -5,12 +5,11 @@ import { HttpClient } from "@angular/common/http";
 
 import { of } from "rxjs";
 import type { Observable } from "rxjs";
-import { catchError, concatWith, map, first } from "rxjs/operators";
+import { catchError, concatWith, first, map } from "rxjs/operators";
 
 import { LoaderService } from "@app/loader/loader.service";
 import { ErrorService } from "@app/error/error.service";
-import { isErrorModel } from "@app/error/error.interface";
-import type { ErrorModel } from "@app/error/error.interface";
+import { ApiError, ClientError, isError } from "@app/error/error.interface";
 import { routeFilters } from "./work.config";
 import type { WorkModel } from "./work.interface";
 import { WorkService } from "./services/work.service";
@@ -46,15 +45,15 @@ export class WorkResolver implements Resolve<readonly WorkModel[]> {
 					// Showcasing only
 					if (routeFilters.includes(route.url[0]?.path)) {
 						// Keep this active filter local only. Let explore flap explore all entities.
-						const activeFilter = route.url[0].path;
+						const activeFilter: string = route.url[0].path;
 
 						// Redirect to filtering
 						if (!route.params.package) {
 							this.router.navigate([ `/explore/${activeFilter}` ]);
 						}
 
-						const concatRoute = Object.values(route.params).join("/");
-						const queriedEntry: WorkModel | undefined = model!.find((entry) => (entry.ref === concatRoute && entry.type === activeFilter));
+						const concatRoute: string = Object.values(route.params).join("/");
+						const queriedEntry: WorkModel | undefined = model!.find((entry: WorkModel) => (entry.ref === concatRoute && entry.type === activeFilter));
 
 						if (queriedEntry) {
 							this.workService.setSelected(queriedEntry);
@@ -65,11 +64,11 @@ export class WorkResolver implements Resolve<readonly WorkModel[]> {
 					}
 
 					if (route.url[0]?.path === "explore") {
-						const activeFilter = route.url[1]?.path;
+						const activeFilter: string | undefined = route.url[1]?.path;
 						if (routeFilters.includes(activeFilter)) {
-							this.workService.setFilter((entity) => entity.type === activeFilter);
+							this.workService.setFilter((entity: WorkModel) => entity.type === activeFilter);
 						} else if (activeFilter) {
-							this.router.navigate([ "/explore" ])
+							this.router.navigate([ "/explore" ]);
 						}
 					}
 
@@ -77,10 +76,10 @@ export class WorkResolver implements Resolve<readonly WorkModel[]> {
 
 					return model!;
 				}),
-				catchError((error: unknown) => {
+				catchError((error: any) => {
 					this.loaderService.endLoading("[http] work");
-					if (isErrorModel(error)) {
-						this.errorService.displayError(error as ErrorModel);
+					if (isError(error)) {
+						this.errorService.displayError(error);
 					}
 
 					return of();

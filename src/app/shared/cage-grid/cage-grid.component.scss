@@ -22,7 +22,7 @@ $left-border-shift-em: $title-flap-size-em - $cage-grid-border-size;
 
 	@media screen and (orientation: landscape) and (max-height: 400px) {
 		flex-wrap: nowrap;
-		overflow-x: visible;
+		overflow-x: auto;
 		overflow-y: hidden;
 		scrollbar-width: none;
 		-ms-overflow-style: none;

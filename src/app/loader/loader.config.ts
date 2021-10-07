@@ -14,11 +14,11 @@ export enum AnimationState {
 }
 
 export const getDotsPos = (splitDist: number): readonly number[] => {
-	const dotsCount = window.innerWidth / splitDist;
+	const dotsCount: number = window.innerWidth / splitDist;
 	const splitLocs: readonly number[] = Array.from({ length: dotsCount })
 		.fill(0)
 		.map(
-			(_, index) => splitDist * (index - ((dotsCount - 0.5) / 2)),
+			(_, index: number) => splitDist * (index - ((dotsCount - 0.5) / 2)),
 		);
 
 	return splitLocs;

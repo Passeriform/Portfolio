@@ -11,13 +11,10 @@ import { SplashStateService } from "@core/services/splash-state.service";
 })
 export class HeaderComponent implements OnInit {
 	@Input() public readonly alt: string;
-
 	@Input() public readonly logo: string;
-
 	@Input() public readonly target: string;
 
 	public readonly SplashState = SplashState;
-
 	public splashState: SplashState;
 
 	// TODO: Add accent color border-bottom based on page theme.
@@ -26,7 +23,7 @@ export class HeaderComponent implements OnInit {
 
 	ngOnInit() {
 		this.splashStateService.splashState$.subscribe(
-			(splashState) => {
+			(splashState: SplashState) => {
 				this.splashState = splashState;
 			},
 		);

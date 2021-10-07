@@ -1,4 +1,4 @@
-export const nonKeywords = [
+export const nonKeywords: string[] = [
 	"a",
 	"am",
 	"an",

@@ -18,7 +18,6 @@ export class OverlayComponent implements OnInit {
 	@HostBinding("class.blink") public blinkEnabled = true;
 
 	public readonly OverlayState = OverlayState;
-
 	public overlayState: OverlayState;
 
 	constructor(private readonly workService: WorkService) { }
