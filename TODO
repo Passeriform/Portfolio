@@ -3,16 +3,12 @@ TO-DO
   ☐ Abstract all modifiable options in components to extra input variables
   ☐ Fix animation timing and elasticity
   ☐ Check if a 404 page is even needed
-  ☐ Add go back button in 404
+  	☐ Add go back button in 404
 	☐ Modify scollable dot drawing as per requirement
-  ☐ Add transition from loading to error component where all dots fall off to the bottom and error is shown
-  ☐ Replace HTMLTemplate and any occurrances with generics if possible
+		☐ Ensure loader dots don't change their relative position when resizing window
   ☐ Add delay between pages if nested scroll is enabled
-  ☐ Ensure loader dots don't change their relative position when resizing window
-  ☐ Make the "Select a project from top right" tip disappear after first use. Set invisible in the same method as setting blink animation off
+		☐ If scroll begin is recorded on reveal element, the scroll registers as new event on scrollable page and immediately scrolls
 	☐ Add a ping pong game
-	☐ Reorder properties in imports everywhere
-	☐ Remove newlines between concurrent @Input
 	☐ Add typehints for all arrow functions
 	☐ Gradually make all modules disjoint, especially ones using others' service for example
 	☐ Fix tooltip lagging behind when attached to scrollable item

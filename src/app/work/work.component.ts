@@ -15,6 +15,7 @@ import { WorkService } from "./services/work.service";
 	templateUrl: "./work.component.html",
 })
 export class WorkComponent implements OnInit, AfterViewInit {
+	public displayInitialTip: boolean = true;
 	public model: readonly WorkModel[];
 	public selected?: WorkModel;
 	public readonly marker: string;
@@ -45,5 +46,9 @@ export class WorkComponent implements OnInit, AfterViewInit {
 
 	ngAfterViewInit() {
 		this.loaderService.endLoading("[page] load");
+	}
+
+	public handleOverlayTrigger() {
+		this.displayInitialTip = false;
 	}
 }

@@ -1,4 +1,4 @@
-import { Component, HostBinding } from "@angular/core";
+import { Component, EventEmitter, HostBinding, Output } from "@angular/core";
 import type { OnInit } from "@angular/core";
 
 import { WorkService } from "@app/work/services/work.service";
@@ -19,6 +19,8 @@ export class OverlayComponent implements OnInit {
 
 	public readonly OverlayState = OverlayState;
 	public overlayState: OverlayState;
+
+	@Output() triggerEvent: EventEmitter<void> = new EventEmitter<void>();
 
 	constructor(private readonly workService: WorkService) { }
 
@@ -46,5 +48,11 @@ export class OverlayComponent implements OnInit {
 
 	public disableBlink(): void {
 		this.blinkEnabled = false;
+	}
+
+	public handleButtonClick(): void {
+		this.toggleOverlay();
+		this.disableBlink();
+		this.triggerEvent.emit();
 	}
 }

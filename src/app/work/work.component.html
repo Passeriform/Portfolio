@@ -39,12 +39,12 @@
 					<br />
 					<span>E</span>xplorer.
 				</h1>
-				<p>Start by clicking the top-right corner.</p>
+				<p *ngIf="displayInitialTip">Start by clicking the top-right corner.</p>
 			</div>
 		</div>
 	</ng-template>
 </app-scrollable>
 
-<app-overlay appHeaderOffset>
+<app-overlay appHeaderOffset (triggerEvent)="handleOverlayTrigger()">
   <app-showcase></app-showcase>
 </app-overlay>
