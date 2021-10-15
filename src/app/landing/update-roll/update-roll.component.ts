@@ -33,7 +33,7 @@ export class UpdateRollComponent implements OnInit {
 	// TODO: Move this method out of class
 
 	public toggleDetails(entry: GithubEventUIState): void {
-		entry.expand = !entry?.expand ?? true;
+		entry.expand = !entry.expand ?? true;
 	}
 
 	public refresh(): void {

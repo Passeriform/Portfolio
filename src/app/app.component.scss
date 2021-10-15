@@ -64,6 +64,7 @@ $scrollbar-button-height-width: 1.5 * $scrollbar-button-text-size-em + 2 * $scro
 					transparent calc(100% - #{$scrollbar-flap-size-em}) 100%
 				);
 		}
+
 		&:vertical:decrement {
 			background:
 				url("https://img.icons8.com/ios-filled/10000/000000/chevron-up.png") center/$scrollbar-button-text-size-em no-repeat,
@@ -74,6 +75,7 @@ $scrollbar-button-height-width: 1.5 * $scrollbar-button-text-size-em + 2 * $scro
 					transparent calc(100% - #{$scrollbar-flap-size-em}) 100%
 				);
 		}
+
 		&:horizontal:increment {
 			background:
 				url("https://img.icons8.com/ios-filled/10000/000000/chevron-right.png") center/$scrollbar-button-text-size-em no-repeat,
@@ -84,6 +86,7 @@ $scrollbar-button-height-width: 1.5 * $scrollbar-button-text-size-em + 2 * $scro
 					transparent calc(100% - #{$scrollbar-flap-size-em}) 100%
 				);
 		}
+
 		&:horizontal:decrement {
 			background:
 				url("https://img.icons8.com/ios-filled/10000/000000/chevron-left.png") center/$scrollbar-button-text-size-em no-repeat,

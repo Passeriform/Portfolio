@@ -227,7 +227,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 
 	private readonly getRevealElementEvent = (element: HTMLElement, listener: string): Observable<Event> => fromEvent(element, listener)
 		.pipe(
-			filter(() => element?.[this.horizontal ? "scrollLeft" : "scrollTop"] === 0),
+			filter(() => element[this.horizontal ? "scrollLeft" : "scrollTop"] === 0),
 		);
 
 	private readonly getStartRevealElementEvent = (listener: string): Observable<Event> => this.getRevealElementEvent(
@@ -251,7 +251,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 			return true;
 		}
 
-		const pageElement: HTMLElement = this.items.toArray()?.[this.pageIndex]?.nativeElement;
+		const pageElement: HTMLElement = this.items.toArray()[this.pageIndex]?.nativeElement;
 
 		if (!pageElement) {
 			return false;
@@ -319,8 +319,8 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 					),
 					map(
 						(event: TouchEvent) => this.horizontal
-							? event.touches[0]?.pageX ?? 0
-							: event.touches[0]?.pageY ?? 0,
+							? event.touches[0].pageX ?? 0
+							: event.touches[0].pageY ?? 0,
 					),
 					map((swiped) => init - swiped),
 					take(1),

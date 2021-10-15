@@ -9,7 +9,6 @@ import { catchError, concatWith, first, map } from "rxjs/operators";
 
 import { LoaderService } from "@app/loader/loader.service";
 import { ErrorService } from "@app/error/error.service";
-import { isError } from "@app/error/error.interface";
 import { routeFilters } from "./work.config";
 import type { WorkModel } from "./work.interface";
 import { WorkService } from "./services/work.service";
@@ -53,7 +52,7 @@ export class WorkResolver implements Resolve<readonly WorkModel[]> {
 						}
 
 						const concatRoute: string = Object.values(route.params).join("/");
-						const queriedEntry: WorkModel | undefined = model!.find((entry: WorkModel) => (entry.ref === concatRoute && entry.type === activeFilter));
+						const queriedEntry: WorkModel | undefined = model.find((entry: WorkModel) => entry.ref === concatRoute && entry.type === activeFilter);
 
 						if (queriedEntry) {
 							this.workService.setSelected(queriedEntry);
@@ -74,13 +73,11 @@ export class WorkResolver implements Resolve<readonly WorkModel[]> {
 
 					this.loaderService.endLoading("[http] work");
 
-					return model!;
+					return model;
 				}),
-				catchError((error: any) => {
+				catchError((error: unknown) => {
 					this.loaderService.endLoading("[http] work");
-					if (isError(error)) {
-						this.errorService.displayError(error);
-					}
+					this.errorService.displayError(error);
 
 					return of();
 				}),

@@ -46,14 +46,12 @@ export class FuzzyAnalyzer {
 
 					break;
 				}
-			} else {
-				if (segment.isMatch) {
-					segment.isMatch = false;
+			} else if (segment.isMatch) {
+				segment.isMatch = false;
 
-					segments.push(segment);
-				} else {
-					segment.value += valueChar;
-				}
+				segments.push(segment);
+			} else {
+				segment.value += valueChar;
 			}
 		}
 
@@ -66,11 +64,11 @@ export class FuzzyAnalyzer {
 
 		const valueLength: number = normalizedValue.length;
 		const inputLength: number = normalizedInput.length;
-		let valueIndex: number = 0;
-		let inputIndex: number = 0;
+		let valueIndex = 0;
+		let inputIndex = 0;
 
-		let previousIndexMatched: boolean = false;
-		let score: number = 0;
+		let previousIndexMatched = false;
+		let score = 0;
 
 		while (valueIndex < valueLength) {
 			const valueChar: string = normalizedValue.charAt(valueIndex++);

@@ -39,7 +39,7 @@ export class SweeperComponent implements AfterContentInit {
 
 	public get swipeTranform(): SafeStyle {
 		const factor: number = 100 / this.swipeList.length;
-		const styleString: string = `translateY(-${factor * this.inViewIndex}%) translateY(-0.5em)`;
+		const styleString = `translateY(-${factor * this.inViewIndex}%) translateY(-0.5em)`;
 
 		return this.sanitizer.bypassSecurityTrustStyle(styleString);
 	}

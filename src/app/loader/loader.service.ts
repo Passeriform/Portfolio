@@ -117,12 +117,10 @@ export class LoaderService {
 
 	public setLoadingProgress(label: string, progress: number): void {
 		this.loadingJobs$.forEach((job: LoadingJob) => {
-			if (job.label === label) {
-				if (job.progress !== LoadingState.LOADING) {
-					this.beginLoading(job.label);
+			if (job.label === label && job.progress !== LoadingState.LOADING) {
+				this.beginLoading(job.label);
 
-					job.progress = progress;
-				}
+				job.progress = progress;
 			}
 		});
 	}

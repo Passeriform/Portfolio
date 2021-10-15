@@ -11,9 +11,11 @@ import { LoaderService } from "@app/loader/loader.service";
 import type { WorkModel } from "../work.interface";
 import { TaggerService } from "./tagger.service";
 
+const NO_FILTER = (_: WorkModel) => true;
+
 @Injectable()
 export class WorkService {
-	private readonly workFilterSource$ = new BehaviorSubject<(_: WorkModel) => boolean>((_: WorkModel) => true);
+	private readonly workFilterSource$ = new BehaviorSubject<typeof NO_FILTER>(NO_FILTER);
 	private readonly workCacheSource$ = new BehaviorSubject<readonly WorkModel[]>([]);
 	private readonly workSelectedSource$ = new BehaviorSubject<WorkModel | undefined>(undefined);
 

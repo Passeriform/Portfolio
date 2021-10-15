@@ -10,7 +10,6 @@ import { catchError, map } from "rxjs/operators";
 import { environment } from "@env/environment";
 
 import type { ClientError } from "@app/error/error.interface";
-import { isError } from "@app/error/error.interface";
 import { ErrorService } from "@app/error/error.service";
 import { LoaderService } from "@app/loader/loader.service";
 import type { AboutModel } from "./models/about.interface";
@@ -44,9 +43,7 @@ export class AboutResolver implements Resolve<AboutModel> {
 				}),
 				catchError((error: unknown) => {
 					this.loaderService.endLoading("[http] about");
-					if (isError(error)) {
-						this.errorService.displayError(error as ClientError);
-					}
+					this.errorService.displayError(error);
 
 					return throwError(() => new Error((error as Error).message));
 				}),

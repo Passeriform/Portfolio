@@ -8,7 +8,6 @@ import { catchError, map } from "rxjs/operators";
 import { environment } from "@env/environment";
 import type { LinkModel } from "@shared/models/link.interface";
 import { LoaderService } from "@app/loader/loader.service";
-import { isError } from "@app/error/error.interface";
 import { ErrorService } from "@app/error/error.service";
 
 @Injectable()
@@ -65,12 +64,10 @@ export class FooterService {
 						}),
 					),
 				),
-				catchError((error: any): Observable<LinkModel[]> => {
+				catchError((error: unknown): Observable<LinkModel[]> => {
 					this.loaderService.endLoading("[http] [footer] works");
 					this.loaderService.endLoading("[http] about");
-					if (isError(error)) {
-						this.errorService.displayError(error);
-					}
+					this.errorService.displayError(error);
 
 					return of([]);
 				}),
@@ -92,11 +89,9 @@ export class FooterService {
 			)
 			.pipe(
 				map((aboutDocuments: { readonly data: readonly LinkModel[] }) => aboutDocuments.data),
-				catchError((error: any): Observable<LinkModel[]> => {
+				catchError((error: unknown): Observable<LinkModel[]> => {
 					this.loaderService.endLoading("[http] [footer] about");
-					if (isError(error)) {
-						this.errorService.displayError(error);
-					}
+					this.errorService.displayError(error);
 
 					return of([]);
 				}),
@@ -117,11 +112,9 @@ export class FooterService {
 			.pipe(
 				/* eslint-enable-next-line @typescript-eslint/no-magic-numbers */
 				map((socialDocuments: { readonly links: readonly LinkModel[] }) => socialDocuments.links.slice(0, socialCount)),
-				catchError((error: any): Observable<LinkModel[]> => {
+				catchError((error: unknown): Observable<LinkModel[]> => {
 					this.loaderService.endLoading("[http] [footer] social");
-					if (isError(error)) {
-						this.errorService.displayError(error);
-					}
+					this.errorService.displayError(error);
 
 					return of([]);
 				}),

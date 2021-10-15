@@ -33,8 +33,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 							status: error.status,
 							statusText: error.statusText,
 						}),
-					),
-				),
+					)),
 			);
 	}
 }

@@ -28,7 +28,7 @@ $left-border-shift-em: $title-flap-size-em - $cage-grid-border-size;
 		-ms-overflow-style: none;
 
 		&::-webkit-scrollbar {
-			width: 0px;
+			width: 0;
 			background: transparent;
 		}
 
