@@ -5,10 +5,10 @@ import { BehaviorSubject, of } from "rxjs";
 import type { Observable } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
-import type { LinkModel } from "@shared/models/link.interface";
 import { environment } from "@env/environment";
+import type { LinkModel } from "@shared/models/link.interface";
 import { LoaderService } from "@app/loader/loader.service";
-import { ApiError, ClientError, isError } from "@app/error/error.interface";
+import { isError } from "@app/error/error.interface";
 import { ErrorService } from "@app/error/error.service";
 
 @Injectable()
@@ -34,15 +34,14 @@ export class FooterService {
 	}
 
 	public refreshLinks({
-			aboutCount,
-			socialCount,
-			workCount,
-		}: {
-			aboutCount: number;
-			socialCount: number;
-			workCount: number;
-		},
-	): void {
+		aboutCount,
+		socialCount,
+		workCount,
+	}: {
+		aboutCount: number;
+		socialCount: number;
+		workCount: number;
+	}): void {
 		this.loaderService.beginLoading("[http] [footer] works");
 		this.loaderService.beginLoading("[http] [footer] about");
 		this.loaderService.beginLoading("[http] [footer] social");

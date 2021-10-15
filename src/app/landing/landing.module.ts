@@ -17,8 +17,8 @@ import { LandingComponent } from "./landing.component";
 		UpdateRollComponent,
 	],
 	imports: [
-		LandingRoutingModule,
 		HeaderModule,
+		LandingRoutingModule,
 		SharedModule,
 	],
 	providers: [ GithubService ],

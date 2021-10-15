@@ -9,7 +9,8 @@ import { catchError, map } from "rxjs/operators";
 
 import { environment } from "@env/environment";
 
-import { ClientError, isError } from "@app/error/error.interface";
+import type { ClientError } from "@app/error/error.interface";
+import { isError } from "@app/error/error.interface";
 import { ErrorService } from "@app/error/error.service";
 import { LoaderService } from "@app/loader/loader.service";
 import type { AboutModel } from "./models/about.interface";

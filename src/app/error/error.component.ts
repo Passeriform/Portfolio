@@ -12,7 +12,7 @@ import { ErrorService } from "./error.service";
 export class ErrorComponent implements OnInit, AfterViewInit {
 	@ViewChild("debugWindow", { read: ElementRef }) private readonly debugWindow: ElementRef<HTMLElement>;
 
-	public error: Record<string, string | HttpErrorCodes> | undefined;
+	public error: Record<string, HttpErrorCodes | string> | undefined;
 	public debugExpanded: boolean;
 
 	@HostBinding("style.display") public get errorOcurred(): string {
@@ -26,13 +26,13 @@ export class ErrorComponent implements OnInit, AfterViewInit {
 
 	ngOnInit() {
 		this.errorService.errorDetails$.subscribe((model: ApiError | ClientError) => {
-			this.error = model as unknown as Record<string, string | HttpErrorCodes>;
+			this.error = model as unknown as Record<string, HttpErrorCodes | string>;
 		});
 	}
 
 	ngAfterViewInit() {
 		this.renderer.listen("window", "click", (event: Event) => {
-			if (!this.debugWindow?.nativeElement?.contains(event.target as Node)) {
+			if (!this.debugWindow.nativeElement.contains(event.target as Node)) {
 				this.debugExpanded = false;
 			}
 		});

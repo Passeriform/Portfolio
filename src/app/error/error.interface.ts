@@ -50,6 +50,4 @@ export interface ApiErrorResponse extends Omit<HttpErrorResponse, "name"> {
 	readonly statusText: string;
 }
 
-export const isError = (error: unknown): boolean => {
-	return error instanceof ApiError || error instanceof ClientError
-};
+export const isError = (error: unknown): boolean => error instanceof ApiError || error instanceof ClientError;

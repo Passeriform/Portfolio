@@ -5,7 +5,7 @@ import { Component, ContentChildren, ElementRef, EventEmitter, HostBinding, Inpu
 
 import { NEVER, fromEvent, identity, merge } from "rxjs";
 import type { Observable } from "rxjs";
-import { filter, map, tap, mergeMap, raceWith, take, takeUntil, throttleTime } from "rxjs/operators";
+import { filter, map, mergeMap, raceWith, take, takeUntil, throttleTime } from "rxjs/operators";
 
 import { FooterService } from "@app/footer/footer.service";
 
@@ -42,8 +42,13 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 	@ContentChildren("page", { read: ElementRef }) private readonly items: QueryList<ElementRef>;
 
 	private pageIndex: number = Constants.INITIAL_PAGE_INDEX;
-	private readonly scrollTolerance: number = Constants.SCROLL_TOLERANCE;	// Scroll sensitivity
-	private readonly touchTolerance: number = Constants.TOUCH_TOLERANCE;		// Swipe distance in pixels
+
+	// Scroll sensitivity
+	private readonly scrollTolerance: number = Constants.SCROLL_TOLERANCE;
+
+	// Swipe distance in pixels
+	private readonly touchTolerance: number = Constants.TOUCH_TOLERANCE;
+
 	private readonly transitionStarts: readonly string[] = [
 		"transitionstart",
 		// "oTransitionStart",
@@ -320,10 +325,10 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 					map((swiped) => init - swiped),
 					take(1),
 					filter((difference) => Math.abs(difference) >= Math.abs(this.touchTolerance)),
-					map((scaled) => scaled / 5)
+					map((scaled) => scaled / 5),
 				),
 			),
-			(this.throttle !== 0) ? throttleTime(this.throttle) : identity,
+			this.throttle !== 0 ? throttleTime(this.throttle) : identity,
 		);
 
 	ngOnInit() {

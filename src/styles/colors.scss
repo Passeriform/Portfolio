@@ -24,6 +24,7 @@ $theme-registry: ("default": generate-color-swatch());
 	}
 
 	@warn "Could not find the requested theme in registry. Returning the default theme instead.";
+
 	@return map.get($theme-registry, "default");
 }
 

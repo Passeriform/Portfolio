@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 
 import { SharedModule } from "@shared/shared.module";
+import { HeaderModule } from "@app/header/header.module";
 import { DescribeComponent } from "./describe/describe.component";
 import { DynamicSearchComponent } from "./dynamic-search/dynamic-search.component";
 import { RaisecardComponent } from "./raisecard/raisecard.component";
@@ -11,7 +12,6 @@ import { WorkService } from "./services/work.service";
 import { WorkRoutingModule } from "./work-routing.module";
 import { WorkComponent } from "./work.component";
 import { WorkResolver } from "./work-resolver.service";
-import { HeaderModule } from "@app/header/header.module";
 
 @NgModule({
 	declarations: [
@@ -30,8 +30,8 @@ import { HeaderModule } from "@app/header/header.module";
 		TechStackComponent,
 	],
 	imports: [
-		SharedModule,
 		HeaderModule,
+		SharedModule,
 		WorkRoutingModule,
 	],
 	providers: [

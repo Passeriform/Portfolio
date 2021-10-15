@@ -9,7 +9,7 @@ import { catchError, concatWith, first, map } from "rxjs/operators";
 
 import { LoaderService } from "@app/loader/loader.service";
 import { ErrorService } from "@app/error/error.service";
-import { ApiError, ClientError, isError } from "@app/error/error.interface";
+import { isError } from "@app/error/error.interface";
 import { routeFilters } from "./work.config";
 import type { WorkModel } from "./work.interface";
 import { WorkService } from "./services/work.service";

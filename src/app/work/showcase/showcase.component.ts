@@ -1,5 +1,5 @@
 import type { OnInit } from "@angular/core";
-import { Component, HostListener, ViewChild, ElementRef } from "@angular/core";
+import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
 
 import type { WorkModel } from "../work.interface";
 import { WorkService } from "../services/work.service";

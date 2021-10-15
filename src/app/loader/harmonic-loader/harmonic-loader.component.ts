@@ -3,16 +3,16 @@
 // TODO: Required a huge makeover (canvas-style animations do not mesh well with Angular-style ones)
 
 import type { AfterViewInit } from "@angular/core";
-import { Component, ElementRef, HostListener, HostBinding, ViewChild } from "@angular/core";
+import { Component, ElementRef, HostBinding, HostListener, ViewChild } from "@angular/core";
 
 import { CanvasService } from "@core/services/canvas.service";
 import { LoadingState } from "../loader.interface";
+import { Constants, generateLoaderConfig } from "./harmonic-loader.config";
+import type { HarmonicLoaderConfig } from "./harmonic-loader.interface";
 import type { LoadingJob } from "../loader.service";
 import { LoaderService } from "../loader.service";
-import { AnimationState, getDotsPos, percToPhaseAngle } from "../loader.config";
-import { generateLoaderConfig, Constants } from "./harmonic-loader.config";
-import type { HarmonicLoaderConfig } from "./harmonic-loader.interface";
 import { LoaderComponent } from "../loader.component";
+import { AnimationState, getDotsPos, percToPhaseAngle } from "../loader.config";
 
 @Component({
 	selector: "app-harmonic-loader",

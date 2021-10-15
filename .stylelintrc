@@ -122,7 +122,13 @@
       "hover",
       "focus",
       "first-child",
-			"not"
+      "not",
+      "single-button",
+      "increment",
+      "decrement",
+      "vertical",
+      "horizontal",
+      "root",
     ],
     "selector-pseudo-element-allowed-list": [
       "link",
@@ -132,7 +138,13 @@
       "after",
       "before",
       "first-child",
-      "not"
+      "not",
+      "-webkit-scrollbar",
+      "-webkit-scrollbar-button",
+      "-webkit-scrollbar-corner",
+      "-webkit-scrollbar-resizer",
+      "-webkit-scrollbar-thumb",
+      "-webkit-scrollbar-track"
     ],
     "selector-pseudo-element-colon-notation": "single",
     "media-feature-name-no-vendor-prefix": true,

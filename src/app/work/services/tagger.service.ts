@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import { Framework, License, Language, Tool } from "@shared/models/registry.interface";
+import { Framework, Language, License, Tool } from "@shared/models/registry.interface";
 import type { WorkModel } from "../work.interface";
 import { nonKeywords } from "./tagger.interface";
 
