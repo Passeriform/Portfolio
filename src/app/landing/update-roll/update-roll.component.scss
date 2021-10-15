@@ -7,7 +7,7 @@
 	display: grid;
 	grid-gap: 0;
 	max-height: 60vh;
-	overflow: hidden scroll;
+	overflow: hidden auto;
 
 	& > .brief {
 		display: grid;

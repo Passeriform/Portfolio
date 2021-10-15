@@ -60,8 +60,11 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
 		this.appReference.attachView(this.componentRef.hostView);
 
 		// NOTE: Kept on top of stacking to avoid z-index collisions
+
 		// TODO: Consider packing all tooltips in a div element
 		// and attaching more on there to keep DOM clean.
+
+		// TODO: Use single tooltip element to display multiple messages
 		const domElement: HTMLElement = (this.componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
 		document.body.append(domElement);
 	}

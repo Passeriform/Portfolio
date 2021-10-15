@@ -8,7 +8,6 @@ import { ErrorService } from "./error.service";
 	declarations: [ ErrorComponent ],
 	exports: [ ErrorComponent ],
 	imports: [
-		// RouterModule,
 		SharedModule,
 	],
 	providers: [ ErrorService ],

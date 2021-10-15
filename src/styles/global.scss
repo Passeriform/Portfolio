@@ -9,23 +9,15 @@ $shrink-block-em: 4em;
 
 $line-height-px: 22px;
 
-
-/* --------- Pages --------- */
-$h1-responsive-font-size: max(2.5rem, min(6vw, 3rem));
-$p-responsive-font-size: max(1em, min(2vw, 1.5em));
-
 /* --------- Overlay --------- */
 $overlay-flap-size: $small-block-em;
 
 /* --------- Navigator --------- */
 $navigator-flap-size: $small-block-em;
-$navigator-expand-length: 2 * $navigator-flap-size;
+$navigator-expand-length: 2 * $small-block-em;
 
 /* --------- CageGrid --------- */
 $cage-grid-size: math.div($small-block-em, 2);
-
-/* --------- Curves --------- */
-$curve-threshold: 0.25rem;
 
 /* --------- Pivotnav --------- */
 $root-size: 12em;

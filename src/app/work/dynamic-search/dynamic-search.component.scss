@@ -3,12 +3,14 @@
 
 @import "./dynamic-search.colors";
 
+$search-box-border-radius: 0.25rem;
+
 :host > input {
 	padding: 0.5em 2em;
 	width: 80vw;
 	height: 3em;
 	border: 0.2em solid map.get($theme, "accent", "hex");
-	border-radius: global.$curve-threshold;
+	border-radius: $search-box-border-radius;
 	background-clip: border-box;
 	background-color: transparent;
 	color: map.get($theme, "accent", "hex");

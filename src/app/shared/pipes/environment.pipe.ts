@@ -7,7 +7,7 @@ import { environment } from "@env/environment";
 	name: "environment",
 })
 export class EnvironmentPipe implements PipeTransform {
-	transform(variable: string): string {
-		return String(environment[variable]);
+	transform(variable: string): boolean | number | string {
+		return environment[variable];
 	}
 }
