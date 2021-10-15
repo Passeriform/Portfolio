@@ -3,6 +3,13 @@
 
 @import "./header.colors";
 
+$header-size: global.$big-block-em;
+$shrink-header-size: global.$shrink-block-em;
+$shrink-logo-block-size: global.$small-block-em;
+$logo-size: global.$big-block-em;
+$logo-img-size: global.$small-block-em;
+$logo-flap-size: global.$shrink-leaf-em;
+
 :host {
 	position: absolute;
 	top: 0;
@@ -11,27 +18,27 @@
 
 	& > #header-wrapper {
 		display: flex;
-		height: global.$header-size;
+		height: $header-size;
 		transition: all 0.5s ease;
 
 		#logo {
 			display: flex;
 			align-items: flex-start;
 			justify-content: flex-start;
-			width: global.$logo-size;
-			height: global.$logo-size;
+			width: $logo-size;
+			height: $logo-size;
 
 			& > a {
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				width: global.$logo-size;
-				height: global.$logo-size;
+				width: $logo-size;
+				height: $logo-size;
 				transition: all 0.5s ease;
 
 				& > img {
-					width: global.$logo-img-size;
-					height: global.$logo-img-size;
+					width: $logo-img-size;
+					height: $logo-img-size;
 					filter: invert(1);
 					transition: all 0.5s ease;
 				}
@@ -39,20 +46,20 @@
 		}
 
 		&.shrink-header {
-			height: global.$shrink-header-size;
+			height: $shrink-header-size;
 			background-color: map.get($theme, "background", "dark-5%", "hex");
 
 			& #logo {
-				width: global.$shrink-logo-block-size;
-				height: global.$shrink-logo-block-size;
+				width: $shrink-logo-block-size;
+				height: $shrink-logo-block-size;
 
 				& > a {
 					position: absolute;
 					top: 0;
 					left: 0;
 					display: block;
-					width: global.$logo-flap-size;
-					height: global.$logo-flap-size;
+					width: $logo-flap-size;
+					height: $logo-flap-size;
 					clip-path: polygon(0 0, 0% 100%, 100% 0%);
 					background-color: map.get($theme, "accent", "hex");
 
@@ -61,8 +68,8 @@
 						top: 1em;
 						left: 0;
 						display: block;
-						width: global.$shrink-header-size;
-						height: global.$shrink-header-size;
+						width: $shrink-header-size;
+						height: $shrink-header-size;
 						filter: invert(0);
 					}
 				}

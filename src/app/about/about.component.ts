@@ -23,6 +23,7 @@ export class AboutComponent implements OnInit, AfterViewInit {
 		// TODO: Improve this loader flushing
 
 		// this.loaderService.flushJobs();
+
 		this.loaderService.beginLoading("[page] load");
 	}
 
@@ -32,11 +33,11 @@ export class AboutComponent implements OnInit, AfterViewInit {
 				this.model = data.model;
 			},
 		);
+
+		this.splashStateService.changeSplashState(SplashState.BLURRED);
 	}
 
 	ngAfterViewInit() {
 		this.loaderService.endLoading("[page] load");
-
-		this.splashStateService.changeSplashState(SplashState.BLURRED);
 	}
 }

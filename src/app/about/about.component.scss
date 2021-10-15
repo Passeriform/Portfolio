@@ -1,5 +1,7 @@
 @use "global";
 
+$p-responsive-font-size: max(1em, min(2vw, 1.5em));
+
 :host {
 	& .page {
 		& > .bg-img {
@@ -11,12 +13,9 @@
 
 		& > .content {
 			position: relative;
-			top: global.$shrink-header-size;
 			padding: 1em;
 			padding-top: 2em;
 			width: 100%;
-			// TODO: Again with the weird hack. This needs to be removed
-			height: calc(100% - #{global.$shrink-header-size});
 			text-transform: none;
 
 			& > .content-wrapper {
@@ -33,7 +32,7 @@
 					padding: 2em;
 
 					& > p {
-						font-size: global.$p-responsive-font-size;
+						font-size: $p-responsive-font-size;
 						line-height: 1.2;
 					}
 				}

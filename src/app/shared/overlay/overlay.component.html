@@ -1,9 +1,11 @@
-<div
-    class="overlay"
-    (click)="hideOverlay()"
-    [ngClass]="{'show': overlayState === OverlayState.SHOW}"
-  >
-  <ng-content></ng-content>
-</div>
+<div class="overlay-positioner">
+	<div
+		class="overlay"
+		(click)="hideOverlay()"
+		[ngClass]="{'show': overlayState === OverlayState.SHOW}"
+		>
+		<ng-content></ng-content>
+	</div>
 
-<div class="overlay-button" (click)="toggleOverlay(); disableBlink()"></div>
+	<div class="overlay-button" (click)="toggleOverlay(); disableBlink()"></div>
+</div>

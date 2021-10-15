@@ -405,8 +405,18 @@ module.exports = {
               "group": "internal",
               "position": "after",
             },
+						{
+              "pattern": "@shared/**",
+              "group": "internal",
+              "position": "after",
+            },
             {
               "pattern": "@app/**",
+              "group": "internal",
+              "position": "after",
+            },
+						{
+              "pattern": "@core/**",
               "group": "internal",
               "position": "after",
             },

@@ -1,45 +1,50 @@
 <app-scrollable [fullpage]="true" [nestedScroll]="true" [allowEndReveal]="true">
   <ng-container *ngIf="selected; else modelPlaceholder">
-    <div class="page" id="description" #page>
-      <div class="bg-img"></div>
-      <div id="content">
-        <app-describe [model]="selected">
-        </app-describe>
-      </div>
-    </div>
-    <div class="page" id="stats" #page>
-      <div class="bg-img"></div>
-      <!-- <app-stats [model]="activeWork">
-      </app-stats> -->
-    </div>
-    <div class="page" id="stack" #page>
-      <div class="bg-img"></div>
-      <app-tech-stack [model]="$any(selected) | retain: 'languages':'frameworks':'tools'">
-      </app-tech-stack>
-    </div>
-    <div id="future" class="page" #page>
-      <div class="bg-img"></div>
-      <!-- <app-timeline [model]="activeWork">
-      </app-timeline> -->
-    </div>
-  </ng-container>
+		<div class="page" id="description" #page>
+			<div class="bg-img"></div>
+			<div class="content" appHeaderOffset>
+				<app-describe [model]="selected">
+				</app-describe>
+			</div>
+		</div>
+		<div class="page" id="stats" #page>
+			<div class="bg-img"></div>
+			<div class="content" appHeaderOffset>
+				<!-- <app-stats [model]="selected" >
+				</app-stats> -->
+			</div>
+		</div>
+		<div class="page" id="stack" #page>
+			<div class="bg-img"></div>
+			<div class="content" appHeaderOffset>
+				<app-tech-stack [model]="$any(selected) | retain: 'languages':'frameworks':'tools'">
+				</app-tech-stack>
+			</div>
+		</div>
+		<div class="page" id="future" #page>
+			<div class="bg-img"></div>
+			<div class="content" appHeaderOffset>
+				<!-- <app-timeline [model]="selected">
+				</app-timeline> -->
+			</div>
+		</div>
+	</ng-container>
 
-  <ng-template #modelPlaceholder>
-    <div id="selected-placeholder">
-      <div class="bg-img"></div>
-      <div id="placeholder-content">
-        <h1>
-          <span>P</span>roject
-          <br />
-          <span>E</span>xplorer.
-        </h1>
-        <p>Start by clicking the top-right corner.</p>
-      </div>
-    </div>
-  </ng-template>
-
+	<ng-template #modelPlaceholder>
+		<div class="page" id="selected-placeholder" #page>
+			<div class="bg-img"></div>
+			<div class="content" id="placeholder-content" appHeaderOffset>
+				<h1>
+					<span>P</span>roject
+					<br />
+					<span>E</span>xplorer.
+				</h1>
+				<p>Start by clicking the top-right corner.</p>
+			</div>
+		</div>
+	</ng-template>
 </app-scrollable>
 
-<app-overlay>
+<app-overlay appHeaderOffset>
   <app-showcase></app-showcase>
 </app-overlay>

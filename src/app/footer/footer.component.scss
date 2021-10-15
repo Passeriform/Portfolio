@@ -6,7 +6,7 @@
 
 @mixin expanded {
 	& {
-		height: calc(100% - 4em);
+		height: calc(100% - var(--shrink-header-size-em));
 
 		& > #footer-content {
 			flex-grow: 1;

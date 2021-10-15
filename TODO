@@ -1,0 +1,123 @@
+TO-DO
+  ☐ Rename all directive selectors from `app` to `manakin`
+  ☐ Abstract all modifiable options in components to extra input variables
+  ☐ Fix animation timing and elasticity
+  ☐ Check if a 404 page is even needed
+  ☐ Add go back button in 404
+	☐ Modify scollable dot drawing as per requirement
+  ☐ Add transition from loading to error component where all dots fall off to the bottom and error is shown
+  ☐ Replace HTMLTemplate and any occurrances with generics if possible
+  ☐ Add delay between pages if nested scroll is enabled
+  ☐ Ensure loader dots don't change their relative position when resizing window
+  ☐ Make the "Select a project from top right" tip disappear after first use. Set invisible in the same method as setting blink animation off
+	☐ Add a ping pong game
+	☐ Reorder properties in imports everywhere
+	☐ Remove newlines between concurrent @Input
+	☐ Add typehints for all arrow functions
+	☐ Gradually make all modules disjoint, especially ones using others' service for example
+	☐ Fix tooltip lagging behind when attached to scrollable item
+	☐ Use percentage instead of vh and vw
+	☐ Extract scss vars from component to configure in global
+
+Huge Refactors
+  ☐ Find alternative replacement for ng-deep selectors using typescript instead.
+  ☐ Add CodeViewComponent like github gist viewer
+  ☐ Add sitemap-explorer component
+  ☐ Convert from DOM manipulation to renderer2
+  ☐ Add `ClassifyComponent` like `ExploreComponent` to show projects category-wise
+  	☐ Each layer on classify must function like a tree and a small tree traverser component to be used as navigator
+  ☐ Expose methods in ng-content of ScrollableComponent to enable controlling scrollable behavior
+    ☐ If not possible create a service that performs the same function. In this case store the page state and scroll state inside the service
+  ☐ Use !: and ?: in appropriate places.
+	☐ Try converting to onPush change detection as a spike.
+	☐ Create separate API module for all calls to the server and error interfaces
+	☐ Rename all generic styles (& > p) to class or id based styles
+
+Style Checks for New Code
+  ☐ Make sure to put correct type-hints and interfaces. Avoid use of generic object, Array and any
+  ☐ Add type-hints to function return types
+
+Content
+  ☐ Add screenshots and logos to all projects
+  ☐ Add manual descriptions for techstack that doesn't have one on WikiPedia
+  ☐ Complete description in mongo for all projects
+  ☐ Purge globals.ts to either better structure or mongo
+  ☐ Add more tags for projects.json
+  ☐ Add contributors
+  ☐ Add Projects
+    ☐ Internships
+    ☐ Club stuff
+    ☐ ML Projects
+    ☐ Design
+    ☐ 3D modelling
+    ☐ Music
+    ☐ Art
+  ☐ Add About
+    ☐ Bio
+    ☐ Languages/Framework progress/prowess
+    ☐ What am I/What I'm not
+    ☐ What I can do for you
+    ☐ Education
+    ☐ Internships
+    ☐ Contact details
+
+Tests
+  ☐ Add spec tests for components
+  ☐ Add e2e tests
+  ☐ Setup protractor auto-exec
+  ☐ Setup test suite runners
+
+Feature Request
+  ☐ Add dependent count to showcase view
+  ☐ Public todolist
+  ☐ Godwit tracker hook
+  ☐ "Working on <>" component
+  ☐ Describe component
+  ☐ Footer component
+  ☐ Full working directory visualized component
+  ☐ Add screenshot slideshow
+  ☐ Create slideshow component
+    ☐ Add progress navigator bar on top
+      ☐ Navigator bar must show as a line even under the leaf (use clip-path)
+	☐ Proper navigation breadcrumb inside
+	☐ Personality selector
+	☐ Timeline component for About
+	☐ Console component, popup window for console and cli directive
+	☐ Add PageDirective with renderer2 to wrap content of page with 100vh wrapper for nested scrolling
+	☐ Add ErrorService and 404 server pages
+	☐ Add minigame interactive in browser console
+	☐ Add easter egg achievements for ex. scrolling 50 pages
+
+Verify before commit
+	☐ Verify if all html files follow htmlhintrc and if any changes are needed in config
+	☐ Fix scrollable issue on LandingComponent.
+	☐ Fix tests for linting setup
+	☐ Lint all files for eslint and stylelint
+
+Component-Specific Fixes
+  ☐ scrollable - add support for nested scroll
+  ☐ pivotnav - close on outer-wrapper click
+  ☐ pivotnav - pass number of items in sass to ts
+  ☐ pivotnav - dynamic model based (look into raise-card querylist)
+  ☐ scrollable - dynamic page change based on scroll delta
+  ☐ scrollable - change templateRef contentChildren approach to directives like navtab
+  ☐ about - add default values and images
+  ☐ tree - complete alterRoute function
+  ☐ about - remove contributors from passeriform
+  ☐ spinner - replace with different animation
+  ☐ tooltip - fix ugly hack for dynamic icon size
+  ☐ cagegrid - expand box on click and focus; blur background
+  ☐ tooltip - Needs `PaletteService` to use dynamic styling.
+  ☐ tooltip - Needs a proper destructor (issues with router navigation).
+  ☐ tooltip - Needs clarity on the need of a dynamic styling service.
+  ☐ tooltip - Needs confirmation if the component must be added to `body`
+  ☐ harmonic-loader - Resolution is always played. Avoid running animation if everything is already resolved
+  ☐ harmonic-loader - Animating dots change place based on viewport width
+  ☐ updates-roll - Finish updates-roll component
+
+Interesting References
+  ☐ Scroll down tip like https://colorlib.com/wp/wp-content/uploads/sites/2/free-landing-page-website-templates.jpg
+  ☐ Side scrolling tree for browsing projects or replicate same in breadcrumbs https://bashooka.com/wp-content/uploads/2018/07/dark-background-web-ui-17.jpg
+  ☐ Color scheme https://cdn.dribbble.com/users/477578/screenshots/4164347/aboutus.jpg
+  ☐ Grid pattern like https://cdn.dribbble.com/users/895215/screenshots/3775006/innapp-shot.gif?vid=1
+  ☐ About reference - sensehack.github.io/phreakyphoenix.tech/www.akshathakamath.com

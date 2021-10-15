@@ -5,15 +5,18 @@ import { SharedModule } from "@shared/shared.module";
 import { NavtabComponent } from "./navtab/navtab.component";
 import { NavtabDirective } from "./navtab/navtab.directive";
 import { HeaderComponent } from "./header.component";
+import { HeaderOffsetDirective } from "./header-offset.directive";
 
 @NgModule({
 	declarations: [
 		HeaderComponent,
+		HeaderOffsetDirective,
 		NavtabComponent,
 		NavtabDirective,
 	],
 	exports: [
 		HeaderComponent,
+		HeaderOffsetDirective,
 		NavtabComponent,
 		NavtabDirective,
 	],

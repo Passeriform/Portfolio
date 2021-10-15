@@ -4,9 +4,7 @@
 :host {
 	& > .content {
 		position: relative;
-		top: 4em;
 		width: 100vw;
-		height: calc(100vh - 4em);
 
 		& .model-attr {
 			& > ul {

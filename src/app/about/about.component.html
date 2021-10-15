@@ -1,7 +1,7 @@
 <app-scrollable [fullpage]="true" [nestedScroll]="true" [allowEndReveal]="true">
   <div *ngIf="model?.intro" class="page" id="intro" #page>
     <div class="bg-img"></div>
-    <div class="content">
+    <div class="content" appHeaderOffset>
       <app-namecard
           avatarLink="/about/{{ model.subject }}"
           [imgUrl]="model.intro?.img"
@@ -14,7 +14,7 @@
   </div>
   <div *ngIf="model?.overview" class="page" id="overview" #page>
     <div class="bg-img"></div>
-    <div class="content">
+    <div class="content" appHeaderOffset>
       <div class="content-wrapper">
         <section *ngFor="let section of model.overview">
           <img i18n-alt *ngIf="section.img" alt="overview-img" src="{{ section.img }}" />
@@ -27,7 +27,7 @@
   </div>
   <div *ngIf="model?.story" class="page" id="story" #page>
     <div class="bg-img"></div>
-    <div class="content">
+    <div class="content" appHeaderOffset>
       <div class="content-wrapper">
         <section *ngFor="let section of model.story">
           <img i18n-alt *ngIf="section.img" alt="story-section-img" src="{{ section.img }}" />
@@ -40,7 +40,7 @@
   </div>
   <div *ngIf="model?.contributors" class="page" id="contributors" #page>
     <div class="bg-img"></div>
-    <div class="content">
+    <div class="content" appHeaderOffset>
       <app-cage-grid>
         <div *appCaged="'Contributors'" id="contributors-container">
           <ng-container *ngFor="let contributor of model.contributors">
@@ -63,7 +63,7 @@
   </div>
   <div *ngIf="model?.contact" class="page" id="contact" #page>
     <div class="bg-img"></div>
-    <div class="content">
+    <div class="content" appHeaderOffset>
       <div class="content-wrapper">
         <img i18n-alt *ngIf="model.contact?.img" alt="contact-img" src="{{ model.contact?.img }}" />
         <div class="contact-details">

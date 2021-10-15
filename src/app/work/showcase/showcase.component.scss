@@ -21,13 +21,11 @@ $tooltip-max-meta-icons: 4;
 :host {
 	& .content {
 		position: relative;
-		top: global.$shrink-header-size;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-evenly;
 		padding: 1em;
 		width: 100%;
-		height: calc(100% - #{global.$shrink-header-size});
 		overflow: hidden;
 		text-align: center;
 		text-transform: none;

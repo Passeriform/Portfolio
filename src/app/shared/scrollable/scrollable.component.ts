@@ -7,7 +7,6 @@ import { NEVER, fromEvent, identity, merge } from "rxjs";
 import type { Observable } from "rxjs";
 import { filter, map, tap, mergeMap, raceWith, take, takeUntil, throttleTime } from "rxjs/operators";
 
-import { SplashStateService } from "@core/services/splash-state.service";
 import { FooterService } from "@app/footer/footer.service";
 
 import { Constants } from "./scrollable.config";
@@ -38,6 +37,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 	@Input() private endRevealElement: HTMLElement;
 
 	@Output() private readonly pageChangeEvent: EventEmitter<number> = new EventEmitter<number>();
+	@Output() private readonly pagesChildrenChangeEvent: EventEmitter<QueryList<ElementRef>> = new EventEmitter<QueryList<ElementRef>>();
 
 	@ContentChildren("page", { read: ElementRef }) private readonly items: QueryList<ElementRef>;
 
@@ -81,7 +81,6 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 
 	constructor(
 			private readonly hostElement: ElementRef,
-			private readonly splashStateService: SplashStateService,
 			private readonly footerService: FooterService,
 	) { }
 
@@ -331,7 +330,9 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 		// ngOnInit
 	}
 
-	ngAfterContentInit() { }
+	ngAfterContentInit() {
+		this.pagesChildrenChangeEvent.emit(this.items);
+	}
 
 	ngAfterViewInit() {
 		this.footerService.footerElement$.subscribe((footerElement: HTMLElement) => {

@@ -1,17 +1,17 @@
 @use "global";
+@use "../header.component" as header;
 @use "sass:map";
 @use "sass:math";
 
 @import "./navtab.colors";
 
 /* Check once */
-$nav-ul-height: math.div(global.$header-size, 2);
+$nav-ul-height: math.div(header.$header-size, 2);
 
 :host {
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
-	width: calc(100% - #{global.$header-size});
 	height: 100%;
 	transition: all 0.5s ease;
 
@@ -134,6 +134,6 @@ $nav-ul-height: math.div(global.$header-size, 2);
 	}
 
 	&.logo-shrink-fix {
-		min-width: calc(100% - #{global.$shrink-header-size});
+		min-width: calc(100% - #{header.$shrink-header-size});
 	}
 }

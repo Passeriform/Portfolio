@@ -11,6 +11,7 @@ import { WorkService } from "./services/work.service";
 import { WorkRoutingModule } from "./work-routing.module";
 import { WorkComponent } from "./work.component";
 import { WorkResolver } from "./work-resolver.service";
+import { HeaderModule } from "@app/header/header.module";
 
 @NgModule({
 	declarations: [
@@ -30,6 +31,7 @@ import { WorkResolver } from "./work-resolver.service";
 	],
 	imports: [
 		SharedModule,
+		HeaderModule,
 		WorkRoutingModule,
 	],
 	providers: [

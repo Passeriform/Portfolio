@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 
+import { HeaderModule } from "@app/header/header.module";
 import { SharedModule } from "@shared/shared.module";
 import { NamecardComponent } from "./namecard/namecard.component";
 import { ContactFormComponent } from "./contact-form/contact-form.component";
@@ -15,6 +16,7 @@ import { AboutResolver } from "./about-resolver.service";
 	],
 	imports: [
 		AboutRoutingModule,
+		HeaderModule,
 		SharedModule,
 	],
 	providers: [ AboutResolver ],

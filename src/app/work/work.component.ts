@@ -39,11 +39,11 @@ export class WorkComponent implements OnInit, AfterViewInit {
 		this.workService.workSelectedState$.subscribe((entity: WorkModel) => {
 			this.selected = entity;
 		});
+
+		this.splashStateService.changeSplashState(SplashState.BLURRED);
 	}
 
 	ngAfterViewInit() {
 		this.loaderService.endLoading("[page] load");
-
-		this.splashStateService.changeSplashState(SplashState.BLURRED);
 	}
 }
