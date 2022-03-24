@@ -83,15 +83,9 @@ Feature Request
 	☐ Add ErrorService and 404 server pages
 	☐ Add minigame interactive in browser console
 	☐ Add easter egg achievements for ex. scrolling 50 pages
-
-Verify before commit
-	☐ Verify if all html files follow htmlhintrc and if any changes are needed in config
-	☐ Fix scrollable issue on LandingComponent.
 	☐ Fix tests for linting setup
-	☐ Lint all files for eslint and stylelint
 
 Component-Specific Fixes
-  ☐ scrollable - add support for nested scroll
   ☐ pivotnav - close on outer-wrapper click
   ☐ pivotnav - pass number of items in sass to ts
   ☐ pivotnav - dynamic model based (look into raise-card querylist)
@@ -100,8 +94,6 @@ Component-Specific Fixes
   ☐ about - add default values and images
   ☐ tree - complete alterRoute function
   ☐ about - remove contributors from passeriform
-  ☐ spinner - replace with different animation
-  ☐ tooltip - fix ugly hack for dynamic icon size
   ☐ cagegrid - expand box on click and focus; blur background
   ☐ tooltip - Needs `PaletteService` to use dynamic styling.
   ☐ tooltip - Needs a proper destructor (issues with router navigation).
