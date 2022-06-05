@@ -1,0 +1,24 @@
+name: npm-publish
+on:
+  push:
+    branches:
+      - master
+jobs:
+  npm-publish:
+    name: npm-publish
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@master
+    - name: Set up Node.js
+      uses: actions/setup-node@master
+      with:
+        node-version: 12
+    - name: Install, Lint and Test
+      run: |
+        npm install
+        npm run lint
+        npm run test
+    - name: Build and Publish
+      run: |
+        npm run publish:gh-pages
