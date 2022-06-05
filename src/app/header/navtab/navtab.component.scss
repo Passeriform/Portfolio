@@ -13,7 +13,6 @@ $nav-ul-height: math.div(header.$header-size, 2);
 	align-items: center;
 	justify-content: flex-end;
 	height: 100%;
-	transition: all 0.5s ease;
 
 	& ::ng-deep ul {
 		display: flex;
@@ -117,6 +116,7 @@ $nav-ul-height: math.div(header.$header-size, 2);
 
 			& > li {
 				padding: 1em;
+				line-height: 2em;
 
 				& > a {
 					color: invert(map.get($theme, "accent", "hex"));
