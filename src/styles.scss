@@ -10,6 +10,11 @@ $theme: colors.generate-color-swatch($highlight: #ADFF22, $shadow: #0000000F);
 	scrollbar-width: thin;
 }
 
+html, body {
+	position: relative;
+	overflow: hidden;
+}
+
 html > body {
 	margin: 0;
 	width: 100vw;

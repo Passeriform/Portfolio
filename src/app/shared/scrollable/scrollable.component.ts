@@ -308,7 +308,9 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 		.pipe(
 			map(
 				// No need to check for empty event as its captured by fromEvent
-				(event: TouchEvent) => this.horizontal ? event.touches[0].pageX : event.touches[0].pageY,
+				(event: TouchEvent) => this.horizontal
+					? event.touches[0]?.pageX ?? 0
+					: event.touches[0]?.pageY ?? 0,
 			),
 			mergeMap(
 				(init: number) => fromEvent(element, "touchmove").pipe(
@@ -319,8 +321,8 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 					),
 					map(
 						(event: TouchEvent) => this.horizontal
-							? event.touches[0].pageX ?? 0
-							: event.touches[0].pageY ?? 0,
+							? event.touches[0]?.pageX ?? 0
+							: event.touches[0]?.pageY ?? 0,
 					),
 					map((swiped) => init - swiped),
 					take(1),

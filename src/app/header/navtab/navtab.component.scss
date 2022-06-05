@@ -29,12 +29,16 @@ $nav-ul-height: math.div(header.$header-size, 2);
 		&:not(.shrink-navtab) {
 			@media screen and (max-width: 28em) {
 				flex-direction: column;
+				padding-bottom: #{math.div(($nav-ul-height - 1em), 4) + 0.5em};
+				padding-left: 10%;
+				background-color: invert(map.get($theme, "background", "hex"));
+				clip-path: polygon(1.25rem 0, 100% 0%, 100% 100%, 0 90%);
 
 				& > li {
 					text-align: center;
 
 					& > a {
-						color: map.get($theme, "accent", "hex");
+						color: invert(map.get($theme, "accent", "hex"));
 
 						&:before {
 							top: 0;
@@ -44,7 +48,7 @@ $nav-ul-height: math.div(header.$header-size, 2);
 							visibility: visible;
 							transform: scaleX(0.05);
 							transform-origin: left;
-							background-color: complement(map.get($theme, "background", "hex"));
+							background-color: invert(map.get($theme, "background", "hex"));
 							mix-blend-mode: difference;
 						}
 					}
@@ -107,28 +111,31 @@ $nav-ul-height: math.div(header.$header-size, 2);
 
 		&.shrink-navtab {
 			padding: 0;
+			padding-left: 1em;
+			background-color: map.get($theme, "accent", "hex");
+			clip-path: polygon(1.5em 0, 100% 0, 100% 100%, 2em 100%, 0 1.5em);
 
 			& > li {
 				padding: 1em;
 
 				& > a {
-					color: map.get($theme, "accent", "hex");
+					color: invert(map.get($theme, "accent", "hex"));
 
 					&:before {
 						top: 0;
 						bottom: 0;
 						width: 80%;
 						height: 2em;
-						background-color: mix(white, map.get($theme, "accent", "hex"), 100%);
-						color: map.get($theme, "background", "hex");
+						background-color: mix(black, map.get($theme, "accent", "hex"), 100%);
+						color: map.get($theme, "accent", "hex");
 						mix-blend-mode: difference;
 					}
 				}
 			}
 
 			& > li:hover > a:before {
-				border: 1px solid map.get($theme, "accent", "hex");
-				background-color: mix(black, map.get($theme, "background", "hex"), 100%);
+				border: 1px solid invert(map.get($theme, "accent", "hex"));
+				background-color: mix(white, invert(map.get($theme, "background", "hex")), 100%);
 			}
 		}
 	}
