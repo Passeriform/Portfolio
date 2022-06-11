@@ -20,6 +20,7 @@ $scrollbar-button-height-width: 1.5 * $scrollbar-button-text-size-em + 2 * $scro
 		width: 100vw;
 		height: 100vh;
 		overflow: auto;
+		background-color: black;
 	}
 
 	::-webkit-scrollbar {

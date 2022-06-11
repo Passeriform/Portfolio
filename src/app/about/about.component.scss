@@ -6,7 +6,6 @@ $p-responsive-font-size: max(1em, min(2vw, 1.5em));
 	& .page {
 		& > .bg-img {
 			position: absolute;
-			z-index: -1;
 			width: 100vw;
 			height: 100vh;
 		}

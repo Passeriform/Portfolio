@@ -6,6 +6,7 @@ $max-width: ($no-of-items * 2em) + ($no-of-items + 1) * $max-inter-item-width;
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-evenly;
+	margin: auto;
 	width: min(54em, 100%);
 
 	& > * {
