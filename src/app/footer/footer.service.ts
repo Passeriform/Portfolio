@@ -12,12 +12,10 @@ import { ErrorService } from "@app/error/error.service";
 
 @Injectable()
 export class FooterService {
-	private readonly footerElementSource$ = new BehaviorSubject<HTMLElement | undefined>(undefined);
 	private readonly topAboutSource$ = new BehaviorSubject<readonly LinkModel[]>([]);
 	private readonly topProductsSource$ = new BehaviorSubject<readonly LinkModel[]>([]);
 	private readonly topSocialsSource$ = new BehaviorSubject<readonly LinkModel[]>([]);
 
-	public readonly footerElement$: Observable<HTMLElement | undefined> = this.footerElementSource$.asObservable();
 	public readonly aboutState$: Observable<readonly LinkModel[]> = this.topAboutSource$.asObservable();
 	public readonly socialsState$: Observable<readonly LinkModel[]> = this.topSocialsSource$.asObservable();
 	public readonly worksState$: Observable<readonly LinkModel[]> = this.topProductsSource$.asObservable();
@@ -27,10 +25,6 @@ export class FooterService {
 			private readonly http: HttpClient,
 			private readonly loaderService: LoaderService,
 	) { }
-
-	public setFooterElement(footerElement: HTMLElement): void {
-		this.footerElementSource$.next(footerElement);
-	}
 
 	public refreshLinks({
 		aboutCount,
