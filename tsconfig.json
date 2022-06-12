@@ -15,6 +15,9 @@
       ],
       "@shared/*": [
         "src/app/shared/*"
+      ],
+			"@utility/*": [
+        "src/utility/*"
       ]
     },
     "sourceMap": true,

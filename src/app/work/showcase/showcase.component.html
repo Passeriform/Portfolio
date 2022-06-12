@@ -8,9 +8,9 @@
   <div class="card-entity">
     <app-scrollable
         [horizontal]="true"
-        [delta]="5"
-        [throttle]="0"
-        [overshoot]="0"
+				[delta]="5"
+        [sensitivity]="20"
+        [smoothScroll]="true"
         #cardScroller
       >
       <app-raisecard

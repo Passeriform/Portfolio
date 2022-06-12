@@ -420,6 +420,11 @@ module.exports = {
               "group": "internal",
               "position": "after",
             },
+						{
+              "pattern": "@utility/**",
+              "group": "internal",
+              "position": "after",
+            },
             {
               "pattern": "../**.module",
               "group": "parent",
