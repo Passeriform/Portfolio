@@ -1,3 +1,21 @@
+export const DEFAULT_WIKI_RESPONSE_PAGE: WikiResponsePage = {
+	canonicalurl: "",
+	contentmodel: "",
+	description: "No information available for this item.",
+	descriptionsource: "",
+	editurl: "",
+	fullurl: "",
+	lastrevid: 0,
+	length: 0,
+	ns: 0,
+	pageid: 0,
+	pagelanguage: "",
+	pagelanguagedir: "",
+	pagelanguagehtmlcode: "",
+	title: "No information available",
+	touched: "",
+}
+
 export interface WikiResponsePage {
 	readonly canonicalurl: string;
 	readonly contentmodel: string;

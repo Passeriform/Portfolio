@@ -7,6 +7,7 @@ import { map } from "rxjs/operators";
 
 import { EntityIdentifier, registry } from "@shared/models/registry.interface";
 import type { EntityRegistry } from "@shared/models/registry.interface";
+import { DEFAULT_WIKI_RESPONSE_PAGE } from "@shared/models/wiki.interface";
 import type { WikiResponseModel, WikiResponsePage } from "@shared/models/wiki.interface";
 
 @Pipe({
@@ -20,7 +21,7 @@ export class WikiPipe implements PipeTransform {
 	public getWikiTitle(identifier: string): string {
 		return registry.find(
 			(entry: EntityRegistry) => entry.identifier === EntityIdentifier[identifier],
-		)?.wikiTitle ?? "";
+		)?.wikiTitle ?? EntityIdentifier[identifier];
 	}
 
 	transform(entity: string): Observable<Record<string, unknown>> {
@@ -69,13 +70,13 @@ export class WikiPipe implements PipeTransform {
 
 		return this.http.get<WikiResponseModel>(callUrl).pipe(
 			map((response: WikiResponseModel) => {
-				const [ page ]: readonly WikiResponsePage[] = response.query.pages;
+				const [ page ]: readonly WikiResponsePage[] = response?.query?.pages ?? [];
 
 				const {
 					description,
 					fullurl: href,
 					title,
-				}: WikiResponsePage = page;
+				}: WikiResponsePage = page ?? DEFAULT_WIKI_RESPONSE_PAGE;
 
 				return {
 					description,
