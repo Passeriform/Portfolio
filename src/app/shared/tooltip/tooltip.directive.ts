@@ -4,6 +4,7 @@ import type { AfterViewInit, ComponentRef, EmbeddedViewRef, OnDestroy } from "@a
 import { BehaviorSubject } from "rxjs";
 
 import { TooltipComponent } from "./tooltip.component";
+import { TooltipService } from "./tooltip.service";
 
 @Directive({
 	selector: "[appTooltip]",
@@ -13,21 +14,28 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
 
 	@Input() public readonly position = "bottom";
 	@Input() public readonly template: TemplateRef<any>;
-	@Input() public darkMode: boolean;
+	@Input() public invert: boolean;
 
 	private componentRef: ComponentRef<any>;
-	private readonly showTooltip$ = new BehaviorSubject<boolean>(false);
+	private componentInstance: TooltipComponent;
 
-	@HostListener("focusin")
-	@HostListener("mouseover")
-	public showTooltip(): void {
-		this.showTooltip$.next(true);
+	@HostListener("focusin", ["$event"])
+	@HostListener("mouseover", ["$event"])
+	public showTooltip(event: FocusEvent | MouseEvent): void {
+		const boundingRect = (event.currentTarget as HTMLElement).getBoundingClientRect()
+		this.tooltipService.setTemplate$(this.template);
+		/* eslint-disable-next-line @typescript-eslint/no-magic-numbers */
+		this.tooltipService.setPosition$([
+			boundingRect.top + (boundingRect.height / 2),
+			boundingRect.left + (boundingRect.width / 2),
+		]);
+		this.tooltipService.setShowTooltip$(true);
 	}
 
 	@HostListener("focusout")
 	@HostListener("mouseout")
 	public hideTooltip(): void {
-		this.showTooltip$.next(false);
+		this.tooltipService.setShowTooltip$(false);
 	}
 
 	constructor(
@@ -35,41 +43,30 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
 			private readonly appReference: ApplicationRef,
 			private readonly injector: Injector,
 			private readonly componentFactoryResolver: ComponentFactoryResolver,
+			private readonly tooltipService: TooltipService,
 	) { }
 
-	/*
-	 * NOTE: Angular only supports directives in the core, so no matter how hard
-	 * the docs preach, Directives do and will support AfterViewInit hook
-	 * but won"t allow it to extend. Ignoring until better solution implemented.
-	 */
 	ngAfterViewInit() {
-		// TODO: Consider packing all tooltips in a div element and attaching more on there to keep DOM clean.
+		const tooltipPortal = document.querySelector('#tooltipPortal');
+
+		if (!tooltipPortal) {
+			throw new Error(
+				`Could not find target element to attach tooltips.
+				Create one with #tooltipPortal id to continue using tooltip`
+			)
+		}
 
 		this.componentRef = this.componentFactoryResolver
 			.resolveComponentFactory(TooltipComponent)
-			.create(this.injector);
+			.create(this.injector, [], tooltipPortal);
 
-		const componentInstance: TooltipComponent = this.componentRef.instance as TooltipComponent;
-
-		componentInstance.tooltipTemplate = this.template;
-		componentInstance.positionType = this.position;
-		componentInstance.darkMode = this.darkMode;
-		componentInstance.callerInstance = this.elementReference.nativeElement as HTMLElement;
-		componentInstance.showObs$ = this.showTooltip$.asObservable();
-
+		this.componentInstance = this.componentRef.instance as TooltipComponent;
+		this.componentInstance.positionType = this.position;
+		this.componentInstance.invert = this.invert;
 		this.appReference.attachView(this.componentRef.hostView);
-
-		// NOTE: Kept on top of stacking to avoid z-index collisions
-
-		// TODO: Consider packing all tooltips in a div element
-		// and attaching more on there to keep DOM clean.
-
-		// TODO: Use single tooltip element to display multiple messages
-		const domElement: HTMLElement = (this.componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
-		document.body.append(domElement);
 	}
 
 	ngOnDestroy() {
-		this.componentRef.destroy();
+		this.tooltipService.setShowTooltip$(false);
 	}
 }

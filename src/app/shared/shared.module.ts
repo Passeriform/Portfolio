@@ -7,6 +7,7 @@ import { OverlayComponent } from "./overlay/overlay.component";
 import { ScrollableComponent } from "./scrollable/scrollable.component";
 import { TooltipComponent } from "./tooltip/tooltip.component";
 import { TooltipDirective } from "./tooltip/tooltip.directive";
+import { TooltipService } from "./tooltip/tooltip.service";
 import { CageGridDirective } from "./cage-grid/cage-grid.directive";
 import { NavigatorComponent } from "./navigator/navigator.component";
 import { IconUriPipe } from "./pipes/icon-uri.pipe";
@@ -55,5 +56,8 @@ import { SocialGlyphsComponent } from "./social-glyphs/social-glyphs.component";
 		CommonModule,
 		FormsModule,
 	],
+	providers: [
+		TooltipService,
+	]
 })
 export class SharedModule { }

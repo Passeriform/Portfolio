@@ -53,7 +53,7 @@
                   *ngIf="entry.languages?.length"
                   class="languages"
                   position="top"
-                  [darkMode]="true"
+                  [invert]="true"
                   [template]="languageTooltipTemplate"
                 >
                 <img i18n-alt
@@ -76,7 +76,7 @@
                   *ngIf="entry.frameworks?.length"
                   class="frameworks"
                   position="top"
-                  [darkMode]="true"
+                  [invert]="true"
                   [template]="frameworkTooltipTemplate"
                 >
                 <img i18n-alt
@@ -99,7 +99,7 @@
                   *ngIf="entry.tools?.length"
                   class="tools"
                   position="top"
-                  [darkMode]="true"
+                  [invert]="true"
                   [template]="toolTooltipTemplate"
                 >
                 <img i18n-alt

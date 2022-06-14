@@ -1,18 +1,18 @@
 import type { AfterViewInit, OnInit, TemplateRef } from "@angular/core";
-import { Component, HostBinding, Input } from "@angular/core";
+import { Component, HostBinding, Input, Renderer2, ElementRef } from "@angular/core";
 
 import type { Observable } from "rxjs";
+
+import { TooltipService } from "./tooltip.service";
 
 @Component({
 	selector: "app-tooltip",
 	styleUrls: [ "./tooltip.component.scss" ],
 	templateUrl: "./tooltip.component.html",
 })
-export class TooltipComponent implements OnInit, AfterViewInit {
+export class TooltipComponent implements OnInit {
 	@Input() public positionType: string;
-	@Input() public callerInstance: HTMLElement;
-	@Input() public showObs$: Observable<boolean>;
-	@Input() public darkMode: boolean;
+	@Input() public invert: boolean;
 	@Input() public tooltipTemplate: TemplateRef<any>;
 
 	@HostBinding("class.show") public showToggle: boolean;
@@ -27,25 +27,22 @@ export class TooltipComponent implements OnInit, AfterViewInit {
 		return this.positionType === "bottom";
 	}
 
-	@HostBinding("style.top.px")
-	public get topFix(): number {
-		/* eslint-disable-next-line @typescript-eslint/no-magic-numbers */
-		return this.callerInstance.getBoundingClientRect().top + (this.callerInstance.getBoundingClientRect().height / 2);
-	}
-
-	@HostBinding("style.left.px")
-	public get leftFix(): number {
-		/* eslint-disable-next-line @typescript-eslint/no-magic-numbers */
-		return this.callerInstance.getBoundingClientRect().left + (this.callerInstance.getBoundingClientRect().width / 2);
-	}
+	constructor(
+		private readonly renderer: Renderer2,
+		private readonly elementReference: ElementRef,
+		private readonly tooltipService: TooltipService,
+	) { }
 
 	ngOnInit() {
-		this.showObs$.subscribe((toggle: boolean) => {
+		this.tooltipService.showTooltipState$.subscribe((toggle: boolean) => {
 			this.showToggle = toggle;
 		});
-	}
-
-	ngAfterViewInit() {
-		// ngAfterViewInit
+		this.tooltipService.templateState$.subscribe((template: TemplateRef<any>) => {
+			this.tooltipTemplate = template;
+		});
+		this.tooltipService.positionState$.subscribe(([top, left]: [top: number, left: number]) => {
+			this.renderer.setStyle(this.elementReference.nativeElement, "top", `${top}px`);
+			this.renderer.setStyle(this.elementReference.nativeElement, "left", `${left}px`);
+		})
 	}
 }
