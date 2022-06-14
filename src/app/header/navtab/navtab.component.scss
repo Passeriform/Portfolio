@@ -25,7 +25,82 @@ $nav-ul-height: math.div(header.$header-size, 2);
 		list-style: none;
 		transition: all 0.5s ease;
 
+		& > li {
+			position: relative;
+			display: inline-block;
+			padding: 1em 2em;
+			cursor: pointer;
+			transition: all 0.5s ease;
+
+			& > a {
+				font-weight: 500;
+				text-decoration: none;
+				text-transform: uppercase;
+				transition: all 0.5s ease;
+
+				&:before {
+					content: "";
+					position: absolute;
+					top: 0;
+					right: 0;
+					bottom: 0;
+					left: 0;
+					height: 2em;
+					margin: auto;
+					transition: all 0.5s ease;
+				}
+			}
+		}
+
 		&:not(.shrink-navtab) {
+			& > li {
+				& > a {
+					color: map.get($theme, "accent", "hex");
+
+					&:before {
+						width: 80%;
+						height: 100%;
+						transform: scaleY(0.05);
+						transform-origin: bottom;
+						background-color: black;
+						mix-blend-mode: overlay;
+					}
+				}
+
+				&:hover > a {
+					font-weight: 600;
+
+					&:before {
+						transform: scaleY(1);
+					}
+				}
+			}
+
+			@media screen and (min-width: 28em) {
+				& > li {
+					& > a:after {
+						content: "";
+						position: absolute;
+						top: 0;
+						right: 0;
+						bottom: 0;
+						left: 0;
+						margin: auto;
+						transition: all 0.5s ease;
+
+						width: 80%;
+						height: 100%;
+						transform: scaleY(0.05);
+						transform-origin: bottom;
+						background-color: map.get($theme, "accent", "hex");
+						mix-blend-mode: difference;
+					}
+					&:hover > a:after {
+						transform: scaleY(1);
+					}
+				}
+			}
+
 			@media screen and (max-width: 28em) {
 				flex-direction: column;
 				padding-bottom: #{math.div(($nav-ul-height - 1em), 4) + 0.5em};
@@ -40,7 +115,6 @@ $nav-ul-height: math.div(header.$header-size, 2);
 						color: invert(map.get($theme, "accent", "hex"));
 
 						&:before {
-							top: 0;
 							z-index: -1;
 							width: 100%;
 							height: 2.5em;
@@ -55,55 +129,6 @@ $nav-ul-height: math.div(header.$header-size, 2);
 					&:hover > a {
 						color: map.get($theme, "accent", "hex");
 					}
-				}
-			}
-		}
-
-		& > li {
-			position: relative;
-			display: inline-block;
-			padding: 1em 2em;
-			cursor: pointer;
-			transition: all 0.5s ease;
-
-			& > a {
-				color: map.get($theme, "accent", "hex");
-				font-weight: 500;
-				text-decoration: none;
-				text-transform: uppercase;
-				transition: all 0.5s ease;
-
-				&:before {
-					content: "";
-					position: absolute;
-					right: 0;
-					bottom: 0;
-					left: 0;
-					margin: auto;
-					width: 60%;
-					height: 2px;
-					visibility: hidden;
-					transform: scaleX(0);
-					background-color: map.get($theme, "background", "hex");
-					transition: all 0.5s ease;
-				}
-
-				&:hover {
-					color: map.get($theme, "background", "hex");
-
-					&:before {
-						visibility: visible;
-						transform: scaleX(1);
-					}
-				}
-			}
-
-			&:hover > a {
-				color: map.get($theme, "background", "hex");
-
-				&:before {
-					visibility: visible;
-					transform: scaleX(1);
 				}
 			}
 		}
@@ -125,15 +150,15 @@ $nav-ul-height: math.div(header.$header-size, 2);
 						top: 0;
 						bottom: 0;
 						width: 80%;
-						height: 2em;
+						transform: scaleX(0);
 						background-color: mix(black, map.get($theme, "accent", "hex"), 100%);
-						color: map.get($theme, "accent", "hex");
 						mix-blend-mode: difference;
 					}
 				}
 			}
 
 			& > li:hover > a:before {
+				transform: scaleX(1);
 				border: 1px solid invert(map.get($theme, "accent", "hex"));
 				background-color: mix(white, invert(map.get($theme, "background", "hex")), 100%);
 			}
