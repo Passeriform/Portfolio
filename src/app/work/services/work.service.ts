@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 
 import type { Observable } from "rxjs";
 import { BehaviorSubject, combineLatest } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 
 import { environment } from "@env/environment";
 import { LoaderService } from "@app/loader/loader.service";
@@ -55,18 +55,20 @@ export class WorkService {
 
 		return this.http.get<readonly WorkModel[]>(`${environment.apiUrl}/work`)
 			.pipe(
-				map((model: readonly WorkModel[]) => {
+				tap((model: readonly WorkModel[]) => {
 					this.loaderService.endLoading("[http] work");
-
+				}),
+				map((model: readonly WorkModel[]) => {
 					this.loaderService.beginLoading("[tag] work");
 
 					const taggedModel: readonly WorkModel[] = this.tagger.appendTags(model);
 
 					this.loaderService.endLoading("[tag] work");
 
-					this.workCacheSource$.next(taggedModel);
-
 					return taggedModel;
+				}),
+				tap((model: readonly WorkModel[]) => {
+					this.workCacheSource$.next(model);
 				}),
 			);
 	}

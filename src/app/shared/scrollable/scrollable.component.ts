@@ -5,7 +5,7 @@ import { Component, ContentChildren, ElementRef, EventEmitter, HostBinding, Host
 
 import { NEVER, concat, fromEvent, identity, merge } from "rxjs";
 import type { Observable } from "rxjs";
-import { bufferCount, repeat, filter, map, take, takeUntil, throttleTime } from "rxjs/operators";
+import { bufferCount, repeat, filter, map, pluck, take, takeUntil, throttleTime } from "rxjs/operators";
 
 import { PageEndRevealService } from "@core/services/page-end-reveal.service";
 
@@ -273,7 +273,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 
 	private readonly applyScrollOptimization = (scrollStream$: Observable<MouseWheelEvent>): Observable<number> => scrollStream$
 		.pipe(
-			map((nextEvent: MouseWheelEvent) => this.horizontal ? nextEvent.deltaX : nextEvent.deltaY),
+			pluck(this.horizontal ? "deltaX" : "deltaY"),
 			filter((difference: number) => Math.abs(difference) >= Math.abs(this.scrollThreshold)),
 			filter(this.nestedScrollFilter),
 		);
@@ -281,10 +281,12 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 	// TODO: Use pluck wherever necessary.
 	private readonly applySwipeOptimization = (swipeStream$: Observable<TouchEvent>, element: HTMLElement): Observable<number> => swipeStream$
 		.pipe(
+			pluck("touches"),
+			map(([touch]: TouchList) => touch),
 			map(
-				(event: TouchEvent) => this.horizontal
-					? event.touches[0]?.pageX ?? 0
-					: event.touches[0]?.pageY ?? 0,
+				(touch: Touch) => this.horizontal
+					? touch?.pageX ?? 0
+					: touch?.pageY ?? 0,
 			),
 			bufferCount(2, 1),
 			map(([init, end] : [number, number]) => init - end),
@@ -338,6 +340,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 				)
 				: NEVER,
 		).pipe(
+			map((shiftAmt: number) => shiftAmt / this.scrollNormalizationFactor),
 			this.smoothScroll ? identity : throttleTime(this.throttle),
 		);
 
@@ -363,15 +366,15 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 				)
 				: NEVER,
 		).pipe(
+			map((shiftAmt: number) => shiftAmt / this.swipeNormalizationFactor),
 			this.smoothScroll ? identity : throttleTime(this.throttle),
 		);
 
-		this.scrollStream$.subscribe((shiftAmt: number) => {
-			this.pageShift(shiftAmt / this.scrollNormalizationFactor);
-		});
-		this.swipeStream$.subscribe((shiftAmt: number) => {
-			this.pageShift(shiftAmt / this.swipeNormalizationFactor);
-		});
+		merge(this.scrollStream$, this.swipeStream$).subscribe(
+			(shiftAmt: number) => {
+				this.pageShift(shiftAmt);
+			}
+		);
 
 		// TODO: Race with existing streams
 		merge(...this.transitionStartStream$).subscribe();

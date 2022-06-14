@@ -5,7 +5,7 @@ import { HttpClient } from "@angular/common/http";
 
 import { throwError } from "rxjs";
 import type { Observable } from "rxjs";
-import { catchError, map } from "rxjs/operators";
+import { catchError, tap } from "rxjs/operators";
 
 import { environment } from "@env/environment";
 
@@ -29,17 +29,12 @@ export class AboutResolver implements Resolve<AboutModel> {
 		return this.http
 			.get<AboutModel>(`${environment.apiUrl}/about/${route.params.slug as string || "passeriform"}`)
 			.pipe(
-				map((model?: AboutModel) => {
+				tap((model?: AboutModel) => {
 					this.loaderService.endLoading("[http] about");
 
 					if (!model) {
 						this.router.navigate([ "/" ]);
-
-						/* eslint-disable-next-line unicorn/no-useless-undefined */
-						return undefined;
 					}
-
-					return model;
 				}),
 				catchError((error: unknown) => {
 					this.loaderService.endLoading("[http] about");

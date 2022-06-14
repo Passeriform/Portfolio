@@ -40,11 +40,12 @@ export class WorkResolver implements Resolve<readonly WorkModel[]> {
 					}
 
 					// TODO: Define RouteSnapshot type in types.d.ts
+					const [ url ] = route.url;
 
 					// Showcasing only
-					if (routeFilters.includes(route.url[0]?.path)) {
+					if (routeFilters.includes(url?.path)) {
 						// Keep this active filter local only. Let explore flap explore all entities.
-						const activeFilter: string = route.url[0].path;
+						const activeFilter: string = url.path;
 
 						// Redirect to filtering
 						if (!route.params.package) {
@@ -62,7 +63,7 @@ export class WorkResolver implements Resolve<readonly WorkModel[]> {
 						}
 					}
 
-					if (route.url[0]?.path === "explore") {
+					if (url?.path === "explore") {
 						const activeFilter: string | undefined = route.url[1]?.path;
 						if (routeFilters.includes(activeFilter)) {
 							this.workService.setFilter((entity: WorkModel) => entity.type === activeFilter);

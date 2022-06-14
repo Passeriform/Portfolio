@@ -27,27 +27,8 @@ export class ChirpyComponent implements OnInit {
 		// ngOnInit
 	}
 
-	public shuffleSay(): void {
-		interface MessageValue {
-			msg: string;
-			val: number;
-		}
-
-		this.say = this.say
-			.map((message: string) => ({
-				msg: message,
-				val: Math.random(),
-			}))
-			.sort(
-				(first: MessageValue, second: MessageValue) => first.val - second.val,
-			)
-			.map((messageObject: MessageValue) => messageObject.msg);
-	}
-
 	public sayMessage(): void {
-		this.shuffleSay();
-
-		this.renderer.setProperty(this.sayTarget.nativeElement.firstChild, "innerHTML", this.say[0]);
+		this.renderer.setProperty(this.sayTarget.nativeElement.firstChild, "innerHTML", this.say[Math.floor(Math.random() * this.say.length)]);
 		this.renderer.addClass(this.sayTarget.nativeElement, "show");
 	}
 

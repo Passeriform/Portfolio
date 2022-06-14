@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 
 import { BehaviorSubject, of } from "rxjs";
 import type { Observable } from "rxjs";
-import { catchError, map } from "rxjs/operators";
+import { catchError, map, pluck } from "rxjs/operators";
 
 import { environment } from "@env/environment";
 import type { LinkModel } from "@shared/models/link.interface";
@@ -49,7 +49,7 @@ export class FooterService {
 				+ "rename=name,label,link",
 			)
 			.pipe(
-				map((works: { data: (LinkModel & { label: string })[] }) => works.data),
+				pluck("data"),
 				map(
 					(works: (LinkModel & { label: string })[]) => works.map(
 						(work: LinkModel & { label: string }) => ({
@@ -82,7 +82,7 @@ export class FooterService {
 				+ "rename=name,link",
 			)
 			.pipe(
-				map((aboutDocuments: { readonly data: readonly LinkModel[] }) => aboutDocuments.data),
+				pluck("data"),
 				catchError((error: unknown): Observable<LinkModel[]> => {
 					this.loaderService.endLoading("[http] [footer] about");
 					this.errorService.displayError(error);

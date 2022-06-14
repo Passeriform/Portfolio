@@ -3,6 +3,8 @@
 
 @import "./chirpy.colors";
 
+// TODO: Use tooltip styles for consistency.
+
 :host {
 	display: inline-block;
 
@@ -10,8 +12,8 @@
 		position: absolute;
 		padding: 0.5em;
 		visibility: hidden;
-		border-radius: 0.5em;
-		transform: translate(0, -3em);
+		border: 1px solid invert(map.get($theme, "accent", "hex"));
+		transform: translate(0.5em, -3.5em);
 		background-color: invert(map.get($theme, "background", "hex"));
 		opacity: 0;
 
@@ -26,8 +28,9 @@
 			left: 0;
 			width: 1em;
 			height: 1em;
+			border: 1px solid invert(map.get($theme, "accent", "hex"));
+			transform: translateX(-0.5em) rotateZ(45deg);
 			background-color: invert(map.get($theme, "background", "hex"));
-			clip-path: polygon(0 0, 100% 0, 0 100%);
 		}
 
 		& > p {
