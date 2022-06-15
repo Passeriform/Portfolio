@@ -9,10 +9,11 @@ import { CanvasService } from "@core/services/canvas.service";
 import { LoadingState } from "../loader.interface";
 import { Constants, generateLoaderConfig } from "./harmonic-loader.config";
 import type { HarmonicLoaderConfig } from "./harmonic-loader.interface";
+import { percToPhaseAngle } from "./harmonic-loader.helper";
 import type { LoadingJob } from "../loader.service";
 import { LoaderService } from "../loader.service";
 import { LoaderComponent } from "../loader.component";
-import { AnimationState, getDotsPos, percToPhaseAngle } from "../loader.config";
+import { AnimationState } from "../loader.config";
 
 @Component({
 	selector: "app-harmonic-loader",
@@ -33,7 +34,7 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 	public retarder: number = Constants.DEFAULT_RETARDER;
 	public animStartFrame: number;
 	public context?: CanvasRenderingContext2D;
-	public dotsPos: readonly number[];
+	public dotsXPos: readonly number[];
 	public loaderConfig: HarmonicLoaderConfig;
 	public loaderPerc: number;
 	public loadingJobsState: readonly LoadingJob[];
@@ -49,6 +50,7 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 			private readonly canvasService: CanvasService,
 	) {
 		super();
+
 		this.loaderService.loadingProgressState$.subscribe(
 			(loadedPercentage) => {
 				this.loaderPerc = loadedPercentage;
@@ -56,50 +58,52 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 		);
 	}
 
-	// TODO: Abstract these methods under a separate canvas renderer module.
+	private getDotsXPos(splitDist: number): readonly number[] {
+		const dotsCount: number = Math.floor(window.innerWidth / splitDist);
+		const splitLocs: readonly number[] = Array.from({ length: dotsCount })
+			.fill(0)
+			.map(
+				(_, index: number) => splitDist * (index - ((dotsCount - 0.5) / 2)),
+			);
 
-	// TODO: These methods need `this` binding, hence the arrow syntax. Resolve consistency
+		return splitLocs;
+	};
 
-	private readonly tick = (timestamp: number): void => {
+	private drawSineDot(
+		amplitude: number,
+		dotXPos: number,
+		time: number,
+		phi: number,
+		color: string
+	) {
+		const radius = this.loaderConfig.dotRadius
+		const wt = (this.loaderConfig.angularFrequency * (time / Constants.FRAME_CONTRIBUTION))
+		const yOffset = this.loaderConfig.yoffset
+		// center +- dot position + top left of dot
+		const xPos = (window.innerWidth / 2) + dotXPos + (this.loaderConfig.dotRadius / 2)
+		const kx = this.loaderConfig.waveNumber * dotXPos
+		const yPos = yOffset + (amplitude * Math.sin(kx - wt + phi))
+
+		// Resolving First Sine Wave
+		this.canvasService.drawDot({ radius, xPos, yPos, color });
+	}
+
+	private getElapsedTime(timestamp: number): number {
 		if (!this.animStartFrame) {
 			this.animStartFrame = timestamp;
 		}
 
-		const elapsed: number = timestamp - this.animStartFrame;
+		return timestamp - this.animStartFrame;
+	}
+
+	private readonly tick = (timestamp: number): void => {
+		const elapsed: number = this.getElapsedTime(timestamp);
 
 		this.context?.clearRect(0, 0, this.loaderCanvas.nativeElement.width, this.loaderCanvas.nativeElement.height);
 
-		this.dotsPos.forEach((value: number, index: number) => {
-			// First Sine Wave
-			this.canvasService.drawDot({
-				color: `hsl(241, 30%, ${(index * 2) + 50}%)`,
-				radius: this.loaderConfig.dotRadius,
-				xPos: (window.innerWidth / 2) + value + (this.loaderConfig.dotRadius / 2),
-				yPos: this.loaderConfig.yoffset + (
-					this.loaderConfig.amplitude * Math.sin(
-						(this.loaderConfig.speed * elapsed / Constants.FRAME_CONTRIBUTION)
-						+ value
-						// + (this.loaderConfig.frequency * val)
-						+ this.loaderConfig.basePhase,
-					)
-				),
-			});
-
-			// Second Sine Wave
-			this.canvasService.drawDot({
-				color: `hsl(241, 30%, ${(index * 2) + 1 + 50}%)`,
-				radius: this.loaderConfig.dotRadius,
-				xPos: (window.innerWidth / 2) + (this.loaderConfig.dotsDist / 2) + value + (this.loaderConfig.dotRadius / 2),
-				yPos: this.loaderConfig.yoffset + (
-					this.loaderConfig.amplitude * Math.sin(
-						(this.loaderConfig.speed * elapsed / Constants.FRAME_CONTRIBUTION)
-						+ value
-						// + (this.loaderConfig.frequency * ((this.loaderConfig.dotsDist / 2) + val))
-						+ this.loaderConfig.basePhase
-						+ percToPhaseAngle(this.loaderPerc),
-					)
-				),
-			});
+		this.dotsXPos.forEach((dotXPos: number, index: number) => {
+			this.drawSineDot(this.loaderConfig.amplitude, dotXPos, elapsed, this.loaderConfig.basePhase, `hsl(241, 30%, ${(index * 2) + 50}%)`);
+			this.drawSineDot(this.loaderConfig.amplitude, dotXPos + (this.loaderConfig.dotsDist / 2), elapsed, this.loaderConfig.basePhase + percToPhaseAngle(this.loaderPerc), `hsl(241, 30%, ${(index * 2) + 1 + 50}%)`);
 		});
 
 		if (this.loaderService.areAllJobsCompleted) {
@@ -111,45 +115,13 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 	};
 
 	private readonly resolveDots = (timestamp: number): void => {
-		if (!this.animStartFrame) {
-			this.animStartFrame = timestamp;
-		}
-
-		const elapsed: number = timestamp - this.animStartFrame;
+		const elapsed: number = this.getElapsedTime(timestamp);
 
 		this.context?.clearRect(0, 0, this.loaderCanvas.nativeElement.width, this.loaderCanvas.nativeElement.height);
 
-		this.dotsPos.forEach((value, index) => {
-			// Resolving First Sine Wave
-			this.canvasService.drawDot({
-				color: `hsl(241, 30%, ${(index * 2) + 50}%)`,
-				radius: this.loaderConfig.dotRadius,
-				xPos: (window.innerWidth / 2) + value + (this.loaderConfig.dotRadius / 2),
-				yPos: this.loaderConfig.yoffset + (
-					Math.max(0, this.loaderConfig.amplitude - this.retarder) * Math.sin(
-						(this.loaderConfig.speed * elapsed / Constants.FRAME_CONTRIBUTION)
-						+ value
-						// + this.loaderConfig.frequency * val
-						+ this.loaderConfig.basePhase,
-					)
-				),
-			});
-
-			// Resolving Second Sine Wave
-			this.canvasService.drawDot({
-				color: `hsl(241, 30%, ${(index * 2) + 1 + 50}%)`,
-				radius: this.loaderConfig.dotRadius,
-				xPos: (window.innerWidth / 2) + (this.loaderConfig.dotsDist / 2) + value + (this.loaderConfig.dotRadius / 2),
-				yPos: this.loaderConfig.yoffset + (
-					Math.max(0, this.loaderConfig.amplitude - this.retarder) * Math.sin(
-						(this.loaderConfig.speed * elapsed / Constants.FRAME_CONTRIBUTION)
-						+ value
-						// + this.loaderConfig.frequency * ((this.loaderConfig.dotsDist / 2) + val)
-						+ this.loaderConfig.basePhase
-						+ percToPhaseAngle(this.loaderPerc),
-					)
-				),
-			});
+		this.dotsXPos.forEach((dotXPos: number, index: number) => {
+			this.drawSineDot(Math.max(0, this.loaderConfig.amplitude - this.retarder), dotXPos, elapsed, this.loaderConfig.basePhase, `hsl(241, 30%, ${(index * 2) + 50}%)`);
+			this.drawSineDot(Math.max(0, this.loaderConfig.amplitude - this.retarder), dotXPos + (this.loaderConfig.dotsDist / 2), elapsed, this.loaderConfig.basePhase + percToPhaseAngle(this.loaderPerc), `hsl(241, 30%, ${(index * 2) + 1 + 50}%)`);
 		});
 
 		this.retarder += this.loaderConfig.retardationRate;
@@ -210,7 +182,7 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 			this.loaderCanvas.nativeElement.height,
 		);
 
-		this.dotsPos = getDotsPos(this.loaderConfig.dotsDist);
+		this.dotsXPos = this.getDotsXPos(this.loaderConfig.dotsDist);
 	}
 
 	public beginLoadingAnimation(): void {

@@ -12,6 +12,7 @@ export type HarmonicLoaderConfig = LoaderConfig & {
 	readonly dotRadius: number;
 	readonly dotsDist: number;
 	readonly retardationRate: number;
-	readonly speed: number;
+	readonly angularFrequency: number;
+	readonly waveNumber: number;
 	readonly yoffset: number;
 };

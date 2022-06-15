@@ -7,9 +7,11 @@ export const generateLoaderConfig = (width: number, height: number): HarmonicLoa
 	basePhase: 0,
 	dotRadius: (width / 600) + 2,
 	dotsDist: width / 10,
-	// frequency: width / 10,
 	retardationRate: 0.5,
-	speed: 25,
+	// k = 2π / λ<Wavelength>
+	waveNumber: 2 * Math.PI / (width / 3),
+	// ω = 2π / T<Time Period>
+	angularFrequency: 2 * Math.PI / 0.3,
 	yoffset: height / 2,
 });
 
