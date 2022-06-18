@@ -14,6 +14,7 @@ TO-DO
 	☐ Fix tooltip lagging behind when attached to scrollable item
 	☐ Use percentage instead of vh and vw
 	☐ Extract scss vars from component to configure in global
+	☐ Use light and dark mode favicon and switch as necessary
 
 Huge Refactors
   ☐ Find alternative replacement for ng-deep selectors using typescript instead.

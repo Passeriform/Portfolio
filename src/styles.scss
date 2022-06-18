@@ -26,11 +26,14 @@ html > body {
 	font-weight: 400;
 	letter-spacing: 1px;
 	line-height: global.$line-height-px;
-	list-style: none;
 	text-shadow: 1px 1px 1px map.get($theme, "shadow", "hex");
 
 	code {
 		color: map.get($theme, "highlight", "hex");
 		font-family: "DM Mono", monospace;
+	}
+
+	ul {
+		list-style: none;
 	}
 }

@@ -1,4 +1,9 @@
-<app-scrollable [fullpage]="true" [nestedScroll]="true" [allowEndReveal]="true">
+<app-scrollable
+		[fullpage]="true"
+		[nestedScroll]="true"
+		[showPageNav]="true"
+		[allowEndReveal]="true"
+	>
   <ng-container *ngIf="selected; else modelPlaceholder">
 		<div class="page" id="description" #page>
 			<div class="bg-img"></div>

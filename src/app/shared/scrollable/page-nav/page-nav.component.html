@@ -1,0 +1,8 @@
+<ul class="page-nav-container">
+	<li *ngFor="let page of pages; let idx = index" class="page-nav-entry">
+		<a class="page-nav-link" (click)="switchToPage(idx)">
+			<div class="page-nav-marker"></div>
+		</a>
+	</li>
+	<div class="page-nav-traveller"></div>
+</ul>

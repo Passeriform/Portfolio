@@ -1,0 +1,79 @@
+@use "global";
+@use "sass:map";
+@use "sass:math";
+
+@import "./page-nav.colors";
+
+$nav-width-em: 2em;
+$nav-link-dot-size: 1em;
+$left-collapsed-em: -(math.div($nav-width-em + $nav-link-dot-size, 2));
+
+:host {
+	position: absolute;
+	top: 0;
+	left: $left-collapsed-em;
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+	justify-content: center;
+	width: $nav-width-em;
+	height: 100vh;
+	pointer-events: none;
+	transition: all 0.2s ease;
+
+	&:hover {
+		left: 0;
+	}
+
+	& > * {
+		pointer-events: all;
+	}
+
+	& > ul.page-nav-container {
+		$nav-flap-size: $nav-width-em;
+		$nav-link-padding: $nav-link-dot-size;
+
+		position: relative;
+		color: invert(map.get($theme, "accent", "hex"));
+		background-color: invert(map.get($theme, "background", "hex"));
+		padding: $nav-flap-size 0;
+		clip-path: polygon(0 0, 100% $nav-flap-size, 100% calc(100% - #{$nav-flap-size}), 0 100%);
+
+		& > li.page-nav-entry {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-content: center;
+
+			& > a.page-nav-link {
+				text-decoration: none;
+				cursor: pointer;
+				padding: $nav-link-padding 0;
+
+				& > .page-nav-marker {
+					width: $nav-link-dot-size;
+					height: $nav-link-dot-size;
+					background-color: transparent;
+					border: 1px solid invert(map.get($theme, "background", "hex"));
+					border-radius: $nav-link-dot-size;
+					mix-blend-mode: difference;
+				}
+			}
+
+		}
+
+		& > .page-nav-traveller {
+			position: absolute;
+		  width: $nav-link-dot-size;
+		  height: $nav-link-dot-size;
+			top: calc(#{$nav-flap-size + $nav-link-padding} + (#{$nav-link-dot-size + (2 * $nav-link-padding)} * var(--traveller-top)));
+		  left: math.div($nav-width-em - $nav-link-dot-size, 2);
+			border-radius: 1em;
+			background-color: invert(map.get($theme, "background", "hex"));
+			transform: scale(1.25);
+			mix-blend-mode: difference;
+			pointer-events: none;
+			transition: all 0.2s ease
+		}
+	}
+}

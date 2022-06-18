@@ -22,7 +22,6 @@ $nav-ul-height: math.div(header.$header-size, 2);
 		margin: 0;
 		padding: #{math.div(($nav-ul-height - 1em), 4)} 5%;
 		overflow: hidden;
-		list-style: none;
 		transition: all 0.5s ease;
 
 		& > li {

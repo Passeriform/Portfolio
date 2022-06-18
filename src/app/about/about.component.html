@@ -1,4 +1,9 @@
-<app-scrollable [fullpage]="true" [nestedScroll]="true" [allowEndReveal]="true">
+<app-scrollable
+		[fullpage]="true"
+		[nestedScroll]="true"
+		[showPageNav]="true"
+		[allowEndReveal]="true"
+	>
   <div *ngIf="model?.intro" class="page" id="intro" #page>
     <div class="bg-img"></div>
     <div class="content" appHeaderOffset>

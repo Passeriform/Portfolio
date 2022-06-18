@@ -5,6 +5,7 @@ import { FormsModule } from "@angular/forms";
 import { CageGridComponent } from "./cage-grid/cage-grid.component";
 import { OverlayComponent } from "./overlay/overlay.component";
 import { ScrollableComponent } from "./scrollable/scrollable.component";
+import { PageNavComponent } from "./scrollable/page-nav/page-nav.component";
 import { TooltipComponent } from "./tooltip/tooltip.component";
 import { TooltipDirective } from "./tooltip/tooltip.directive";
 import { TooltipService } from "./tooltip/tooltip.service";
@@ -30,6 +31,7 @@ import { SocialGlyphsComponent } from "./social-glyphs/social-glyphs.component";
 		OverlayComponent,
 		RetainPipe,
 		ScrollableComponent,
+		PageNavComponent,
 		SocialGlyphsComponent,
 		TooltipComponent,
 		TooltipDirective,
@@ -47,6 +49,7 @@ import { SocialGlyphsComponent } from "./social-glyphs/social-glyphs.component";
 		OverlayComponent,
 		RetainPipe,
 		ScrollableComponent,
+		PageNavComponent,
 		SocialGlyphsComponent,
 		TooltipComponent,
 		TooltipDirective,

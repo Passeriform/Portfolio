@@ -1,5 +1,11 @@
 <!-- Use template name as input and register the template to a global scope for revealElements -->
-<app-scrollable [fullpage]="true" [nestedScroll]="true" [allowEndReveal]="true" (pageChangeEvent)="handlePageChange($event)">
+<app-scrollable
+		[fullpage]="true"
+		[nestedScroll]="true"
+		[showPageNav]="true"
+		[allowEndReveal]="true"
+		(pageChangeEvent)="handlePageChange($event)"
+	>
   <div class="page" id="splash" #page>
     <div class="bg-img-wrapper">
       <div class="bg-img"></div>

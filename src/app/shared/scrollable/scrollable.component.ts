@@ -29,18 +29,19 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 	@Input() private delta = Constants.DELTA_DEFAULT;
 	@Input() private endReveal = false;
 	@Input() private startReveal = false;
-	@Input() private readonly fullpage: boolean;
 	@Input() private readonly allowStartReveal: boolean;
 	@Input() private readonly allowEndReveal: boolean;
 	@Input() private startRevealElement: HTMLElement;
 	@Input() private endRevealElement: HTMLElement;
+	@Input() public readonly showPageNav = false;
+	@Input() public readonly fullpage: boolean;
 
 	@Output() private readonly pageChangeEvent: EventEmitter<number> = new EventEmitter<number>();
 	@Output() private readonly pagesChildrenChangeEvent: EventEmitter<QueryList<ElementRef>> = new EventEmitter<QueryList<ElementRef>>();
 
-	@ContentChildren("page", { read: ElementRef }) private readonly items: QueryList<ElementRef>;
+	@ContentChildren("page", { read: ElementRef }) public readonly items: QueryList<ElementRef>;
 
-	private pageIndex: number = Constants.INITIAL_PAGE_INDEX;
+	public pageIndex: number = Constants.INITIAL_PAGE_INDEX;
 	private maxScrollableSize: number;
 
 	// Scroll Parameters
@@ -95,17 +96,6 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 		this.computeMaxScrollSize();
 	}
 
-	@HostBinding("style.-webkit-transform")
-	@HostBinding("style.-ms-transform")
-	@HostBinding("style.transform")
-	public get transform(): string {
-		if (this.horizontal) {
-			return `translateX(${-this.delta * this.pageIndex}px)`;
-		}
-
-		return `translateY(${-this.delta * this.pageIndex}px)`;
-	}
-
 	@HostBinding("style.top")
 	public get top(): string {
 		if (this.horizontal || !(this.startReveal || this.endReveal)) {
@@ -127,11 +117,6 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 			? `${Math.min(this.startRevealElement.clientWidth, document.documentElement.clientWidth)}px`
 			: `-${Math.min(this.endRevealElement.clientWidth, document.documentElement.clientWidth)}px`;
 	}
-
-	constructor(
-			private readonly hostElement: ElementRef,
-			private readonly pageEndRevealService: PageEndRevealService,
-	) { }
 
 	// TODO: Use boolean enum instead.
 	private handleReveals(pagesToShift: number): boolean {
@@ -306,6 +291,11 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 			repeat(),
 		);
 
+	constructor(
+			private readonly hostElement: ElementRef,
+			private readonly pageEndRevealService: PageEndRevealService,
+	) { }
+
 	ngOnInit() {
 		// ngOnInit
 	}
@@ -385,5 +375,18 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 		// TODO: Race with existing streams
 		merge(...this.transitionStartStream$).subscribe();
 		merge(...this.transitionEndStream$).subscribe();
+	}
+
+	public get transform(): string {
+		if (this.horizontal) {
+			return `translateX(${-this.delta * this.pageIndex}px)`;
+		}
+
+		return `translateY(${-this.delta * this.pageIndex}px)`;
+	}
+
+	public setActivePageIndex(index: number) {
+		this.pageIndex = index;
+		this.pageChangeEvent.emit(this.pageIndex);
 	}
 }
