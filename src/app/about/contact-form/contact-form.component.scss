@@ -1,24 +1,34 @@
 @use "global";
 @use "sass:map";
 @use "sass:math";
+@use "sass:selector";
 
 @import "./contact-form.colors";
 
 $half-margin: 1em;
 $net-half-width: calc(50% - #{math.div($half-margin, 2)});
+$textarea-height: 10em;
+$input-element-padding: 1em;
 
 @mixin form-element {
 	border: 1px solid map.get($theme, "accent", "hex");
 	background: map.get($theme, "background", "dark-5%", "hex");
 	color: white;
 	backdrop-filter: blur(5px);
+	mix-blend-mode: lighten;
+
+	&:focus {
+		@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+			mix-blend-mode: normal;
+		}
+	}
 }
 
 :host > form#contact-form > ul {
 	margin: 0;
 	padding: 0;
 
-	& li {
+	& > li {
 		position: relative;
 		display: block;
 		margin-bottom: 1em;
@@ -37,15 +47,47 @@ $net-half-width: calc(50% - #{math.div($half-margin, 2)});
 			}
 		}
 
-		& .input-label {
-			&:before {
-				content: "";
-				position: absolute;
-				top: 0;
-				left: 0;
-				pointer-events: none;
+		& > .input-field {
+			box-sizing: border-box;
+			width: 100%;
+			height: 3em;
+			font-size: 16px;
+			padding: $input-element-padding;
+
+			@include form-element;
+
+			@at-root #{selector-replace(&, '.input-field', 'input.input-field')}:not([ type=submit ]) {
+				padding: 0 $input-element-padding;
+
+				&:focus {
+					outline: 0;
+				}
 			}
 
+			@at-root #{selector-replace(&, '.input-field', 'textarea.input-field')} {
+				min-height: $textarea-height;
+
+				& + .input-label:after {
+					height: $textarea-height + (2 * $input-element-padding);
+				}
+			}
+
+			@at-root #{selector-replace(&, '.input-field', 'input.input-field')}[ type=submit ] {
+				padding: 0.5em 2em;
+				font-size: 0.85em;
+				letter-spacing: 0.2em;
+
+				&:hover + .input-label:after {
+					transform: translate3d(0, 0, 0);
+				}
+			}
+
+			&:focus + .input-label:after {
+				transform: translate3d(0, 0, 0) !important;
+			}
+		}
+
+		& > .input-label {
 			&:after {
 				content: "";
 				position: absolute;
@@ -70,58 +112,4 @@ $net-half-width: calc(50% - #{math.div($half-margin, 2)});
 			}
 		}
 	}
-
-	& input[ type=text ], input[ type=email ] {
-		box-sizing: border-box;
-		padding: 0 20px;
-		width: 100%;
-		height: 3em;
-		font-size: 16px;
-		mix-blend-mode: lighten;
-
-		@include form-element;
-
-		&:focus {
-			outline: 0;
-		}
-	}
-
-	& textarea {
-		box-sizing: border-box;
-		padding: 20px;
-		min-height: 150px;
-		width: 100%;
-		height: 3em;
-		font-size: 16px;
-		mix-blend-mode: lighten;
-
-		@include form-element;
-	}
-
-	.flat-button {
-		padding: 0.5em 2em;
-		font-size: 0.85em;
-		letter-spacing: 0.2em;
-
-		@include form-element;
-
-		&:hover + .input-label:after {
-			transform: translate3d(0, 0, 0);
-		}
-	}
-}
-
-.input-field:focus + .input-label:after, .input--filled .input-label:after, .input:focus + .input-label:after {
-	transform: translate3d(0, 0, 0);
-}
-
-.required {
-	.input-field + .input-label:after, .input--filled .input-label:after {
-		border-color: red;
-		transform: translate3d(0, 0, 0);
-	}
-}
-
-.input-field:focus + .input-label .input-label-content, .input--filled .input-label-content {
-	animation: anim-1 0.3s forwards;
 }
