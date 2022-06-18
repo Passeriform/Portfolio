@@ -3,28 +3,37 @@ import { Pipe } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
 import type { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { Subject } from "rxjs";
+import { distinctUntilChanged, map, switchMap } from "rxjs/operators";
 
-import { EntityIdentifier, registry } from "@shared/models/registry.interface";
 import type { EntityRegistry } from "@shared/models/registry.interface";
-import { DEFAULT_WIKI_RESPONSE_PAGE } from "@shared/models/wiki.interface";
+import { EntityIdentifier, registry } from "@shared/models/registry.interface";
 import type { WikiResponseModel, WikiResponsePage } from "@shared/models/wiki.interface";
+import { INIT_WIKI_RESPONSE_PAGE } from "@shared/models/wiki.interface";
 
 @Pipe({
 	name: "wiki",
 })
 export class WikiPipe implements PipeTransform {
+	private readonly wikiEntitySubject = new Subject<string>();
+	private readonly wikiEntryState$ = this.wikiEntitySubject.asObservable()
+		.pipe(
+			distinctUntilChanged(),
+			switchMap((entity: string) => this.fetchWikiDetails(entity)),
+		);
+
 	constructor(private readonly http: HttpClient) { }
 
 	// TODO: Move this method out of class
 
-	public getWikiTitle(identifier: string): string {
+	// TODO: Use Cirrus search API instead of this hack
+	private getWikiTitle(identifier: string): string {
 		return registry.find(
 			(entry: EntityRegistry) => entry.identifier === EntityIdentifier[identifier],
-		)?.wikiTitle ?? EntityIdentifier[identifier];
+		)?.wikiTitle ?? EntityIdentifier[identifier] ?? "";
 	}
 
-	transform(entity: string): Observable<Record<string, unknown>> {
+	private fetchWikiDetails(entity: string): Observable<Record<string, unknown>> {
 		const callUrl: string = "https://en.wikipedia.org/w/api.php?"
 			+ "action=query"
 			+ "&format=json"
@@ -66,17 +75,15 @@ export class WikiPipe implements PipeTransform {
 
 		// TODO: Consider switching to google search results and picking the first result instead
 
-		// TODO: Fix 404 on search results
-
 		return this.http.get<WikiResponseModel>(callUrl).pipe(
-			map((response: WikiResponseModel) => {
-				const [ page ]: readonly WikiResponsePage[] = response?.query?.pages ?? [];
+			map((response: WikiResponseModel): Record<string, unknown> => {
+				const [ page ]: readonly (WikiResponsePage | undefined)[] = response.query?.pages ?? [];
 
 				const {
 					description,
 					fullurl: href,
 					title,
-				}: WikiResponsePage = page ?? DEFAULT_WIKI_RESPONSE_PAGE;
+				}: WikiResponsePage = page ?? INIT_WIKI_RESPONSE_PAGE;
 
 				return {
 					description,
@@ -85,5 +92,11 @@ export class WikiPipe implements PipeTransform {
 				};
 			}),
 		);
+	}
+
+	public transform(entity: string): Observable<Record<string, unknown>> {
+		this.wikiEntitySubject.next(entity);
+
+		return this.wikiEntryState$;
 	}
 }

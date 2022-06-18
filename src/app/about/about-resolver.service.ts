@@ -3,15 +3,14 @@ import type { ActivatedRouteSnapshot, Resolve } from "@angular/router";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 
-import { throwError } from "rxjs";
 import type { Observable } from "rxjs";
+import { throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 
 import { environment } from "@env/environment";
-
-import type { ClientError } from "@app/error/error.interface";
 import { ErrorService } from "@app/error/error.service";
 import { LoaderService } from "@app/loader/loader.service";
+
 import type { AboutModel } from "./models/about.interface";
 
 @Injectable()

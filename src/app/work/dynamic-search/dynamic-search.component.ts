@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
 import type { OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 import type { WordScore } from "./dynamic-search.interface";
 import { FuzzyAnalyzer } from "./fuzzy-analyzer";

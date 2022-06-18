@@ -29,7 +29,7 @@ export class ShowcaseComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.workService.workActiveState$.subscribe((model) => {
+		this.workService.workActiveState$.subscribe((model: WorkModel[]) => {
 			this.model = model;
 		});
 	}

@@ -1,5 +1,5 @@
-import { TestBed, async   } from "@angular/core/testing";
-import type { ComponentFixture     } from "@angular/core/testing";
+import type { ComponentFixture } from "@angular/core/testing";
+import { TestBed, async } from "@angular/core/testing";
 
 import { PagesComponent } from "./pages.component";
 

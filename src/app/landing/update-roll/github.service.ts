@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
-import { BehaviorSubject } from "rxjs";
 import type { Observable } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 
 import type { GithubEvent } from "./github.interface";
 

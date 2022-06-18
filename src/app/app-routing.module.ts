@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
-import type { LoadChildrenCallback, Route, Routes } from "@angular/router";
+import type { LoadChildrenCallback, Routes } from "@angular/router";
+import { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
 
 const constructLazy = (urlPath: string, childrenLoader: LoadChildrenCallback): Route => (

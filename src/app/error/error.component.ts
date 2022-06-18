@@ -1,5 +1,5 @@
-import { Component, ElementRef, HostBinding, Renderer2, ViewChild } from "@angular/core";
 import type { AfterViewInit, OnInit } from "@angular/core";
+import { Component, ElementRef, HostBinding, Renderer2, ViewChild } from "@angular/core";
 
 import type { ApiError, ClientError, HttpErrorCodes } from "./error.interface";
 import { ErrorService } from "./error.service";

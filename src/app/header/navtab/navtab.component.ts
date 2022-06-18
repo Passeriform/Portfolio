@@ -1,5 +1,5 @@
-import { Component, ContentChildren, HostBinding } from "@angular/core";
 import type { OnInit, QueryList } from "@angular/core";
+import { Component, ContentChildren, HostBinding } from "@angular/core";
 
 import { SplashState } from "@core/services/splash-state.interface";
 import { SplashStateService } from "@core/services/splash-state.service";

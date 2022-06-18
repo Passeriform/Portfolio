@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 
-import { Subject } from "rxjs";
 import type { Observable } from "rxjs";
+import { Subject } from "rxjs";
 
 import type { ApiError } from "./error.interface";
-import { isError, ClientError } from "./error.interface";
+import { ClientError, isError } from "./error.interface";
 
 @Injectable()
 export class ErrorService {
@@ -17,8 +17,8 @@ export class ErrorService {
 			this.errorDetailsSource$.next(errorModel as ApiError | ClientError);
 		} else {
 			this.errorDetailsSource$.next(new ClientError({
-				name: "InvalidErrorModel",
 				message: "Unable to parse error model.",
+				name: "InvalidErrorModel",
 			}));
 		}
 	}

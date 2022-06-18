@@ -1,14 +1,15 @@
-import type { ActivatedRouteSnapshot, Resolve } from "@angular/router";
+import type { ActivatedRouteSnapshot, Resolve, UrlSegment } from "@angular/router";
 import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
-import { of } from "rxjs";
 import type { Observable } from "rxjs";
+import { of } from "rxjs";
 import { catchError, concatWith, first, map } from "rxjs/operators";
 
 import { LoaderService } from "@app/loader/loader.service";
 import { ErrorService } from "@app/error/error.service";
+
 import { routeFilters } from "./work.config";
 import type { WorkModel } from "./work.interface";
 import { WorkService } from "./services/work.service";
@@ -22,6 +23,8 @@ export class WorkResolver implements Resolve<readonly WorkModel[]> {
 			private readonly errorService: ErrorService,
 			private readonly loaderService: LoaderService,
 	) { }
+
+	// TODO: Simplify resolve method.
 
 	public resolve(route: ActivatedRouteSnapshot): Observable<readonly WorkModel[]> {
 		this.loaderService.beginLoading("[http] work");
@@ -40,15 +43,15 @@ export class WorkResolver implements Resolve<readonly WorkModel[]> {
 					}
 
 					// TODO: Define RouteSnapshot type in types.d.ts
-					const [ url ] = route.url;
+					const segment: UrlSegment | undefined = route.url[0];
 
 					// Showcasing only
-					if (routeFilters.includes(url?.path)) {
+					if (routeFilters.includes(segment?.path)) {
 						// Keep this active filter local only. Let explore flap explore all entities.
-						const activeFilter: string = url.path;
+						const activeFilter: string = segment.path;
 
 						// Redirect to filtering
-						if (!route.params.package) {
+						if (!Boolean(route.params.package)) {
 							this.router.navigate([ `/explore/${activeFilter}` ]);
 						}
 
@@ -63,7 +66,7 @@ export class WorkResolver implements Resolve<readonly WorkModel[]> {
 						}
 					}
 
-					if (url?.path === "explore") {
+					if (segment?.path === "explore") {
 						const activeFilter: string | undefined = route.url[1]?.path;
 						if (routeFilters.includes(activeFilter)) {
 							this.workService.setFilter((entity: WorkModel) => entity.type === activeFilter);

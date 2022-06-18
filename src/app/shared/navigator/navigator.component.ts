@@ -1,5 +1,5 @@
-import { Component, ElementRef, ViewChild } from "@angular/core";
 import type { AfterViewInit } from "@angular/core";
+import { Component, ElementRef, ViewChild } from "@angular/core";
 
 @Component({
 	selector: "app-navigator",

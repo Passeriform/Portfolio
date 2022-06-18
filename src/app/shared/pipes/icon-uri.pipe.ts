@@ -1,5 +1,5 @@
-import { Pipe } from "@angular/core";
 import type { PipeTransform } from "@angular/core";
+import { Pipe } from "@angular/core";
 
 import type { EntityRegistry } from "@shared/models/registry.interface";
 import { EntityIdentifier, registry } from "@shared/models/registry.interface";

@@ -1,8 +1,8 @@
-import { Component, EventEmitter, HostBinding, Output } from "@angular/core";
 import type { OnInit } from "@angular/core";
+import { Component, EventEmitter, HostBinding, Output } from "@angular/core";
 
-import { WorkService } from "@app/work/services/work.service";
 import type { WorkModel } from "@app/work/work.interface";
+import { WorkService } from "@app/work/services/work.service";
 
 enum OverlayState {
 	HIDE,
@@ -15,12 +15,12 @@ enum OverlayState {
 	templateUrl: "./overlay.component.html",
 })
 export class OverlayComponent implements OnInit {
-	@HostBinding("class.blink") public blinkEnabled = true;
+	@Output() public readonly triggerEvent: EventEmitter<void> = new EventEmitter<void>();
 
 	public readonly OverlayState = OverlayState;
 	public overlayState: OverlayState;
 
-	@Output() triggerEvent: EventEmitter<void> = new EventEmitter<void>();
+	@HostBinding("class.blink") public blinkEnabled = true;
 
 	constructor(private readonly workService: WorkService) { }
 

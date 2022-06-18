@@ -1,7 +1,5 @@
+import type { AfterViewInit, ComponentRef, OnDestroy } from "@angular/core";
 import { ApplicationRef, ComponentFactoryResolver, Directive, ElementRef, HostListener, Injector, Input, TemplateRef, ViewChild, ViewContainerRef } from "@angular/core";
-import type { AfterViewInit, ComponentRef, EmbeddedViewRef, OnDestroy } from "@angular/core";
-
-import { BehaviorSubject } from "rxjs";
 
 import { TooltipComponent } from "./tooltip.component";
 import { TooltipService } from "./tooltip.service";
@@ -13,16 +11,16 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
 	@ViewChild(TemplateRef, { read: ViewContainerRef }) private readonly viewContainer: ViewContainerRef;
 
 	@Input() public readonly position = "bottom";
-	@Input() public readonly template: TemplateRef<any>;
+	@Input() public readonly template: TemplateRef<ElementRef>;
 	@Input() public invert: boolean;
 
-	private componentRef: ComponentRef<any>;
+	private componentRef: ComponentRef<TooltipComponent>;
 	private componentInstance: TooltipComponent;
 
-	@HostListener("focusin", ["$event"])
-	@HostListener("mouseover", ["$event"])
+	@HostListener("focusin", [ "$event" ])
+	@HostListener("mouseover", [ "$event" ])
 	public showTooltip(event: FocusEvent | MouseEvent): void {
-		const boundingRect = (event.currentTarget as HTMLElement).getBoundingClientRect()
+		const boundingRect = (event.currentTarget as HTMLElement).getBoundingClientRect();
 		this.tooltipService.setTemplate$(this.template);
 		/* eslint-disable-next-line @typescript-eslint/no-magic-numbers */
 		this.tooltipService.setPosition$([
@@ -47,13 +45,13 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
 	) { }
 
 	ngAfterViewInit() {
-		const tooltipPortal = document.querySelector('#tooltipPortal');
+		const tooltipPortal = document.querySelector("#tooltipPortal");
 
 		if (!tooltipPortal) {
 			throw new Error(
 				`Could not find target element to attach tooltips.
-				Create one with #tooltipPortal id to continue using tooltip`
-			)
+				Create one with #tooltipPortal id to continue using tooltip`,
+			);
 		}
 
 		this.componentRef = this.componentFactoryResolver

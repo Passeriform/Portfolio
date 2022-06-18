@@ -1,14 +1,16 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
-import { BehaviorSubject, of } from "rxjs";
 import type { Observable } from "rxjs";
+import { BehaviorSubject, of } from "rxjs";
 import { catchError, map, pluck } from "rxjs/operators";
 
 import { environment } from "@env/environment";
 import type { LinkModel } from "@shared/models/link.interface";
 import { LoaderService } from "@app/loader/loader.service";
 import { ErrorService } from "@app/error/error.service";
+
+// TODO: Port http data service code to vercel graphql instance.
 
 @Injectable()
 export class FooterService {

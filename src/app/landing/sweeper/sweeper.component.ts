@@ -1,5 +1,5 @@
-import { Component, ContentChildren, Input } from "@angular/core";
 import type { AfterContentInit, ElementRef, QueryList } from "@angular/core";
+import { Component, ContentChildren, Input } from "@angular/core";
 import type { SafeStyle } from "@angular/platform-browser";
 import { DomSanitizer } from "@angular/platform-browser";
 

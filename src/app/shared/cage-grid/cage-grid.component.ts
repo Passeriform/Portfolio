@@ -1,5 +1,5 @@
-import { Component, ContentChildren } from "@angular/core";
 import type { AfterContentInit, QueryList } from "@angular/core";
+import { Component, ContentChildren } from "@angular/core";
 
 import { CageGridDirective } from "./cage-grid.directive";
 

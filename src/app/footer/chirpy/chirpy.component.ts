@@ -1,5 +1,5 @@
-import { Component, ElementRef, HostListener, Input, Renderer2, ViewChild } from "@angular/core";
 import type { OnInit } from "@angular/core";
+import { Component, ElementRef, HostListener, Input, Renderer2, ViewChild } from "@angular/core";
 
 @Component({
 	selector: "app-chirpy",
@@ -28,7 +28,8 @@ export class ChirpyComponent implements OnInit {
 	}
 
 	public sayMessage(): void {
-		this.renderer.setProperty(this.sayTarget.nativeElement.firstChild, "innerHTML", this.say[Math.floor(Math.random() * this.say.length)]);
+		const messageIndex = Math.floor(Math.random() * this.say.length);
+		this.renderer.setProperty(this.sayTarget.nativeElement.firstChild, "innerHTML", this.say[messageIndex]);
 		this.renderer.addClass(this.sayTarget.nativeElement, "show");
 	}
 

@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
-import { RouterModule } from "@angular/router";
 import type { Routes } from "@angular/router";
+import { RouterModule } from "@angular/router";
 
 import { AboutComponent } from "./about.component";
 import { AboutResolver } from "./about-resolver.service";

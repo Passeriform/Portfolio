@@ -3,17 +3,18 @@
 // TODO: Required a huge makeover (canvas-style animations do not mesh well with Angular-style ones)
 
 import type { AfterViewInit } from "@angular/core";
-import { Component, ElementRef, HostBinding, HostListener, ViewChild } from "@angular/core";
+import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
 
 import { CanvasService } from "@core/services/canvas.service";
+
 import { LoadingState } from "../loader.interface";
 import { Constants, generateLoaderConfig } from "./harmonic-loader.config";
 import type { HarmonicLoaderConfig } from "./harmonic-loader.interface";
 import { percToPhaseAngle } from "./harmonic-loader.helper";
+import { AnimationState } from "../loader.config";
+import { LoaderComponent } from "../loader.component";
 import type { LoadingJob } from "../loader.service";
 import { LoaderService } from "../loader.service";
-import { LoaderComponent } from "../loader.component";
-import { AnimationState } from "../loader.config";
 
 @Component({
 	selector: "app-harmonic-loader",
@@ -39,7 +40,11 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 	public loaderPerc: number;
 	public loadingJobsState: readonly LoadingJob[];
 
-	// TODO: Shift this into canvas.service
+	/*
+	 * TODO: Move into canvas and resize logic into CanvasService
+	 * TODO: Smoothen animation jump when progress percentage is changed
+	 */
+
 	@HostListener("window:resize")
 	public onResize(): void {
 		this.prepareCanvas();
@@ -52,13 +57,14 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 		super();
 
 		this.loaderService.loadingProgressState$.subscribe(
-			(loadedPercentage) => {
+			(loadedPercentage: number) => {
 				this.loaderPerc = loadedPercentage;
 			},
 		);
 	}
 
 	private getDotsXPos(splitDist: number): readonly number[] {
+		// TODO: Fix magic numbers
 		const dotsCount: number = Math.floor(window.innerWidth / splitDist);
 		const splitLocs: readonly number[] = Array.from({ length: dotsCount })
 			.fill(0)
@@ -67,25 +73,26 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 			);
 
 		return splitLocs;
-	};
+	}
 
 	private drawSineDot(
-		amplitude: number,
-		dotXPos: number,
-		time: number,
-		phi: number,
-		color: string
-	) {
-		const radius = this.loaderConfig.dotRadius
-		const wt = (this.loaderConfig.angularFrequency * (time / Constants.FRAME_CONTRIBUTION))
-		const yOffset = this.loaderConfig.yoffset
-		// center +- dot position + top left of dot
-		const xPos = (window.innerWidth / 2) + dotXPos + (this.loaderConfig.dotRadius / 2)
-		const kx = this.loaderConfig.waveNumber * dotXPos
-		const yPos = yOffset + (amplitude * Math.sin(kx - wt + phi))
+			{ amplitude, color, dotXPos, phi, time }:
+			{
+				amplitude: number;
+				color: string;
+				dotXPos: number;
+				phi: number;
+				time: number;
+			},
+	): void {
+		const radius = this.loaderConfig.dotRadius;
+		const wt = this.loaderConfig.angularFrequency * (time / Constants.FRAME_CONTRIBUTION);
+		const yOffset = this.loaderConfig.yoffset;
+		const xPos = (window.innerWidth / 2) + dotXPos + (this.loaderConfig.dotRadius / 2);
+		const kx = this.loaderConfig.waveNumber * dotXPos;
+		const yPos = yOffset + (amplitude * Math.sin(kx - wt + phi));
 
-		// Resolving First Sine Wave
-		this.canvasService.drawDot({ radius, xPos, yPos, color });
+		this.canvasService.drawDot({ color, radius, xPos, yPos });
 	}
 
 	private getElapsedTime(timestamp: number): number {
@@ -102,8 +109,20 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 		this.context?.clearRect(0, 0, this.loaderCanvas.nativeElement.width, this.loaderCanvas.nativeElement.height);
 
 		this.dotsXPos.forEach((dotXPos: number, index: number) => {
-			this.drawSineDot(this.loaderConfig.amplitude, dotXPos, elapsed, this.loaderConfig.basePhase, `hsl(241, 30%, ${(index * 2) + 50}%)`);
-			this.drawSineDot(this.loaderConfig.amplitude, dotXPos + (this.loaderConfig.dotsDist / 2), elapsed, this.loaderConfig.basePhase + percToPhaseAngle(this.loaderPerc), `hsl(241, 30%, ${(index * 2) + 1 + 50}%)`);
+			this.drawSineDot({
+				amplitude: this.loaderConfig.amplitude,
+				color: `hsl(241, 30%, ${(index * 2) + 50}%)`,
+				dotXPos,
+				phi: this.loaderConfig.basePhase,
+				time: elapsed,
+			});
+			this.drawSineDot({
+				amplitude: this.loaderConfig.amplitude,
+				color: `hsl(241, 30%, ${(index * 2) + 1 + 50}%)`,
+				dotXPos: dotXPos + (this.loaderConfig.dotsDist / 2),
+				phi: this.loaderConfig.basePhase + percToPhaseAngle(this.loaderPerc),
+				time: elapsed,
+			});
 		});
 
 		if (this.loaderService.areAllJobsCompleted) {
@@ -120,8 +139,20 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 		this.context?.clearRect(0, 0, this.loaderCanvas.nativeElement.width, this.loaderCanvas.nativeElement.height);
 
 		this.dotsXPos.forEach((dotXPos: number, index: number) => {
-			this.drawSineDot(Math.max(0, this.loaderConfig.amplitude - this.retarder), dotXPos, elapsed, this.loaderConfig.basePhase, `hsl(241, 30%, ${(index * 2) + 50}%)`);
-			this.drawSineDot(Math.max(0, this.loaderConfig.amplitude - this.retarder), dotXPos + (this.loaderConfig.dotsDist / 2), elapsed, this.loaderConfig.basePhase + percToPhaseAngle(this.loaderPerc), `hsl(241, 30%, ${(index * 2) + 1 + 50}%)`);
+			this.drawSineDot({
+				amplitude: Math.max(0, this.loaderConfig.amplitude - this.retarder),
+				color: `hsl(241, 30%, ${(index * 2) + 50}%)`,
+				dotXPos,
+				phi: this.loaderConfig.basePhase,
+				time: elapsed,
+			});
+			this.drawSineDot({
+				amplitude: Math.max(0, this.loaderConfig.amplitude - this.retarder),
+				color: `hsl(241, 30%, ${(index * 2) + 1 + 50}%)`,
+				dotXPos: dotXPos + (this.loaderConfig.dotsDist / 2),
+				phi: this.loaderConfig.basePhase + percToPhaseAngle(this.loaderPerc),
+				time: elapsed,
+			});
 		});
 
 		this.retarder += this.loaderConfig.retardationRate;
@@ -139,12 +170,12 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 
 		this.prepareCanvas();
 
-		this.canvasService.canvasContext$.subscribe((context) => {
+		this.canvasService.canvasContext$.subscribe((context: CanvasRenderingContext2D) => {
 			this.context = context;
 		});
 
 		this.loaderService.loadingJobsState$.subscribe(
-			(loadingJobsState) => {
+			(loadingJobsState: LoadingJob[]) => {
 				this.loadingJobsState = loadingJobsState;
 
 				const initiationLabels: string[] = this.loadingJobsState

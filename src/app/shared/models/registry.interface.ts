@@ -1,5 +1,7 @@
 // NOTE: Don"t touch this interface unless a better design approach is reached
 
+// TODO: Use FontAwesome and NerdFonts SVGs
+
 export enum WType {
 	misc = "misc",
 	product = "product",

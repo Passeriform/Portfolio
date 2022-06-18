@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 
-import { BehaviorSubject } from "rxjs";
 import type { Observable } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 
 import { SplashState } from "./splash-state.interface";
 

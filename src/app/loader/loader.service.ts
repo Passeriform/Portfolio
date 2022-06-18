@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 
-import { BehaviorSubject } from "rxjs";
 import type { Observable } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { map } from "rxjs/operators";
 
 import { Progress } from "./loader.config";
@@ -125,8 +125,9 @@ export class LoaderService {
 						job.state = LoadingState.LOADED;
 					}
 				}
+
 				return job;
-			})
+			}),
 		);
 	}
 

@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 
 import { SharedModule } from "@shared/shared.module";
 import { HeaderModule } from "@app/header/header.module";
+
 import { DescribeComponent } from "./describe/describe.component";
 import { DynamicSearchComponent } from "./dynamic-search/dynamic-search.component";
 import { RaisecardComponent } from "./raisecard/raisecard.component";

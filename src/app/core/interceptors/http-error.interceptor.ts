@@ -1,12 +1,7 @@
-import type {
-	HttpEvent,
-	HttpHandler,
-	HttpInterceptor,
-	HttpRequest,
-} from "@angular/common/http";
+import type { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 
-import { throwError } from "rxjs";
 import type { Observable } from "rxjs";
+import { throwError } from "rxjs";
 import { catchError, retry } from "rxjs/operators";
 
 import type { ApiErrorResponse } from "@app/error/error.interface";

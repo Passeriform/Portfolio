@@ -1,7 +1,5 @@
-import type { AfterViewInit, OnInit, TemplateRef } from "@angular/core";
-import { Component, HostBinding, Input, Renderer2, ElementRef } from "@angular/core";
-
-import type { Observable } from "rxjs";
+import type { OnInit, TemplateRef } from "@angular/core";
+import { Component, ElementRef, HostBinding, Input, Renderer2 } from "@angular/core";
 
 import { TooltipService } from "./tooltip.service";
 
@@ -13,7 +11,7 @@ import { TooltipService } from "./tooltip.service";
 export class TooltipComponent implements OnInit {
 	@Input() public positionType: string;
 	@Input() public invert: boolean;
-	@Input() public tooltipTemplate: TemplateRef<any>;
+	@Input() public tooltipTemplate: TemplateRef<ElementRef>;
 
 	@HostBinding("class.show") public showToggle: boolean;
 
@@ -28,21 +26,21 @@ export class TooltipComponent implements OnInit {
 	}
 
 	constructor(
-		private readonly renderer: Renderer2,
-		private readonly elementReference: ElementRef,
-		private readonly tooltipService: TooltipService,
+			private readonly renderer: Renderer2,
+			private readonly elementReference: ElementRef,
+			private readonly tooltipService: TooltipService,
 	) { }
 
 	ngOnInit() {
 		this.tooltipService.showTooltipState$.subscribe((toggle: boolean) => {
 			this.showToggle = toggle;
 		});
-		this.tooltipService.templateState$.subscribe((template: TemplateRef<any>) => {
+		this.tooltipService.templateState$.subscribe((template: TemplateRef<ElementRef>) => {
 			this.tooltipTemplate = template;
 		});
-		this.tooltipService.positionState$.subscribe(([top, left]: [top: number, left: number]) => {
+		this.tooltipService.positionState$.subscribe(([ top, left ]: [ number, number ]) => {
 			this.renderer.setStyle(this.elementReference.nativeElement, "top", `${top}px`);
 			this.renderer.setStyle(this.elementReference.nativeElement, "left", `${left}px`);
-		})
+		});
 	}
 }

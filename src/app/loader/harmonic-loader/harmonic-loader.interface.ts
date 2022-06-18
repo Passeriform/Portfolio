@@ -8,11 +8,11 @@ export enum AnimationState {
 
 export type HarmonicLoaderConfig = LoaderConfig & {
 	readonly amplitude: number;
+	readonly angularFrequency: number;
 	readonly basePhase: number;
 	readonly dotRadius: number;
 	readonly dotsDist: number;
 	readonly retardationRate: number;
-	readonly angularFrequency: number;
 	readonly waveNumber: number;
 	readonly yoffset: number;
 };

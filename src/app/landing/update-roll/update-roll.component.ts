@@ -1,10 +1,10 @@
-import { Component } from "@angular/core";
 import type { OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 
 import type { GithubEvent } from "./github.interface";
 import { GithubService } from "./github.service";
 
-type GithubEventUIState = GithubEvent & { expand: boolean };
+type GithubEventUIState = GithubEvent & { expand?: boolean };
 
 @Component({
 	selector: "app-update-roll",
@@ -15,8 +15,8 @@ export class UpdateRollComponent implements OnInit {
 	public updates: (GithubEventUIState)[];
 
 	constructor(private readonly githubService: GithubService) {
-		this.githubService.githubFeedState$.subscribe((updates) => {
-			this.updates = updates as (GithubEventUIState)[];
+		this.githubService.githubFeedState$.subscribe((updates: GithubEventUIState[]) => {
+			this.updates = updates;
 
 			this.updates.forEach(
 				(update: GithubEventUIState) => {
@@ -33,7 +33,7 @@ export class UpdateRollComponent implements OnInit {
 	// TODO: Move this method out of class
 
 	public toggleDetails(entry: GithubEventUIState): void {
-		entry.expand = !entry.expand ?? true;
+		entry.expand = !(entry.expand ?? false);
 	}
 
 	public refresh(): void {

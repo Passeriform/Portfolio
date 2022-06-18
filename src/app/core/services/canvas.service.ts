@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
 import type { ElementRef } from "@angular/core";
+import { Injectable } from "@angular/core";
 
-import { BehaviorSubject } from "rxjs";
 import type { Observable } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable()
 export class CanvasService {

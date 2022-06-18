@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 interface GithubUser {
 	readonly avatar_url: string;
 	readonly id: number;
@@ -148,5 +150,19 @@ export interface GithubEvent {
 	readonly repo: GithubRepo;
 	readonly type: string;
 	readonly payload?:
-	CommitCommentEventPayload | CreateDeleteEventPayload | ForkEventPayload | GollumEventPayload | IssueCommentEventPayload | IssuesEventPayload | MemberEventPayload | PullRequestEventPayload | PullRequestReviewCommentEventPayload | PushEventPayload | Record<string, unknown> | ReleaseEventPayload | SponsorshipEventPayload | WatchEventPayload;
+	| CommitCommentEventPayload
+	| CreateDeleteEventPayload
+	| ForkEventPayload
+	| GollumEventPayload
+	| IssueCommentEventPayload
+	| IssuesEventPayload
+	| MemberEventPayload
+	| PullRequestEventPayload
+	| PullRequestReviewCommentEventPayload
+	| PushEventPayload
+	| ReleaseEventPayload
+	| SponsorshipEventPayload
+	| WatchEventPayload;
 }
+
+/* eslint-enable camelcase */

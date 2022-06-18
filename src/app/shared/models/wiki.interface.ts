@@ -1,4 +1,4 @@
-export const DEFAULT_WIKI_RESPONSE_PAGE: WikiResponsePage = {
+export const INIT_WIKI_RESPONSE_PAGE: WikiResponsePage = {
 	canonicalurl: "",
 	contentmodel: "",
 	description: "No information available for this item.",
@@ -14,7 +14,7 @@ export const DEFAULT_WIKI_RESPONSE_PAGE: WikiResponsePage = {
 	pagelanguagehtmlcode: "",
 	title: "No information available",
 	touched: "",
-}
+};
 
 export interface WikiResponsePage {
 	readonly canonicalurl: string;
@@ -36,7 +36,7 @@ export interface WikiResponsePage {
 
 export interface WikiResponseModel {
 	readonly batchcomplete: boolean;
-	readonly query: {
-		readonly pages: readonly WikiResponsePage[];
+	readonly query?: {
+		readonly pages?: readonly WikiResponsePage[];
 	};
 }

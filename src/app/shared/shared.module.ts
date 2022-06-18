@@ -56,8 +56,6 @@ import { SocialGlyphsComponent } from "./social-glyphs/social-glyphs.component";
 		CommonModule,
 		FormsModule,
 	],
-	providers: [
-		TooltipService,
-	]
+	providers: [ TooltipService ],
 })
 export class SharedModule { }

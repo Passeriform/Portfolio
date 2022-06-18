@@ -7,6 +7,8 @@ export interface FuzzySegment {
 	value: string;
 }
 
+// TODO: Fix lint issues.
+
 @Injectable()
 export class FuzzyAnalyzer {
 	public parseValue(value: string, input: string): readonly FuzzySegment[] {

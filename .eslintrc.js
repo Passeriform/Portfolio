@@ -165,7 +165,8 @@ module.exports = {
 				"@typescript-eslint/no-non-null-assertion": "off",
 				"@typescript-eslint/consistent-type-imports": "warn",			// Too aggressive and lacking injection support
 				"@typescript-eslint/no-unused-vars": ["error", {
-					"varsIgnorePattern": "^_$"
+					"varsIgnorePattern": "^_$",
+					"argsIgnorePattern": "^_$"
 				}],
 				"@typescript-eslint/space-before-function-paren": ["error",
           {
@@ -481,7 +482,8 @@ module.exports = {
         ],
 
         // Override eslint-plugin-unicorn
-        "unicorn/empty-brace-spaces": "off",
+				"unicorn/empty-brace-spaces": "off",
+				"unicorn/explicit-length-check": "off",
         "unicorn/custom-error-definition": "error",
         "unicorn/import-index": "error",
         "unicorn/prevent-abbreviations": ["error",
@@ -654,7 +656,6 @@ module.exports = {
         "accessor-pairs": "error",
 				"array-bracket-newline": ["error", {
 					"multiline": true,
-					"minItems": 2
 				}],
 				"array-bracket-spacing": ["error", "always", {
 					"objectsInArrays": false,
@@ -857,7 +858,9 @@ module.exports = {
 				"no-whitespace-before-property": "error",
 				"nonblock-statement-body-position": "error",
 				"object-curly-newline": "error",
-				"object-property-newline": "error",
+				"object-property-newline": ["error", {
+					"allowAllPropertiesOnSameLine": true
+				}],
 				"object-shorthand": "error",
 				"one-var": ["error", "never"],
 				"one-var-declaration-per-line": "error",

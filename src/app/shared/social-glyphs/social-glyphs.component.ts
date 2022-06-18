@@ -1,5 +1,5 @@
-import { Component, Input } from "@angular/core";
 import type { OnInit } from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 import type { LinkModel } from "@shared/models/link.interface";
 

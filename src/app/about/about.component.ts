@@ -1,10 +1,11 @@
-import { Component } from "@angular/core";
 import type { AfterViewInit, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
 import { LoaderService } from "@app/loader/loader.service";
 import { SplashState } from "@core/services/splash-state.interface";
 import { SplashStateService } from "@core/services/splash-state.service";
+
 import type { AboutModel } from "./models/about.interface";
 
 @Component({

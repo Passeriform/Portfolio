@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
-import { RouterModule } from "@angular/router";
 import type { Routes } from "@angular/router";
+import { RouterModule } from "@angular/router";
 
 import { LandingComponent } from "./landing.component";
 // import { PersonalityGuard } from "../core";

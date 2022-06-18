@@ -45,10 +45,41 @@ $nav-ul-height: math.div(header.$header-size, 2);
 					right: 0;
 					bottom: 0;
 					left: 0;
-					height: 2em;
 					margin: auto;
+					height: 2em;
 					transition: all 0.5s ease;
 				}
+			}
+		}
+
+		&.shrink-navtab {
+			padding: 0 0.5em;
+			padding-left: 2em;
+			background-color: map.get($theme, "accent", "hex");
+			clip-path: polygon(1.5em 0, 100% 0, 100% 100%, 2em 100%, 0 1.5em);
+
+			& > li {
+				padding: 1em;
+				line-height: 2em;
+
+				& > a {
+					color: invert(map.get($theme, "accent", "hex"));
+
+					&:before {
+						top: 0;
+						bottom: 0;
+						width: 80%;
+						transform: scaleX(0);
+						background-color: mix(black, map.get($theme, "accent", "hex"), 100%);
+						mix-blend-mode: difference;
+					}
+				}
+			}
+
+			& > li:hover > a:before {
+				border: 1px solid invert(map.get($theme, "accent", "hex"));
+				transform: scaleX(1);
+				background-color: mix(white, invert(map.get($theme, "background", "hex")), 100%);
 			}
 		}
 
@@ -67,12 +98,8 @@ $nav-ul-height: math.div(header.$header-size, 2);
 					}
 				}
 
-				&:hover > a {
-					font-weight: 600;
-
-					&:before {
-						transform: scaleY(1);
-					}
+				&:hover > a:before {
+					transform: scaleY(1);
 				}
 			}
 
@@ -87,7 +114,6 @@ $nav-ul-height: math.div(header.$header-size, 2);
 						left: 0;
 						margin: auto;
 						transition: all 0.5s ease;
-
 						width: 80%;
 						height: 100%;
 						transform: scaleY(0.05);
@@ -95,6 +121,7 @@ $nav-ul-height: math.div(header.$header-size, 2);
 						background-color: map.get($theme, "accent", "hex");
 						mix-blend-mode: difference;
 					}
+
 					&:hover > a:after {
 						transform: scaleY(1);
 					}
@@ -130,37 +157,6 @@ $nav-ul-height: math.div(header.$header-size, 2);
 						color: map.get($theme, "accent", "hex");
 					}
 				}
-			}
-		}
-
-		&.shrink-navtab {
-			padding: 0 0.5em;
-			padding-left: 2em;
-			background-color: map.get($theme, "accent", "hex");
-			clip-path: polygon(1.5em 0, 100% 0, 100% 100%, 2em 100%, 0 1.5em);
-
-			& > li {
-				padding: 1em;
-				line-height: 2em;
-
-				& > a {
-					color: invert(map.get($theme, "accent", "hex"));
-
-					&:before {
-						top: 0;
-						bottom: 0;
-						width: 80%;
-						transform: scaleX(0);
-						background-color: mix(black, map.get($theme, "accent", "hex"), 100%);
-						mix-blend-mode: difference;
-					}
-				}
-			}
-
-			& > li:hover > a:before {
-				transform: scaleX(1);
-				border: 1px solid invert(map.get($theme, "accent", "hex"));
-				background-color: mix(white, invert(map.get($theme, "background", "hex")), 100%);
 			}
 		}
 	}

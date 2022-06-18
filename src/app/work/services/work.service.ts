@@ -55,7 +55,7 @@ export class WorkService {
 
 		return this.http.get<readonly WorkModel[]>(`${environment.apiUrl}/work`)
 			.pipe(
-				tap((model: readonly WorkModel[]) => {
+				tap(() => {
 					this.loaderService.endLoading("[http] work");
 				}),
 				map((model: readonly WorkModel[]) => {

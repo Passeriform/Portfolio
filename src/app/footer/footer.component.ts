@@ -1,8 +1,9 @@
-import { Component, ElementRef, HostBinding, Input } from "@angular/core";
 import type { OnInit } from "@angular/core";
+import { Component, ElementRef, HostBinding, Input } from "@angular/core";
 
+import type { LinkModel } from "@shared/models/link.interface";
 import { PageEndRevealService } from "@core/services/page-end-reveal.service";
-import { LinkModel } from "@shared/models/link.interface";
+
 import { Constants } from "./footer.config";
 import { FooterService } from "./footer.service";
 
@@ -37,7 +38,7 @@ export class FooterComponent implements OnInit {
 			private readonly pageEndRevealService: PageEndRevealService,
 			private readonly footerService: FooterService,
 	) {
-		this.pageEndRevealService.setPageEndRevealElement(pageEndRevealElement.nativeElement);
+		this.pageEndRevealService.setPageEndRevealElement(pageEndRevealElement.nativeElement as HTMLElement);
 		this.footerService.refreshLinks({
 			aboutCount: this.aboutCount,
 			socialCount: this.socialCount,
