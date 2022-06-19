@@ -1,6 +1,12 @@
-<ul class="page-nav-container">
+<ul
+		class="page-nav-container"
+		(mouseover)="setExpanded(true)"
+		(mouseout)="setExpanded(false)"
+		(focus)="setExpanded(true)"
+		(blur)="setExpanded(false)"
+	>
 	<li *ngFor="let page of pages; let idx = index" class="page-nav-entry">
-		<a class="page-nav-link" (click)="switchToPage(idx)">
+		<a class="page-nav-link" (mousedown)="switchToPage(idx)">
 			<div class="page-nav-marker"></div>
 		</a>
 	</li>

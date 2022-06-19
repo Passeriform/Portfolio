@@ -21,7 +21,7 @@ $left-collapsed-em: -(math.div($nav-width-em + $nav-link-dot-size, 2));
 	pointer-events: none;
 	transition: all 0.2s ease;
 
-	&:hover {
+	&.expanded {
 		left: 0;
 	}
 

@@ -55,7 +55,7 @@ $input-element-padding: 1em;
 
 			@include form-element;
 
-			@at-root #{selector-replace(&, '.input-field', 'input.input-field')}:not([ type=submit ]) {
+			@at-root #{selector-replace(&, ".input-field", "input.input-field")}:not([ type=submit ]) {
 				padding: 0 $input-element-padding;
 
 				&:focus {
@@ -63,7 +63,7 @@ $input-element-padding: 1em;
 				}
 			}
 
-			@at-root #{selector-replace(&, '.input-field', 'textarea.input-field')} {
+			@at-root #{selector-replace(&, ".input-field", "textarea.input-field")} {
 				min-height: $textarea-height;
 
 				& + .input-label:after {
@@ -71,7 +71,7 @@ $input-element-padding: 1em;
 				}
 			}
 
-			@at-root #{selector-replace(&, '.input-field', 'input.input-field')}[ type=submit ] {
+			@at-root #{selector-replace(&, ".input-field", "input.input-field")}[ type=submit ] {
 				padding: 0.5em 2em;
 				font-size: 0.85em;
 				letter-spacing: 0.2em;

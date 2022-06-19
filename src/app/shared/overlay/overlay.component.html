@@ -1,11 +1,11 @@
 <div class="overlay-positioner">
 	<div
 		class="overlay"
-		(click)="hideOverlay()"
+		(mousedown)="hideOverlay()"
 		[ngClass]="{'show': overlayState === OverlayState.SHOW}"
 		>
 		<ng-content></ng-content>
 	</div>
 
-	<div class="overlay-button" (click)="handleButtonClick()"></div>
+	<div class="overlay-button" (mousedown)="handleButtonClick()"></div>
 </div>

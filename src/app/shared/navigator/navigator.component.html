@@ -1,4 +1,4 @@
-<div class="flap-button" (click)="expand($event)" [ngClass]="{'expanded': expanded}">
+<div class="flap-button" (mousedown)="expand($event)" [ngClass]="{'expanded': expanded}">
   <div id="before"></div>
   <div id="after"></div>
   <div id="idle-icon">

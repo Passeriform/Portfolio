@@ -94,6 +94,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 	@HostListener("window:resize")
 	public onResize(): void {
 		this.computeMaxScrollSize();
+		this.computeDeltaIfFullpage();
 	}
 
 	@HostBinding("style.top")
@@ -183,6 +184,12 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 			(elementReference: ElementRef<HTMLElement>) => this.getViewSize(elementReference.nativeElement),
 		);
 		this.maxScrollableSize = childSizes.slice(0, -1).reduce((accumulator: number, current: number) => accumulator + current, 0);
+	}
+
+	private computeDeltaIfFullpage(): void {
+		if (this.fullpage && this.items.length) {
+			this.delta = this.getViewSize(this.items.first.nativeElement as HTMLElement);
+		}
 	}
 
 	private readonly getStartRevealElementEvent = (listener: string): Observable<Event> => {
@@ -303,11 +310,10 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 	ngAfterContentInit() {
 		this.pagesChildrenChangeEvent.emit(this.items);
 		this.computeMaxScrollSize();
-		if (this.fullpage && this.items.length) {
-			this.delta = this.getViewSize(this.items.first.nativeElement as HTMLElement);
-		}
+		this.computeDeltaIfFullpage();
 		this.items.changes.subscribe(() => {
 			this.computeMaxScrollSize();
+			this.computeDeltaIfFullpage();
 		});
 	}
 

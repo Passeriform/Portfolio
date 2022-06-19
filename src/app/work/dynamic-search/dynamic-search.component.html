@@ -5,5 +5,5 @@
 			type="text"
 			[(ngModel)]="queryString"
 			(ngModelChange)="applyFilter()"
-			(click)="$event.stopPropagation()"
+			(mousedown)="$event.stopPropagation()"
 		/>

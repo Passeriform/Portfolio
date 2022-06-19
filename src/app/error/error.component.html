@@ -13,7 +13,7 @@
     <div
         *ngIf="!('production' | environment)"
         [ngClass]="{'expand': debugExpanded}"
-        (click)="debugExpand()"
+        (mousedown)="debugExpand()"
 				(wheel)="scrollFired($event)"
         class="debug-window"
         #debugWindow
