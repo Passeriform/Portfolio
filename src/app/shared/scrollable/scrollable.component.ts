@@ -13,6 +13,8 @@ import { Constants } from "./scrollable.config";
 
 // TODO: Modify member utility function to exported free functions and move out to separate utility file.
 
+// TODO: Add keyboard controls.
+
 @Component({
 	selector: "app-scrollable",
 	styleUrls: [ "./scrollable.component.scss" ],

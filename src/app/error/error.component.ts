@@ -32,6 +32,10 @@ export class ErrorComponent implements OnInit, AfterViewInit {
 
 	ngAfterViewInit() {
 		this.renderer.listen("window", "click", (event: Event) => {
+			if (!this.debugWindow) {
+				return;
+			}
+
 			if (!this.debugWindow.nativeElement.contains(event.target as Node)) {
 				this.debugExpanded = false;
 			}
