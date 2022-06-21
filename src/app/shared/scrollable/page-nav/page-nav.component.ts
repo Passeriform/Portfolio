@@ -10,7 +10,7 @@ export class PageNavComponent implements OnChanges {
 	private currentPageIndex: number;
 
 	@Input() public readonly pages: QueryList<ElementRef>;
-	@Input() public readonly activePage: number;
+	@Input() public readonly activePage = 0;
 	@Input() public expanded = false;
 
 	@HostListener("document:touchstart", ["$event"]) public blur(event): void {

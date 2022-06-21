@@ -99,6 +99,16 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 		this.computeDeltaIfFullpage();
 	}
 
+	@HostBinding("style.width")
+	public get width(): string {
+		return (this.horizontal && this.fullpage) ? "100vw" : "100%";
+	}
+
+	@HostBinding("style.height")
+	public get height(): string {
+		return (!this.horizontal && this.fullpage) ? "100vh" : "100%";
+	}
+
 	@HostBinding("style.top")
 	public get top(): string {
 		if (this.horizontal || !(this.startReveal || this.endReveal)) {
