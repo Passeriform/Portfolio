@@ -1,3 +1,5 @@
+@import "list-plus";
+
 @function map-deep-set($map, $keys, $value) {
 	$maps: ($map,);
 	$result: null;
@@ -56,7 +58,7 @@
 
 @function map-merge-all($map-collector, $arg-maps...) {
 	@if length($arg-maps) > 1 {
-		$leftover: slice($arg-maps, 2, length($arg-maps));
+		$leftover: list-slice($arg-maps, 2, length($arg-maps));
 
 		$merged: map-merge-all(nth($arg-maps, 1), $leftover...);
 
