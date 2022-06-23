@@ -4,76 +4,141 @@
 
 @import "./page-nav.colors";
 
-$nav-width-em: 2em;
+$nav-extent-em: 2em;
 $nav-link-dot-size: 1em;
-$left-collapsed-em: -(math.div($nav-width-em + $nav-link-dot-size, 2));
+$collapsed-em: -(math.div($nav-extent-em + $nav-link-dot-size, 2));
+$nav-flap-size: $nav-extent-em;
+$nav-link-centering-padding: math.div($nav-extent-em - $nav-link-dot-size, 2);
+$nav-link-inter-padding: $nav-link-dot-size;
+$traveller-centering-offset: math.div($nav-extent-em - $nav-link-dot-size, 2);
+$traveller-inter-offset: calc(#{$nav-flap-size + $nav-link-inter-padding} + (#{$nav-link-dot-size + (2 * $nav-link-inter-padding)} * var(--traveller-offset)));
+$nav-flap-shapes: (
+	top: polygon(0 0, 100% 0, calc(100% - #{$nav-flap-size}) 100%, $nav-flap-size 100%),
+	right: polygon(0 $nav-flap-size, 100% 0, 100% 100%, 0 calc(100% - #{$nav-flap-size})),
+	bottom: polygon($nav-flap-size 0, calc(100% - #{$nav-flap-size}) 0, 100% 100%, 0 100%),
+	left: polygon(0 0, 100% $nav-flap-size, 100% calc(100% - #{$nav-flap-size}), 0 100%),
+);
+
+// TODO: Refactor unused styles and simplify
+
+// TODO: Use mixin to minimize
+
+// TODO: Check if other places can use replacement of flex with inline-flex
 
 :host {
 	position: absolute;
-	top: 0;
-	left: $left-collapsed-em;
 	display: flex;
-	flex-direction: column;
-	align-content: center;
 	justify-content: center;
-	width: $nav-width-em;
-	height: 100%;
 	pointer-events: none;
 	transition: all 0.2s ease;
 
-	&.expanded {
+	@each $position, $shape in $nav-flap-shapes {
+		&.#{$position} > ul.page-nav-container {
+			clip-path: $shape;
+		}
+	}
+
+	@each $position in [top, right, bottom, left] {
+		&.#{$position} {
+			#{$position}: $collapsed-em;
+
+			&.expanded {
+				#{$position}: 0;
+			}
+		}
+	}
+
+	& > ul.page-nav-container {
+		position: relative;
+		display: inline-flex;
+		justify-content: center;
+		margin: 0;
+		background-color: invert(map.get($theme, "background", "hex"));
+		color: invert(map.get($theme, "accent", "hex"));
+
+		& > li.page-nav-entry {
+			display: inline-flex;
+			justify-content: center;
+
+			& > a.page-nav-link {
+				text-decoration: none;
+				cursor: pointer;
+
+				& > .page-nav-marker {
+					width: $nav-link-dot-size;
+					height: $nav-link-dot-size;
+					border: 1px solid invert(map.get($theme, "background", "hex"));
+					border-radius: $nav-link-dot-size;
+					background-color: transparent;
+					mix-blend-mode: difference;
+				}
+			}
+		}
+
+		& > .page-nav-traveller {
+			position: absolute;
+			width: $nav-link-dot-size;
+			height: $nav-link-dot-size;
+			border-radius: 1em;
+			transform: scale(1.25);
+			background-color: invert(map.get($theme, "background", "hex"));
+			mix-blend-mode: difference;
+			pointer-events: none;
+			transition: all 0.2s ease;
+		}
+	}
+
+	&.top, &.bottom {
 		left: 0;
+		flex-direction: row;
+		width: 100%;
+		height: $nav-extent-em;
+	}
+
+	&.left, &.right {
+		top: 0;
+		flex-direction: column;
+		width: $nav-extent-em;
+		height: 100%;
 	}
 
 	& > * {
 		pointer-events: all;
 	}
 
-	& > ul.page-nav-container {
-		$nav-flap-size: $nav-width-em;
-		$nav-link-padding: $nav-link-dot-size;
-
-		position: relative;
-		color: invert(map.get($theme, "accent", "hex"));
-		background-color: invert(map.get($theme, "background", "hex"));
-		padding: $nav-flap-size 0;
-		clip-path: polygon(0 0, 100% $nav-flap-size, 100% calc(100% - #{$nav-flap-size}), 0 100%);
+	&.top > ul.page-nav-container, &.bottom > ul.page-nav-container {
+		flex-direction: row;
+		padding: 0 $nav-flap-size;
 
 		& > li.page-nav-entry {
-			display: flex;
-			flex-direction: row;
-			justify-content: center;
-			align-content: center;
+			flex-direction: column;
 
 			& > a.page-nav-link {
-				text-decoration: none;
-				cursor: pointer;
-				padding: $nav-link-padding 0;
-
-				& > .page-nav-marker {
-					width: $nav-link-dot-size;
-					height: $nav-link-dot-size;
-					background-color: transparent;
-					border: 1px solid invert(map.get($theme, "background", "hex"));
-					border-radius: $nav-link-dot-size;
-					mix-blend-mode: difference;
-				}
+				padding: $nav-link-centering-padding $nav-link-inter-padding;
 			}
-
 		}
 
 		& > .page-nav-traveller {
-			position: absolute;
-		  width: $nav-link-dot-size;
-		  height: $nav-link-dot-size;
-			top: calc(#{$nav-flap-size + $nav-link-padding} + (#{$nav-link-dot-size + (2 * $nav-link-padding)} * var(--traveller-top)));
-		  left: math.div($nav-width-em - $nav-link-dot-size, 2);
-			border-radius: 1em;
-			background-color: invert(map.get($theme, "background", "hex"));
-			transform: scale(1.25);
-			mix-blend-mode: difference;
-			pointer-events: none;
-			transition: all 0.2s ease
+			top: $traveller-centering-offset;
+			left: $traveller-inter-offset;
+		}
+	}
+
+	&.left > ul.page-nav-container, &.right > ul.page-nav-container {
+		flex-direction: column;
+		padding: $nav-flap-size 0;
+
+		& > li.page-nav-entry {
+			flex-direction: row;
+
+			& > a.page-nav-link {
+				padding: $nav-link-inter-padding $nav-link-centering-padding;
+			}
+		}
+
+		& > .page-nav-traveller {
+			top: $traveller-inter-offset;
+			left: $traveller-centering-offset;
 		}
 	}
 }

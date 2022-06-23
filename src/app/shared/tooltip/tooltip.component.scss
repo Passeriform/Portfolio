@@ -23,6 +23,8 @@ $tooltip-arrow-height-em: 1em;
 
 :host {
 	position: absolute;
+	top: var(--tooltip-top);
+	left: var(--tooltip-left);
 	z-index: 10;
 	display: inline-block;
 	width: 0;

@@ -1,4 +1,10 @@
 <div class="scroll-content" [style.transform]="transform">
 	<ng-content></ng-content>
 </div>
-<app-page-nav *ngIf="fullpage && showPageNav" [pages]="items" [activePage]="pageIndex" (setActivePage)="setActivePageIndex($event)"></app-page-nav>
+<app-page-nav
+		*ngIf="fullpage && showPageNav"
+		[position]="getPageNavPosition()"
+		[pages]="items"
+		[activePage]="pageIndex"
+		(setActivePage)="setActivePageIndex($event)"
+	></app-page-nav>

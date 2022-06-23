@@ -7,6 +7,7 @@ import type { Observable } from "rxjs";
 import { NEVER, concat, fromEvent, identity, merge } from "rxjs";
 import { bufferCount, filter, map, pluck, repeat, take, takeUntil, throttleTime } from "rxjs/operators";
 
+import { Orientation, Position } from "@shared/models/cardinals.interface";
 import { PageEndRevealService } from "@core/services/page-end-reveal.service";
 
 import { Constants } from "./scrollable.config";
@@ -27,7 +28,6 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 	@Input() private readonly sensitivity = Constants.SENSITIVITY_DEFAULT;
 	@Input() private readonly throttle = Constants.THROTTLE_DEFAULT;
 	@Input() private readonly smoothScroll = Constants.SMOOTH_SCROLL_DEFAULT;
-	@Input() private readonly horizontal = Constants.VERTICAL;
 	@Input() private delta = Constants.DELTA_DEFAULT;
 	@Input() private endReveal = false;
 	@Input() private startReveal = false;
@@ -35,7 +35,9 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 	@Input() private readonly allowEndReveal: boolean;
 	@Input() private startRevealElement: HTMLElement;
 	@Input() private endRevealElement: HTMLElement;
+	@Input() public readonly orientation = Constants.ORIENTATION_DEFAULT;
 	@Input() public readonly showPageNav = false;
+	@Input() public readonly pageNavPosition: Position;
 	@Input() public readonly fullpage: boolean;
 
 	@Output() private readonly pageChangeEvent: EventEmitter<number> = new EventEmitter<number>();
@@ -101,17 +103,17 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 
 	@HostBinding("style.width")
 	public get width(): string {
-		return (this.horizontal && this.fullpage) ? "100vw" : "100%";
+		return (this.orientation === Orientation.HORIZONTAL && this.fullpage) ? "100vw" : "100%";
 	}
 
 	@HostBinding("style.height")
 	public get height(): string {
-		return (!this.horizontal && this.fullpage) ? "100vh" : "100%";
+		return (this.orientation === Orientation.VERTICAL && this.fullpage) ? "100vh" : "100%";
 	}
 
 	@HostBinding("style.top")
 	public get top(): string {
-		if (this.horizontal || !(this.startReveal || this.endReveal)) {
+		if (this.orientation === Orientation.HORIZONTAL || !(this.startReveal || this.endReveal)) {
 			return "0px";
 		}
 
@@ -122,7 +124,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 
 	@HostBinding("style.left")
 	public get left(): string {
-		if (!this.horizontal || !(this.startReveal || this.endReveal)) {
+		if (this.orientation === Orientation.VERTICAL || !(this.startReveal || this.endReveal)) {
 			return "0px";
 		}
 
@@ -209,7 +211,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 
 		return fromEvent(eventCapturer, listener)
 			.pipe(
-				filter(() => eventCapturer[this.horizontal ? "scrollLeft" : "scrollTop"] === this.getViewSize(eventCapturer)),
+				filter(() => eventCapturer[this.orientation === Orientation.HORIZONTAL ? "scrollLeft" : "scrollTop"] === this.getViewSize(eventCapturer)),
 			);
 	};
 
@@ -218,7 +220,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 
 		return fromEvent(eventCapturer, listener)
 			.pipe(
-				filter(() => eventCapturer[this.horizontal ? "scrollLeft" : "scrollTop"] === 0),
+				filter(() => eventCapturer[this.orientation === Orientation.HORIZONTAL ? "scrollLeft" : "scrollTop"] === 0),
 			);
 	};
 
@@ -226,11 +228,11 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 		`${
 			this.nestedScroll ? "client" : "offset"
 		}${
-			this.horizontal ? "Width" : "Height"
+			this.orientation === Orientation.HORIZONTAL ? "Width" : "Height"
 		}`
 	] as number
-		+ Number.parseFloat(getComputedStyle(element).getPropertyValue(this.horizontal ? "margin-left" : "margin-top"))
-		+ Number.parseFloat(getComputedStyle(element).getPropertyValue(this.horizontal ? "margin-right" : "margin-bottom"));
+		+ Number.parseFloat(getComputedStyle(element).getPropertyValue(this.orientation === Orientation.HORIZONTAL ? "margin-left" : "margin-top"))
+		+ Number.parseFloat(getComputedStyle(element).getPropertyValue(this.orientation === Orientation.HORIZONTAL ? "margin-right" : "margin-bottom"));
 
 	private readonly nestedScrollFilter = (shiftAmt: number): boolean => {
 		if (!this.nestedScroll) {
@@ -263,9 +265,9 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 			readonly scrollWidth: number;
 		} = pageElement;
 
-		const elementSize = this.horizontal ? clientWidth : clientHeight;
-		const scrollableSize = this.horizontal ? scrollWidth : scrollHeight;
-		const scrolled = this.horizontal ? scrollLeft : scrollTop;
+		const elementSize = this.orientation === Orientation.HORIZONTAL ? clientWidth : clientHeight;
+		const scrollableSize = this.orientation === Orientation.HORIZONTAL ? scrollWidth : scrollHeight;
+		const scrolled = this.orientation === Orientation.HORIZONTAL ? scrollLeft : scrollTop;
 
 		if (shiftAmt < 0) {
 			// Scrolling up
@@ -280,7 +282,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 			scrollStream$: Observable<WheelEvent>,
 	): Observable<number> => scrollStream$
 		.pipe(
-			pluck(this.horizontal ? "deltaX" : "deltaY"),
+			pluck(this.orientation === Orientation.HORIZONTAL ? "deltaX" : "deltaY"),
 			filter((difference: number) => Math.abs(difference) >= Math.abs(this.scrollThreshold)),
 			filter(this.nestedScrollFilter),
 		);
@@ -294,7 +296,7 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 			pluck("touches"),
 			map(([ touch ]: TouchList) => touch),
 			map(
-				(touch: Touch | undefined) => this.horizontal
+				(touch: Touch | undefined) => this.orientation === Orientation.HORIZONTAL
 					? touch?.pageX ?? 0
 					: touch?.pageY ?? 0,
 			),
@@ -396,11 +398,16 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 	}
 
 	public get transform(): string {
-		if (this.horizontal) {
+		if (this.orientation === Orientation.HORIZONTAL) {
 			return `translateX(${-this.delta * this.pageIndex}px)`;
 		}
 
 		return `translateY(${-this.delta * this.pageIndex}px)`;
+	}
+
+	// TODO: Make PageNav compatible when fullpage is false. Use delta and expected scroll to index.
+	public getPageNavPosition() {
+		return this.pageNavPosition ?? (this.orientation === Orientation.HORIZONTAL ? Position.BOTTOM : Position.LEFT);
 	}
 
 	public setActivePageIndex(index: number) {

@@ -1,7 +1,9 @@
+import { Orientation } from "@shared/models/cardinals.interface";
+
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 export const Constants: {
 	readonly DELTA_DEFAULT: number;
-	readonly HORIZONTAL: boolean;
+	readonly ORIENTATION_DEFAULT: Orientation;
 	readonly INITIAL_PAGE_INDEX: number;
 	readonly SCROLL_SCALING_FACTOR: number;
 	readonly SCROLL_THRESHOLD: number;
@@ -13,7 +15,7 @@ export const Constants: {
 	readonly VERTICAL: boolean;
 } = {
 	DELTA_DEFAULT: 100,
-	HORIZONTAL: true,
+	ORIENTATION_DEFAULT: Orientation.VERTICAL,
 	INITIAL_PAGE_INDEX: 0,
 	SCROLL_SCALING_FACTOR: 90,
 	SCROLL_THRESHOLD: 0.1,

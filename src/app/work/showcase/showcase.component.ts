@@ -1,6 +1,8 @@
 import type { OnInit } from "@angular/core";
 import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
 
+import { Orientation, Position } from "@shared/models/cardinals.interface";
+
 import type { WorkModel } from "../work.interface";
 import { WorkService } from "../services/work.service";
 
@@ -11,6 +13,9 @@ import { WorkService } from "../services/work.service";
 })
 export class ShowcaseComponent implements OnInit {
 	@ViewChild("cardScroller", { read: ElementRef }) public readonly cardChild: ElementRef<HTMLElement>;
+
+	public readonly Position = Position;
+	public readonly Orientation = Orientation;
 
 	public model: readonly WorkModel[];
 	public windowHeight: number;
