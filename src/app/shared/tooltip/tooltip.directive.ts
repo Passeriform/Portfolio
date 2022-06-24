@@ -1,6 +1,8 @@
 import type { AfterViewInit, ComponentRef, OnDestroy } from "@angular/core";
 import { ApplicationRef, ComponentFactoryResolver, Directive, ElementRef, HostListener, Injector, Input, TemplateRef, ViewChild, ViewContainerRef } from "@angular/core";
 
+import { Position } from "@shared/models/cardinals.interface";
+
 import { TooltipComponent } from "./tooltip.component";
 import { TooltipService } from "./tooltip.service";
 
@@ -10,7 +12,7 @@ import { TooltipService } from "./tooltip.service";
 export class TooltipDirective implements AfterViewInit, OnDestroy {
 	@ViewChild(TemplateRef, { read: ViewContainerRef }) private readonly viewContainer: ViewContainerRef;
 
-	@Input() public readonly position = "bottom";
+	@Input() public readonly position = Position.BOTTOM;
 	@Input() public readonly template: TemplateRef<ElementRef>;
 	@Input() public invert: boolean;
 
@@ -22,8 +24,10 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
 	public showTooltip(event: FocusEvent | MouseEvent): void {
 		const boundingRect = (event.currentTarget as HTMLElement).getBoundingClientRect();
 		this.tooltipService.setTemplate$(this.template);
+		this.tooltipService.setPosition$(this.position);
+		this.tooltipService.setInvert$(this.invert);
 		/* eslint-disable-next-line @typescript-eslint/no-magic-numbers */
-		this.tooltipService.setPosition$([
+		this.tooltipService.setOffset$([
 			boundingRect.top + (boundingRect.height / 2),
 			boundingRect.left + (boundingRect.width / 2),
 		]);
@@ -59,8 +63,6 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
 			.create(this.injector, [], tooltipPortal);
 
 		this.componentInstance = this.componentRef.instance as TooltipComponent;
-		this.componentInstance.positionType = this.position;
-		this.componentInstance.invert = this.invert;
 		this.appReference.attachView(this.componentRef.hostView);
 	}
 

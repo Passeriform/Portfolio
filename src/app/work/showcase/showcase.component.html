@@ -52,7 +52,7 @@
               <div i18n-position appTooltip
                   *ngIf="entry.languages?.length"
                   class="languages"
-                  position="top"
+                  [position]="Position.TOP"
                   [invert]="true"
                   [template]="languageTooltipTemplate"
                 >
@@ -75,7 +75,7 @@
               <div i18n-position appTooltip
                   *ngIf="entry.frameworks?.length"
                   class="frameworks"
-                  position="top"
+                  [position]="Position.TOP"
                   [invert]="true"
                   [template]="frameworkTooltipTemplate"
                 >
@@ -98,7 +98,7 @@
               <div i18n-position appTooltip
                   *ngIf="entry.tools?.length"
                   class="tools"
-                  position="top"
+                  [position]="Position.TOP"
                   [invert]="true"
                   [template]="toolTooltipTemplate"
                 >

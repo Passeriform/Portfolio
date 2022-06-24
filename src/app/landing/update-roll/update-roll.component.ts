@@ -1,6 +1,8 @@
 import type { OnInit } from "@angular/core";
 import { Component } from "@angular/core";
 
+import { Position } from "@shared/models/cardinals.interface";
+
 import type { GithubEvent } from "./github.interface";
 import { GithubService } from "./github.service";
 
@@ -12,6 +14,8 @@ type GithubEventUIState = GithubEvent & { expand?: boolean };
 	templateUrl: "./update-roll.component.html",
 })
 export class UpdateRollComponent implements OnInit {
+	public readonly Position = Position;
+
 	public updates: (GithubEventUIState)[];
 
 	constructor(private readonly githubService: GithubService) {

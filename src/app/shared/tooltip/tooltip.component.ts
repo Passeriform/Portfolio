@@ -1,5 +1,7 @@
-import type { OnInit, TemplateRef } from "@angular/core";
-import { Component, ElementRef, HostBinding, Input, Renderer2 } from "@angular/core";
+import type { ElementRef, OnInit, TemplateRef } from "@angular/core";
+import { Component, HostBinding, Input } from "@angular/core";
+
+import { Position } from "@shared/models/cardinals.interface";
 
 import { TooltipService } from "./tooltip.service";
 
@@ -9,27 +11,24 @@ import { TooltipService } from "./tooltip.service";
 	templateUrl: "./tooltip.component.html",
 })
 export class TooltipComponent implements OnInit {
-	@Input() public positionType: string;
+	@Input() public position: Position;
 	@Input() public invert: boolean;
 	@Input() public tooltipTemplate: TemplateRef<ElementRef>;
 
+	@HostBinding("class") public get positionClass(): string {
+		const positionClasses: Record<Position, string> = {
+			[Position.TOP]: "top",
+			[Position.RIGHT]: "right",
+			[Position.BOTTOM]: "bottom",
+			[Position.LEFT]: "left",
+		}
+
+		return positionClasses[this.position];
+	}
+
 	@HostBinding("class.show") public showToggle: boolean;
 
-	@HostBinding("class.top")
-	public get isTop(): boolean {
-		return this.positionType === "top";
-	}
-
-	@HostBinding("class.bottom")
-	public get isBottom(): boolean {
-		return this.positionType === "bottom";
-	}
-
-	constructor(
-			private readonly renderer: Renderer2,
-			private readonly elementReference: ElementRef,
-			private readonly tooltipService: TooltipService,
-	) { }
+	constructor(private readonly tooltipService: TooltipService) { }
 
 	ngOnInit() {
 		this.tooltipService.showTooltipState$.subscribe((toggle: boolean) => {
@@ -38,9 +37,15 @@ export class TooltipComponent implements OnInit {
 		this.tooltipService.templateState$.subscribe((template: TemplateRef<ElementRef>) => {
 			this.tooltipTemplate = template;
 		});
-		this.tooltipService.positionState$.subscribe(([ top, left ]: [ number, number ]) => {
-			this.renderer.setStyle(this.elementReference.nativeElement, "top", `${top}px`);
-			this.renderer.setStyle(this.elementReference.nativeElement, "left", `${left}px`);
+		this.tooltipService.positionState$.subscribe((position: Position) => {
+			this.position = position;
+		});
+		this.tooltipService.invertState$.subscribe((invert: boolean) => {
+			this.invert = invert;
+		});
+		this.tooltipService.offsetState$.subscribe(([ top, left ]: [ number, number ]) => {
+			document.documentElement.style.setProperty("--tooltip-top", `${top}px`);
+			document.documentElement.style.setProperty("--tooltip-left", `${left}px`);
 		});
 	}
 }

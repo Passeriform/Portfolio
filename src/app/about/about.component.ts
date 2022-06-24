@@ -2,6 +2,7 @@ import type { AfterViewInit, OnInit } from "@angular/core";
 import { Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
+import { Position } from "@shared/models/cardinals.interface";
 import { LoaderService } from "@app/loader/loader.service";
 import { SplashState } from "@core/services/splash-state.interface";
 import { SplashStateService } from "@core/services/splash-state.service";
@@ -14,6 +15,8 @@ import type { AboutModel } from "./models/about.interface";
 	templateUrl: "./about.component.html",
 })
 export class AboutComponent implements OnInit, AfterViewInit {
+	public readonly Position = Position;
+
 	public model: AboutModel;
 
 	constructor(

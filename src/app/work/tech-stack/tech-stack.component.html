@@ -16,7 +16,7 @@
               </ng-template>
 
               <div i18n-position appTooltip
-                  position="bottom"
+                  [position]="Position.BOTTOM"
                   [template]="tooltipTemplate"
                 >
                 <img alt="{{ elem }}" src="{{ elem | iconUri }}" />

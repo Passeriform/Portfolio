@@ -2,8 +2,6 @@ import type { OnChanges, QueryList, SimpleChanges } from "@angular/core";
 import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output } from "@angular/core";
 
 import { Position } from "@shared/models/cardinals.interface";
-import { objectTypedEntries } from "@utility/utility";
-
 
 @Component({
 	selector: "app-page-nav",

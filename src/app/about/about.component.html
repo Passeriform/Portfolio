@@ -55,7 +55,7 @@
                 <span>{{ contributor.description }}</span>
               </ng-template>
 
-              <div i18n-position appTooltip position="bottom" [template]="tooltipTemplate">
+              <div i18n-position appTooltip [position]="Position.BOTTOM" [template]="tooltipTemplate">
                 <a routerLink="/about/{{ contributor.aboutUrl }}">
                   <img i18n-alt *ngIf="contributor.img" alt="profile-contributor-img" src="{{ contributor.img }}" />
                 </a>

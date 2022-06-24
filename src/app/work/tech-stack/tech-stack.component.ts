@@ -1,7 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { Component, Input } from "@angular/core";
 
-// import { WikiPipe } from "@shared/pipes/wiki.pipe";
+import { Position } from "@shared/models/cardinals.interface";
 
 @Component({
 	selector: "app-tech-stack",
@@ -9,6 +9,8 @@ import { Component, Input } from "@angular/core";
 	templateUrl: "./tech-stack.component.html",
 })
 export class TechStackComponent implements OnInit {
+	public readonly Position = Position;
+
 	@Input() public readonly model: readonly Record<string, unknown>[];
 
 	public readonly tooltipShownFor: string;
