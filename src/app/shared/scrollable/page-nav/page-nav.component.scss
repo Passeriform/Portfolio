@@ -46,19 +46,88 @@ $traveller-arrow-shapes: (
 	transition: all 0.2s ease;
 
 	@each $position, $shape in $nav-flap-shapes {
-		&.#{$position} > ul.page-nav-container {
-			clip-path: $shape;
-		}
-	}
-
-	@each $position in [top, right, bottom, left] {
 		&.#{$position} {
+			@if (index([ "top", "bottom" ], $position)) {
+				left: 0;
+				flex-direction: row;
+				width: 100%;
+				height: $nav-extent-em;
+
+			 	& > ul.page-nav-container {
+					flex-direction: row;
+					padding: 0 $nav-flap-size;
+
+					& > li.page-nav-entry {
+						flex-direction: column;
+
+						& > a.page-nav-link {
+							padding: $nav-link-centering-padding $nav-link-inter-padding;
+						}
+					}
+				}
+			} @else {
+				top: 0;
+				flex-direction: column;
+				width: $nav-extent-em;
+				height: 100%;
+
+				& > ul.page-nav-container {
+					flex-direction: column;
+					padding: $nav-flap-size 0;
+
+					& > li.page-nav-entry {
+						flex-direction: row;
+
+						& > a.page-nav-link {
+							padding: $nav-link-inter-padding $nav-link-centering-padding;
+						}
+					}
+				}
+			}
+
 			#{$position}: $collapsed-em;
 
 			&.expanded {
 				#{$position}: 0;
 			}
+
+			& > ul.page-nav-container {
+				clip-path: $shape;
+			}
 		}
+	}
+
+	@each $position, $shape in $traveller-arrow-shapes {
+		&.#{$position} {
+			@if (index([ "top", "bottom" ], $position)) {
+				& > ul.page-nav-container > .page-nav-traveller {
+					left: $traveller-inter-offset;
+					width: $nav-link-dot-size;
+					height: math.div(math.sqrt(3), 2) * math.div($nav-link-dot-size, 2);
+				}
+			} @else {
+				& > ul.page-nav-container > .page-nav-traveller {
+					top: $traveller-inter-offset;
+					width: math.div(math.sqrt(3), 2) * math.div($nav-link-dot-size, 2);
+					height: $nav-link-dot-size;
+				}
+			}
+
+			&.expanded > ul.page-nav-container > .page-nav-traveller {
+				#{$position}: $traveller-centering-offset;
+			}
+
+			& > ul.page-nav-container > .page-nav-traveller {
+				#{$position}: $traveller-centering-offset + $traveller-arrow-offset;
+				clip-path: $shape;
+			}
+		}
+	}
+
+	&.expanded > ul.page-nav-container > .page-nav-traveller {
+		width: $nav-link-dot-size;
+		height: $nav-link-dot-size;
+		clip-path: shapes.get-shape(["ellipse", "circle"]);
 	}
 
 	& > ul.page-nav-container {
@@ -90,9 +159,6 @@ $traveller-arrow-shapes: (
 
 		& > .page-nav-traveller {
 			position: absolute;
-			width: $nav-link-dot-size;
-			height: $nav-link-dot-size;
-			border-radius: 1em;
 			transform: scale(1.25);
 			background-color: invert(map.get($theme, "background", "hex"));
 			mix-blend-mode: difference;
@@ -101,57 +167,7 @@ $traveller-arrow-shapes: (
 		}
 	}
 
-	&.top, &.bottom {
-		left: 0;
-		flex-direction: row;
-		width: 100%;
-		height: $nav-extent-em;
-	}
-
-	&.left, &.right {
-		top: 0;
-		flex-direction: column;
-		width: $nav-extent-em;
-		height: 100%;
-	}
-
 	& > * {
 		pointer-events: all;
-	}
-
-	&.top > ul.page-nav-container, &.bottom > ul.page-nav-container {
-		flex-direction: row;
-		padding: 0 $nav-flap-size;
-
-		& > li.page-nav-entry {
-			flex-direction: column;
-
-			& > a.page-nav-link {
-				padding: $nav-link-centering-padding $nav-link-inter-padding;
-			}
-		}
-
-		& > .page-nav-traveller {
-			top: $traveller-centering-offset;
-			left: $traveller-inter-offset;
-		}
-	}
-
-	&.left > ul.page-nav-container, &.right > ul.page-nav-container {
-		flex-direction: column;
-		padding: $nav-flap-size 0;
-
-		& > li.page-nav-entry {
-			flex-direction: row;
-
-			& > a.page-nav-link {
-				padding: $nav-link-inter-padding $nav-link-centering-padding;
-			}
-		}
-
-		& > .page-nav-traveller {
-			top: $traveller-inter-offset;
-			left: $traveller-centering-offset;
-		}
 	}
 }

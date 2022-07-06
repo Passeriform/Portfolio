@@ -14,14 +14,11 @@ export class PageNavComponent implements OnChanges {
 	@Input() public readonly pages: QueryList<ElementRef>;
 	@Input() public readonly position: Position = Position.LEFT;
 	@Input() public readonly activePage = 0;
+	@Input() public readonly keepExpanded = false;
 	@Input() public expanded = false;
 
-	@HostListener("document:touchstart", ["$event"]) public blur(event): void {
-    if(this.elementReference.nativeElement.contains(event.target)) {
-      this.expanded = true;
-    } else {
-			this.expanded = false;
-		}
+	@HostListener("document:touchstart", ["$event"]) public touchHandler(event): void {
+    this.expanded = this.elementReference.nativeElement.contains(event.target);
   }
 
 	@HostBinding("class") public get positionClass(): string {
@@ -36,7 +33,7 @@ export class PageNavComponent implements OnChanges {
 	}
 
 	@HostBinding("class.expanded") public get navExpanded(): boolean {
-		return this.expanded;
+		return this.keepExpanded || this.expanded;
 	}
 
 	@Output() public readonly setActivePage: EventEmitter<number> = new EventEmitter<number>();

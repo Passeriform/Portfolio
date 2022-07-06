@@ -6,5 +6,6 @@
 		[position]="getPageNavPosition()"
 		[pages]="items"
 		[activePage]="pageIndex"
+		[keepExpanded]="startReveal || endReveal"
 		(setActivePage)="setActivePageIndex($event)"
 	></app-page-nav>

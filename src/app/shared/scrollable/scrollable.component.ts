@@ -29,16 +29,17 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 	@Input() private readonly throttle = Constants.THROTTLE_DEFAULT;
 	@Input() private readonly smoothScroll = Constants.SMOOTH_SCROLL_DEFAULT;
 	@Input() private delta = Constants.DELTA_DEFAULT;
-	@Input() private endReveal = false;
-	@Input() private startReveal = false;
 	@Input() private readonly allowStartReveal: boolean;
 	@Input() private readonly allowEndReveal: boolean;
 	@Input() private startRevealElement: HTMLElement;
 	@Input() private endRevealElement: HTMLElement;
 	@Input() public readonly orientation = Constants.ORIENTATION_DEFAULT;
 	@Input() public readonly showPageNav = false;
+	@Input() public endReveal = false;
+	@Input() public startReveal = false;
 	@Input() public readonly pageNavPosition: Position;
 	@Input() public readonly fullpage: boolean;
+	@Input() public readonly pageResetTrigger$: Observable<void>;
 
 	@Output() private readonly pageChangeEvent: EventEmitter<number> = new EventEmitter<number>();
 	@Output() private readonly pagesChildrenChangeEvent: EventEmitter<QueryList<ElementRef>> = new EventEmitter<QueryList<ElementRef>>();
@@ -332,6 +333,8 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 	}
 
 	ngAfterViewInit() {
+		this.pageResetTrigger$?.subscribe(() => this.setActivePageIndex(0));
+
 		this.pageEndRevealService.pageEndRevealElement$.subscribe((pageEndRevealElement: HTMLElement) => {
 			this.endRevealElement = pageEndRevealElement!;
 		});
@@ -406,11 +409,13 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 	}
 
 	// TODO: Make PageNav compatible when fullpage is false. Use delta and expected scroll to index.
+
 	public getPageNavPosition() {
 		return this.pageNavPosition ?? (this.orientation === Orientation.HORIZONTAL ? Position.BOTTOM : Position.LEFT);
 	}
 
 	public setActivePageIndex(index: number) {
+		this.endReveal = this.startReveal = false;
 		this.pageIndex = index;
 		this.pageChangeEvent.emit(this.pageIndex);
 	}
