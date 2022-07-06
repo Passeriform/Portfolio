@@ -79,12 +79,20 @@ export class FooterService {
 				`${environment.apiUrl}/about?`
 				+ `epp=${aboutCount}&`
 				+ "page=1&"
-				+ "select=subject,route&"
-				+ "attribs=subject,route&"
+				+ "select=intro.heading,subject&"
+				+ "attribs=intro.heading,subject&"
 				+ "rename=name,link",
 			)
 			.pipe(
 				pluck("data"),
+				map(
+					(abouts: LinkModel[]): LinkModel[] => abouts.map(
+						(about: LinkModel) => ({
+							...about,
+							link: `about/${about.link}`
+						})
+					)
+				),
 				catchError((error: unknown): Observable<LinkModel[]> => {
 					this.loaderService.endLoading("[http] [footer] about");
 					this.errorService.displayError(error);
