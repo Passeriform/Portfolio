@@ -22,7 +22,7 @@ $hide-icon-size: math.div(global.$navigator-flap-size, 4);
 		clip-path: shapes.get-shape(["snipped-rectangle", "bottom-right"], global.$navigator-flap-size);
 
 		& > #before {
-			position: relative;
+			position: absolute;
 			display: block;
 			width: 100%;
 			height: math.div(global.$navigator-flap-size, 2);
@@ -34,15 +34,14 @@ $hide-icon-size: math.div(global.$navigator-flap-size, 4);
 		}
 
 		& > #after {
-			position: relative;
+			position: absolute;
 			display: block;
 			width: 100%;
-			height: math.div(global.$navigator-flap-size, 2);
+			height: global.$navigator-flap-size;
 			background-color: map.get($theme, "accent", "hex");
-			clip-path: shapes.get-shape(["snipped-rectangle", "bottom-right"], math.div(global.$navigator-flap-size, 2));
+			clip-path: shapes.get-shape(["snipped-rectangle", "bottom-right"], global.$navigator-flap-size);
 			transform-origin: top;
 			transition: all 0.4s ease;
-			mix-blend-mode: difference;
 		}
 
 		& > #idle-icon {
@@ -122,12 +121,14 @@ $hide-icon-size: math.div(global.$navigator-flap-size, 4);
 
 		&.expanded {
 			right: 0;
-			clip-path: polygon(0 0, 100% 0, 100% 50%, (math.div(global.$navigator-flap-size, 2)) 50%);
+			clip-path: polygon(0 0, 100% 0, 100% 50%, math.div(global.$navigator-flap-size, 2) 50%);
 			transition: right 0.2s;
 
 			& > #after {
-				transform: rotateX(180deg);
+				transform: scaleY(-50%) translateY(50%);
+				transform-origin: center;
 				mix-blend-mode: difference;
+				clip-path: shapes.get-shape(["snipped-rectangle", "bottom-right"], math.div(global.$navigator-flap-size, 2));
 			}
 
 			& > #idle-icon {
