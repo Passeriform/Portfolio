@@ -11,16 +11,16 @@
 				[delta]="5"
         [sensitivity]="20"
         [smoothScroll]="true"
+				[pageResetTrigger$]="scrollResetState$"
         #cardScroller
       >
       <app-raisecard
           *ngIf="!(model?.length)"
-          [style.cursor]="'pointer'"
-          [style.height.em]="windowHeight < 32 ? 11.5 : 22"
+          [ngClass]="windowHeight < 32 ? 'compact' : ''"
           #page
         >
         <div class="card-internal">
-          <h2 class="title">No entries found here!</h2>
+          <h2>No entries found here!</h2>
           <p>Click to get back to explore.</p>
         </div>
       </app-raisecard>
@@ -28,15 +28,15 @@
       <app-raisecard
           *ngFor="let entry of model"
           [marker]="entry.type"
-          [style.cursor]="'pointer'"
-          [style.height.em]="windowHeight < 32 ? 11.5 : 22"
+          [ngClass]="windowHeight < 32 ? 'compact' : ''"
           (mousedown)="setSelected(entry)"
           #page
         >
         <div class="card-internal">
-
-          <h2 class="title">{{ entry.title }}</h2>
-          <p>{{ entry.subtitle }}</p>
+					<div class="description">
+						<h2>{{ entry.title }}</h2>
+						<p>{{ entry.subtitle }}</p>
+					</div>
 
           <div *ngIf="windowHeight > 32" class="info">
             <div class="meta">
@@ -124,6 +124,18 @@
               </ng-container>
             </div>
           </div>
+        </div>
+      </app-raisecard>
+
+			<app-raisecard
+          *ngIf="model?.length"
+          [ngClass]="windowHeight < 32 ? 'compact' : ''"
+					(mousedown)="resetScroll($event); $event.stopPropagation()"
+          #page
+        >
+        <div class="card-internal nav-card">
+					<h1 id="action-icon">⮈</h1>
+          <h2>Back to start</h2>
         </div>
       </app-raisecard>
     </app-scrollable>

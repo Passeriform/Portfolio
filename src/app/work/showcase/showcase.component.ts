@@ -1,6 +1,9 @@
 import type { OnInit } from "@angular/core";
 import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
 
+import type { Observable } from "rxjs";
+import { Subject } from "rxjs";
+
 import { Orientation, Position } from "@shared/models/cardinals.interface";
 
 import type { WorkModel } from "../work.interface";
@@ -17,6 +20,8 @@ export class ShowcaseComponent implements OnInit {
 	public readonly Position = Position;
 	public readonly Orientation = Orientation;
 
+	public scrollResetSource$ = new Subject<void>();
+	public scrollResetState$: Observable<void> = this.scrollResetSource$.asObservable();
 	public model: readonly WorkModel[];
 	public windowHeight: number;
 
@@ -57,5 +62,9 @@ export class ShowcaseComponent implements OnInit {
 
 	public setActive(activeModel: readonly WorkModel[]): void {
 		this.workService.setActive(activeModel);
+	}
+
+	public resetScroll(event: MouseEvent): void {
+		this.scrollResetSource$.next();
 	}
 }
