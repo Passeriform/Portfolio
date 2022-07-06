@@ -1,15 +1,9 @@
-@use "global";
 @use "sass:map";
+@use "global";
 
 @import "./landing.colors";
 
 :host {
-	& .bg-img-wrapper > .bg-img {
-		position: absolute;
-		width: 100vw;
-		height: 100vh;
-	}
-
 	& #splash {
 		& > .bg-img-wrapper > .bg-img {
 			background-image: url("/assets/images/landingbg.jpg");
@@ -17,18 +11,17 @@
 			background-size: cover;
 			filter: brightness(50%);
 
-			@supports (filter: blur(2em)) {
-				filter: brightness(50%) blur(2px);
+			@supports (filter: blur(0.2em)) {
+				filter: brightness(50%) blur(0.2em);
 				transform: scale(1.02);
 			}
 		}
 
 		& > .content {
-			position: relative;
-			top: 50%;
-			left: 50%;
-			display: inline-block;
-			transform: translate(-50%, -50%);
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
 
 			& > h1 {
 				margin-bottom: -0.25em;
@@ -42,17 +35,19 @@
 
 	& #overview {
 		& > .bg-img-wrapper > .bg-img {
+			background-color: map.get($theme, "background", "hex");
+		}
+	}
+
+	& #stats-view {
+		& > .bg-img-wrapper > .bg-img {
 			background-image: url("/assets/images/patterns/carbonpattern@2X.png");
 			background-repeat: repeat;
 			background-size: auto;
 		}
-
-		& > .content {
-			position: relative;
-		}
 	}
 
-	& #dir-view {
+	& #map-view {
 		& > .bg-img-wrapper > .bg-img {
 			background-color: map.get($theme, "background", "hex");
 		}

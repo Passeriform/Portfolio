@@ -25,6 +25,13 @@ export class HeaderComponent implements OnInit {
 		this.splashStateService.splashState$.subscribe(
 			(splashState: SplashState) => {
 				this.splashState = splashState;
+
+				document.documentElement.style.setProperty(
+					"--header-shift-offset",
+					this.splashState === SplashState.BLURRED
+						? "var(--shrink-header-size-em)"
+						: "0"
+				);
 			},
 		);
 	}

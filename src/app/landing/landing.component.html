@@ -6,7 +6,7 @@
 		[allowEndReveal]="true"
 		(pageChangeEvent)="handlePageChange($event)"
 	>
-  <div class="page" id="splash" #page>
+  <div class="page splash" id="splash" #page>
     <div class="bg-img-wrapper">
       <div class="bg-img"></div>
     </div>
@@ -25,26 +25,34 @@
     <div class="bg-img-wrapper">
       <div class="bg-img"></div>
     </div>
-    <div class="content" appHeaderOffset>
-      <app-cage-grid>
-        <div *appCaged="'Announcements'">
-          <p>&lt;Announcement list&gt;</p>
-        </div>
-        <div *appCaged="'Tracker'">
-          <app-update-roll></app-update-roll>
-        </div>
-        <div *appCaged="'Todolist'">
-          <p>&lt;Synced github todolist&gt;</p>
-        </div>
-      </app-cage-grid>
+    <div class="content">
     </div>
   </div>
 
-  <div class="page" id="dir-view" #page>
+	<div class="page" id="stats-view" #page>
+		<div class="bg-img-wrapper">
+			<div class="bg-img"></div>
+		</div>
+		<div class="content">
+			<app-cage-grid>
+				<div *appCaged="'Announcements'">
+					<p>&lt;Announcement list&gt;</p>
+				</div>
+				<div *appCaged="'Tracker'">
+					<app-update-roll></app-update-roll>
+				</div>
+				<div *appCaged="'Todolist'">
+					<p>&lt;Synced github todolist&gt;</p>
+				</div>
+			</app-cage-grid>
+		</div>
+	</div>
+
+  <div class="page" id="map-view" #page>
     <div class="bg-img-wrapper">
       <div class="bg-img"></div>
     </div>
-		<div class="content" appHeaderOffset>
+		<div class="content">
 		</div>
   </div>
 </app-scrollable>

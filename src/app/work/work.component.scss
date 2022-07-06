@@ -1,19 +1,12 @@
-@use "global";
 @use "sass:map";
 @use "sass:math";
+@use "global";
 
 @import "./work.colors";
 
 :host {
-	& .bg-img {
-		position: absolute;
-		z-index: -1;
-		width: 100vw;
-		height: 100vh;
-	}
-
 	& #selected-placeholder {
-		& > .bg-img {
+		& > .bg-img-wrapper > .bg-img {
 			background-color: map.get($theme, "background", "hex");
 		}
 
@@ -63,22 +56,14 @@
 	}
 
 	& #description {
-		& > .bg-img {
+		& > .bg-img-wrapper > .bg-img {
 			background-color: map.get($theme, "background", "hex");
-		}
-
-		& > .content {
-			position: relative;
 		}
 	}
 
 	& #stack {
-		& > .bg-img {
+		& > .bg-img-wrapper > .bg-img {
 			background-color: map.get($theme, "background", "light-5%", "hex");
-		}
-
-		& > .content {
-			position: relative;
 		}
 	}
 }

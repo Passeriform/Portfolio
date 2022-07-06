@@ -1,6 +1,6 @@
-@use "global";
 @use "sass:math";
 @use "sass:map";
+@use "global";
 
 @import "./app.colors";
 
@@ -10,6 +10,8 @@ $scrollbar-track-width-em: 0.4em;
 $scrollbar-button-text-size-em: 1em;
 $scrollbar-button-height-width: 1.5 * $scrollbar-button-text-size-em + 2 * $scrollbar-flap-size-em;
 
+// TODO: Move to global styles.scss
+
 ::ng-deep {
 	* {
 		box-sizing: border-box;
@@ -17,10 +19,36 @@ $scrollbar-button-height-width: 1.5 * $scrollbar-button-text-size-em + 2 * $scro
 	}
 
 	.page {
+		position: relative;
+		top: 0;
+		left: 0;
 		width: 100vw;
 		height: 100vh;
 		overflow: auto;
 		background-color: black;
+
+		&:not(.splash) {
+			padding-top: var(--header-shift-offset);
+		}
+
+		& > .bg-img-wrapper {
+			position: absolute;
+			top: 0;
+			left: 0;
+			overflow: hidden;
+
+			& > .bg-img {
+				position: fixed;
+				width: 100vw;
+				height: 100vh;
+			}
+		}
+
+		& > .content {
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
 	}
 
 	::-webkit-scrollbar {
