@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Location } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
 
 import type { Observable } from "rxjs";
@@ -34,9 +35,11 @@ export class WorkService {
 			private readonly http: HttpClient,
 			private readonly tagger: TaggerService,
 			private readonly loaderService: LoaderService,
+			private readonly location: Location,
 	) { }
 
 	public setSelected(model: WorkModel): void {
+		this.location.replaceState(`${model.type}/${model.ref}`);
 		this.workSelectedSource$.next(model);
 	}
 
