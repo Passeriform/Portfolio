@@ -1,6 +1,6 @@
-@use "global";
 @use "sass:math";
 @use "sass:map";
+@use "global";
 @use "colors";
 
 $theme: colors.generate-color-swatch($highlight: #ADFF22, $shadow: #0000000F);

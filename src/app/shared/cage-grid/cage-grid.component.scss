@@ -1,6 +1,7 @@
-@use "global";
 @use "sass:map";
 @use "sass:math";
+@use "global";
+@use "shapes";
 
 @import "./cage-grid.colors";
 
@@ -11,8 +12,7 @@ $h2-padding-x-em: 0.5em;
 $h2-padding-y-em: 0.25em;
 $content-shift-x-em: 0.2em;
 $content-shift-y-em: 0.2em;
-$top-border-shift-em: $title-flap-size-em - $cage-grid-border-size;
-$left-border-shift-em: $title-flap-size-em - $cage-grid-border-size;
+$border-shift-em: $title-flap-size-em - $cage-grid-border-size;
 
 :host {
 	display: flex;
@@ -58,7 +58,7 @@ $left-border-shift-em: $title-flap-size-em - $cage-grid-border-size;
 				background-color: map.get($theme, "background", "hex");
 				color: map.get($theme, "foreground", "hex");
 				font-size: $h2-font-size-em;
-				clip-path: polygon(0 0, 100% 0, calc(100% - #{(math.div($title-flap-size-em, 2)) + $h2-padding-y-em}) 100%, 0 100%);
+				clip-path: shapes.get-shape(["snipped-rectangle", "top-left"], math.div($title-flap-size-em, 2) + $h2-padding-y-em);
 			}
 		}
 
@@ -69,18 +69,14 @@ $left-border-shift-em: $title-flap-size-em - $cage-grid-border-size;
 			padding: 2em;
 			border: global.$cage-grid-size solid map.get($theme, "accent", "hex");
 			background-color: transparent;
-			// clip-path: polygon(0 0, 0 calc(100% - #{$cage-grid-cut-size}), #{$cage-grid-cut-size} 100% , 100% 100%, 100% #{$cage-grid-cut-size}, calc(100% - #{$cage-grid-cut-size}) 0);
-			clip-path:
-				polygon(
-					0 0,
-					calc(30% + #{$top-border-shift-em}) 0,
-					30% $top-border-shift-em,
-					calc(100% - #{$top-border-shift-em}) $top-border-shift-em,
-					calc(100% - #{$top-border-shift-em}) calc(100% - #{$top-border-shift-em}),
-					$top-border-shift-em calc(100% - #{$top-border-shift-em}),
-					$left-border-shift-em $title-flap-size-em + $top-border-shift-em + $content-shift-y-em,
-					0 $title-flap-size-em + $content-shift-y-em
-				);
+			clip-path: shapes.get-shape(
+				["border-with-label", "top-left"],
+				(
+					"flap-base-x": 30%,
+					"flap-base-y": $content-shift-y-em + $title-flap-size-em,
+					"border-shift": $border-shift-em,
+				)
+			);
 		}
 	}
 }

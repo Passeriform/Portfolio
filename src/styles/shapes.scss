@@ -1,0 +1,205 @@
+@use "sass:map";
+
+@function get-shape($shape-keys, $delta: 0rem) {
+	@if type-of($delta) != "map" {
+		$delta: ("default": $delta);
+	}
+
+	$shapes: (
+		"ellipse": (
+			/*
+			 * ◯
+			 */
+			"circle": circle(50%),
+		),
+		"snipped-rectangle": (
+			/*
+			 *	🭖
+ 			 *	─────┐
+ 			 *	 \	 │
+ 			 *	  ───┘
+ 			 */
+			"top-right": polygon(0 0, 100% 0, 100% 100%, map.get($delta, "default") 100%),
+
+			/*
+			 *	🭡
+ 			 *	┌─────
+ 			 *	│   /
+ 			 *	└──
+ 			 */
+			"top-left": polygon(0 0, 100% 0, calc(100% - #{map.get($delta, "default")}) 100%, 0 100%),
+
+			/*
+			 *	🭅
+ 			 *		───┐
+ 			 *	 /	 │
+ 			 *  ─────┘
+ 			 */
+			"bottom-right": polygon(map.get($delta, "default") 0, 100% 0, 100% 100%, 0 100%),
+
+			/*
+			 *	🭅
+ 			 *		───┐
+ 			 *	 /	 │
+ 			 *  ─────┘
+ 			 */
+			"shifted-bottom-right": polygon(calc(#{map.get($delta, "shift")} + #{map.get($delta, "snip-size")}) 0, 100% 0, 100% 100%, map.get($delta, "shift") 100%),
+		),
+		"double-snipped-rectangle": (
+			/*
+			 *	🭃🭟
+ 			 *	   ────┐
+ 			 *	 / 	   │
+ 			 *	│     /
+ 			 *	└────
+ 			 */
+			"top-right-bottom-left": polygon(
+				0 map.get($delta, "default"),
+				0 100%,
+				calc(100% - #{map.get($delta, "default")}) 100%,
+				100% calc(100% - #{map.get($delta, "default")}),
+				100% 0,
+				map.get($delta, "default") 0
+			),
+		),
+		"flap": (
+			/*
+			 *	🭚
+ 			 *	┌───
+ 			 *	│ /
+ 			 */
+			"top-left": polygon(0 0, 0% 100%, 100% 0%),
+
+			/*
+			 *	🭥
+ 			 *	───┐
+ 			 *   \ │
+ 			 */
+			"top-right": polygon(0 0, 100% 0, 100% 100%),
+		),
+		"trapezoid": (
+			/*
+			 *	🭖🭡
+ 			 * ──────────
+ 			 *	\			 /
+ 			 *	 ──────
+ 			 */
+			"short-bottom": polygon(0 0, 100% 0, calc(100% - #{map.get($delta, "default")}) 100%, map.get($delta, "default") 100%),
+
+			/*
+			 *	🭄
+			 *	🭕
+ 			 *    /
+ 			 *	 / |
+ 			 *	|	 |
+ 			 *	|	 |
+ 			 *	|	 |
+ 			 *	 \ |
+ 			 *    \
+ 			 */
+			"short-left": polygon(100% 0, 100% 100%, 0 calc(100% - #{map.get($delta, "default")}), 0 map.get($delta, "default")),
+
+			/*
+			 *	 🭅🭐
+ 			 *	 ──────
+ 			 *	/			 \
+ 			 * ──────────
+ 			 */
+			"short-top": polygon(0 100%, map.get($delta, "default") 0, calc(100% - #{map.get($delta, "default")}) 0, 100% 100%),
+
+			/*
+			 *	🭏
+			 *	🭠
+ 			 *   \
+ 			 *	| \
+ 			 *	|	|
+ 			 *	|	|
+ 			 *	|	|
+ 			 *	| /
+ 			 *   /
+ 			 */
+
+			"short-right": polygon(0 0, 100% map.get($delta, "default"), 100% calc(100% - #{map.get($delta, "default")}), 0 100%),
+		),
+		"arrow": (
+			/*
+			 *	⏶
+ 			 *	/\
+ 			 *	──
+ 			 */
+			"point-up": polygon(0 0, 100% 0, 50% 100%),
+
+			/*
+			 *	⏷
+			 *	──
+ 			 *	\/
+ 			 */
+			"point-down": polygon(0 0, 100% 0, 50% 100%),
+
+			/*
+			 *	⏴
+ 			 *	<|
+ 			 */
+			"point-left": polygon(0 0, 100% 0, 50% 100%),
+
+			/*
+			 *	⏵
+			 *	|>
+			 */
+			"point-right": polygon(0 0, 100% 0, 50% 100%),
+		),
+		"skewed-pentagon": (
+			/*
+			 *	🭉▆
+			 *	🭦█
+ 			 *	  ────────────┐
+ 			 *	/							│
+ 			 *	\  						│
+ 			 *	 \						│
+ 			 *	  ────────────┘
+ 			 */
+			"left": polygon(map.get($delta, "first") 0, 100% 0, 100% 100%, map.get($delta, "second") 100%, 0 map.get($delta, "first")),
+		),
+		"distorted-square": (
+			/*
+			 *	🭋█
+			 *	🭣🮂
+ 			 *	     ──┐
+ 			 *	   / 	 │
+ 			 *	  / 	 │
+ 			 *	 /		 │
+ 			 *	.			 │
+ 			 *	 	\		 │
+ 			 *	     \ │
+ 			 */
+			"top-right": polygon(map.get($delta, "left") 0, 100% 0%, 100% 100%, map.get($delta, "bottom-x") map.get($delta, "bottom-y")),
+		),
+		"border-with-label": (
+			/*
+			 *	███🭡
+			 *	🭕████
+			 *   ████
+ 			 *		┌──────────
+ 			 *	  │        /
+ 			 *		 \			────────┐
+ 			 *	  	│	 					  │
+ 			 *	  	│	 					  │
+ 			 *      └─────────────┘
+ 			 */
+			"top-left": polygon(
+				0 0,
+				calc(#{map.get($delta, "flap-base-x")} + #{map.get($delta, "border-shift")}) 0,
+				// TODO: Find optimal intersection point for next line
+				map.get($delta, "flap-base-x") map.get($delta, "border-shift"),
+				calc(100% - #{map.get($delta, "border-shift")}) map.get($delta, "border-shift"),
+				calc(100% - #{map.get($delta, "border-shift")}) calc(100% - #{map.get($delta, "border-shift")}),
+				map.get($delta, "border-shift") calc(100% - #{map.get($delta, "border-shift")}),
+				map.get($delta, "border-shift") map.get($delta, "flap-base-y") + map.get($delta, "border-shift"),
+				0 map.get($delta, "flap-base-y"),
+			),
+		),
+	);
+
+	$shape: map.get($shapes, $shape-keys...);
+	@return $shape;
+}

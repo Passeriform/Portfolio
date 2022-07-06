@@ -1,6 +1,6 @@
-@use "global";
 @use "sass:map";
 @use "sass:math";
+@use "global";
 
 @import "./page-nav.colors";
 
@@ -11,17 +11,30 @@ $nav-flap-size: $nav-extent-em;
 $nav-link-centering-padding: math.div($nav-extent-em - $nav-link-dot-size, 2);
 $nav-link-inter-padding: $nav-link-dot-size;
 $traveller-centering-offset: math.div($nav-extent-em - $nav-link-dot-size, 2);
+$traveller-arrow-offset: $nav-link-dot-size;
 $traveller-inter-offset: calc(#{$nav-flap-size + $nav-link-inter-padding} + (#{$nav-link-dot-size + (2 * $nav-link-inter-padding)} * var(--traveller-offset)));
 $nav-flap-shapes: (
-	top: polygon(0 0, 100% 0, calc(100% - #{$nav-flap-size}) 100%, $nav-flap-size 100%),
-	right: polygon(0 $nav-flap-size, 100% 0, 100% 100%, 0 calc(100% - #{$nav-flap-size})),
-	bottom: polygon($nav-flap-size 0, calc(100% - #{$nav-flap-size}) 0, 100% 100%, 0 100%),
-	left: polygon(0 0, 100% $nav-flap-size, 100% calc(100% - #{$nav-flap-size}), 0 100%),
+	top: shapes.get-shape(["trapezoid", "short-bottom"], $nav-flap-size),
+	right: shapes.get-shape(["trapezoid", "short-left"], $nav-flap-size),
+	bottom: shapes.get-shape(["trapezoid", "short-top"], $nav-flap-size),
+	left: shapes.get-shape(["trapezoid", "short-right"], $nav-flap-size),
 );
+$traveller-arrow-shapes: (
+	top: shapes.get-shape(["arrow", "point-down"]),
+	right: shapes.get-shape(["arrow", "point-left"]),
+	bottom: shapes.get-shape(["arrow", "point-up"]),
+	left: shapes.get-shape(["arrow", "point-right"]),
+);
+
+// TODO: Use global variables for clip-path shapes
+
+// TODO: Use selector-replace to add classes in grandparent selectors
+
+// TODO: Use variables for repeated selector paths and attributes
 
 // TODO: Refactor unused styles and simplify
 
-// TODO: Use mixin to minimize
+// TODO: Use mixin to minimize and reduce naming confusion
 
 // TODO: Check if other places can use replacement of flex with inline-flex
 

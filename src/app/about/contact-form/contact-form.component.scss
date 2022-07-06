@@ -1,7 +1,8 @@
-@use "global";
 @use "sass:map";
 @use "sass:math";
 @use "sass:selector";
+@use "global";
+@use "shapes";
 
 @import "./contact-form.colors";
 
@@ -107,7 +108,7 @@ $input-element-padding: 1em;
 			float: right;
 
 			& > .input-label:after {
-				clip-path: polygon(0 0, 100% 0, calc(100% - 1em) 100%, 0 100%);
+				clip-path: shapes.get-shape(["snipped-rectangle", "top-left"], 1em);
 			}
 		}
 	}

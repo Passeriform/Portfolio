@@ -1,5 +1,6 @@
-@use "global";
 @use "sass:map";
+@use "global";
+@use "shapes";
 
 @import "./namecard.colors";
 
@@ -48,7 +49,7 @@ $p-responsive-font-size: max(1em, min(2vw, 1.5em));
 			padding-left: 0.7em;
 			background-color: map.get($theme, "canvas", "hex");
 			color: map.get($theme, "foreground", "hex");
-			clip-path: polygon(0 $title-clip-size, 0 100%, calc(100% - #{$title-clip-size}) 100%, 100% calc(100% - #{$title-clip-size}), 100% 0, $title-clip-size 0);
+			clip-path: shapes.get-shape(["double-snipped-rectangle", "top-right-bottom-left"], $title-clip-size);
 			font-size: $h1-responsive-font-size;
 			font-weight: 800;
 		}

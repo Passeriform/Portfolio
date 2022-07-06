@@ -1,11 +1,14 @@
-@use "global";
 @use "sass:map";
 @use "sass:math";
+@use "global";
+@use "shapes";
 
 @import "./navigator.colors";
 
 $idle-icon-size: math.div(global.$navigator-flap-size, 3);
 $hide-icon-size: math.div(global.$navigator-flap-size, 4);
+
+// TODO: Simplify shapes css for this file and try using existing shapes.
 
 :host {
 	& > .flap-button {
@@ -16,7 +19,7 @@ $hide-icon-size: math.div(global.$navigator-flap-size, 4);
 		height: global.$navigator-flap-size;
 		cursor: pointer;
 		transition: right 0.2s, clip-path 0.4s;
-		clip-path: polygon(global.$navigator-flap-size 0, 100% 0, 100% 100%, 0 100%);
+		clip-path: shapes.get-shape(["snipped-rectangle", "bottom-right"], global.$navigator-flap-size);
 
 		& > #before {
 			position: relative;
@@ -24,7 +27,10 @@ $hide-icon-size: math.div(global.$navigator-flap-size, 4);
 			width: 100%;
 			height: math.div(global.$navigator-flap-size, 2);
 			background-color: map.get($theme, "accent", "hex");
-			clip-path: polygon(global.$navigator-flap-size 0, 100% 0, 100% 100%, math.div(global.$navigator-flap-size, 2) 100%);
+			clip-path: shapes.get-shape(
+				["snipped-rectangle", "shifted-bottom-right"],
+				("shift": math.div(global.$navigator-flap-size, 2), "snip-size": math.div(global.$navigator-flap-size, 2))
+			);
 		}
 
 		& > #after {
@@ -33,7 +39,7 @@ $hide-icon-size: math.div(global.$navigator-flap-size, 4);
 			width: 100%;
 			height: math.div(global.$navigator-flap-size, 2);
 			background-color: map.get($theme, "accent", "hex");
-			clip-path: polygon((math.div(global.$navigator-flap-size, 2)) 0, 100% 0, 100% 100%, 0 100%);
+			clip-path: shapes.get-shape(["snipped-rectangle", "bottom-right"], math.div(global.$navigator-flap-size, 2));
 			transform-origin: top;
 			transition: all 0.4s ease;
 			mix-blend-mode: difference;
@@ -49,7 +55,7 @@ $hide-icon-size: math.div(global.$navigator-flap-size, 4);
 
 			& > img {
 				$flap-incircle-radius: (2 - math.sqrt(2)) * math.div(global.$navigator-flap-size, 2);
-				margin: ($flap-incircle-radius - (math.div($idle-icon-size, 2)));
+				margin: $flap-incircle-radius - math.div($idle-icon-size, 2);
 				width: $idle-icon-size;
 				height: $idle-icon-size;
 			}
@@ -64,7 +70,7 @@ $hide-icon-size: math.div(global.$navigator-flap-size, 4);
 			transition: all 0.2s;
 
 			& > img {
-				$flap-incircle-radius: ((2 - math.sqrt(2)) * math.div(global.$navigator-flap-size, 2) * math.sqrt(2));
+				$flap-incircle-radius: (2 - math.sqrt(2)) * math.div(global.$navigator-flap-size, 2) * math.sqrt(2);
 				// margin: 0 ($flap-incircle-radius - (math.div($hide-icon-size, 2)));
 				margin: 0;
 				width: $hide-icon-size;
@@ -76,13 +82,13 @@ $hide-icon-size: math.div(global.$navigator-flap-size, 4);
 		& > #command-init {
 			position: absolute;
 			right: 0;
-			bottom: (math.div(global.$navigator-flap-size, 2)) + 0.5em;
+			bottom: math.div(global.$navigator-flap-size, 2) + 0.5em;
 			display: flex;
 			width: 0;
 			height: 50%;
 			border: none;
 			background: none;
-			color: yellow;
+			color: map.get($theme, "highlight", "hex");
 			opacity: 0;
 			transition: all 0.2s;
 
@@ -98,20 +104,20 @@ $hide-icon-size: math.div(global.$navigator-flap-size, 4);
 				height: 100%;
 				border: none;
 				background: none;
-				color: yellow;
+				color: map.get($theme, "highlight", "hex");
 				outline: none;
 			}
 		}
 
 		& > #click-capture {
 			position: absolute;
-			right: (global.$navigator-expand-length - global.$navigator-flap-size);
+			right: global.$navigator-expand-length - global.$navigator-flap-size;
 			bottom: 50%;
 			display: block;
 			width: global.$navigator-flap-size;
 			height: 50%;
 			background: transparent;
-			clip-path: polygon(0 0, 100% 0, 50% 100%);
+			clip-path: shapes.get-shape(["arrow", "point-down"]);
 		}
 
 		&.expanded {
@@ -129,14 +135,16 @@ $hide-icon-size: math.div(global.$navigator-flap-size, 4);
 				display: none;
 			}
 
+			// TODO: Abstract incircle and icon placement logic to modifier mixin.
+
 			& > #hide-icon {
 				right: global.$navigator-expand-length - math.div(global.$navigator-flap-size, 2) - math.div($hide-icon-size, 2);
-				bottom: ((math.div(global.$navigator-flap-size, 2)) + math.div(global.$navigator-flap-size, 4)) - math.div(math.div(global.$navigator-flap-size, (2 * math.sqrt(2))), 4);
+				bottom: math.div(global.$navigator-flap-size, 2) + math.div(global.$navigator-flap-size, 4) - math.div(math.div(global.$navigator-flap-size, 2 * math.sqrt(2)), 4);
 				display: block;
 			}
 
 			& > #command-init {
-				width: (global.$navigator-expand-length - global.$navigator-flap-size);
+				width: global.$navigator-expand-length - global.$navigator-flap-size;
 				height: 2em;
 				opacity: 1;
 			}

@@ -1,5 +1,6 @@
-@use "global";
 @use "sass:map";
+@use "global";
+@use "shapes";
 
 @import "./header.colors";
 
@@ -60,7 +61,7 @@ $logo-flap-size: global.$shrink-leaf-em;
 					display: block;
 					width: $logo-flap-size;
 					height: $logo-flap-size;
-					clip-path: polygon(0 0, 0% 100%, 100% 0%);
+					clip-path: shapes.get-shape(["flap", "top-left"]);
 					background-color: map.get($theme, "accent", "hex");
 
 					& > img {
