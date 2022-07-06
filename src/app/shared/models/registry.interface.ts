@@ -1,6 +1,5 @@
 // NOTE: Don"t touch this interface unless a better design approach is reached
 
-// TODO: Use FontAwesome and NerdFonts SVGs
 
 export enum WType {
 	misc = "misc",
@@ -88,7 +87,7 @@ export enum Tool {
 }
 
 export enum Social {
-	dribble = "dribble",
+	dribbble = "dribbble",
 	email = "email",
 	facebook = "facebook",
 	github = "github",
@@ -147,7 +146,7 @@ export interface EntityRegistry {
 	readonly wikiTitle?: string;
 }
 
-export const registry: readonly EntityRegistry[] = [
+const githubRegistry: readonly EntityRegistry[] = [
 	{
 		iconUrl: "/assets/images/icons/gh-create.png",
 		identifier: GhEvent.createEvent,
@@ -161,7 +160,7 @@ export const registry: readonly EntityRegistry[] = [
 		identifier: GhEvent.forkEvent,
 	},
 	{
-		iconUrl: "https://simpleicons.org/icons/gh-issue.svg",
+		iconUrl: "/assets/images/icons/gh-pr.png",
 		identifier: GhEvent.issuesEvent,
 	},
 	{
@@ -180,7 +179,9 @@ export const registry: readonly EntityRegistry[] = [
 		iconUrl: "/assets/images/icons/gh-watch.png",
 		identifier: GhEvent.watchEvent,
 	},
+];
 
+const workTypeRegistry: readonly EntityRegistry[] = [
 	{
 		iconUrl: "https://img.icons8.com/product",
 		identifier: WType.product,
@@ -193,7 +194,9 @@ export const registry: readonly EntityRegistry[] = [
 		iconUrl: "https://img.icons8.com/lab-items",
 		identifier: WType.misc,
 	},
+];
 
+const licenseRegistry: readonly EntityRegistry[] = [
 	{
 		iconUrl: "https://img.shields.io/badge/license-GPL 3-blue",
 		identifier: License.gpl3,
@@ -210,49 +213,51 @@ export const registry: readonly EntityRegistry[] = [
 		iconUrl: "https://img.shields.io/badge/license-Unlicensed-blue",
 		identifier: License.free,
 	},
+];
 
+const languageRegistry: readonly EntityRegistry[] = [
 	{
-		iconUrl: "https://img.icons8.com/color/c-programming",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg",
 		identifier: Language.c,
 		wikiTitle: "C (programming language)",
 	},
 	{
-		iconUrl: "https://img.icons8.com/color/c-plus-plus-logo",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg",
 		identifier: Language.cpp,
 		wikiTitle: "C++ (programming language)",
 	},
 	{
-		iconUrl: "https://img.icons8.com/color/java-coffee-cup-logo",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg",
 		identifier: Language.java,
 		wikiTitle: "Java (programming language)",
 	},
 	{
-		iconUrl: "https://img.icons8.com/color/javascript",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg",
 		identifier: Language.javascript,
 		wikiTitle: "Javascript (programming language)",
 	},
 	{
-		iconUrl: "https://img.icons8.com/color/typescript",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg",
 		identifier: Language.typescript,
 		wikiTitle: "Typescript (programming language)",
 	},
 	{
-		iconUrl: "https://img.icons8.com/color/python",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg",
 		identifier: Language.python,
 		wikiTitle: "Python (programming language)",
 	},
 	{
-		iconUrl: "https://img.icons8.com/color/golang",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg",
 		identifier: Language.go,
 		wikiTitle: "Go (programming language)",
 	},
 	{
-		iconUrl: "https://www.rust-lang.org/logos/rust-logo-512x512.png",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/rust/rust-plain.svg",
 		identifier: Language.rust,
 		wikiTitle: "Rust (programming language)",
 	},
 	{
-		iconUrl: "https://img.icons8.com/color/ruby-programming-language",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/arduino/arduino-original.svg",
 		identifier: Language.ruby,
 		wikiTitle: "Ruby (programming language)",
 	},
@@ -262,22 +267,22 @@ export const registry: readonly EntityRegistry[] = [
 		wikiTitle: "Shell script",
 	},
 	{
-		iconUrl: "/assets/images/icons/solidity.png",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/solidity/solidity-original.svg",
 		identifier: Language.solidity,
 		wikiTitle: "Solidity (programming language)",
 	},
 	{
-		iconUrl: "https://cdn.worldvectorlogo.com/logos/php-1.svg",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/php/php-original.svg",
 		identifier: Language.php,
 		wikiTitle: "PHP (programming language)",
 	},
 	{
-		iconUrl: "https://www.rozek.de/Lua/Lua-Logo_128x128.png",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/lua/lua-original.svg",
 		identifier: Language.lua,
 		wikiTitle: "Lua (programming language)",
 	},
 	{
-		iconUrl: "^https:\\/\\/www.eluaproject.net/images/logo_eLua.png",
+		iconUrl: "https://www.eluaproject.net/images/logo_eLua.png",
 		identifier: Language.elua,
 		wikiTitle: "",
 	},
@@ -287,7 +292,7 @@ export const registry: readonly EntityRegistry[] = [
 		wikiTitle: "x86 assembly language",
 	},
 	{
-		iconUrl: "https://bashlogo.com/img/symbol/svg/full_colored_light.svg",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/bash/bash-original.svg",
 		identifier: Language.bash,
 		wikiTitle: "Bash (Unix shell)",
 	},
@@ -297,11 +302,13 @@ export const registry: readonly EntityRegistry[] = [
 		wikiTitle: "Batch file",
 	},
 	{
-		iconUrl: "https://img.icons8.com/color/qt",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/qt/qt-original.svg",
 		identifier: Language.qt4,
 		wikiTitle: "Qt (software)",
 	},
+];
 
+const frameworkRegistry: readonly EntityRegistry[] = [
 	{
 		iconUrl: "https://raw.githubusercontent.com/crossterm-rs/crossterm/master/docs/crossterm_full.png",
 		identifier: Framework.crossterm,
@@ -323,7 +330,7 @@ export const registry: readonly EntityRegistry[] = [
 		wikiTitle: "RabbitMQ",
 	},
 	{
-		iconUrl: "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg",
 		identifier: Framework.react,
 		wikiTitle: "React (web framework)",
 	},
@@ -338,12 +345,12 @@ export const registry: readonly EntityRegistry[] = [
 		wikiTitle: "MathJax",
 	},
 	{
-		iconUrl: "https://static.djangoproject.com/img/logos/django-logo-positive.png",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/django/django-plain.svg",
 		identifier: Framework.django,
 		wikiTitle: "Django (web framework)",
 	},
 	{
-		iconUrl: "https://lh3.googleusercontent.com/proxy/tENyiJJCmAZ-rk3rZTdAP5idz8arqkg612_PsHlRMQ9RSWdasmGRB8jmKOMzaGqrC9Duh7Ylr2EHeesDL08CRH2A",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/flask/flask-original.svg",
 		identifier: Framework.flask,
 		wikiTitle: "Flask (web framework)",
 	},
@@ -353,7 +360,7 @@ export const registry: readonly EntityRegistry[] = [
 		wikiTitle: "SymPy",
 	},
 	{
-		iconUrl: "/assets/images/icons/numpy.jpg",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/numpy/numpy-original.svg",
 		identifier: Framework.numpy,
 		wikiTitle: "NumPy",
 	},
@@ -363,14 +370,14 @@ export const registry: readonly EntityRegistry[] = [
 		wikiTitle: "Pygame",
 	},
 	{
-		iconUrl: "https://cdn2.unrealengine.com/Unreal+Engine%2Flogos%2FUnreal_Engine_White-1125x1280-0ac2243552326055d20928902aa57370acacd000.png",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/unrealengine/unrealengine-original.svg",
 		identifier: Framework.unreal,
 		wikiTitle: "Unreal Engine",
 	},
 	{
-		iconUrl: "^https:\\/\\/libglass.sourceforge.net/baseimages/libglass.jpg",
+		iconUrl: "^https://libglass.sourceforge.net/baseimages/libglass.jpg",
 		identifier: Framework.libglass,
-		wikiTitle: "^https:\\/\\/libglass.sourceforge.net/baseimages/libglass.jpg",
+		wikiTitle: "^https://libglass.sourceforge.net/baseimages/libglass.jpg",
 	},
 	{
 		iconUrl: "https://upload.wikimedia.org/wikipedia/en/b/b9/Nvidia_CUDA_Logo.jpg",
@@ -383,12 +390,12 @@ export const registry: readonly EntityRegistry[] = [
 		wikiTitle: "Basic Linear Algebra Subprograms",
 	},
 	{
-		iconUrl: "https://angular.io/assets/images/logos/angular/angular.svg",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/angularjs/angularjs-original.svg",
 		identifier: Framework.angular,
 		wikiTitle: "Angular (web framework)",
 	},
 	{
-		iconUrl: "https://sass-lang.com/assets/img/styleguide/color-1c4aab2b.png",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/sass/sass-original.svg",
 		identifier: Framework.sass,
 		wikiTitle: "Sass (stylesheet language)",
 	},
@@ -408,7 +415,7 @@ export const registry: readonly EntityRegistry[] = [
 		wikiTitle: "reStructuredText",
 	},
 	{
-		iconUrl: "https://upload.wikimedia.org/wikipedia/commons/8/87/Arduino_Logo.svg",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/arduino/arduino-original.svg",
 		identifier: Framework.arduino,
 		wikiTitle: "Arduino",
 	},
@@ -423,12 +430,12 @@ export const registry: readonly EntityRegistry[] = [
 		wikiTitle: "Libav",
 	},
 	{
-		iconUrl: "https://pytorch.org/assets/images/logo-icon.svg",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/pytorch/pytorch-original.svg",
 		identifier: Framework.pytorch,
 		wikiTitle: "PyTorch",
 	},
 	{
-		iconUrl: "https://opencv.org/wp-content/uploads/2019/02/opencv-logo-1.png",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/opencv/opencv-original.svg",
 		identifier: Framework.opencv,
 		wikiTitle: "OpenCV",
 	},
@@ -438,7 +445,7 @@ export const registry: readonly EntityRegistry[] = [
 		wikiTitle: "AirSim",
 	},
 	{
-		iconUrl: "https://code.google.com/images/developers.png",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/googlecloud/googlecloud-original.svg",
 		identifier: Framework.googleapi,
 		wikiTitle: "Google APIs",
 	},
@@ -462,7 +469,9 @@ export const registry: readonly EntityRegistry[] = [
 		identifier: Framework.praw,
 		wikiTitle: "",
 	},
+];
 
+const toolRegistry: readonly EntityRegistry[] = [
 	{
 		iconUrl: "https://doc.rust-lang.org/cargo/images/Cargo-Logo-Small.png",
 		identifier: Tool.cargo,
@@ -474,12 +483,12 @@ export const registry: readonly EntityRegistry[] = [
 		wikiTitle: "man page",
 	},
 	{
-		iconUrl: "https://upload.wikimedia.org/wikipedia/commons/8/8f/Breezeicons-apps-48-cmake.svg",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/cmake/cmake-original.svg",
 		identifier: Tool.cmake,
 		wikiTitle: "CMake",
 	},
 	{
-		iconUrl: "^https:\\/\\/www.myiconfinder.com/uploads/iconsets/256-256-a2f0f447f4b1f528044828ccaa8dc865-Gnu.png",
+		iconUrl: "^https://www.myiconfinder.com/uploads/iconsets/256-256-a2f0f447f4b1f528044828ccaa8dc865-Gnu.png",
 		identifier: Tool.make,
 		wikiTitle: "Make (software)",
 	},
@@ -489,17 +498,17 @@ export const registry: readonly EntityRegistry[] = [
 		wikiTitle: "",
 	},
 	{
-		iconUrl: "/assets/images/icons/latex.png",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/latex/latex-original.svg",
 		identifier: Tool.latex,
 		wikiTitle: "LaTeX",
 	},
 	{
-		iconUrl: "https://www.adobe.com/content/dam/cc/icons/photoshop-mobile.svg",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/photoshop/photoshop-plain.svg",
 		identifier: Tool.photoshop,
 		wikiTitle: "Adobe Photoshop",
 	},
 	{
-		iconUrl: "https://www.adobe.com/content/dam/cc/icons/illustrator.svg",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/illustrator/illustrator-plain.svg",
 		identifier: Tool.illustrator,
 		wikiTitle: "Adobe Illustrator",
 	},
@@ -509,7 +518,7 @@ export const registry: readonly EntityRegistry[] = [
 		wikiTitle: "GitHub Pages",
 	},
 	{
-		iconUrl: "https://download.blender.org/branding/blender_logo.png",
+		iconUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/blender/blender-original.svg",
 		identifier: Tool.blender,
 		wikiTitle: "Blender (software)",
 	},
@@ -518,45 +527,57 @@ export const registry: readonly EntityRegistry[] = [
 		identifier: Tool.dex,
 		wikiTitle: "Dalvik (software)",
 	},
+];
 
+const socialRegistry: readonly EntityRegistry[] = [
 	{
-		iconUrl: "https://simpleicons.org/icons/minutemailer.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/envelope.svg",
 		identifier: Social.email,
 	},
 	{
-		iconUrl: "https://simpleicons.org/icons/gmail.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/envelope.svg",
 		identifier: Social.gmail,
 	},
 	{
-		iconUrl: "https://simpleicons.org/icons/github.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg",
 		identifier: Social.github,
 	},
 	{
-		iconUrl: "https://simpleicons.org/icons/gitlab.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/gitlab.svg",
 		identifier: Social.gitlab,
 	},
 	{
-		iconUrl: "https://simpleicons.org/icons/linkedin.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/linkedin.svg",
 		identifier: Social.linkedin,
 	},
 	{
-		iconUrl: "https://simpleicons.org/icons/dribble.svg",
-		identifier: Social.dribble,
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/dribbble.svg",
+		identifier: Social.dribbble,
 	},
 	{
-		iconUrl: "https://simpleicons.org/icons/instagram.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/instagram.svg",
 		identifier: Social.instagram,
 	},
 	{
-		iconUrl: "https://simpleicons.org/icons/facebook.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/facebook.svg",
 		identifier: Social.facebook,
 	},
 	{
-		iconUrl: "https://simpleicons.org/icons/twitter.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/twitter.svg",
 		identifier: Social.twitter,
 	},
 	{
-		iconUrl: "https://simpleicons.org/icons/pinterest.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/pinterest.svg",
 		identifier: Social.pinterest,
 	},
+];
+
+export const registry: readonly EntityRegistry[] = [
+	...githubRegistry,
+	...workTypeRegistry,
+	...licenseRegistry,
+	...languageRegistry,
+	...frameworkRegistry,
+	...toolRegistry,
+	...socialRegistry,
 ];
