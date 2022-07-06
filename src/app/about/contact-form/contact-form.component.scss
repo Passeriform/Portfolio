@@ -6,6 +6,8 @@
 
 @import "./contact-form.colors";
 
+// TODO: Use direct properties when shorthand not required (background-color)
+
 $half-margin: 1em;
 $net-half-width: calc(50% - #{math.div($half-margin, 2)});
 $textarea-height: 10em;
@@ -13,15 +15,18 @@ $input-element-padding: 1em;
 
 @mixin form-element {
 	border: 1px solid map.get($theme, "accent", "hex");
-	background: map.get($theme, "background", "dark-5%", "hex");
-	color: white;
-	backdrop-filter: blur(5px);
+	background-color: transparent;
+	color: map.get($theme, "accent", "invert", "hex");
+	backdrop-filter: blur(0.5em);
 	mix-blend-mode: lighten;
+	transition: background-color 0.5s;
+
+	@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+		mix-blend-mode: normal;
+	}
 
 	&:focus {
-		@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
-			mix-blend-mode: normal;
-		}
+		background: map.get($theme, "background", "dark-5%", "hex");
 	}
 }
 
