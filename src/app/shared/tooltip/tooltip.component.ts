@@ -1,5 +1,5 @@
-import type { ElementRef, OnInit, TemplateRef } from "@angular/core";
-import { Component, HostBinding, Input } from "@angular/core";
+import type { ElementRef, OnDestroy, TemplateRef } from "@angular/core";
+import { Component, HostBinding } from "@angular/core";
 
 import { Position } from "@shared/models/cardinals.interface";
 
@@ -10,10 +10,10 @@ import { TooltipService } from "./tooltip.service";
 	styleUrls: [ "./tooltip.component.scss" ],
 	templateUrl: "./tooltip.component.html",
 })
-export class TooltipComponent implements OnInit {
-	@Input() public position: Position;
-	@Input() public invert: boolean;
-	@Input() public tooltipTemplate: TemplateRef<ElementRef>;
+export class TooltipComponent implements OnDestroy {
+	public position: Position;
+	public invert: boolean;
+	public tooltipTemplate: TemplateRef<ElementRef>;
 
 	@HostBinding("class") public get positionClass(): string {
 		const positionClasses: Record<Position, string> = {
@@ -28,9 +28,7 @@ export class TooltipComponent implements OnInit {
 
 	@HostBinding("class.show") public showToggle: boolean;
 
-	constructor(private readonly tooltipService: TooltipService) { }
-
-	ngOnInit() {
+	constructor(private readonly tooltipService: TooltipService) {
 		this.tooltipService.showTooltipState$.subscribe((toggle: boolean) => {
 			this.showToggle = toggle;
 		});
@@ -47,5 +45,10 @@ export class TooltipComponent implements OnInit {
 			document.documentElement.style.setProperty("--tooltip-top", `${top}px`);
 			document.documentElement.style.setProperty("--tooltip-left", `${left}px`);
 		});
+	}
+
+	ngOnDestroy() {
+		// TODO: Also destroy when changing routes.
+		this.tooltipService.setShowTooltip$(false);
 	}
 }

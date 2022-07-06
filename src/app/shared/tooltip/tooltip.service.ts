@@ -6,19 +6,24 @@ import { BehaviorSubject } from "rxjs";
 
 import { Position } from "@shared/models/cardinals.interface";
 
-@Injectable()
+@Injectable({
+	providedIn: "root",
+})
 export class TooltipService {
 	private readonly templateSource$ = new BehaviorSubject<TemplateRef<ElementRef>>(undefined as unknown as TemplateRef<ElementRef>);
 	private readonly showTooltipSource$ = new BehaviorSubject<boolean>(false);
 	private readonly positionSource$ = new BehaviorSubject<Position>(Position.BOTTOM);
 	private readonly invertSource$ = new BehaviorSubject<boolean>(false);
-	private readonly offsetSource$ = new BehaviorSubject<readonly [ number, number ]>([ 0, 0 ]);
+	private readonly offsetSource$ = new BehaviorSubject<readonly [ number, number ]>([
+		document.documentElement.clientWidth,
+		document.documentElement.clientHeight,
+	]);
 
-	public readonly templateState$ = this.templateSource$.asObservable();
-	public readonly showTooltipState$ = this.showTooltipSource$.asObservable();
-	public readonly positionState$ = this.positionSource$.asObservable();
-	public readonly invertState$ = this.invertSource$.asObservable();
-	public readonly offsetState$ = this.offsetSource$.asObservable();
+	public readonly templateState$: Observable<TemplateRef<ElementRef>> = this.templateSource$.asObservable();
+	public readonly showTooltipState$: Observable<boolean> = this.showTooltipSource$.asObservable();
+	public readonly positionState$: Observable<Position> = this.positionSource$.asObservable();
+	public readonly invertState$: Observable<boolean> = this.invertSource$.asObservable();
+	public readonly offsetState$: Observable<readonly [ number, number ]> = this.offsetSource$.asObservable();
 
 	public setTemplate$(template: TemplateRef<ElementRef>): void {
 		this.templateSource$.next(template);
