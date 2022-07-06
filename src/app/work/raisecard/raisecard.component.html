@@ -1,15 +1,12 @@
-<div class="card">
-  <div *ngIf="marker" class="marker">
-    <div class="label">
-      {{ marker }}
-    </div>
+<div *ngIf="marker" class="marker">
+  <div class="label">
+    {{ marker }}
   </div>
+</div>
 
-  <div
-      class="content"
-      [style.top.em]="marker ? 3 : 0"
-      [style.height]="marker ? 'calc(100% - 3em)' : '100%'"
-    >
-    <ng-content></ng-content>
-  </div>
+<div
+    class="content"
+		[ngClass]="marker ? 'marker-shift' : ''"
+  >
+  <ng-content></ng-content>
 </div>
