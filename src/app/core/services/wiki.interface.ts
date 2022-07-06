@@ -40,3 +40,9 @@ export interface WikiResponseModel {
 		readonly pages?: readonly WikiResponsePage[];
 	};
 }
+
+export interface WikiEntry {
+	readonly description: string;
+	readonly href: string;
+	readonly title: string;
+}
