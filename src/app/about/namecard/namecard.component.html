@@ -1,20 +1,22 @@
-<a *ngIf="avatarLink && !avatarHref; else hrefAvatar" routerLink="avatarLink" class="avatar">
-  <ng-container *ngTemplateOutlet="imgTemplate"></ng-container>
-</a>
-
 <ng-template #hrefAvatar>
-  <a href="avatarHref ?? '#'" class="avatar">
-    <ng-container *ngTemplateOutlet="imgTemplate"></ng-container>
-  </a>
+	<a href="avatarHref ?? '#'" class="avatar">
+		<ng-container *ngTemplateOutlet="imgTemplate"></ng-container>
+	</a>
 </ng-template>
 
 <ng-template #imgTemplate>
-  <img *ngIf="imgUrl" alt="{{ imgAlt }}" src="{{ imgUrl }}" />
+	<img *ngIf="imgUrl" alt="{{ imgAlt }}" src="{{ imgUrl }}" />
 </ng-template>
 
-<div class="content-text">
-  <h1>{{ name }}</h1>
-  <p>
-    {{ description }}
-  </p>
+<div class="content">
+	<a *ngIf="avatarLink && !avatarHref; else hrefAvatar" routerLink="avatarLink" class="avatar">
+	  <ng-container *ngTemplateOutlet="imgTemplate"></ng-container>
+	</a>
+
+	<div class="content-text">
+	  <h1>{{ name }}</h1>
+	  <p>
+	    {{ description }}
+	  </p>
+	</div>
 </div>
