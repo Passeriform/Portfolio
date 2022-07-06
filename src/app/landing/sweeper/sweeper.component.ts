@@ -1,7 +1,5 @@
 import type { AfterContentInit, ElementRef, QueryList } from "@angular/core";
-import { Component, ContentChildren, Input } from "@angular/core";
-import type { SafeStyle } from "@angular/platform-browser";
-import { DomSanitizer } from "@angular/platform-browser";
+import { Component, ContentChildren, HostBinding, Input } from "@angular/core";
 
 import { interval } from "rxjs";
 
@@ -23,24 +21,16 @@ export class SweeperComponent implements AfterContentInit {
 
 	private inViewIndex = 0;
 
-	constructor(private readonly sanitizer: DomSanitizer) {
+	public get sweepTransform(): string {
+		const factor: number = 100 / this.swipeList.length;
+		return `translateY(-${factor * this.inViewIndex}%) translateY(-0.5em)`;
+	}
+
+	ngAfterContentInit() {
 		interval(this.delay).subscribe(() => {
 			if (this.auto) {
 				this.inViewIndex = (this.inViewIndex + 1) % this.swipeList.length;
 			}
 		});
-	}
-
-	ngAfterContentInit() {
-		// ngAfterContentInit
-	}
-
-	// TODO: Revamp using renderer2
-
-	public get swipeTranform(): SafeStyle {
-		const factor: number = 100 / this.swipeList.length;
-		const styleString = `translateY(-${factor * this.inViewIndex}%) translateY(-0.5em)`;
-
-		return this.sanitizer.bypassSecurityTrustStyle(styleString);
 	}
 }
