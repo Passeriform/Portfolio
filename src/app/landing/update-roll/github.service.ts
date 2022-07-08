@@ -4,6 +4,8 @@ import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
 import { BehaviorSubject } from "rxjs";
 
+import { environment } from "@env/environment";
+
 import type { GithubEvent } from "./github.interface";
 
 @Injectable()
@@ -18,7 +20,7 @@ export class GithubService {
 
 	public fetchUpdate$(after?: number): Observable<readonly GithubEvent[]> {
 		this.http
-			.get<readonly GithubEvent[]>("https://api.github.com/users/Passeriform/events")
+			.get<readonly GithubEvent[]>(environment.githubEventsApiUrl)
 			.subscribe((model: GithubEvent[]) => {
 				this.githubFeedSource$.next(model);
 			});

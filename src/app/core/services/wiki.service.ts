@@ -26,6 +26,8 @@ export class WikiService {
 	}
 
 	private fetchWikiDetails(entity: string): Observable<WikiEntry> {
+		// TODO: Move to environment when finalized.
+
 		const callUrl: string = "https://en.wikipedia.org/w/api.php?"
 			+ "action=query"
 			+ "&format=json"
