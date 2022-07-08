@@ -127,7 +127,7 @@
  			 *	/\
  			 *	──
  			 */
-			"point-up": polygon(0 0, 100% 0, 50% 100%),
+			"point-up": polygon(0 100%, 50% 0, 100% 100%),
 
 			/*
 			 *	⏷
@@ -140,13 +140,13 @@
 			 *	⏴
  			 *	<|
  			 */
-			"point-left": polygon(0 0, 100% 0, 50% 100%),
+			"point-left": polygon(0 50%, 100% 0, 100% 100%),
 
 			/*
 			 *	⏵
 			 *	|>
 			 */
-			"point-right": polygon(0 0, 100% 0, 50% 100%),
+			"point-right": polygon(0 0, 100% 50%, 0 100%),
 		),
 		"skewed-pentagon": (
 			/*
