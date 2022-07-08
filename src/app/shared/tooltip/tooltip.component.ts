@@ -26,6 +26,7 @@ export class TooltipComponent implements OnDestroy {
 		return positionClasses[this.position];
 	}
 
+	@HostBinding("class.corner") public corner: boolean;
 	@HostBinding("class.show") public showToggle: boolean;
 
 	constructor(private readonly tooltipService: TooltipService) {
@@ -37,6 +38,9 @@ export class TooltipComponent implements OnDestroy {
 		});
 		this.tooltipService.positionState$.subscribe((position: Position) => {
 			this.position = position;
+		});
+		this.tooltipService.cornerState$.subscribe((corner: boolean) => {
+			this.corner = corner;
 		});
 		this.tooltipService.invertState$.subscribe((invert: boolean) => {
 			this.invert = invert;

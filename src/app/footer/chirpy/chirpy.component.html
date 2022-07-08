@@ -1,4 +1,12 @@
-<div class="popup" #sayTarget>
-  <p>CHEEP!</p>
+<ng-template #tooltipTemplate>
+	<p class="say-message">{{ currentMessage }}</p>
+</ng-template>
+
+<div i18n-position appTooltip
+		class="popup"
+		[position]="Position.TOP"
+		[corner]="true"
+		[template]="tooltipTemplate"
+	>
+	<ng-content></ng-content>
 </div>
-<ng-content></ng-content>

@@ -12,6 +12,7 @@ export class TooltipDirective {
 
 	@Input() public readonly invert = false;
 	@Input() public readonly position = Position.BOTTOM;
+	@Input() public readonly corner = false;
 	@Input() public readonly template: TemplateRef<ElementRef>;
 
 	@HostListener("focusin", [ "$event" ])
@@ -20,6 +21,7 @@ export class TooltipDirective {
 		const boundingRect = (event.currentTarget as HTMLElement).getBoundingClientRect();
 		this.tooltipService.setTemplate$(this.template);
 		this.tooltipService.setPosition$(this.position);
+		this.tooltipService.setCorner$(this.corner);
 		this.tooltipService.setInvert$(this.invert);
 		/* eslint-disable-next-line @typescript-eslint/no-magic-numbers */
 		this.tooltipService.setOffset$([

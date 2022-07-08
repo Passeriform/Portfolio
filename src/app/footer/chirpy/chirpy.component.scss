@@ -3,39 +3,11 @@
 
 @import "./chirpy.colors";
 
-// TODO: Use tooltip styles for consistency.
-
 :host {
-	display: inline-block;
+	display: inline-flex;
+}
 
-	& > .popup {
-		position: absolute;
-		padding: 0.5em;
-		visibility: hidden;
-		border: 1px solid invert(map.get($theme, "accent", "hex"));
-		transform: translate(0.5em, -3.5em);
-		background-color: invert(map.get($theme, "background", "hex"));
-		opacity: 0;
-
-		&.show {
-			visibility: visible;
-			opacity: 1;
-		}
-
-		&:after {
-			content: "";
-			position: absolute;
-			left: 0;
-			width: 1em;
-			height: 1em;
-			border: 1px solid invert(map.get($theme, "accent", "hex"));
-			transform: translateX(-0.5em) rotateZ(45deg);
-			background-color: invert(map.get($theme, "background", "hex"));
-		}
-
-		& > p {
-			margin: 0;
-			color: invert(map.get($theme, "accent", "hex"));
-		}
-	}
+p.say-message {
+	margin: 0;
+	font-size: 1rem;
 }

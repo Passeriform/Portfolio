@@ -1,6 +1,7 @@
 @use "sass:map";
 @use "sass:math";
 @use "global";
+@use "modifiers";
 
 @import "./tooltip.colors";
 
@@ -37,11 +38,12 @@ $tooltip-arrow-height-em: 1em;
 		position: absolute;
 		box-sizing: border-box;
 		padding: 1em 2em;
-		width: $tooltip-window-width-em;
+		max-width: $tooltip-window-width-em;
 		box-shadow: 0 0 5px -3px map.get($theme, "shadow", "hex");
 		transform: translateX(-50%);
 
 		@include normal-color;
+		@include modifiers.max-content-width;
 
 		&:after {
 			content: "";
@@ -66,6 +68,10 @@ $tooltip-arrow-height-em: 1em;
 		}
 	}
 
+	&.corner > .tooltip-internal {
+		transform: translateX(0);
+	}
+
 	&.top {
 		& > .tooltip-internal {
 			bottom: $tooltip-arrow-width-em * 2;
@@ -74,6 +80,24 @@ $tooltip-arrow-height-em: 1em;
 				top: 100%;
 			}
 		}
+
+		&.corner > .tooltip-internal:after {
+			left: 0;
+		}
+	}
+
+	&.right {
+		& > .tooltip-internal {
+			left: $tooltip-arrow-width-em * 2;
+
+			&:after {
+				left: 0;
+			}
+		}
+
+		&.corner > .tooltip-internal:after {
+			top: 0;
+		}
 	}
 
 	&.bottom {
@@ -81,8 +105,26 @@ $tooltip-arrow-height-em: 1em;
 			top: $tooltip-arrow-width-em * 2;
 
 			&:after {
-				top: 0%;
+				top: 0;
 			}
+		}
+
+		&.corner > .tooltip-internal:after {
+			left: 0;
+		}
+	}
+
+	&.left {
+		& > .tooltip-internal {
+			right: $tooltip-arrow-width-em * 2;
+
+			&:after {
+				left: 100%;
+			}
+		}
+
+		&.corner > .tooltip-internal:after {
+			top: 0;
 		}
 	}
 

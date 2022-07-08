@@ -1,6 +1,10 @@
 import type { OnInit } from "@angular/core";
 import { Component, ElementRef, HostListener, Input, Renderer2, ViewChild } from "@angular/core";
 
+import { Position } from "@shared/models/cardinals.interface";
+
+// TODO: Use existing tooltip component and remove usage of Renderer2.
+
 @Component({
 	selector: "app-chirpy",
 	styleUrls: [ "./chirpy.component.scss" ],
@@ -9,16 +13,12 @@ import { Component, ElementRef, HostListener, Input, Renderer2, ViewChild } from
 export class ChirpyComponent implements OnInit {
 	@Input() public say: readonly string[];
 
-	@ViewChild("sayTarget", { read: ElementRef }) public readonly sayTarget: ElementRef<HTMLElement>;
+	public Position = Position;
+	public currentMessage: string;
 
 	@HostListener("mouseover")
 	public onMouseover(): void {
 		this.sayMessage();
-	}
-
-	@HostListener("mouseout")
-	public onMouseout(): void {
-		this.destroyMessage();
 	}
 
 	constructor(private readonly renderer: Renderer2) { }
@@ -29,12 +29,6 @@ export class ChirpyComponent implements OnInit {
 
 	public sayMessage(): void {
 		const messageIndex = Math.floor(Math.random() * this.say.length);
-		this.renderer.setProperty(this.sayTarget.nativeElement.firstChild, "innerHTML", this.say[messageIndex]);
-		this.renderer.addClass(this.sayTarget.nativeElement, "show");
-	}
-
-	public destroyMessage(): void {
-		this.renderer.removeClass(this.sayTarget.nativeElement, "show");
-		this.renderer.setProperty(this.sayTarget.nativeElement.firstChild, "innerHTML", "");
+		this.currentMessage = this.say[messageIndex];
 	}
 }
