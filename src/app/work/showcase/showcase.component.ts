@@ -23,15 +23,15 @@ export class ShowcaseComponent implements OnInit {
 	public scrollResetSource$ = new Subject<void>();
 	public scrollResetState$: Observable<void> = this.scrollResetSource$.asObservable();
 	public model: readonly WorkModel[];
-	public windowHeight: number;
+	public showExpanded: boolean;
 
 	@HostListener("window:resize")
 	public onResize(): void {
-		this.updateWindowHeight();
+		this.updateShowExpanded();
 	}
 
 	constructor(private readonly workService: WorkService) {
-		this.updateWindowHeight();
+		this.updateShowExpanded();
 	}
 
 	public cancelClick(event: MouseEvent): void {
@@ -44,16 +44,18 @@ export class ShowcaseComponent implements OnInit {
 		});
 	}
 
-	public updateWindowHeight(): void {
+	public updateShowExpanded(): void {
 		const bodyElement: HTMLBodyElement | null = document.querySelector("body");
 
-		this.windowHeight = bodyElement
+		const windowHeight = bodyElement
 			? window.innerHeight / Number.parseFloat(
 				getComputedStyle(
 					bodyElement,
 				)["font-size"] as string,
 			)
 			: 0;
+
+			this.showExpanded = windowHeight > 32;
 	}
 
 	public setSelected(entry: WorkModel): void {

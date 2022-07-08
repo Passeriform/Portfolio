@@ -16,7 +16,7 @@
       >
       <app-raisecard
           *ngIf="!(model?.length)"
-          [ngClass]="windowHeight < 32 ? 'compact' : ''"
+          [ngClass]="!showExpanded ? 'compact' : ''"
           #page
         >
         <div class="card-internal">
@@ -28,7 +28,7 @@
       <app-raisecard
           *ngFor="let entry of model"
           [marker]="entry.type"
-          [ngClass]="windowHeight < 32 ? 'compact' : ''"
+          [ngClass]="!showExpanded ? 'compact' : ''"
           (mousedown)="setSelected(entry)"
           #page
         >
@@ -38,7 +38,7 @@
 						<p>{{ entry.subtitle }}</p>
 					</div>
 
-          <div *ngIf="windowHeight > 32" class="info">
+          <div *ngIf="showExpanded" class="info">
             <div class="meta">
               <ng-template #languageTooltipTemplate>
                 <h5>Languages</h5>
@@ -129,7 +129,7 @@
 
 			<app-raisecard
           *ngIf="model?.length"
-          [ngClass]="windowHeight < 32 ? 'compact' : ''"
+          [ngClass]="!showExpanded ? 'compact' : ''"
 					(mousedown)="resetScroll($event); $event.stopPropagation()"
           #page
         >
