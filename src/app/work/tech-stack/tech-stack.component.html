@@ -6,14 +6,19 @@
           <ul>
             <li *ngFor="let elem of attrib.value">
               <ng-template #tooltipTemplate>
-                <div class="techstack-tooltip-content">
-                  <h5>{{ (elem | wiki | async)?.title }}</h5>
-                  <p>
-                    {{ (elem | wiki | async)?.description }}
-                  </p>
-                  <a href="{{ (elem | wiki | async)?.href }}"></a>
+                <div class="techstack-tooltip-content" *ngIf="elem | wiki | async as techDetails; else loadingTechDetails">
+									<h5>{{ techDetails.title }}</h5>
+									<p>
+										{{ techDetails.description }}
+									</p>
+									<a href="{{ techDetails.href }}"></a>
                 </div>
               </ng-template>
+
+							<ng-template #loadingTechDetails>
+								<!-- TODO: Use proper loader and mini canvas -->
+								Loading...
+							</ng-template>
 
               <div i18n-position appTooltip
 									class="img-container"
