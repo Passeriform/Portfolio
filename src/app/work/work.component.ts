@@ -2,6 +2,9 @@ import type { AfterViewInit, OnInit } from "@angular/core";
 import { Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
+import type { Observable } from "rxjs";
+import { Subject } from "rxjs";
+
 import { LoaderService } from "@app/loader/loader.service";
 import { SplashState } from "@core/services/splash-state.interface";
 import { SplashStateService } from "@core/services/splash-state.service";
@@ -16,6 +19,8 @@ import { WorkService } from "./services/work.service";
 })
 export class WorkComponent implements OnInit, AfterViewInit {
 	public displayInitialTip = true;
+	public scrollResetSource$ = new Subject<void>();
+	public scrollResetState$: Observable<void> = this.scrollResetSource$.asObservable();
 	public model: readonly WorkModel[];
 	public selected?: WorkModel;
 	public readonly marker: string;
@@ -50,5 +55,9 @@ export class WorkComponent implements OnInit, AfterViewInit {
 
 	public handleOverlayTrigger(): void {
 		this.displayInitialTip = false;
+	}
+
+	public handleSelection(): void {
+		this.scrollResetSource$.next();
 	}
 }

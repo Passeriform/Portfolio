@@ -3,6 +3,7 @@
 		[nestedScroll]="true"
 		[showPageNav]="true"
 		[allowEndReveal]="true"
+		[pageResetTrigger$]="scrollResetState$"
 	>
   <ng-container *ngIf="selected; else modelPlaceholder">
 		<div class="page" id="description" #page>
@@ -61,5 +62,5 @@
 </app-scrollable>
 
 <app-overlay class="header-offset" (triggerEvent)="handleOverlayTrigger()">
-	<app-showcase></app-showcase>
+	<app-showcase (selectionEvent)="handleSelection()"></app-showcase>
 </app-overlay>

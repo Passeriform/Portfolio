@@ -1,5 +1,5 @@
 import type { OnInit } from "@angular/core";
-import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
+import { Component, ElementRef, EventEmitter, HostListener, Output, ViewChild } from "@angular/core";
 
 import type { Observable } from "rxjs";
 import { Subject } from "rxjs";
@@ -15,6 +15,8 @@ import { WorkService } from "../services/work.service";
 	templateUrl: "./showcase.component.html",
 })
 export class ShowcaseComponent implements OnInit {
+	@Output() public readonly selectionEvent: EventEmitter<WorkModel> = new EventEmitter<WorkModel>();
+
 	@ViewChild("cardScroller", { read: ElementRef }) public readonly cardChild: ElementRef<HTMLElement>;
 
 	public readonly Position = Position;
@@ -60,6 +62,7 @@ export class ShowcaseComponent implements OnInit {
 
 	public setSelected(entry: WorkModel): void {
 		this.workService.setSelected(entry);
+		this.selectionEvent.emit(entry);
 	}
 
 	public setActive(activeModel: readonly WorkModel[]): void {
