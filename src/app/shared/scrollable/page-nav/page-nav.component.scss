@@ -88,6 +88,10 @@ $traveller-arrow-shapes: (
 
 			#{$position}: $collapsed-em;
 
+			@media (hover: none), (pointer: coarse) {
+				#{$position}: 0;
+			}
+
 			&.expanded {
 				#{$position}: 0;
 			}
@@ -121,6 +125,15 @@ $traveller-arrow-shapes: (
 			& > ul.page-nav-container > .page-nav-traveller {
 				#{$position}: $traveller-centering-offset + $traveller-arrow-offset;
 				clip-path: $shape;
+			}
+
+			@media (hover: none), (pointer: coarse) {
+				& > ul.page-nav-container > .page-nav-traveller {
+					#{$position}: $traveller-centering-offset;
+					width: $nav-link-dot-size;
+					height: $nav-link-dot-size;
+					clip-path: shapes.get-shape(["ellipse", "circle"]);
+				}
 			}
 		}
 	}
