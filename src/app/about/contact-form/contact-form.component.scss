@@ -11,6 +11,7 @@
 $half-margin: 1em;
 $net-half-width: calc(50% - #{math.div($half-margin, 2)});
 $textarea-height: 10em;
+$textarea-label-height-fix: 4px;
 $input-element-padding: 1em;
 
 @mixin form-element {
@@ -26,7 +27,7 @@ $input-element-padding: 1em;
 	}
 
 	&:focus {
-		background: map.get($theme, "background", "dark-5%", "hex");
+		background-color: map.get($theme, "background", "dark-5%", "hex");
 	}
 }
 
@@ -70,10 +71,10 @@ $input-element-padding: 1em;
 			}
 
 			@at-root #{selector-replace(&, ".input-field", "textarea.input-field")} {
-				min-height: $textarea-height;
+				height: $textarea-height;
 
 				& + .input-label:after {
-					height: $textarea-height + (2 * $input-element-padding);
+					height: calc(#{$textarea-height + (2 * $input-element-padding)} + #{$textarea-label-height-fix});
 				}
 			}
 

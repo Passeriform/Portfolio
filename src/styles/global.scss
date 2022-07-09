@@ -27,6 +27,9 @@ $items: 10;
 $extend-radius: $root-size;
 
 :root {
-
 	--shrink-header-size-em: #{$shrink-block-em};
+
+	textarea {
+		outline: none;
+	}
 }

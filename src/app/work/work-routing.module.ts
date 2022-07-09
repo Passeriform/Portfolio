@@ -34,7 +34,6 @@ const routes: Routes = [
 				path: `explore/${filter}/:package`,
 				redirectTo: `${filter}/:package`,
 			},
-			// TODO: Add another route entry for explore/product/someproduct -> product/someproduct
 		],
 	),
 	// Register explore catch-all.

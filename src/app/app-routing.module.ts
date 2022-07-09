@@ -15,6 +15,10 @@ const constructLazy = (urlPath: string, childrenLoader: LoadChildrenCallback): R
 	}
 );
 
+// TODO: Pull filters from http service before bootstraping routes [dependency on GraphQL migration].
+
+// TODO: Revert landing and work reordering when static values are available.
+
 // NOTE: Reordering landing and work modules as a hack to make same-named paths work.
 const routes: Routes = [
 	constructLazy("about", async () => import("./about/about.module").then((childModule) => childModule.AboutModule)),
