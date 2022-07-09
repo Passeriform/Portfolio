@@ -26,7 +26,7 @@ $scrollbar-track-width-em: 0.4em;
 		background-color: black;
 
 		&:not(.splash) {
-			padding-top: var(--header-shift-offset);
+			padding-top: var(--current-header-shift-offset);
 		}
 
 		& > .bg-img-wrapper {

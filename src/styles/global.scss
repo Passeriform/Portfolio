@@ -29,6 +29,11 @@ $extend-radius: $root-size;
 :root {
 	--shrink-header-size-em: #{$shrink-block-em};
 
+	/* --------- Shared values (Not defaults / Only for reference) --------- */
+	--traveller-offset: 0;
+	--tooltip-left: 0;
+	--tooltip-top: 0;
+
 	textarea {
 		outline: none;
 	}

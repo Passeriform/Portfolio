@@ -1,5 +1,5 @@
 import type { ElementRef, OnDestroy, TemplateRef } from "@angular/core";
-import { Component, HostBinding } from "@angular/core";
+import { Component, HostBinding, Input } from "@angular/core";
 
 import { Position } from "@shared/models/cardinals.interface";
 
@@ -11,9 +11,9 @@ import { TooltipService } from "./tooltip.service";
 	templateUrl: "./tooltip.component.html",
 })
 export class TooltipComponent implements OnDestroy {
-	public position: Position;
-	public invert: boolean;
-	public tooltipTemplate: TemplateRef<ElementRef>;
+	@Input() public position: Position;
+	@Input() public invert: boolean;
+	@Input() public tooltipTemplate: TemplateRef<ElementRef>;
 
 	@HostBinding("class") public get positionClass(): string {
 		const positionClasses: Record<Position, string> = {

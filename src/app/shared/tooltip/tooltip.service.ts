@@ -16,8 +16,8 @@ export class TooltipService {
 	private readonly cornerSource$ = new BehaviorSubject<boolean>(false);
 	private readonly invertSource$ = new BehaviorSubject<boolean>(false);
 	private readonly offsetSource$ = new BehaviorSubject<readonly [ number, number ]>([
-		document.documentElement.clientWidth,
-		document.documentElement.clientHeight,
+		document.documentElement.clientWidth / 2,
+		document.documentElement.clientHeight / 2,
 	]);
 
 	public readonly templateState$: Observable<TemplateRef<ElementRef>> = this.templateSource$.asObservable();

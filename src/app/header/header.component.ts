@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
 				this.splashState = splashState;
 
 				document.documentElement.style.setProperty(
-					"--header-shift-offset",
+					"--current-header-shift-offset",
 					this.splashState === SplashState.BLURRED
 						? "var(--shrink-header-size-em)"
 						: "0"

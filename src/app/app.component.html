@@ -11,4 +11,8 @@
 </app-header>
 <app-error></app-error>
 <app-harmonic-loader></app-harmonic-loader>
-<app-tooltip></app-tooltip>
+<app-tooltip [tooltipTemplate]="defaultTooltipTemplate"></app-tooltip>
+
+<ng-template #defaultTooltipTemplate>
+	<div>No content</div>
+</ng-template>
