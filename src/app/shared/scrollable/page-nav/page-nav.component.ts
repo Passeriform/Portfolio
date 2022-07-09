@@ -42,8 +42,6 @@ export class PageNavComponent implements OnChanges {
 		document.documentElement.style.setProperty("--traveller-offset", `${index}`);
 	}
 
-	// TODO: Remove all DOM manipulations and use css variable manipulation instead
-
 	constructor(private elementReference: ElementRef) { }
 
 	ngOnChanges(changes: SimpleChanges) {

@@ -6,7 +6,7 @@
 
 @import "./contact-form.colors";
 
-// TODO: Use direct properties when shorthand not required (background-color)
+// TODO: Use direct properties when shorthand not required (background, margin)
 
 $half-margin: 1em;
 $net-half-width: calc(50% - #{math.div($half-margin, 2)});

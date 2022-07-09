@@ -1,16 +1,13 @@
-import type { OnInit } from "@angular/core";
-import { Component, ElementRef, HostListener, Input, Renderer2, ViewChild } from "@angular/core";
+import { Component, ElementRef, HostListener, Input, ViewChild } from "@angular/core";
 
 import { Position } from "@shared/models/cardinals.interface";
-
-// TODO: Use existing tooltip component and remove usage of Renderer2.
 
 @Component({
 	selector: "app-chirpy",
 	styleUrls: [ "./chirpy.component.scss" ],
 	templateUrl: "./chirpy.component.html",
 })
-export class ChirpyComponent implements OnInit {
+export class ChirpyComponent {
 	@Input() public say: readonly string[];
 
 	public Position = Position;
@@ -19,12 +16,6 @@ export class ChirpyComponent implements OnInit {
 	@HostListener("mouseover")
 	public onMouseover(): void {
 		this.sayMessage();
-	}
-
-	constructor(private readonly renderer: Renderer2) { }
-
-	ngOnInit() {
-		// ngOnInit
 	}
 
 	public sayMessage(): void {

@@ -1,4 +1,3 @@
-import type { AfterViewInit } from "@angular/core";
 import { Component, ElementRef, ViewChild } from "@angular/core";
 
 @Component({
@@ -6,14 +5,10 @@ import { Component, ElementRef, ViewChild } from "@angular/core";
 	styleUrls: [ "./navigator.component.scss" ],
 	templateUrl: "./navigator.component.html",
 })
-export class NavigatorComponent implements AfterViewInit {
+export class NavigatorComponent {
 	@ViewChild("clickCapture", { read: ElementRef }) public readonly captureElement: ElementRef;
 
 	public expanded = false;
-
-	ngAfterViewInit() {
-		// ngAfterViewInit
-	}
 
 	public expand(event: MouseEvent): void {
 		if (this.expanded) {

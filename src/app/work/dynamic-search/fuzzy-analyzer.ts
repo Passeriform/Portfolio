@@ -7,6 +7,8 @@ export interface FuzzySegment {
 	value: string;
 }
 
+// TODO: Prune results if score exceeds threshold to reduce the result array size
+
 // TODO: Fix lint issues.
 
 @Injectable()

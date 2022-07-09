@@ -1,6 +1,6 @@
 // TODO: Remove lag from scroll/swipe.
 
-import type { AfterContentInit, AfterViewInit, OnInit, QueryList } from "@angular/core";
+import type { AfterContentInit, AfterViewInit, QueryList } from "@angular/core";
 import { Component, ContentChildren, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output } from "@angular/core";
 
 import type { Observable } from "rxjs";
@@ -21,7 +21,7 @@ import { Constants } from "./scrollable.config";
 	styleUrls: [ "./scrollable.component.scss" ],
 	templateUrl: "./scrollable.component.html",
 })
-export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewInit {
+export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	// TODO: Throw error if nestedScroll is enabled without fullpage
 
 	@Input() private readonly nestedScroll = false;
@@ -317,10 +317,6 @@ export class ScrollableComponent implements OnInit, AfterContentInit, AfterViewI
 			private readonly hostElement: ElementRef,
 			private readonly pageEndRevealService: PageEndRevealService,
 	) { }
-
-	ngOnInit() {
-		// ngOnInit
-	}
 
 	ngAfterContentInit() {
 		this.pagesChildrenChangeEvent.emit(this.items);

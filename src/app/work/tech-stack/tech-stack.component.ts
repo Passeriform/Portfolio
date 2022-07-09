@@ -1,4 +1,3 @@
-import type { OnInit } from "@angular/core";
 import { Component, Input } from "@angular/core";
 
 import { Position } from "@shared/models/cardinals.interface";
@@ -8,14 +7,10 @@ import { Position } from "@shared/models/cardinals.interface";
 	styleUrls: [ "./tech-stack.component.scss" ],
 	templateUrl: "./tech-stack.component.html",
 })
-export class TechStackComponent implements OnInit {
+export class TechStackComponent {
 	public readonly Position = Position;
 
 	@Input() public readonly model: readonly Record<string, unknown>[];
 
 	public readonly tooltipShownFor: string;
-
-	ngOnInit() {
-		// ngOnInit
-	}
 }

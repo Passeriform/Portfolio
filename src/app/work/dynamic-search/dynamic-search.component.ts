@@ -1,8 +1,9 @@
-import type { OnInit } from "@angular/core";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 import type { WordScore } from "./dynamic-search.interface";
 import { FuzzyAnalyzer } from "./fuzzy-analyzer";
+
+// TODO: Restore to original ordering when queryString is empty.
 
 @Component({
 	providers: [ FuzzyAnalyzer ],
@@ -10,7 +11,7 @@ import { FuzzyAnalyzer } from "./fuzzy-analyzer";
 	styleUrls: [ "./dynamic-search.component.scss" ],
 	templateUrl: "./dynamic-search.component.html",
 })
-export class DynamicSearchComponent implements OnInit {
+export class DynamicSearchComponent {
 	@Input() public model: readonly WordScore[];
 
 	@Output() public readonly propagate: EventEmitter<readonly WordScore[]> = new EventEmitter<readonly WordScore[]>();
@@ -19,10 +20,6 @@ export class DynamicSearchComponent implements OnInit {
 
 	constructor(private readonly fuzzyAnalyzer: FuzzyAnalyzer) {
 		this.queryString = "";
-	}
-
-	ngOnInit() {
-		// ngOnInit
 	}
 
 	public applyFilter(): void {

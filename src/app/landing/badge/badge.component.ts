@@ -1,4 +1,3 @@
-import type { OnInit } from "@angular/core";
 import { Component, Input } from "@angular/core";
 
 @Component({
@@ -6,10 +5,6 @@ import { Component, Input } from "@angular/core";
 	styleUrls: [ "./badge.component.scss" ],
 	templateUrl: "./badge.component.html",
 })
-export class BadgeComponent implements OnInit {
+export class BadgeComponent {
 	@Input() public readonly name: string;
-
-	ngOnInit() {
-		// ngOnInit
-	}
 }

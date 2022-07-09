@@ -1,4 +1,3 @@
-import type { OnInit } from "@angular/core";
 import { Component, ElementRef, HostBinding, Input } from "@angular/core";
 
 import type { LinkModel } from "@shared/models/link.interface";
@@ -17,7 +16,7 @@ import { FooterService } from "./footer.service";
 	],
 	templateUrl: "./footer.component.html",
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent {
 	@Input() public readonly maxItemCount = Constants.INITIAL_MAX_ITEM_COUNT;
 	@Input() public readonly aboutCount = this.maxItemCount;
 	@Input() public readonly socialCount = Constants.SOCIAL_LINKS_COUNT;
@@ -53,10 +52,6 @@ export class FooterComponent implements OnInit {
 		this.footerService.socialsState$.subscribe((socials: LinkModel[]): void => {
 			this.socials = socials;
 		});
-	}
-
-	ngOnInit() {
-		// ngOnInit
 	}
 
 	public popupSitemap(): void {
