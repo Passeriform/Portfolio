@@ -1,14 +1,10 @@
 @mixin disallow-selection {
-	& {
-		-webkit-touch-callout: none;
-		user-select: none;
-	}
+	-webkit-touch-callout: none;
+	user-select: none;
 }
 
 @mixin max-content-width {
-	& {
-		width: intrinsic;           /* Safari/WebKit uses a non-standard name */
-	  width: -moz-max-content;    /* Firefox/Gecko */
-	  width: -webkit-max-content; /* Chrome */
-	}
+	width: intrinsic;           /* Safari/WebKit uses a non-standard name */
+  width: -moz-max-content;    /* Firefox/Gecko */
+  width: -webkit-max-content; /* Chrome */
 }

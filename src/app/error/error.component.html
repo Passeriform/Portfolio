@@ -1,35 +1,43 @@
-<app-scrollable [fullpage]="true">
-  <div class="error-message" #page>
-    <div class="error-greeter">
-      <h1>HUH?</h1>
-      <h5>You weren't meant to be here!</h5>
-    </div>
-    <div
-	      *ngIf="!('production' | environment)"
-	      class="blur-fix"
-	      [ngClass]="{'activate': debugExpanded}"
-      >
-    </div>
-    <div
-        *ngIf="!('production' | environment)"
-        [ngClass]="{'expand': debugExpanded}"
-        (mousedown)="debugExpand()"
-				(wheel)="scrollFired($event)"
-        class="debug-window"
-        #debugWindow
-      >
-      <div class="debug-wrapper">
-        <div *ngFor="let prop of error | keyvalue">
-					<span class="entry-key">{{ prop.key | titlecase }}</span>
-					<span class="entry-value">{{ prop.value }}</span>
-        </div>
-      </div>
-    </div>
-    <p>
-      Scroll down for SiteMap. ⏷
-    </p>
-  </div>
-  <div class="sitemap-wrapper" #page>
-    <!-- <app-sitemap></app-sitemap> -->
-  </div>
+<app-scrollable
+		[fullpage]="true"
+		[nestedScroll]="true"
+	>
+	<div class="page splash" id="greeter" #page>
+		<div class="bg-img-wrapper">
+			<div class="bg-img"></div>
+		</div>
+		<div class="content">
+			<div class="error-greeter">
+				<h1>HUH?</h1>
+				<h5>You weren't meant to be here!</h5>
+			</div>
+			<div
+					*ngIf="!('production' | environment)"
+					class="blur-fix"
+					[ngClass]="{'activate': debugExpanded}"
+				>
+			</div>
+			<div
+					*ngIf="!('production' | environment)"
+					class="debug-window"
+					[ngClass]="{'expand': debugExpanded}"
+					(mousedown)="debugExpand()"
+					(wheel)="scrollFired($event)"
+					#debugWindow
+				>
+				<div class="debug-wrapper">
+					<div *ngFor="let prop of error | keyvalue">
+						<span class="entry-key">{{ prop.key | titlecase }}</span>
+						<span class="entry-value">{{ prop.value }}</span>
+					</div>
+				</div>
+			</div>
+			<p>
+				Scroll down for SiteMap. ⏷
+			</p>
+		</div>
+	</div>
+	<div class="page splash" id="sitemap" #page>
+		<!-- <app-sitemap></app-sitemap> -->
+	</div>
 </app-scrollable>

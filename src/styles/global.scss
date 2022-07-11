@@ -1,4 +1,5 @@
 @use "sass:math";
+@use "sass:map";
 
 $scrollbar-colors: ("scrollbar": ("thumb": #4A4A4A99, "track": #24242499));
 
@@ -8,6 +9,11 @@ $shrink-leaf-em: 8em;
 $shrink-block-em: 4em;
 
 $line-height-px: 22px;
+
+/* --------- Scrollbar --------- */
+$scrollbar-width-em: 0.5em;
+$scrollbar-flap-size-em: 0.5em;
+$scrollbar-track-width-em: 0.4em;
 
 /* --------- Overlay --------- */
 $overlay-flap-size: $small-block-em;
@@ -29,12 +35,8 @@ $extend-radius: $root-size;
 :root {
 	--shrink-header-size-em: #{$shrink-block-em};
 
-	/* --------- Shared values (Not defaults / Only for reference) --------- */
+	/* --------- Shared values (Only for safe nulling) --------- */
 	--traveller-offset: 0;
 	--tooltip-left: 0;
 	--tooltip-top: 0;
-
-	textarea {
-		outline: none;
-	}
 }

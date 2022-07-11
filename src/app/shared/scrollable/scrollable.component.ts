@@ -320,8 +320,6 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 
 	ngAfterContentInit() {
 		this.pagesChildrenChangeEvent.emit(this.items);
-		this.computeMaxScrollSize();
-		this.computeDeltaIfFullpage();
 		this.items.changes.subscribe(() => {
 			this.computeMaxScrollSize();
 			this.computeDeltaIfFullpage();
@@ -329,6 +327,9 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	}
 
 	ngAfterViewInit() {
+		this.computeMaxScrollSize();
+		this.computeDeltaIfFullpage();
+
 		this.pageResetTrigger$?.subscribe(() => this.setActivePageIndex(0));
 
 		this.pageEndRevealService.pageEndRevealElement$.subscribe((pageEndRevealElement: HTMLElement) => {
@@ -396,7 +397,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		merge(...this.transitionEndStream$).subscribe();
 	}
 
-	public get transform(): string {
+	public get scrollableTransform(): string {
 		if (this.orientation === Orientation.HORIZONTAL) {
 			return `translateX(${-this.delta * this.pageIndex}px)`;
 		}

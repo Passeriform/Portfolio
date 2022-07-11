@@ -1,9 +1,12 @@
 @use "global";
+@use "page";
 
 $p-responsive-font-size: max(1em, min(2vw, 1.5em));
 
 :host {
 	& .page {
+		@include page.page;
+
 		& > .content {
 			padding: 1em;
 			padding-top: 2em;

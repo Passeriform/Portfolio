@@ -1,9 +1,14 @@
 @use "sass:map";
 @use "global";
+@use "page";
 
 @import "./landing.colors";
 
 :host {
+	& .page {
+		@include page.page
+	}
+
 	& #splash {
 		& > .bg-img-wrapper > .bg-img {
 			background-image: url("/assets/images/landingbg.jpg");
@@ -20,8 +25,8 @@
 		& > .content {
 			display: flex;
 			flex-direction: column;
-			justify-content: center;
 			align-items: center;
+			justify-content: center;
 
 			& > h1 {
 				margin-bottom: -0.25em;

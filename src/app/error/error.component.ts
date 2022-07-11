@@ -25,8 +25,8 @@ export class ErrorComponent implements OnInit {
 		}
 	}
 
-	@HostBinding("style.display") public get errorOcurred(): string {
-		return this.error ? "block" : "none";
+	@HostBinding("class.show") public get errorOcurred(): boolean {
+		return Boolean(this.error);
 	}
 
 	constructor(private readonly errorService: ErrorService) { }

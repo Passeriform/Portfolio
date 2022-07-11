@@ -1,5 +1,6 @@
 @use "sass:map";
 @use "global";
+@use "page";
 
 @import "./error.colors";
 
@@ -7,116 +8,124 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 100vw;
-	height: 100vh;
-	background-color: map.get($theme, "background", "hex");
+	display: block;
+	opacity: 0;
+	pointer-events: none;
 
-	& .sitemap-wrapper {
-		width: 100vw;
-		height: 100vh;
+	&.show {
+		opacity: 1;
+		pointer-events: all;
 	}
 
-	& .error-message {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: space-evenly;
-		width: 100vw;
-		height: 100vh;
-		text-align: center;
+	& .page {
+		@include page.page;
+	}
 
-		& > .error-greeter {
-			margin: 5em 0;
-
-			& > h1 {
-				font-size: 8rem;
-				text-shadow: 0 0 5px map.get($theme, "shadow", "hex");
-			}
-
-			& > h5 {
-				margin-top: -1.5rem;
-				font-size: 1.35rem;
-			}
+	& #greeter {
+		& > .bg-img-wrapper > .bg-img {
+			background-color: map.get($theme, "background", "hex");
 		}
 
-		& > p {
-			margin: 2rem;
-			font-size: 1.75rem;
-			font-weight: 200;
-			text-shadow: 0 0 0.1rem map.get($theme, "shadow", "invert", "hex");
-		}
+		& > .content {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-evenly;
+			text-align: center;
 
-		& > .blur-fix {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100vw;
-			height: 100vh;
-			visibility: visible;
-			opacity: 0;
-			background-color: map.get($theme, "shadow", "hex");
-			transition: opacity 0.3s ease, backdrop-filter 0.5s ease;
-			pointer-events: none;
+			& > .error-greeter {
+				margin: 5em 0;
 
-			@supports (backdrop-filter: blur(2em)) {
-				& {
-					backdrop-filter: none;
+				& > h1 {
+					font-size: 8rem;
+					text-shadow: 0 0 5px map.get($theme, "shadow", "hex");
+				}
+
+				& > h5 {
+					margin-top: -1.5rem;
+					font-size: 1.35rem;
 				}
 			}
 
-			&.activate {
-				opacity: 0.9;
-				pointer-events: all;
+			& > p {
+				margin: 2rem;
+				font-size: 1.75rem;
+				font-weight: 200;
+				text-shadow: 0 0 0.1rem map.get($theme, "shadow", "invert", "hex");
+			}
+
+			& > .blur-fix {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100vw;
+				height: 100vh;
+				visibility: visible;
+				opacity: 0;
+				background-color: map.get($theme, "shadow", "hex");
+				transition: opacity 0.3s ease, backdrop-filter 0.5s ease;
+				pointer-events: none;
 
 				@supports (backdrop-filter: blur(2em)) {
 					& {
-						backdrop-filter: blur(2em);
+						backdrop-filter: none;
+					}
+				}
+
+				&.activate {
+					opacity: 0.9;
+					pointer-events: all;
+
+					@supports (backdrop-filter: blur(2em)) {
+						& {
+							backdrop-filter: blur(2em);
+						}
 					}
 				}
 			}
-		}
 
-		& > .debug-window {
-			padding: 1rem 2rem;
-			max-height: 25vh;
-			width: 60%;
-			height: 100%;
-			overflow: auto;
-			border-radius: 0.5rem;
-			box-shadow: 0 0 2px 2px map.get($theme, "shadow", "hex") inset;
-			background-color: map.get($theme, "background", "dark-10%", "hex");
-			transition: all 0.3s ease-in-out;
-
-			&.expand {
-				max-height: 80vh;
-				width: 80vw;
-				transform: translateY(-32vh);
-				background-color: map.get($theme, "background", "hex");
-			}
-
-			& > .debug-wrapper {
-				display: table;
+			& > .debug-window {
+				padding: 1rem 2rem;
+				max-height: 25vh;
+				width: 60%;
 				height: 100%;
-				text-align: left;
-				border-collapse: collapse;
+				overflow: auto;
+				border-radius: 0.5rem;
+				box-shadow: 0 0 2px 2px map.get($theme, "shadow", "hex") inset;
+				background-color: map.get($theme, "background", "dark-10%", "hex");
+				transition: all 0.3s ease-in-out;
 
-				& > div {
-					display: table-row;
+				&.expand {
+					max-height: 80vh;
+					width: 80vw;
+					transform: translateY(-32vh);
+					background-color: map.get($theme, "background", "hex");
+				}
 
-					& > span {
-						display: table-cell;
-						padding: 0.5rem;
-						height: 100%;
-						vertical-align: middle;
+				& > .debug-wrapper {
+					display: table;
+					height: 100%;
+					text-align: left;
+					border-collapse: collapse;
 
-						&.entry-key {
-							color: map.get($theme, "highlight", "hex");
-							font-weight: 500;
-						}
+					& > div {
+						display: table-row;
 
-						&.entry-value {
-							color: map.get($theme, "accent", "hex");
-							font-weight: 200;
+						& > span {
+							display: table-cell;
+							padding: 0.5rem;
+							height: 100%;
+							vertical-align: middle;
+
+							&.entry-key {
+								color: map.get($theme, "highlight", "hex");
+								font-weight: 500;
+							}
+
+							&.entry-value {
+								color: map.get($theme, "accent", "hex");
+								font-weight: 200;
+							}
 						}
 					}
 				}

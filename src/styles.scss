@@ -6,6 +6,8 @@
 $theme: colors.generate-color-swatch($highlight: #ADFF22, $shadow: #0000000F);
 
 * {
+	box-sizing: border-box;
+	white-space: normal;
 	scrollbar-color: map.get(global.$scrollbar-colors, "scrollbar", "thumb") map.get(global.$scrollbar-colors, "scrollbar", "track");
 	scrollbar-width: thin;
 }
@@ -36,4 +38,37 @@ html > body {
 	ul {
 		list-style: none;
 	}
+
+	textarea {
+		outline: none;
+	}
+}
+
+::-webkit-scrollbar {
+	width: global.$scrollbar-width-em;
+	height: global.$scrollbar-width-em;
+}
+
+::-webkit-scrollbar-thumb {
+	background:
+		linear-gradient(
+			45deg,
+			transparent 0 global.$scrollbar-flap-size-em,
+			map.get($theme, "foreground", "hex") global.$scrollbar-flap-size-em calc(100% - #{global.$scrollbar-flap-size-em}),
+			transparent calc(100% - #{global.$scrollbar-flap-size-em}) 100%
+		);
+}
+
+::-webkit-scrollbar-track {
+	background:
+		linear-gradient(
+			90deg,
+			transparent 0 calc(50% - max(1%, #{math.div(global.$scrollbar-track-width-em, 2)})),
+			map.get($theme, "shadow", "hex"),
+			transparent calc(50% + max(1%, #{math.div(global.$scrollbar-track-width-em, 2)})) 100%
+		);
+}
+
+::-webkit-resizer, ::-webkit-scrollbar-corner {
+	display: none;
 }
