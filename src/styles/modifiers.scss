@@ -8,3 +8,22 @@
   width: -moz-max-content;    /* Firefox/Gecko */
   width: -webkit-max-content; /* Chrome */
 }
+
+@mixin full-perc-size {
+	@include equal-dim(100%);
+}
+
+@mixin absolute-top-left {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+@mixin no-overflow {
+	overflow: hidden;
+}
+/// Use only in rare cases. Full viewport height breaks in mobile browsers.
+@mixin full-viewport-size {
+	width: 100vw;
+	height: 100vh;
+}
+

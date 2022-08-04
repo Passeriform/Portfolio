@@ -1,11 +1,11 @@
 @use "global";
-@use "page";
+@use "page" as *;
 
 $p-responsive-font-size: max(1em, min(2vw, 1.5em));
 
 :host {
 	& .page {
-		@include page.page;
+		@include page;
 
 		& > .content {
 			padding: 1em;
@@ -35,7 +35,7 @@ $p-responsive-font-size: max(1em, min(2vw, 1.5em));
 		}
 
 		&#intro {
-			& > .bg-img-wrapper > .bg-img {
+			@include page-bg-content {
 				background-image: url("/assets/images/contour_bg.jpg");
 				background-repeat: no-repeat;
 				background-size: cover;
@@ -44,7 +44,7 @@ $p-responsive-font-size: max(1em, min(2vw, 1.5em));
 		}
 
 		&#contact {
-			& > .bg-img-wrapper > .bg-img {
+			@include page-bg-content {
 				background-image: url("/assets/images/neon_square_bg.jpg");
 				background-repeat: no-repeat;
 				background-size: cover;
@@ -72,7 +72,7 @@ $p-responsive-font-size: max(1em, min(2vw, 1.5em));
 		}
 
 		&#overview {
-			& > .bg-img-wrapper > .bg-img {
+			@include page-bg-content {
 				background-image: url("/assets/images/neon_square_bg.jpg");
 				background-repeat: no-repeat;
 				background-size: cover;
@@ -105,7 +105,7 @@ $p-responsive-font-size: max(1em, min(2vw, 1.5em));
 		}
 
 		&#story {
-			& > .bg-img-wrapper > .bg-img {
+			@include page-bg-content {
 				background-image: url("/assets/images/neon_square_bg.jpg");
 				background-repeat: no-repeat;
 				background-size: cover;
@@ -114,7 +114,7 @@ $p-responsive-font-size: max(1em, min(2vw, 1.5em));
 		}
 
 		&#contributors {
-			& > .bg-img-wrapper > .bg-img {
+			@include page-bg-content {
 				background-image: url("/assets/images/neon_square_bg.jpg");
 				background-repeat: no-repeat;
 				background-size: cover;

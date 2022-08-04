@@ -1,6 +1,6 @@
 @use "sass:map";
 @use "global";
-@use "page";
+@use "page" as *;
 
 @import "./error.colors";
 
@@ -18,7 +18,7 @@
 	}
 
 	& .page {
-		@include page.page;
+		@include page;
 	}
 
 	& #greeter {

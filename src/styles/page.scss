@@ -1,32 +1,45 @@
+@use "modifiers" as *;
+
 @mixin page {
 	position: relative;
 	top: 0;
 	left: 0;
-	width: 100vw;
-	height: 100vh;
 	overflow: auto;
 	background-color: black;
 
+	// TODO: Try using percentage alternative if possible.
+	@include full-viewport-size;
+
 	&:not(.splash) {
-		padding-top: var(--current-header-shift-offset);
+		padding-top: var(--current-header-shift-offset, 0);
 	}
 
 	& > .bg-img-wrapper {
-		position: absolute;
-		top: 0;
-		left: 0;
-		overflow: hidden;
+		@include absolute-top-left;
+		@include no-overflow;
 
 		& > .bg-img {
 			position: fixed;
-			width: 100vw;
-			height: 100vh;
+
+			@include full-viewport-size;
 		}
 	}
 
 	& > .content {
 		position: relative;
-		width: 100%;
-		height: 100%;
+
+		@include full-perc-size;
+	}
+}
+
+@mixin page-bg-color($background) {
+	@include page-bg-content {
+		background-color: $background;
+	}
+}
+
+@mixin page-bg-content {
+	& > .bg-img-wrapper > .bg-img {
+		@content;
 	}
 }
