@@ -2,6 +2,14 @@ $no-of-items: 5;
 $max-inter-item-width: 1em;
 $max-width: ($no-of-items * 2em) + ($no-of-items + 1) * $max-inter-item-width;
 
+@mixin normal {
+	filter: invert(0);
+}
+
+@mixin inverted {
+	filter: invert(1);
+}
+
 :host {
 	display: flex;
 	flex-flow: row wrap;
@@ -16,10 +24,12 @@ $max-width: ($no-of-items * 2em) + ($no-of-items + 1) * $max-inter-item-width;
 	& img {
 		width: 2em;
 		height: 2em;
-		filter: invert(1);
 
+		&:not(.inverted) {
+			@include normal;
+		}
 		&.inverted {
-			filter: invert(0);
+			@include inverted;
 		}
 	}
 }
