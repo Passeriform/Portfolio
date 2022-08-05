@@ -2,6 +2,7 @@
 @use "page" as *;
 
 $p-responsive-font-size: max(1em, min(2vw, 1.5em));
+@import "./about.colors";
 
 :host {
 	& .page {

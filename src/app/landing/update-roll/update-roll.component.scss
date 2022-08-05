@@ -1,5 +1,5 @@
 @use "sass:map";
-@use "global";
+@use "modifiers" as *;
 
 @import "./update-roll.colors";
 
@@ -35,9 +35,8 @@
 
 		& > .repo {
 			grid-column: 3 / 3;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
+
+			@include flex-column-center;
 
 			& > a {
 				padding: 0 1em;

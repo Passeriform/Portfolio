@@ -1,9 +1,9 @@
 @use "sass:math";
 @use "sass:map";
 @use "global";
-@use "colors";
+@use "colors" as *;
 
-$theme: colors.generate-color-swatch($highlight: #ADFF22, $shadow: #0000000F);
+$theme: generate-color-swatch($highlight: #ADFF22, $shadow: #0000000F);
 
 * {
 	box-sizing: border-box;

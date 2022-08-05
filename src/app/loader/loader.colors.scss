@@ -1,3 +1,5 @@
-@use "colors";
+@use "colors" as *;
 
-$theme: colors.generate-color-swatch();
+// TODO: Pick loader colors from this sass file instead of manual input
+
+$theme: generate-color-swatch();

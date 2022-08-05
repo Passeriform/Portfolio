@@ -1,3 +1,3 @@
-@use "colors";
+@use "colors" as *;
 
-$theme: colors.generate-color-swatch($foreground: #EEEEEE, $background: #191919, $accent: #EEEEEE);
+$theme: generate-color-swatch();
