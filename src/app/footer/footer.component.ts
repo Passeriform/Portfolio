@@ -12,7 +12,6 @@ import { FooterService } from "./footer.service";
 	selector: "app-footer",
 	styleUrls: [
 		"./footer.component.scss",
-		"./separator.scss",
 	],
 	templateUrl: "./footer.component.html",
 })

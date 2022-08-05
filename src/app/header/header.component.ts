@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
 				document.documentElement.style.setProperty(
 					"--current-header-shift-offset",
 					this.splashState === SplashState.BLURRED
-						? "var(--shrink-header-size-em)"
+						? "var(--shrink-header-size-em, 4em)"
 						: "0"
 				);
 			},
