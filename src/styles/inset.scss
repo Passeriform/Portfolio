@@ -1,0 +1,42 @@
+$valid-insets: (
+	"top",
+	"right",
+	"bottom",
+	"left",
+);
+
+@function is-inset($maybe-inset) {
+	@return (index($valid-insets, $maybe-inset));
+}
+
+@function opposite-inset($inset) {
+	@if not (is-inset($inset)) {
+		@error "#{$inset} is not a valid inset";
+	}
+
+	@if ($inset == "top") {
+		@return "bottom";
+	} @else if ($inset == "right") {
+		@return "left";
+	} @else if ($inset == "bottom") {
+		@return "top";
+	} @else if ($inset == "left") {
+		@return "right";
+	}
+}
+
+@function is-vertical-inset($inset) {
+	@if not (is-inset($inset)) {
+		@error "#{$inset} is not a valid inset";
+	}
+
+	@return index(["top", "bottom"], $inset);
+}
+
+@function is-horizontal-inset($inset) {
+	@if not (is-inset($inset)) {
+		@error "#{$inset} is not a valid inset";
+	}
+
+	@return index(["left", "right"], $inset);
+}
