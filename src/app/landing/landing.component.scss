@@ -1,5 +1,6 @@
 @use "sass:map";
 @use "global";
+@use "assets" as *;
 @use "page" as *;
 
 @import "./landing.colors";
@@ -11,7 +12,7 @@
 
 	& #splash {
 		@include page-bg-content {
-			background-image: url("/assets/images/landingbg.jpg");
+			background-image: url(#{map.get($assets, "landing", "splash-background")});
 			background-repeat: no-repeat;
 			background-size: cover;
 			filter: brightness(50%);
@@ -44,7 +45,7 @@
 
 	& #stats-view {
 		@include page-bg-content {
-			background-image: url("/assets/images/patterns/carbonpattern@2X.png");
+			background-image: url(#{map.get($assets, "landing", "stats-view-background")});
 			background-repeat: repeat;
 			background-size: auto;
 		}
