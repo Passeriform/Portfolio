@@ -9,8 +9,71 @@
   width: -webkit-max-content; /* Chrome */
 }
 
+@mixin center-anchored-image {
+	position: absolute;
+	width: 0;
+	height: 0;
+
+	& > img {
+		transform: translate(-50%, -50%);
+	}
+}
+
 @mixin full-perc-size {
 	@include equal-dim(100%);
+}
+
+@mixin zero-perc-size {
+	@include equal-dim(0);
+}
+
+@mixin pointer-disable {
+	pointer-events: none;
+}
+
+@mixin pointer-enable {
+	pointer-events: all;
+}
+
+@mixin hide {
+	visibility: hidden;
+
+	@include hide-with-transition;
+	@include pointer-disable;
+}
+
+@mixin hide-with-transition {
+	opacity: 0;
+}
+
+@mixin unhide {
+	visibility: visible;
+
+	@include unhide-with-transition;
+	@include pointer-enable;
+}
+
+@mixin unhide-with-transition {
+	opacity: 1;
+}
+
+@mixin equal-dim($size) {
+	width: $size;
+	height: $size;
+}
+
+@mixin relative-block {
+	position: relative;
+	display: block;
+}
+
+@mixin absolute-center {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
 }
 
 @mixin absolute-top-left {
@@ -18,6 +81,117 @@
 	top: 0;
 	left: 0;
 }
+
+@mixin absolute-bottom-left {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+@mixin absolute-top-right {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+@mixin absolute-right {
+	position: absolute;
+	right: 0;
+}
+
+@mixin absolute-bottom {
+	position: absolute;
+	bottom: 0;
+}
+
+@mixin flex-row-evenly {
+	display: flex;
+	flex-flow: row wrap;
+	// TOOD: Check if align-items can be added at all places
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+@mixin flex-column-evenly {
+	display: flex;
+	flex-flow: column nowrap;
+	text-align: center;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+// TODO: Add align-items, justify-content and text-align to all flex mixins
+@mixin flex-row-around {
+	display: flex;
+	flex-flow: row wrap;
+	// TODO: Check if align-items can be added at all places
+	align-items: center;
+	justify-content: space-around;
+}
+
+@mixin flex-row-start {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+
+@mixin flex-column-start {
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+
+@mixin flex-row-center {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: center;
+}
+
+@mixin flex-column-center {
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	justify-content: center;
+}
+
+@mixin flex-column-around {
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: space-around;
+}
+
+@mixin flex-column-end {
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: flex-end;
+}
+
+@mixin iflex {
+	display: inline-flex;
+}
+
+@mixin iflex-center {
+	display: inline-flex;
+	justify-content: center;
+}
+
+@mixin responsive-width($min, $max, $vary-with) {
+	min-width: $min;
+	max-width: $max;
+	width: $vary-with;
+}
+
+@mixin layer($mode) {
+	mix-blend-mode: $mode;
+}
+
+@mixin no-bg {
+	background: none;
+}
+
 @mixin no-overflow {
 	overflow: hidden;
 }
@@ -30,9 +204,36 @@
 	flex: 1 1 auto;
 }
 
+@mixin reset-offsets {
+	margin: 0;
+	padding: 0;
+}
+
+@mixin full-viewport-width {
+	width: 100vw;
+}
+
 /// Use only in rare cases. Full viewport height breaks in mobile browsers.
 @mixin full-viewport-size {
 	width: 100vw;
 	height: 100vh;
 }
 
+@mixin content-fix {
+	content: "";
+}
+
+@mixin circle-border {
+	// TODO: Use percentages in all other places as well
+	border-radius: 50%;
+}
+
+@mixin clear-fix {
+	clear: both;
+}
+
+/// Manually override modifiers if required. This exists as its only used as an
+/// escape hatch and should be visible as such in stylesheet.
+@mixin override-modifiers {
+	@content;
+}
