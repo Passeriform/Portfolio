@@ -1,8 +1,11 @@
 import type { ElementRef } from "@angular/core";
 import { Injectable, TemplateRef } from "@angular/core";
+import type { RouterEvent } from "@angular/router";
+import { NavigationEnd, Router } from "@angular/router";
 
 import type { Observable } from "rxjs";
 import { BehaviorSubject } from "rxjs";
+import { filter } from "rxjs/operators";
 
 import { Position } from "@shared/models/cardinals.interface";
 
@@ -26,6 +29,14 @@ export class TooltipService {
 	public readonly cornerState$: Observable<boolean> = this.cornerSource$.asObservable();
 	public readonly invertState$: Observable<boolean> = this.invertSource$.asObservable();
 	public readonly offsetState$: Observable<readonly [ number, number ]> = this.offsetSource$.asObservable();
+
+	constructor(private router: Router) {
+		this.router.events.pipe(
+			filter((routerEvent: RouterEvent) => routerEvent instanceof NavigationEnd)
+		).subscribe(
+			(navigationEndEvent: RouterEvent) => this.setShowTooltip$(false)
+		);
+	}
 
 	public setTemplate$(template: TemplateRef<ElementRef>): void {
 		this.templateSource$.next(template);
