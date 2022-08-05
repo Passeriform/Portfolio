@@ -2,6 +2,7 @@
 @use "sass:math";
 @use "global";
 @use "shapes";
+@use "media" as *;
 
 @import "./cage-grid.colors";
 
@@ -20,7 +21,7 @@ $border-shift-em: $title-flap-size-em - $cage-grid-border-size;
 	padding: 2em;
 	width: 100%;
 
-	@media screen and (orientation: landscape) and (max-height: 400px) {
+	@include media("screen", "landscape", "<=400px") {
 		flex-wrap: nowrap;
 		overflow-x: auto;
 		overflow-y: hidden;

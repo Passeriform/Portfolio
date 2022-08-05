@@ -1,6 +1,7 @@
 @use "sass:map";
 @use "sass:math";
 @use "global";
+@use "media" as *;
 @use "page" as *;
 
 @import "./work.colors";
@@ -18,7 +19,7 @@
 			padding: 2em 5em;
 			overflow: hidden;
 
-			@media screen and (max-width: 400px) {
+			@include media("screen", "<=400px") {
 				padding: 2em 1em;
 			}
 
@@ -51,7 +52,7 @@
 				text-transform: initial;
 				word-spacing: 0.2em;
 
-				@media (max-height: 30em) {
+				@include media("<=30em") {
 					display: none;
 				}
 			}

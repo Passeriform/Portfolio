@@ -2,6 +2,7 @@
 @use "sass:math";
 @use "global";
 @use "shapes";
+@use "media" as *;
 
 @import "./page-nav.colors";
 
@@ -88,7 +89,7 @@ $traveller-arrow-shapes: (
 
 			#{$position}: $collapsed-em;
 
-			@media (hover: none), (pointer: coarse) {
+			@include media("touchscreen") {
 				#{$position}: 0;
 			}
 
@@ -127,7 +128,7 @@ $traveller-arrow-shapes: (
 				clip-path: $shape;
 			}
 
-			@media (hover: none), (pointer: coarse) {
+			@include media("touchscreen") {
 				& > ul.page-nav-container > .page-nav-traveller {
 					#{$position}: $traveller-centering-offset;
 					width: $nav-link-dot-size;
@@ -138,10 +139,13 @@ $traveller-arrow-shapes: (
 		}
 	}
 
-	&.expanded > ul.page-nav-container > .page-nav-traveller {
-		width: $nav-link-dot-size;
-		height: $nav-link-dot-size;
-		clip-path: shapes.get-shape(["ellipse", "circle"]);
+	@include media("touchscreen") {
+		&.expanded > ul.page-nav-container > .page-nav-traveller {
+			width: $nav-link-dot-size;
+			height: $nav-link-dot-size;
+			clip-path: shapes.get-shape(["ellipse", "circle"]);
+		}
+	}
 	}
 
 	& > ul.page-nav-container {

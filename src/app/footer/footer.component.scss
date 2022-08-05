@@ -1,8 +1,12 @@
 @use "sass:map";
 @use "global";
+@use "media" as *;
 @use "separator" as *;
 
 @import "./footer.colors";
+
+$expanded-breakpoint: 52em;
+$linear-breakpoint: 42em;
 
 @mixin expanded {
 	& {
@@ -41,7 +45,7 @@
 }
 
 @mixin stacked {
-	@media (orientation: portrait), (max-width: 50em) {
+	@include media("<=#{$expanded-breakpoint}") {
 		@include expanded;
 	}
 
@@ -88,11 +92,11 @@
 
 	@include linear;
 
-	@media (orientation: portrait), (max-width: 50em) {
-		@include expanded;
+	@include media("portrait") {
+		@include linear;
 	}
 
-	@media (orientation: portrait), (max-width: 40em) {
+	@include media("<=#{$linear-breakpoint}") {
 		@include linear;
 	}
 
@@ -100,11 +104,9 @@
 		@include linear;
 	}
 
-	&.stacked {
-		@include stacked;
-
-		@media (orientation: portrait), (max-width: 40em) {
-			@include linear;
+	@include media(">#{$linear-breakpoint}") {
+		&.stacked {
+			@include stacked;
 		}
 	}
 

@@ -1,6 +1,7 @@
 @use "sass:map";
 @use "global";
 @use "shapes";
+@use "media" as *;
 
 @import "./namecard.colors";
 
@@ -26,11 +27,11 @@ $p-responsive-font-size: max(1em, min(2vw, 1.5em));
 		border-radius: 0.4em;
 		background-color: map.get($theme, "background", "hex");
 
-		@media (orientation: landscape) {
+		@include media("landscape") {
 			flex-direction: row;
 		}
 
-		@media (orientation: portrait) {
+		@include media("portrait") {
 			flex-direction: column;
 		}
 
@@ -59,12 +60,12 @@ $p-responsive-font-size: max(1em, min(2vw, 1.5em));
 		& > a.avatar {
 			margin: auto;
 
-			@media (orientation: portrait) {
+			@include media("portrait") {
 				margin-top: 1em;
 				margin-bottom: 2em;
 			}
 
-			@media (orientation: landscape) {
+			@include media("landscape") {
 				margin-right: 2em;
 			}
 
