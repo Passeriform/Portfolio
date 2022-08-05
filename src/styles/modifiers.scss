@@ -21,6 +21,15 @@
 @mixin no-overflow {
 	overflow: hidden;
 }
+
+@mixin inflexible {
+	flex: 0 0 auto;
+}
+
+@mixin flexible {
+	flex: 1 1 auto;
+}
+
 /// Use only in rare cases. Full viewport height breaks in mobile browsers.
 @mixin full-viewport-size {
 	width: 100vw;

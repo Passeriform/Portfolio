@@ -1,8 +1,8 @@
 @use "sass:map";
 @use "global";
+@use "separator" as *;
 
 @import "./footer.colors";
-@import "./separator";
 
 @mixin expanded {
 	& {
