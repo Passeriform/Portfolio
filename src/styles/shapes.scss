@@ -1,58 +1,266 @@
 @use "sass:map";
+@use "sass:math";
+@use "utility" as *;
 
-@function get-shape($shape-keys, $delta: 0rem) {
+$shapes: (
+	"ellipse": (
+		/* ◯ */
+		"circle",
+	),
+	"snipped-rectangle": (
+		/* 🭖 */
+		/*
+		 *	─────┐
+		 *	 \	 │
+		 *	  ───┘
+		 */
+		"top-right",
+
+		/* 🭡 */
+		/*
+		 *	┌─────
+		 *	│   /
+		 *	└──
+		 */
+		"top-left",
+
+		/* 🭅 */
+		/*
+		 *		───┐
+		 *	 /	 │
+		 *  ─────┘
+		 */
+		"bottom-right",
+
+		/* 🭅 */
+		/*
+		 *		───┐
+		 *	 /	 │
+		 *  ─────┘
+		 */
+		"shifted-bottom-right",
+	),
+	"double-snipped-rectangle": (
+		/* 🭃🭟 */
+		/*
+		 *	   ────┐
+		 *	 / 	   │
+		 *	│     /
+		 *	└────
+		 */
+		"top-right-bottom-left",
+	),
+	"flap": (
+		/* 🭚 */
+		/*
+		 *	┌───
+		 *	│ /
+		 */
+		"top-left",
+
+		/* 🭥 */
+		/*
+		 *	───┐
+		 *   \ │
+		 */
+		"top-right",
+	),
+	"trapezoid": (
+		/* 🭖🭡 */
+		/*
+		 * ──────────
+		 *	\			 /
+		 *	 ──────
+		 */
+		"short-bottom",
+
+		/*
+		 *	🭄
+		 *	🭕
+		 */
+		/*
+		 *    /
+		 *	 / |
+		 *	|	 |
+		 *	|	 |
+		 *	|	 |
+		 *	 \ |
+		 *    \
+		 */
+		"short-left",
+
+		/* 🭅🭐 */
+		/*
+		 *	 ──────
+		 *	/			 \
+		 * ──────────
+		 */
+		"short-top",
+
+		/*
+		 *	🭏
+		 *	🭠
+		 */
+		/*
+		 *   \
+		 *	| \
+		 *	|	|
+		 *	|	|
+		 *	|	|
+		 *	| /
+		 *   /
+		 */
+
+		"short-right",
+	),
+	"arrow": (
+		/* ⏶ */
+		/*
+		 *	/\
+		 *	──
+		 */
+		"point-up",
+
+		/* ⏷ */
+		/*
+		 *	──
+		 *	\/
+		 */
+		"point-down",
+
+		/* ⏴ */
+		/* <| */
+		"point-left",
+
+		/* ⏵ */
+		/* |> */
+		"point-right",
+	),
+	"skewed-pentagon": (
+		/*
+		 *	🭅🮆
+		 *	🭖🮆
+		 */
+		/*
+		 *	  ────────────┐
+		 *	/							│
+		 *	\  						│
+		 *	 \						│
+		 *	  ────────────┘
+		 */
+		"left",
+	),
+	"distorted-square": (
+		/*
+		 *	🭅🮆
+		 *	🭣🭧
+		 */
+		/*
+		 *	     ──┐
+		 *	   / 	 │
+		 *	  / 	 │
+		 *	 /		 │
+		 *	.			 │
+		 *	 	\		 │
+		 *	     \ │
+		 */
+		"top-right",
+		/*
+		 *	🮆🭐
+		 *	🭜🭘
+		 */
+		/*
+		 *	┌──
+		 *	│   \
+		 *	│    \
+		 *	│     \
+		 *	│      .
+		 *	│    /
+		 *	│ /
+		 */
+		"top-left",
+	),
+	"border-with-label": (
+		/*
+		 *	🮆🮆🮆🭡
+		 *	🭕🮆🮆🮆🮆
+		 *   🮆🮆🮆🮆
+		 */
+		/*
+		 *		┌──────────
+		 *	  │        /
+		 *		 \			────────┐
+		 *	  	│	 					  │
+		 *	  	│	 					  │
+		 *      └─────────────┘
+		 */
+		"top-left",
+	),
+);
+
+// TODO: Replace calc and native CSS with inbuilt math module by stripping units.
+
+@function get-hypotenuse($base, $perpendicular) {
+	$base: strip-unit($base);
+	$perpendicular: strip-unit($perpendicular);
+	@return math.sqrt(math.pow($base, 2) + math.pow($perpendicular, 2)) * 1em;
+}
+
+@function incircle-content-size($inradius) {
+	@return math.sqrt(2) * $inradius;
+}
+
+@function inradius($area, $semi-perimeter) {
+	@return math.div($area, $semi-perimeter);
+}
+
+@mixin shape-content-props($shape-type, $base, $height: $base) {
+	$semi-perimeter: 1em;
+
+	@if ($shape-type == "flap") {
+		$semi-perimeter: math.div((2 + math.sqrt(2)) * $base, 2);
+
+		@if ($base != $height) {
+			@warn "Explicit height cannot be set for flaps. Provided height will be ignored.";
+			$height: $base;
+		}
+	} @else if ($shape-type == "arrow") {
+		$hypotenuse: get-hypotenuse(math.div($base, 2), $height);
+		$semi-perimeter: math.div($base + (2 * $hypotenuse), 2);
+	} @else {
+		@warn "Shape type #{$shape-type} is not supported.";
+
+		@content(0em, 0em);
+	}
+
+	$area: math.div($base * $height, 2);
+	$inradius: inradius($area, $semi-perimeter);
+	$content-offset: math.div(math.div($inradius, math.sin(math.div(90deg, 2))), math.sqrt(2));
+	$content-size: incircle-content-size($inradius);
+
+	@content($content-size, $content-offset);
+}
+
+@mixin shape($path-keys, $delta: 0rem) {
+	clip-path: get-shape($path-keys, $delta);
+}
+
+@function get-shape($path-keys, $delta: 0rem) {
 	@if type-of($delta) != "map" {
 		$delta: ("default": $delta);
 	}
 
-	$shapes: (
+	$paths: (
 		"ellipse": (
-			/*
-			 * ◯
-			 */
 			"circle": circle(50%),
 		),
 		"snipped-rectangle": (
-			/*
-			 *	🭖
- 			 *	─────┐
- 			 *	 \	 │
- 			 *	  ───┘
- 			 */
 			"top-right": polygon(0 0, 100% 0, 100% 100%, map.get($delta, "default") 100%),
-
-			/*
-			 *	🭡
- 			 *	┌─────
- 			 *	│   /
- 			 *	└──
- 			 */
 			"top-left": polygon(0 0, 100% 0, calc(100% - #{map.get($delta, "default")}) 100%, 0 100%),
-
-			/*
-			 *	🭅
- 			 *		───┐
- 			 *	 /	 │
- 			 *  ─────┘
- 			 */
 			"bottom-right": polygon(map.get($delta, "default") 0, 100% 0, 100% 100%, 0 100%),
-
-			/*
-			 *	🭅
- 			 *		───┐
- 			 *	 /	 │
- 			 *  ─────┘
- 			 */
 			"shifted-bottom-right": polygon(calc(#{map.get($delta, "shift")} + #{map.get($delta, "snip-size")}) 0, 100% 0, 100% 100%, map.get($delta, "shift") 100%),
 		),
 		"double-snipped-rectangle": (
-			/*
-			 *	🭃🭟
- 			 *	   ────┐
- 			 *	 / 	   │
- 			 *	│     /
- 			 *	└────
- 			 */
 			"top-right-bottom-left": polygon(
 				0 map.get($delta, "default"),
 				0 100%,
@@ -63,129 +271,29 @@
 			),
 		),
 		"flap": (
-			/*
-			 *	🭚
- 			 *	┌───
- 			 *	│ /
- 			 */
 			"top-left": polygon(0 0, 0% 100%, 100% 0%),
-
-			/*
-			 *	🭥
- 			 *	───┐
- 			 *   \ │
- 			 */
 			"top-right": polygon(0 0, 100% 0, 100% 100%),
 		),
 		"trapezoid": (
-			/*
-			 *	🭖🭡
- 			 * ──────────
- 			 *	\			 /
- 			 *	 ──────
- 			 */
 			"short-bottom": polygon(0 0, 100% 0, calc(100% - #{map.get($delta, "default")}) 100%, map.get($delta, "default") 100%),
-
-			/*
-			 *	🭄
-			 *	🭕
- 			 *    /
- 			 *	 / |
- 			 *	|	 |
- 			 *	|	 |
- 			 *	|	 |
- 			 *	 \ |
- 			 *    \
- 			 */
 			"short-left": polygon(100% 0, 100% 100%, 0 calc(100% - #{map.get($delta, "default")}), 0 map.get($delta, "default")),
-
-			/*
-			 *	 🭅🭐
- 			 *	 ──────
- 			 *	/			 \
- 			 * ──────────
- 			 */
 			"short-top": polygon(0 100%, map.get($delta, "default") 0, calc(100% - #{map.get($delta, "default")}) 0, 100% 100%),
-
-			/*
-			 *	🭏
-			 *	🭠
- 			 *   \
- 			 *	| \
- 			 *	|	|
- 			 *	|	|
- 			 *	|	|
- 			 *	| /
- 			 *   /
- 			 */
-
 			"short-right": polygon(0 0, 100% map.get($delta, "default"), 100% calc(100% - #{map.get($delta, "default")}), 0 100%),
 		),
 		"arrow": (
-			/*
-			 *	⏶
- 			 *	/\
- 			 *	──
- 			 */
 			"point-up": polygon(0 100%, 50% 0, 100% 100%),
-
-			/*
-			 *	⏷
-			 *	──
- 			 *	\/
- 			 */
 			"point-down": polygon(0 0, 100% 0, 50% 100%),
-
-			/*
-			 *	⏴
- 			 *	<|
- 			 */
 			"point-left": polygon(0 50%, 100% 0, 100% 100%),
-
-			/*
-			 *	⏵
-			 *	|>
-			 */
 			"point-right": polygon(0 0, 100% 50%, 0 100%),
 		),
 		"skewed-pentagon": (
-			/*
-			 *	🭉▆
-			 *	🭦█
- 			 *	  ────────────┐
- 			 *	/							│
- 			 *	\  						│
- 			 *	 \						│
- 			 *	  ────────────┘
- 			 */
 			"left": polygon(map.get($delta, "first") 0, 100% 0, 100% 100%, map.get($delta, "second") 100%, 0 map.get($delta, "first")),
 		),
 		"distorted-square": (
-			/*
-			 *	🭋█
-			 *	🭣🮂
- 			 *	     ──┐
- 			 *	   / 	 │
- 			 *	  / 	 │
- 			 *	 /		 │
- 			 *	.			 │
- 			 *	 	\		 │
- 			 *	     \ │
- 			 */
-			"top-right": polygon(map.get($delta, "left") 0, 100% 0%, 100% 100%, map.get($delta, "bottom-x") map.get($delta, "bottom-y")),
+			"top-right": polygon(map.get($delta, "left") 0, 100% 0, 100% 100%, map.get($delta, "corner-x") map.get($delta, "corner-y")),
+			"top-left": polygon(0 0, map.get($delta, "right") 0, map.get($delta, "corner-x") map.get($delta, "corner-y"), 0 100%),
 		),
 		"border-with-label": (
-			/*
-			 *	███🭡
-			 *	🭕████
-			 *   ████
- 			 *		┌──────────
- 			 *	  │        /
- 			 *		 \			────────┐
- 			 *	  	│	 					  │
- 			 *	  	│	 					  │
- 			 *      └─────────────┘
- 			 */
 			"top-left": polygon(
 				0 0,
 				calc(#{map.get($delta, "flap-base-x")} + #{map.get($delta, "border-shift")}) 0,
@@ -200,6 +308,7 @@
 		),
 	);
 
-	$shape: map.get($shapes, $shape-keys...);
-	@return $shape;
+	$path: map.get($paths, $path-keys...);
+
+	@return $path;
 }
