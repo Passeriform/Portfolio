@@ -1,36 +1,34 @@
-<div class="content">
-  <app-cage-grid>
-    <div *ngFor="let attrib of model | keyvalue">
-      <ng-container *ngIf="attrib.value.length">
-        <div *appCaged="attrib.key" class="model-attr">
-          <ul>
-            <li *ngFor="let elem of attrib.value">
-              <ng-template #tooltipTemplate>
-                <div class="techstack-tooltip-content" *ngIf="elem | wiki | async as techDetails; else loadingTechDetails">
-									<h5>{{ techDetails.title }}</h5>
-									<p>
-										{{ techDetails.description }}
-									</p>
-									<a href="{{ techDetails.href }}"></a>
-                </div>
-              </ng-template>
-
-							<ng-template #loadingTechDetails>
-								<!-- TODO: Use proper loader and mini canvas -->
-								Loading...
-							</ng-template>
-
-              <div i18n-position appTooltip
-									class="img-container"
-                  [position]="Position.BOTTOM"
-                  [template]="tooltipTemplate"
-                >
-                <img alt="{{ elem }}" src="{{ elem | iconUri }}" />
+<app-cage-grid>
+  <div *ngFor="let attrib of model | keyvalue">
+    <ng-container *ngIf="attrib.value.length">
+      <div *appCaged="attrib.key" class="model-attr">
+        <ul>
+          <li *ngFor="let elem of attrib.value">
+            <ng-template #tooltipTemplate>
+              <div class="techstack-tooltip-content" *ngIf="elem | wiki | async as techDetails; else loadingTechDetails">
+								<h5>{{ techDetails.title }}</h5>
+								<p>
+									{{ techDetails.description }}
+								</p>
+								<a href="{{ techDetails.href }}"></a>
               </div>
-            </li>
-          </ul>
-        </div>
-      </ng-container>
-    </div>
-  </app-cage-grid>
-</div>
+            </ng-template>
+
+						<ng-template #loadingTechDetails>
+							<!-- TODO: Use proper loader and mini canvas -->
+							Loading...
+						</ng-template>
+
+            <div i18n-position appTooltip
+								class="img-container"
+                [position]="Position.BOTTOM"
+                [template]="tooltipTemplate"
+              >
+              <img alt="{{ elem }}" src="{{ elem | iconUri }}" />
+            </div>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+  </div>
+</app-cage-grid>
