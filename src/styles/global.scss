@@ -31,12 +31,3 @@ $node-size: 7em;
 $li-pos: math.div(($root-size - $node-size), 2);
 $items: 10;
 $extend-radius: $root-size;
-
-:root {
-	--shrink-header-size-em: #{$shrink-block-em};
-
-	/* --------- Shared values (Only for safe nulling) --------- */
-	--traveller-offset: 0;
-	--tooltip-left: 0;
-	--tooltip-top: 0;
-}

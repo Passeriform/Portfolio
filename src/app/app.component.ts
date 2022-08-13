@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, HostListener } from "@angular/core";
 
 // import { LoaderService } from "@app/loader/loader.service";
 
@@ -11,6 +11,14 @@ export class AppComponent {
 	// TODO: Support i18n
 
 	public readonly title = "Passeriform";
+
+	/// Fix for dynamic viewport height in mobile browser
+	@HostListener("document:resize", [ "$event" ]) public onDocumentResize(): void {
+		document.documentElement.style.setProperty(
+			"--apparent-viewport-height",
+			`${window.innerHeight}px`
+		);
+	}
 
 	constructor(
 			// private loaderService: LoaderService

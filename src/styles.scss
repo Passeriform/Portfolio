@@ -5,6 +5,15 @@
 
 $theme: generate-color-swatch($highlight: #ADFF22, $shadow: #0000000F);
 
+:root {
+	--shrink-header-size-em: #{$shrink-header-size-em};
+
+	/* --------- Shared values (Only for safe nulling) --------- */
+	--apparent-viewport-height: 100vh;
+	--traveller-offset: 0;
+	--tooltip-left: 0;
+	--tooltip-top: 0;
+}
 * {
 	box-sizing: border-box;
 	white-space: normal;

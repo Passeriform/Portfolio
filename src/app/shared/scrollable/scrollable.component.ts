@@ -109,7 +109,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 
 	@HostBinding("style.height")
 	public get height(): string {
-		return (this.orientation === Orientation.VERTICAL && this.fullpage) ? "100vh" : "100%";
+		return (this.orientation === Orientation.VERTICAL && this.fullpage) ? "var(--apparent-viewport-height, 100vh)" : "100%";
 	}
 
 	@HostBinding("style.top")

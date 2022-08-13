@@ -107,7 +107,7 @@
 @mixin flex-row-evenly {
 	display: flex;
 	flex-flow: row wrap;
-	// TOOD: Check if align-items can be added at all places
+	// TODO: Check if align-items can be added at all places
 	align-items: center;
 	justify-content: space-evenly;
 }
@@ -216,7 +216,7 @@
 /// Use only in rare cases. Full viewport height breaks in mobile browsers.
 @mixin full-viewport-size {
 	width: 100vw;
-	height: 100vh;
+	height: var(--apparent-viewport-height, 100vh);
 }
 
 @mixin content-fix {
