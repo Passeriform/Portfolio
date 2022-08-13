@@ -1,3 +1,5 @@
+@use "utility" as *;
+
 @import "~compass-mixins/lib/compass/css3";
 
  	//  _            _           _                           _ _
@@ -58,6 +60,13 @@ $media-expressions: (
 		"(min-resolution: 350dpi)"
 	)
 ) !default;
+
+@mixin if-supported($prop, $value...) {
+	@supports (#{$prop}: #{implode($value, " ")}) {
+		#{$prop}: #{implode($value, " ")};
+		@content;
+	}
+}
 
 ///
 /// Defines a number to be added or subtracted from each unit when declaring breakpoints with exclusive intervals
@@ -349,50 +358,4 @@ $unit-intervals: (
   }
 
   @return $number * nth($units, $index);
-}
-
-/**
-*
-* Testing
-*
-**/
-
-.include-media-test {
-  @include media("<=phone") {
-    background-color: #def;
-
-    &:before {
-      content: "<=phone";
-    }
-  }
-
-  @include media(">phone") {
-    background-color: #abc;
-
-    &:before {
-      content: ">phone";
-    }
-  }
-
-  @include media(">=815px", "<desktop") {
-    background-color: #fed;
-
-    &:before {
-      content: ">=815px, <desktop";
-    }
-  }
-
-  @include media(">=desktop") {
-    background-color: #fab;
-
-    &:before {
-      content: ">=desktop";
-    }
-  }
-
-  @include media("retina2x") {
-    &:after {
-      content: "Retina" !important;
-    }
-  }
 }
