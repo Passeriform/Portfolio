@@ -7,7 +7,6 @@
 	overflow: auto;
 	background-color: black;
 
-	// TODO: Try using percentage alternative if possible.
 	@include full-viewport-size;
 
 	&:not(.splash) {

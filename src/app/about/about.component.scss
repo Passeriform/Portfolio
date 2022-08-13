@@ -38,7 +38,7 @@ $p-responsive-font-size: max(1em, min(2vw, 1.5em));
 
 		&#intro {
 			@include page-bg-content {
-				background-image: url(#{map.get($assets, "about", "intro-background")});
+				background-image: url(#{map.get($asset-registry, "about", "intro-background")});
 				background-repeat: no-repeat;
 				background-size: cover;
 				filter: brightnzess(50%);
@@ -47,7 +47,7 @@ $p-responsive-font-size: max(1em, min(2vw, 1.5em));
 
 		&#contact {
 			@include page-bg-content {
-				background-image: url(#{map.get($assets, "about", "contact-background")});
+				background-image: url(#{map.get($asset-registry, "about", "contact-background")});
 				background-repeat: no-repeat;
 				background-size: cover;
 				filter: brightness(50%);
@@ -75,7 +75,7 @@ $p-responsive-font-size: max(1em, min(2vw, 1.5em));
 
 		&#overview {
 			@include page-bg-content {
-				background-image: url(#{map.get($assets, "about", "overview-background")});
+				background-image: url(#{map.get($asset-registry, "about", "overview-background")});
 				background-repeat: no-repeat;
 				background-size: cover;
 				filter: brightness(50%);
@@ -108,7 +108,7 @@ $p-responsive-font-size: max(1em, min(2vw, 1.5em));
 
 		&#story {
 			@include page-bg-content {
-				background-image: url(#{map.get($assets, "about", "intro-story")});
+				background-image: url(#{map.get($asset-registry, "about", "intro-story")});
 				background-repeat: no-repeat;
 				background-size: cover;
 				filter: brightness(50%);
@@ -117,7 +117,7 @@ $p-responsive-font-size: max(1em, min(2vw, 1.5em));
 
 		&#contributors {
 			@include page-bg-content {
-				background-image: url(#{map.get($assets, "about", "contributors-background")});
+				background-image: url(#{map.get($asset-registry, "about", "contributors-background")});
 				background-repeat: no-repeat;
 				background-size: cover;
 				filter: brightness(50%);
