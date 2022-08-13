@@ -214,7 +214,15 @@ $shapes: (
 	@return math.div($area, $semi-perimeter);
 }
 
+@function is-shape-type($maybe-shape-type) {
+	@return index($shapes, $maybe-shape-type);
+}
+
 @mixin shape-content-props($shape-type, $base, $height: $base) {
+	@if (is-shape-type($shape-type)) {
+		@error "#{$shape-type} is not a valid shape type";
+	}
+
 	$semi-perimeter: 1em;
 
 	@if ($shape-type == "flap") {
