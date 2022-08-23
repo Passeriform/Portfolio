@@ -6,7 +6,7 @@ import { BehaviorSubject } from "rxjs";
 import { distinctUntilChanged, map, shareReplay, switchMap } from "rxjs/operators";
 
 import type { EntityRegistry } from "@shared/models/registry.interface";
-import { EntityIdentifier, registry } from "@shared/models/registry.interface";
+import { EntityIdentifier, registry, inverseGet } from "@shared/models/registry.interface";
 
 import type { WikiResponseModel, WikiResponsePage } from "./wiki.interface";
 import { INIT_WIKI_RESPONSE_PAGE, WikiEntry } from "./wiki.interface";
@@ -19,10 +19,11 @@ export class WikiService {
 	// TODO: Move this method out of class
 
 	// TODO: Use Cirrus search API instead of this hack
-	private getWikiTitle(identifier: string): string {
+	// TODO: Too many fallbacks make this hard to read. Use easier logic
+	private getWikiTitle(entityString: string): string {
 		return registry.find(
-			(entry: EntityRegistry) => entry.identifier === EntityIdentifier[identifier],
-		)?.wikiTitle ?? EntityIdentifier[identifier] ?? "";
+			(entry: EntityRegistry) => entry.identifier === (EntityIdentifier[inverseGet(entityString)] || EntityIdentifier[entityString]),
+		)?.wikiTitle ?? EntityIdentifier[inverseGet(entityString)] ?? EntityIdentifier[entityString] ?? "";
 	}
 
 	private fetchWikiDetails(entity: string): Observable<WikiEntry> {

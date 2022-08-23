@@ -581,3 +581,8 @@ export const registry: readonly EntityRegistry[] = [
 	...toolRegistry,
 	...socialRegistry,
 ];
+
+// TODO: Invert the registry building instead of this utility function.
+export const inverseGet = (queryValue) => Object.keys(EntityIdentifier).find(
+	(key: keyof typeof EntityIdentifier) => EntityIdentifier[key] === queryValue
+) ?? (() => { throw new Error("Entry not found in registry.") })()
