@@ -1,36 +1,176 @@
 @use "sass:map";
 @use "sass:math";
-@use "global";
-@use "shapes";
 @use "media" as *;
+@use "shapes" as *;
+@use "modifiers" as *;
+@use "inset" as *;
+@use "utility" as *;
 
 @import "./page-nav.colors";
 
+@function get-traveller-continuous-offset($seekbar-unit-step-count, $seekbar-unit-step-size, $seekbar-thumb-size) {
+	// seekbar-track-size = ((seekbar-unit-count - 1) * seekbar-unit-size) - seekbar-thumb-size
+	$seekbar-track-size-unitless: calc((calc(#{$seekbar-unit-step-count} - 1) * #{strip-unit($seekbar-unit-step-size)}) - #{strip-unit($seekbar-thumb-size)});
+	// seekbar-resultant-offset = seekbar-unit-size * seekbar-track-size * item-unit-offset
+	$seekbar-resultant-offset: calc(#{$seekbar-unit-step-size} * #{$seekbar-track-size-unitless} * var(--traveller-offset, 0));
+	$adjusted-decimal-offset: min(#{$seekbar-resultant-offset}, calc((#{$seekbar-unit-step-count} * #{$seekbar-unit-step-size}) - #{$seekbar-thumb-size}));
+
+	@return $adjusted-decimal-offset;
+}
+
 $nav-extent-em: 2em;
 $nav-link-dot-size: 1em;
+$nav-link-slider-size: 2 * $nav-link-dot-size;
 $collapsed-em: -(math.div($nav-extent-em + $nav-link-dot-size, 2));
 $nav-flap-size: $nav-extent-em;
 $nav-link-centering-padding: math.div($nav-extent-em - $nav-link-dot-size, 2);
 $nav-link-inter-padding: $nav-link-dot-size;
+$nav-marker-border: 1px solid map.get($theme, "background", "invert", "hex");
 $traveller-centering-offset: math.div($nav-extent-em - $nav-link-dot-size, 2);
 $traveller-arrow-offset: $nav-link-dot-size;
-$traveller-inter-offset: calc(#{$nav-flap-size + $nav-link-inter-padding} + (#{$nav-link-dot-size + (2 * $nav-link-inter-padding)} * var(--traveller-offset)));
+$traveller-continuous-inter-offset: calc(
+	#{$nav-flap-size + math.div($nav-link-slider-size, 2)} +
+	#{get-traveller-continuous-offset(
+		var(--item-step-count, 1),
+		$nav-link-dot-size,
+		$nav-link-slider-size
+	)}
+);
+$traveller-discrete-inter-offset: calc(#{$nav-flap-size + $nav-link-inter-padding} + (#{$nav-link-dot-size + (2 * $nav-link-inter-padding)} * var(--traveller-offset, 0)));
+$arrow-main-size: math.div(math.sqrt(3), 2) * math.div($nav-link-dot-size, 2);
+$arrow-cross-size: $nav-link-dot-size;
 $nav-flap-shapes: (
-	top: shapes.get-shape(["trapezoid", "short-bottom"], $nav-flap-size),
-	right: shapes.get-shape(["trapezoid", "short-left"], $nav-flap-size),
-	bottom: shapes.get-shape(["trapezoid", "short-top"], $nav-flap-size),
-	left: shapes.get-shape(["trapezoid", "short-right"], $nav-flap-size),
+	top: get-shape(["trapezoid", "short-bottom"], $nav-flap-size),
+	right: get-shape(["trapezoid", "short-left"], $nav-flap-size),
+	bottom: get-shape(["trapezoid", "short-top"], $nav-flap-size),
+	left: get-shape(["trapezoid", "short-right"], $nav-flap-size),
 );
 $traveller-arrow-shapes: (
-	top: shapes.get-shape(["arrow", "point-down"]),
-	right: shapes.get-shape(["arrow", "point-left"]),
-	bottom: shapes.get-shape(["arrow", "point-up"]),
-	left: shapes.get-shape(["arrow", "point-right"]),
+	top: get-shape(["arrow", "point-down"]),
+	right: get-shape(["arrow", "point-left"]),
+	bottom: get-shape(["arrow", "point-up"]),
+	left: get-shape(["arrow", "point-right"]),
 );
 
-// TODO: Use global variables for clip-path shapes
+@mixin discrete-nav-link($inset-type) {
+	@if (is-inset($inset-type)) {
+		@if (is-vertical-inset($inset-type)) {
+			padding: $nav-link-centering-padding $nav-link-inter-padding;
+		} @else {
+			padding: $nav-link-inter-padding $nav-link-centering-padding;
+		}
 
-// TODO: Use selector-replace to add classes in grandparent selectors
+		& > .page-nav-marker {
+			border: $nav-marker-border;
+
+			@include circle-border;
+		}
+	} @else {
+		@error "#{$inset-type} is not a valid inset";
+	}
+}
+
+@mixin continuous-nav-link($inset-type) {
+	@if (is-inset($inset-type)) {
+		@if (is-vertical-inset($inset-type)) {
+			padding: $nav-link-centering-padding 0;
+
+			& > .page-nav-marker {
+				// TODO: Calculate dynamically based on number of elements/Or use flex
+				// TODO: Consider auto-switching to continuous mode when elements are more, in case no mode is explicitly specified in component
+				border-top: $nav-marker-border;
+				border-bottom: $nav-marker-border;
+
+				@at-root #{selector-replace(&, "li.page-nav-entry", "li.page-nav-entry:first-of-type")} {
+					border-left: $nav-marker-border;
+					border-top-left-radius: 50%;
+					border-bottom-left-radius: 50%;
+				}
+
+				@at-root #{selector-replace(&, "li.page-nav-entry", "li.page-nav-entry:last-of-type")} {
+					border-right: $nav-marker-border;
+					border-top-right-radius: 50%;
+					border-bottom-right-radius: 50%;
+				}
+			}
+		} @else {
+			padding: 0 $nav-link-centering-padding;
+
+			& > .page-nav-marker {
+				// TODO: Calculate dynamically based on number of elements/Or use flex
+				// TODO: Consider auto-switching to continuous mode when elements are more, in case no mode is explicitly specified in component
+				border-right: $nav-marker-border;
+				border-left: $nav-marker-border;
+
+				@at-root #{selector-replace(&, "li.page-nav-entry", "li.page-nav-entry:first-of-type")} {
+					border-top: $nav-marker-border;
+					border-top-left-radius: 50%;
+					border-top-right-radius: 50%;
+				}
+
+				@at-root #{selector-replace(&, "li.page-nav-entry", "li.page-nav-entry:last-of-type")} {
+					border-bottom: $nav-marker-border;
+					border-bottom-right-radius: 50%;
+					border-bottom-left-radius: 50%;
+				}
+			}
+		}
+	} @else {
+		@error "#{$inset-type} is not a valid inset";
+	}
+}
+
+@mixin discrete-traveller($inset-type) {
+	transform: scale(1.25);
+
+	@if (is-inset($inset-type)) {
+		@if (is-vertical-inset($inset-type)) {
+			left: $traveller-discrete-inter-offset;
+		} @else {
+			top: $traveller-discrete-inter-offset;
+		}
+	} @else {
+		@error "#{$inset-type} is not a valid inset";
+	}
+}
+
+@mixin continuous-traveller($inset-type) {
+	transform: translateX(-50%) scale(0.75);
+
+	@if (is-inset($inset-type)) {
+		@if (is-vertical-inset($inset-type)) {
+			left: $traveller-continuous-inter-offset;
+
+			@include override-modifiers {
+				width: $nav-link-slider-size;
+			}
+		} @else {
+			top: $traveller-continuous-inter-offset;
+
+			@include override-modifiers {
+				width: $nav-link-slider-size;
+			}
+		}
+	} @else {
+		@error "#{$inset-type} is not a valid inset";
+	}
+}
+
+@mixin hide-nav-flap($inset-type) {
+	@if (is-inset($inset-type)) {
+		#{$inset-type}: $collapsed-em;
+	} @else {
+		@error "#{$inset-type} is not a valid inset";
+	}
+}
+
+@mixin unhide-nav-flap($inset-type) {
+	@if (is-inset($inset-type)) {
+		#{$inset-type}: 0;
+	} @else {
+		@error "#{$inset-type} is not a valid inset";
+	}
+}
 
 // TODO: Use variables for repeated selector paths and attributes
 
@@ -42,59 +182,67 @@ $traveller-arrow-shapes: (
 
 :host {
 	position: absolute;
-	display: flex;
-	justify-content: center;
-	pointer-events: none;
 	transition: all 0.2s ease;
 
-	@each $position, $shape in $nav-flap-shapes {
-		&.#{$position} {
-			@if (index([ "top", "bottom" ], $position)) {
+	// TODO: Verify if align-items: center is permissible
+	@include flex-row-center;
+
+	@each $inset-type, $shape in $nav-flap-shapes {
+		&.#{$inset-type} {
+			@if (is-vertical-inset($inset-type)) {
 				left: 0;
-				flex-direction: row;
 				width: 100%;
 				height: $nav-extent-em;
+				filter: drop-shadow(0 0 0.2em map.get($theme, "background", "hex"));
 
-			 	& > ul.page-nav-container {
-					flex-direction: row;
+				@include flex-row-center;
+
+				& > ul.page-nav-container {
 					padding: 0 $nav-flap-size;
 
-					& > li.page-nav-entry {
-						flex-direction: column;
+					@include flex-row-evenly;
 
-						& > a.page-nav-link {
-							padding: $nav-link-centering-padding $nav-link-inter-padding;
-						}
+					& > li.page-nav-entry {
+						@include flex-column-evenly;
 					}
 				}
 			} @else {
 				top: 0;
-				flex-direction: column;
 				width: $nav-extent-em;
 				height: 100%;
 
+				@include flex-column-center;
+
 				& > ul.page-nav-container {
-					flex-direction: column;
 					padding: $nav-flap-size 0;
 
-					& > li.page-nav-entry {
-						flex-direction: row;
+					@include flex-column-evenly;
 
-						& > a.page-nav-link {
-							padding: $nav-link-inter-padding $nav-link-centering-padding;
-						}
+					& > li.page-nav-entry {
+						@include flex-row-evenly;
 					}
 				}
 			}
 
-			#{$position}: $collapsed-em;
+			// TODO: Remove all :not switchers if a default is reqired in styles
+			@include hide-nav-flap($inset-type);
 
 			@include media("touchscreen") {
-				#{$position}: 0;
+				@include unhide-nav-flap($inset-type);
+			}
+
+			& > ul.page-nav-container > li.page-nav-entry > a.page-nav-link {
+				@at-root #{selector-replace(&, ":host", ":host.continuous")} {
+					@include continuous-nav-link($inset-type);
+				}
+
+				@at-root #{selector-replace(&, ":host", ":host.discrete")} {
+					@include discrete-nav-link($inset-type);
+				}
 			}
 
 			&.expanded {
-				#{$position}: 0;
+				@include unhide-nav-flap($inset-type);
 			}
 
 			& > ul.page-nav-container {
@@ -103,37 +251,45 @@ $traveller-arrow-shapes: (
 		}
 	}
 
-	@each $position, $shape in $traveller-arrow-shapes {
-		&.#{$position} {
-			@if (index([ "top", "bottom" ], $position)) {
-				& > ul.page-nav-container > .page-nav-traveller {
-					left: $traveller-inter-offset;
-					width: $nav-link-dot-size;
-					height: math.div(math.sqrt(3), 2) * math.div($nav-link-dot-size, 2);
+	@each $inset-type, $shape in $traveller-arrow-shapes {
+		&.#{$inset-type} {
+			@if (is-vertical-inset($inset-type)) {
+				&:not(.expanded) > ul.page-nav-container > .page-nav-traveller {
+					width: $arrow-cross-size;
+					height: $arrow-main-size;
 				}
 			} @else {
-				& > ul.page-nav-container > .page-nav-traveller {
-					top: $traveller-inter-offset;
-					width: math.div(math.sqrt(3), 2) * math.div($nav-link-dot-size, 2);
-					height: $nav-link-dot-size;
+				&:not(.expanded) > ul.page-nav-container > .page-nav-traveller {
+					width: $arrow-main-size;
+					height: $arrow-cross-size;
 				}
 			}
 
-			&.expanded > ul.page-nav-container > .page-nav-traveller {
-				#{$position}: $traveller-centering-offset;
+			// TODO: Test these changes with desktop and mobile with collapsed and expanded states
+			& > ul.page-nav-container > .page-nav-traveller {
+				#{$inset-type}: $traveller-centering-offset;
+
+				@include equal-dim($nav-link-dot-size);
+
+				@at-root #{selector-replace(&, ":host", ":host.continuous")} {
+					@include continuous-traveller($inset-type);
+				}
+
+				@at-root #{selector-replace(&, ":host", ":host.discrete")} {
+					@include discrete-traveller($inset-type);
+				}
 			}
 
-			& > ul.page-nav-container > .page-nav-traveller {
-				#{$position}: $traveller-centering-offset + $traveller-arrow-offset;
+			&:not(.expanded) > ul.page-nav-container > .page-nav-traveller {
+				#{$inset-type}: $traveller-centering-offset + $traveller-arrow-offset;
 				clip-path: $shape;
+
+				@include equal-dim($nav-link-dot-size);
 			}
 
 			@include media("touchscreen") {
-				& > ul.page-nav-container > .page-nav-traveller {
-					#{$position}: $traveller-centering-offset;
-					width: $nav-link-dot-size;
-					height: $nav-link-dot-size;
-					clip-path: shapes.get-shape(["ellipse", "circle"]);
+				&:not(.expanded) > ul.page-nav-container > .page-nav-traveller {
+					#{$inset-type}: $traveller-centering-offset;
 				}
 			}
 		}
@@ -141,51 +297,51 @@ $traveller-arrow-shapes: (
 
 	@include media("touchscreen") {
 		&.expanded > ul.page-nav-container > .page-nav-traveller {
-			width: $nav-link-dot-size;
-			height: $nav-link-dot-size;
-			clip-path: shapes.get-shape(["ellipse", "circle"]);
+			// @include unhidden-traveller;
 		}
-	}
 	}
 
 	& > ul.page-nav-container {
+		// TODO: Check if position: relative can be added to iflex
+		// TODO: Check if iflex-center can be used elsewhere and in places of iflex
 		position: relative;
-		display: inline-flex;
-		justify-content: center;
-		margin: 0;
-		background-color: invert(map.get($theme, "background", "hex"));
-		color: invert(map.get($theme, "accent", "hex"));
+		background-color: map.get($theme, "background", "invert", "hex");
+		color: map.get($theme, "accent", "invert", "hex");
+
+		@include iflex-center;
+		@include reset-offsets;
 
 		& > li.page-nav-entry {
-			display: inline-flex;
-			justify-content: center;
+			@include iflex-center;
 
 			& > a.page-nav-link {
 				text-decoration: none;
 				cursor: pointer;
 
 				& > .page-nav-marker {
-					width: $nav-link-dot-size;
-					height: $nav-link-dot-size;
-					border: 1px solid invert(map.get($theme, "background", "hex"));
-					border-radius: $nav-link-dot-size;
-					background-color: transparent;
-					mix-blend-mode: difference;
+					@include no-bg;
+					@include equal-dim($nav-link-dot-size);
+					@include layer(difference);
 				}
 			}
 		}
 
 		& > .page-nav-traveller {
 			position: absolute;
-			transform: scale(1.25);
-			background-color: invert(map.get($theme, "background", "hex"));
-			mix-blend-mode: difference;
-			pointer-events: none;
+			border-radius: $nav-link-dot-size;
+			background-color: map.get($theme, "background", "invert", "hex");
 			transition: all 0.2s ease;
+
+			@include pointer-disable;
+			@include layer(difference);
 		}
 	}
 
+	&.inverted > ul.page-nav-container {
+		filter: invert(1);
+	}
+
 	& > * {
-		pointer-events: all;
+		@include pointer-enable;
 	}
 }

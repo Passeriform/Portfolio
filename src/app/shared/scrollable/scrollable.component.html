@@ -2,10 +2,12 @@
 	<ng-content></ng-content>
 </div>
 <app-page-nav
-		*ngIf="fullpage && showPageNav"
+		*ngIf="showPageNav"
 		[position]="getPageNavPosition()"
-		[pages]="items"
+		[discrete]="fullpage"
+		[items]="items"
+		[apparentTravelFactor]="pageNavTravelFactor"
 		[activePage]="pageIndex"
-		[keepExpanded]="startReveal || endReveal"
+		[keepExpanded]="!fullpage || startReveal || endReveal"
 		(setActivePage)="setActivePageIndex($event)"
 	></app-page-nav>

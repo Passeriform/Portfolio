@@ -16,6 +16,8 @@ import { Constants } from "./scrollable.config";
 
 // TODO: Add keyboard controls.
 
+// TODO: Move to separate scrollable module.
+
 @Component({
 	selector: "app-scrollable",
 	styleUrls: [ "./scrollable.component.scss" ],
@@ -23,18 +25,17 @@ import { Constants } from "./scrollable.config";
 })
 export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	// TODO: Throw error if nestedScroll is enabled without fullpage
-
 	@Input() private readonly nestedScroll = false;
 	@Input() private readonly sensitivity = Constants.SENSITIVITY_DEFAULT;
 	@Input() private readonly throttle = Constants.THROTTLE_DEFAULT;
 	@Input() private readonly smoothScroll = Constants.SMOOTH_SCROLL_DEFAULT;
-	@Input() private delta = Constants.DELTA_DEFAULT;
 	@Input() private readonly allowStartReveal: boolean;
 	@Input() private readonly allowEndReveal: boolean;
 	@Input() private startRevealElement: HTMLElement;
 	@Input() private endRevealElement: HTMLElement;
 	@Input() public readonly orientation = Constants.ORIENTATION_DEFAULT;
 	@Input() public readonly showPageNav = false;
+	@Input() public delta = Constants.DELTA_DEFAULT;
 	@Input() public endReveal = false;
 	@Input() public startReveal = false;
 	@Input() public readonly pageNavPosition: Position;
@@ -46,7 +47,10 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 
 	@ContentChildren("page", { read: ElementRef }) public readonly items: QueryList<ElementRef>;
 
+	// TODO: Make page-nav an exposed directive child for scrollable so that caller can control its props easily
+
 	public pageIndex: number = Constants.INITIAL_PAGE_INDEX;
+	public pageNavTravelFactor: number = 0;
 	private maxScrollableSize: number;
 
 	// Scroll Parameters
@@ -118,9 +122,11 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 			return "0px";
 		}
 
+		const windowHeight: number = document.documentElement.clientHeight;
+
 		return this.startReveal
-			? `${Math.min(this.startRevealElement.clientHeight, document.documentElement.clientHeight)}px`
-			: `-${Math.min(this.endRevealElement.clientHeight, document.documentElement.clientHeight)}px`;
+			? `${Math.min(this.startRevealElement.clientHeight, windowHeight)}px`
+			: `-${Math.min(this.endRevealElement.clientHeight, windowHeight)}px`;
 	}
 
 	@HostBinding("style.left")
@@ -129,9 +135,11 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 			return "0px";
 		}
 
+		const windowWidth: number = document.documentElement.clientWidth;
+
 		return this.startReveal
-			? `${Math.min(this.startRevealElement.clientWidth, document.documentElement.clientWidth)}px`
-			: `-${Math.min(this.endRevealElement.clientWidth, document.documentElement.clientWidth)}px`;
+			? `${Math.min(this.startRevealElement.clientWidth, windowWidth)}px`
+			: `-${Math.min(this.endRevealElement.clientWidth, windowWidth)}px`;
 	}
 
 	// TODO: Use boolean enum instead.
@@ -207,6 +215,10 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		}
 	}
 
+	private computePageNavTravelFactor() {
+		this.pageNavTravelFactor = this.delta / ((this.items.length - 1) * (this.items.get(0)?.nativeElement?.clientWidth ?? 0))
+	}
+
 	private readonly getStartRevealElementEvent = (listener: string): Observable<Event> => {
 		const eventCapturer = this.startRevealElement.firstChild as HTMLElement;
 
@@ -251,24 +263,10 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		}
 
 		const {
-			clientHeight,
-			clientWidth,
-			scrollHeight,
-			scrollLeft,
-			scrollTop,
-			scrollWidth,
-		}: {
-			readonly clientHeight: number;
-			readonly clientWidth: number;
-			readonly scrollHeight: number;
-			readonly scrollLeft: number;
-			readonly scrollTop: number;
-			readonly scrollWidth: number;
+			[`client${Orientation.HORIZONTAL ? "Width" : "Height"}` as const]: elementSize,
+			[`scroll${Orientation.HORIZONTAL ? "Width" : "Height"}` as const]: scrollableSize,
+			[`scroll${Orientation.HORIZONTAL ? "Left" : "Top"}` as const]: scrolled,
 		} = pageElement;
-
-		const elementSize = this.orientation === Orientation.HORIZONTAL ? clientWidth : clientHeight;
-		const scrollableSize = this.orientation === Orientation.HORIZONTAL ? scrollWidth : scrollHeight;
-		const scrolled = this.orientation === Orientation.HORIZONTAL ? scrollLeft : scrollTop;
 
 		if (shiftAmt < 0) {
 			// Scrolling up
@@ -323,12 +321,14 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		this.items.changes.subscribe(() => {
 			this.computeMaxScrollSize();
 			this.computeDeltaIfFullpage();
+			this.computePageNavTravelFactor();
 		});
 	}
 
 	ngAfterViewInit() {
 		this.computeMaxScrollSize();
 		this.computeDeltaIfFullpage();
+		this.computePageNavTravelFactor();
 
 		this.pageResetTrigger$?.subscribe(() => this.setActivePageIndex(0));
 

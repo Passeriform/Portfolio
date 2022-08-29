@@ -1,16 +1,19 @@
 :host {
 	position: relative;
 	display: block;
+	// TODO: Move transition duration and method to globals
 	transition: inset 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 
 	div.scroll-content {
+		// TODO: Add all postion and display props everywhere, then extract into a modifier mixin
 		position: relative;
 		display: block;
 		transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+		// TODO: Try creating a restore-on-child mixin that only applies to the current element and restores style on child
 		white-space: nowrap;
 
+		// TODO: Remove most ng-deep occurances
 		& > ::ng-deep * {
-			box-sizing: border-box;
 			white-space: normal;
 		}
 	}

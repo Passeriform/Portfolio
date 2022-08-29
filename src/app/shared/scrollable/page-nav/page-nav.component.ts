@@ -1,4 +1,4 @@
-import type { OnChanges, QueryList, SimpleChanges } from "@angular/core";
+import type { AfterViewInit, OnChanges, QueryList, SimpleChanges } from "@angular/core";
 import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output } from "@angular/core";
 
 import { Position } from "@shared/models/cardinals.interface";
@@ -8,12 +8,15 @@ import { Position } from "@shared/models/cardinals.interface";
 	styleUrls: [ "./page-nav.component.scss" ],
 	templateUrl: "./page-nav.component.html",
 })
-export class PageNavComponent implements OnChanges {
+export class PageNavComponent implements AfterViewInit, OnChanges {
 	private currentPageIndex: number;
 
-	@Input() public readonly pages: QueryList<ElementRef>;
+	@Input() public readonly items: QueryList<ElementRef>;
+	@Input() public readonly apparentTravelFactor: number;
 	@Input() public readonly position: Position = Position.LEFT;
 	@Input() public readonly activePage = 0;
+	@Input() public readonly discrete = true;
+	@Input() public readonly invert = false;
 	@Input() public readonly keepExpanded = false;
 	@Input() public expanded = false;
 
@@ -36,22 +39,58 @@ export class PageNavComponent implements OnChanges {
 		return this.keepExpanded || this.expanded;
 	}
 
+	@HostBinding("class.inverted") public get isInverted(): boolean {
+		return this.invert;
+	}
+
+	@HostBinding("class.continuous") public get isContinuous(): boolean {
+		return !this.discrete;
+	}
+
+	@HostBinding("class.discrete") public get isDiscrete(): boolean {
+		return this.discrete;
+	}
+
 	@Output() public readonly setActivePage: EventEmitter<number> = new EventEmitter<number>();
 
 	private updateTravellerPosition(index: number): void {
-		document.documentElement.style.setProperty("--traveller-offset", `${index}`);
+		this.elementReference.nativeElement.style.setProperty("--traveller-offset", `${index}`);
 	}
 
 	constructor(private elementReference: ElementRef) { }
 
+	ngAfterViewInit() {
+		this.updateTravellerPosition(this.activePage);
+	}
+
 	ngOnChanges(changes: SimpleChanges) {
+		if (changes.items) {
+			this.elementReference.nativeElement.style.setProperty("--item-step-count", this.items.length)
+		}
+
 		if (changes.activePage) {
-      this.updateTravellerPosition(this.activePage)
+			if (this.discrete) {
+				this.updateTravellerPosition(this.activePage)
+			} else {
+	      this.updateTravellerPosition(this.activePage * this.apparentTravelFactor)
+			}
 	  }
 	}
 
-	public switchToPage(pageIndex: number): void {
-		this.setActivePage.next(pageIndex);
+	public switchToPage(travellerPosition: number): void {
+		// apparentTravelFactor = delta / fullWidth
+		// traveller-offset = activePage * apparentTravelFactor
+		// travellerPosition = seekbar-gutter-size * traveller-offset
+		//
+		// (fullWidth / seekbarTrackWidth) * (position * 1em) / delta = activePage
+		// activePage = (fullWidth<ts> / seekbarTrackWidth<sass>) * (position<input> * 1em<sass>) / delta<ts>
+		// activePage = (fullWidth<ts> / delta<ts>) * (1em<sass> / seekbarTrackWidth<sass>) * position<input>
+		// activePage = (travellerPosition / apparentTravelFactor) * (1em<sass> / seekbarTrackWidth<sass>)
+		//
+		// TODO: Remove traveellerTrackSize, move traveller offset into component and simplify calculation according to above
+		const travellerTrackSize = (this.items.length - 1) - 2
+
+		this.setActivePage.next((travellerPosition / this.apparentTravelFactor) / travellerTrackSize);
 	}
 
 	public setExpanded(state: boolean): void {
