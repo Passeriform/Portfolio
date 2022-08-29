@@ -16,7 +16,7 @@ type GithubEventUIState = GithubEvent & { expand?: boolean };
 export class UpdateRollComponent implements OnInit {
 	public readonly Position = Position;
 
-	public updates: (GithubEventUIState)[];
+	public updates: GithubEventUIState[];
 
 	constructor(private readonly githubService: GithubService) {
 		this.githubService.githubFeedState$.subscribe((updates: GithubEventUIState[]) => {

@@ -1,95 +1,99 @@
 @use "sass:map";
 @use "sass:math";
-@use "global";
-@use "shapes";
+@use "global" as *;
+@use "shapes" as *;
+@use "modifiers" as *;
 
 @import "./navigator.colors";
 
-$idle-icon-size: math.div(global.$navigator-flap-size, 3);
-$hide-icon-size: math.div(global.$navigator-flap-size, 4);
-
-// TODO: Simplify shapes css for this file and try using existing shapes.
+@mixin navigator-flap-pseudo {
+	position: absolute;
+	width: 100%;
+	background-color: map.get($theme, "accent", "hex");
+}
 
 :host {
 	& > .flap-button {
 		position: absolute;
-		right: -(global.$navigator-expand-length - global.$navigator-flap-size);
-		bottom: 0;
-		width: global.$navigator-expand-length;
-		height: global.$navigator-flap-size;
-		cursor: pointer;
+		right: -($navigator-expand-length - $navigator-flap-size);
+		width: $navigator-expand-length;
+		height: $navigator-flap-size;
 		transition: right 0.2s, clip-path 0.4s;
-		clip-path: shapes.get-shape(["snipped-rectangle", "bottom-right"], global.$navigator-flap-size);
+		cursor: pointer;
+
+		@include absolute-bottom;
+		@include shape(["snipped-rectangle", "bottom-right"], $navigator-flap-size);
 
 		& > #before {
-			position: absolute;
-			display: block;
-			width: 100%;
-			height: math.div(global.$navigator-flap-size, 2);
-			background-color: map.get($theme, "accent", "hex");
-			clip-path: shapes.get-shape(
+			height: math.div($navigator-flap-size, 2);
+
+			@include navigator-flap-pseudo;
+			@include shape(
 				["snipped-rectangle", "shifted-bottom-right"],
-				("shift": math.div(global.$navigator-flap-size, 2), "snip-size": math.div(global.$navigator-flap-size, 2))
+				("shift": math.div($navigator-flap-size, 2), "snip-size": math.div($navigator-flap-size, 2))
 			);
 		}
 
 		& > #after {
-			position: absolute;
-			display: block;
-			width: 100%;
-			height: global.$navigator-flap-size;
-			background-color: map.get($theme, "accent", "hex");
-			clip-path: shapes.get-shape(["snipped-rectangle", "bottom-right"], global.$navigator-flap-size);
+			height: $navigator-flap-size;
 			transform-origin: top;
 			transition: all 0.4s ease;
+
+			@include navigator-flap-pseudo;
+			@include shape(["snipped-rectangle", "bottom-right"], $navigator-flap-size);
 		}
 
 		& > #idle-icon {
-			position: absolute;
-			right: global.$navigator-expand-length - global.$navigator-flap-size;
-			bottom: 0;
-			display: block;
 			color: map.get($theme, "accent", "invert", "hex");
 			transition: all 0.2s;
 
-			& > img {
-				$flap-incircle-radius: (2 - math.sqrt(2)) * math.div(global.$navigator-flap-size, 2);
-				margin: $flap-incircle-radius - math.div($idle-icon-size, 2);
-				width: $idle-icon-size;
-				height: $idle-icon-size;
+			@include center-anchored-image;
+			@include unhide;
+
+			@include shape-content-props("flap", $navigator-flap-size) using ($flap-content-size, $flap-content-offset) {
+				right: $navigator-expand-length - $navigator-flap-size + $flap-content-offset;
+				bottom: $flap-content-offset;
+
+				& > img {
+					@include equal-dim($flap-content-size);
+				}
 			}
 		}
 
+		// TODO: Recheck if arrow offset is coming out proper.
 		& > #hide-icon {
-			position: absolute;
-			right: 0;
-			bottom: 0;
-			display: none;
 			color: map.get($theme, "accent", "invert", "hex");
 			transition: all 0.2s;
 
-			& > img {
-				$flap-incircle-radius: (2 - math.sqrt(2)) * math.div(global.$navigator-flap-size, 2) * math.sqrt(2);
-				// margin: 0 ($flap-incircle-radius - (math.div($hide-icon-size, 2)));
-				margin: 0;
-				width: $hide-icon-size;
-				height: $hide-icon-size;
+			@include center-anchored-image;
+			@include hide;
+
+			@include shape-content-props("arrow", $navigator-flap-size, math.div($navigator-flap-size, 2)) using ($arrow-content-size, $arrow-content-offset) {
+				top: $arrow-content-offset;
+				left: math.div($navigator-flap-size, 2);
+
+				& > img {
+					@include equal-dim($arrow-content-size);
+				}
 			}
 		}
 
 		// TODO: Remove later
+
+		// TODO: Fix flex direction later
+
+		// TODO: Use mixin for flex
 		& > #command-init {
-			position: absolute;
-			right: 0;
-			bottom: math.div(global.$navigator-flap-size, 2) + 0.5em;
-			display: flex;
-			width: 0;
-			height: 50%;
+			bottom: 0.5em;
+			width: $navigator-expand-length - $navigator-flap-size;
+			height: 2em;
 			border: none;
-			background: none;
 			color: map.get($theme, "highlight", "hex");
-			opacity: 0;
 			transition: all 0.2s;
+
+			@include flex-row-start;
+			@include absolute-right;
+			@include no-bg;
 
 			& > #prompt {
 				margin: auto 0.5em;
@@ -99,55 +103,56 @@ $hide-icon-size: math.div(global.$navigator-flap-size, 4);
 
 			& > input {
 				margin: auto 0.5em;
-				width: 100%;
-				height: 100%;
 				border: none;
-				background: none;
 				color: map.get($theme, "highlight", "hex");
-				outline: none;
+
+				@include full-perc-size;
+				@include no-bg;
 			}
 		}
 
 		& > #click-capture {
-			position: absolute;
-			right: global.$navigator-expand-length - global.$navigator-flap-size;
-			bottom: 50%;
+			right: $navigator-expand-length - $navigator-flap-size;
+			// TODO: Check if required
 			display: block;
-			width: global.$navigator-flap-size;
-			height: 50%;
-			background: transparent;
-			clip-path: shapes.get-shape(["arrow", "point-down"]);
+			width: $navigator-flap-size;
+			height: 100%;
+
+			@at-root #{selector-replace(&, ".flap-button", ".flap-button.expanded")} {
+				cursor: pointer;
+			}
+
+			@include absolute-bottom;
+			@include no-bg;
+			@include shape(["arrow", "point-down"]);
 		}
 
 		&.expanded {
 			right: 0;
-			clip-path: polygon(0 0, 100% 0, 100% 50%, math.div(global.$navigator-flap-size, 2) 50%);
-			transition: right 0.2s;
+			bottom: math.div($navigator-flap-size, 2);
+			height: math.div($navigator-flap-size, 2);
+			cursor: initial;
+
+			@include shape(["snipped-rectangle", "top-right"], math.div($navigator-flap-size, 2));
 
 			& > #after {
 				transform: scaleY(-50%) translateY(50%);
 				transform-origin: center;
-				mix-blend-mode: difference;
-				clip-path: shapes.get-shape(["snipped-rectangle", "bottom-right"], math.div(global.$navigator-flap-size, 2));
+
+				@include layer(difference);
+				@include shape(["snipped-rectangle", "bottom-right"], math.div($navigator-flap-size, 2));
 			}
 
 			& > #idle-icon {
-				right: 0;
-				display: none;
+				@include hide;
 			}
-
-			// TODO: Abstract incircle and icon placement logic to modifier mixin.
 
 			& > #hide-icon {
-				right: global.$navigator-expand-length - math.div(global.$navigator-flap-size, 2) - math.div($hide-icon-size, 2);
-				bottom: math.div(global.$navigator-flap-size, 2) + math.div(global.$navigator-flap-size, 4) - math.div(math.div(global.$navigator-flap-size, 2 * math.sqrt(2)), 4);
-				display: block;
+				@include unhide;
 			}
 
-			& > #command-init {
-				width: global.$navigator-expand-length - global.$navigator-flap-size;
-				height: 2em;
-				opacity: 1;
+			& > #click-capture {
+				cursor: pointer;
 			}
 		}
 	}

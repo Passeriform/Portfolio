@@ -1,38 +1,52 @@
-@use "global";
-@use "modifiers";
+@use "sass:map";
+@use "global" as *;
+@use "modifiers" as *;
 
-$sweep-padding: 0.5em;
-$font-size: max(3vw, 1.25em);
-$window-height: calc(#{global.$line-height-px} + (2 * #{$sweep-padding}));
+@import "./sweeper.colors";
+
+$padding: 0.5em;
+$font-size: max(3vw, 1em);
+$displayed-height: calc(1em + (2 * #{$padding}));
+
+// TODO: Convert all flex-direction and flex-wrap to flex-flow and finally convert to mixins
 
 :host {
 	font-family: "Fira Code", monospace;
 	font-size: $font-size;
 	text-transform: none;
 
+	@include iflex;
+	@include flex-row-start;
+
 	& > * {
+		// TODO: Check if required
 		display: inline-block;
 		float: left;
 	}
 
 	& > span {
+		color: map.get($theme, "foreground", "hex");
 		margin: 0.5em;
 
-		@include modifiers.disallow-selection;
+		@include disallow-selection;
 	}
 }
 
 #sweep-window {
-	padding: $sweep-padding;
-	height: $window-height;
-	overflow-y: hidden;
+	padding: $padding;
+	height: $displayed-height;
+
+	@include no-overflow;
 }
 
 #sweep-container {
-	transition: all ease-in-out 0.5s;
+	transition: transform ease 0.5s;
 
 	&::ng-deep > * {
 		margin: 0;
-		padding: $sweep-padding;
+		padding: $padding;
+		color: map.get($theme, "foreground", "hex");
+		// TODO: Check the same white-space/word-wrap mixin
+		white-space: nowrap;
 	}
 }

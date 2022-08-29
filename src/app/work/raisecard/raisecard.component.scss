@@ -1,24 +1,37 @@
 @use "sass:map";
-@use "global";
+@use "modifiers" as *;
 
 @import "./raisecard.colors";
 
+@mixin compact {
+	height: 11.5em;
+}
+
+@mixin relaxed {
+	height: 22em;
+}
+
 :host {
-	display: inline-flex;
 	margin: 0.5em;
 	padding: 1em;
-	width: max(23em, min(80vw, 30em));
-	height: 22em;
+	width: clamp(23em, 80vw, 30em);
 	border-radius: 0.25rem;
 	cursor: pointer;
 	word-wrap: break-word;
 	background-clip: border-box;
+	// TODO: Indicate somehow the ability to use background image
 	background-color: map.get($theme, "foreground", "hex");
 	color: map.get($theme, "background", "hex");
 	vertical-align: top;
 
+	@include iflex;
+
+	// TODO: Find a way to abstract into a mixin
+	&:not(.compact) {
+		@include relaxed;
+	}
 	&.compact {
-		height: 11.5em;
+		@include compact;
 	}
 
 	& > .marker {
@@ -30,13 +43,15 @@
 
 	& > .content {
 		position: relative;
+		// TODO: Check if top can be removed. Maybe extra css
 		top: 0;
-		display: flex;
-		justify-content: center;
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
+		// TODO: Check if text-align can be safely added to flex-row-center
 		text-align: center;
+
+		// TODO: Check if wrapping is fine
+		@include flex-row-center;
+		@include full-perc-size;
+		@include no-overflow;
 
 		&.marker-shift {
 			top: 3em;

@@ -295,12 +295,6 @@ $traveller-arrow-shapes: (
 		}
 	}
 
-	@include media("touchscreen") {
-		&.expanded > ul.page-nav-container > .page-nav-traveller {
-			// @include unhidden-traveller;
-		}
-	}
-
 	& > ul.page-nav-container {
 		// TODO: Check if position: relative can be added to iflex
 		// TODO: Check if iflex-center can be used elsewhere and in places of iflex

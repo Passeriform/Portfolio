@@ -1,7 +1,8 @@
 @use "sass:map";
 @use "sass:math";
-@use "global";
-@use "shapes";
+@use "global" as *;
+@use "shapes" as *;
+@use "modifiers" as *;
 @use "media" as *;
 
 @import "./cage-grid.colors";
@@ -16,11 +17,12 @@ $content-shift-y-em: 0.2em;
 $border-shift-em: $title-flap-size-em - $cage-grid-border-size;
 
 :host {
-	display: flex;
-	flex-flow: row wrap;
 	padding: 2em;
 	width: 100%;
 
+	@include flex-row-evenly;
+
+	// TODO: Look for a cleaner alternative
 	@include media("screen", "landscape", "<=400px") {
 		flex-wrap: nowrap;
 		overflow-x: auto;
@@ -28,9 +30,11 @@ $border-shift-em: $title-flap-size-em - $cage-grid-border-size;
 		scrollbar-width: none;
 		-ms-overflow-style: none;
 
+		// TODO: Check why?
 		&::-webkit-scrollbar {
 			width: 0;
-			background: transparent;
+
+			@include no-bg;
 		}
 
 		& > * {
@@ -41,17 +45,21 @@ $border-shift-em: $title-flap-size-em - $cage-grid-border-size;
 	& > * {
 		flex-grow: 1;
 		margin: 1em;
-		background-color: transparent;
+
+		@include no-bg;
 
 		& > .title {
 			position: relative;
 			z-index: 1;
 			margin-bottom: -3em;
-			overflow: hidden;
 			text-transform: capitalize;
+			// TODO: Add a nowrap mixin with white-space and word-wrap
 			white-space: nowrap;
 
+			@include no-overflow;
+
 			& > h2 {
+				// TODO: Check if this is even required or does block suffice
 				display: inline-block;
 				margin: 0;
 				padding: $h2-padding-y-em $h2-padding-x-em;
@@ -59,7 +67,8 @@ $border-shift-em: $title-flap-size-em - $cage-grid-border-size;
 				background-color: map.get($theme, "background", "hex");
 				color: map.get($theme, "foreground", "hex");
 				font-size: $h2-font-size-em;
-				clip-path: shapes.get-shape(["snipped-rectangle", "top-left"], math.div($title-flap-size-em, 2) + $h2-padding-y-em);
+
+				@include shape(["snipped-rectangle", "top-left"], math.div($title-flap-size-em, 2) + $h2-padding-y-em);
 			}
 		}
 
@@ -68,9 +77,10 @@ $border-shift-em: $title-flap-size-em - $cage-grid-border-size;
 			top: $content-shift-y-em;
 			left: $content-shift-x-em;
 			padding: 2em;
-			border: global.$cage-grid-size solid map.get($theme, "accent", "hex");
-			background-color: transparent;
-			clip-path: shapes.get-shape(
+			border: $cage-grid-size solid map.get($theme, "canvas", "hex");
+
+			@include no-bg;
+			@include shape(
 				["border-with-label", "top-left"],
 				(
 					"flap-base-x": 30%,

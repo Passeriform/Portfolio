@@ -2,10 +2,12 @@
     id="header-wrapper"
     [ngClass]="{'shrink-header': splashState !== SplashState.FOCUSSED}"
   >
-  <ng-content></ng-content>
 	<div id="logo">
     <a routerLink="{{ target }}">
-      <img alt="{{ alt }}" src="{{ logo }}" />
+			<div id="img-wrapper">
+      	<img alt="{{ alt }}" src="{{ logo }}" />
+			</div>
     </a>
   </div>
+	<ng-content></ng-content>
 </div>

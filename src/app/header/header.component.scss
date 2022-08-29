@@ -1,80 +1,110 @@
 @use "sass:map";
-@use "global";
-@use "shapes";
+@use "global" as *;
+@use "shapes" as *;
+@use "media" as *;
+@use "modifiers" as *;
 
 @import "./header.colors";
 
-$header-size: global.$big-block-em;
-$shrink-header-size: global.$shrink-block-em;
-$shrink-logo-block-size: global.$small-block-em;
-$logo-size: global.$big-block-em;
-$logo-img-size: global.$small-block-em;
-$logo-flap-size: global.$shrink-leaf-em;
+$logo-size-shrink: $small-block-em;
+$logo-size-normal: $big-block-em;
+$logo-size-mobile: $big-block-mobile-em;
+$logo-img-size: $small-block-em;
+$logo-flap-size: $shrink-leaf-em;
 
-:host {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100vw;
+@mixin mobile-header-logo-link {
+	background-color: map.get($theme, "background", "hex");
 
-	& > #header-wrapper {
-		display: flex;
-		height: $header-size;
-		transition: all 0.5s ease;
+	@include equal-dim($logo-size-mobile);
+	@include shape(
+		["distorted-square", "top-left"],
+		("right": 100%, "corner-x": calc(100% - #{$header-padding-offset-mobile}), "corner-y": calc(100% - #{$header-padding-offset-mobile}))
+	);
+}
 
-		#logo {
-			display: flex;
-			align-items: flex-start;
-			justify-content: flex-start;
-			width: $logo-size;
-			height: $logo-size;
+@mixin normal-header {
+	height: $header-size-em;
 
-			& > a {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				width: $logo-size;
-				height: $logo-size;
-				transition: all 0.5s ease;
+	@include flex-row-start;
+	@include no-bg;
 
+	#logo {
+		@include equal-dim($logo-size-normal);
+
+		& > a {
+			transition: all 0.5s ease;
+
+			@include flex-row-center;
+			@include equal-dim($logo-size-normal);
+
+			@include media("screen", "<=phone") {
+				@include mobile-header-logo-link;
+			}
+
+			& > #img-wrapper {
 				& > img {
-					width: $logo-img-size;
-					height: $logo-img-size;
 					filter: invert(1);
 					transition: all 0.5s ease;
+
+					@include equal-dim($logo-img-size);
 				}
 			}
 		}
+	}
+}
 
-		&.shrink-header {
-			height: $shrink-header-size;
-			background-color: map.get($theme, "background", "dark-5%", "hex");
+@mixin shrink-header {
+	height: var(--shrink-header-size-em, #{$shrink-header-size-em});
+	background-color: map.get($theme, "background", "dark-5%", "hex");
 
-			& #logo {
-				width: $shrink-logo-block-size;
-				height: $shrink-logo-block-size;
+	& #logo {
+		@include equal-dim($logo-size-shrink);
 
-				& > a {
-					position: absolute;
-					top: 0;
-					left: 0;
-					display: block;
-					width: $logo-flap-size;
-					height: $logo-flap-size;
-					clip-path: shapes.get-shape(["flap", "top-left"]);
-					background-color: map.get($theme, "accent", "hex");
+		& > a {
+			@include shape-content-props("flap", $logo-flap-size) using ($flap-content-size, $flap-content-offset) {
+				display: block;
+				background-color: map.get($theme, "accent", "hex");
+
+				@include absolute-top-left;
+				@include equal-dim($logo-flap-size);
+				@include shape(["flap", "top-left"]);
+
+				& > #img-wrapper {
+					top: $flap-content-offset;
+					left: $flap-content-offset;
+
+					@include center-anchored-image;
 
 					& > img {
-						position: absolute;
-						top: 1em;
-						left: 0;
-						display: block;
-						width: $shrink-header-size;
-						height: $shrink-header-size;
 						filter: invert(0);
+
+						@include equal-dim($flap-content-size);
 					}
 				}
 			}
+		}
+	}
+}
+
+:host {
+	@include full-viewport-width;
+	@include absolute-top-left;
+
+	& > #header-wrapper {
+		transition: all 0.5s ease;
+
+		@include flex-row-start;
+		@include normal-header;
+
+		#logo {
+			// TODO: Fix z-index conflict with loader
+			z-index: 1;
+
+			@include flex-row-start;
+		}
+
+		&.shrink-header {
+			@include shrink-header;
 		}
 	}
 }

@@ -1,116 +1,135 @@
 @use "sass:map";
-@use "global";
-@use "shapes";
+@use "global" as *;
+@use "media" as *;
+@use "shapes" as *;
+@use "modifiers" as *;
 
 @import "./overlay.colors";
 
-:host {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	pointer-events: none;
+@mixin hide-overlay {
+	@include hide-with-transition;
+	@include pointer-disable;
+	@include if-supported("backdrop-filter", none);
 
-	&.header-offset {
-		padding-top: var(--current-header-shift-offset);
+	&:before {
+		@include hide-with-transition;
+		@include pointer-disable;
+	}
+}
+
+@mixin unhide-overlay {
+	@include unhide-with-transition;
+	@include pointer-enable;
+
+	@include if-supported("backdrop-filter", blur(0.5em)) {
+		&:before {
+			@include hide-with-transition;
+			@include pointer-enable;
+		}
 	}
 
-	& > .overlay-positioner {
-		position: relative;
-		width: 100%;
-		height: 100%;
+	&:before {
+		@include unhide-with-transition;
+		@include pointer-enable;
+	}
+}
+
+:host {
+	@include absolute-top-left;
+	@include full-perc-size;
+	@include pointer-disable;
+
+	&.header-offset {
+		padding-top: var(--current-header-shift-offset, 0);
+	}
+
+	& > .overlay-trigger {
+		@include full-perc-size;
 
 		& > .overlay-button {
-			position: absolute;
-			right: 0;
-			width: global.$overlay-flap-size;
-			height: global.$overlay-flap-size;
 			background-color: map.get($theme, "background", "invert", "hex");
-			clip-path: shapes.get-shape(["flap", "top-right"]);
-			mix-blend-mode: difference;
 			transition: all 0.5s ease;
 			cursor: pointer;
-			pointer-events: all;
 
-			& > svg {
-				position: absolute;
+			@include absolute-right;
+			@include pointer-enable;
+			@include equal-dim($overlay-flap-size);
+			@include layer(difference);
+			@include shape(["flap", "top-right"]);
+
+			& > .overlay-trigger-img {
+				@include center-anchored-image;
+
+				@include shape-content-props("flap", $overlay-flap-size) using ($flap-content-size, $flap-content-offset) {
+					top: $flap-content-offset;
+					right: $flap-content-offset;
+					transition: all 0.5s ease;
+
+					& > img {
+						transition: all 0.5s ease;
+
+						@include equal-dim($flap-content-size);
+					}
+				}
 			}
 		}
 
 		& > .overlay {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			opacity: 0;
 			transition: opacity 0.5s ease, backdrop-filter 0.5s ease;
 
-			@supports (backdrop-filter: blur(2em)) {
-				& {
-					backdrop-filter: none;
-				}
-			}
+			@include absolute-top-left;
+			@include full-perc-size;
+			@include hide-overlay;
 
 			&:before {
-				content: "";
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				background-color: black;
-				opacity: 0;
+				background-color: map.get($theme, "shadow", "hex");
 				transition: all 0.3s ease;
-				pointer-events: none;
+
+				@include content-fix;
+				@include absolute-top-left;
+				@include full-perc-size;
 			}
 
 			&.show {
-				opacity: 1;
-				pointer-events: all;
+				@include unhide-overlay;
 
-				@supports (backdrop-filter: blur(2em)) {
-					& {
-						backdrop-filter: blur(2em);
-
-						&:before {
-							opacity: 0;
-						}
-					}
-				}
-
-				@supports not (backdrop-filter: blur(2em)) {
-					&:before {
-						opacity: 0.9;
-					}
+				&:before {
+					opacity: 0.9;
 				}
 
 				& ~ .overlay-button {
-					width: 1.25 * global.$overlay-flap-size;
-					height: 1.25 * global.$overlay-flap-size;
+					$expansion-factor: 1.25;
+					$expanded-flap-size: $expansion-factor * $overlay-flap-size;
+
+					@include equal-dim($expanded-flap-size);
+
+					& > .overlay-trigger-img {
+						@include shape-content-props("flap", $expanded-flap-size) using ($flap-content-size, $flap-content-offset) {
+							$transform-offset: ($expansion-factor - 1) * $flap-content-offset;
+							transform: translate(-#{$transform-offset}, $transform-offset);
+						}
+					}
 				}
 			}
 		}
 	}
 
 	&.blink {
-		& > .overlay-positioner {
-			&:after {
-				content: "";
-				position: absolute;
-				right: 0;
-				width: 1.25 * global.$overlay-flap-size;
-				height: 1.25 * global.$overlay-flap-size;
+		& > .overlay-trigger {
+			&:before {
 				background-color: map.get($theme, "background", "invert", "hex");
-				opacity: 1;
-				clip-path: polygon(0 0, 100% 0%, 50% 50%);
 				animation: blink 1s ease-out infinite;
-				pointer-events: none;
+
+				@include content-fix;
+				@include absolute-right;
+				@include shape(["flap", "top-right"]);
+				@include equal-dim(1.25 * $overlay-flap-size);
+				@include unhide-with-transition;
+				@include pointer-disable;
 			}
 
 			& > .overlay-button {
-				mix-blend-mode: normal;
+				@include layer(normal);
 			}
 		}
 	}
@@ -118,12 +137,14 @@
 
 @keyframes blink {
 	0% {
+		// TODO: Try using sizing transform logic instead of animating on clip-path
 		clip-path: polygon(20% 0, 100% 0%, 100% 80%);
-		opacity: 1;
+
+		@include unhide-with-transition;
 	}
 
 	100% {
-		clip-path: shapes.get-shape(["flap", "top-right"]);
-		opacity: 0;
+		@include shape(["flap", "top-right"]);
+		@include hide-with-transition;
 	}
 }

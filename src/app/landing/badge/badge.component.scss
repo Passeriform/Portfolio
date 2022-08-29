@@ -1,9 +1,13 @@
+@use "modifiers" as *;
+
 :host {
 	& > .badge-box {
 		padding: 1em;
 
+		@include flex-row-center;
+
 		& > img {
-			width: 2em;
+			width: 1.5em;
 			filter: invert(1);
 		}
 	}

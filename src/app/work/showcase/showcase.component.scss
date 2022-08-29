@@ -1,52 +1,56 @@
-@use "global";
+@use "global" as *;
+@use "modifiers" as *;
 
 $meta-icon-size-em: 3em;
 $tooltip-max-meta-icons: 4;
 
+// TODO: Fix icons moving to next line
+
 .meta-icons {
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: space-evenly;
+	@include flex-row-evenly;
 
 	& > img {
 		margin: 0.5em;
 		max-width: $meta-icon-size-em * $tooltip-max-meta-icons;
 		max-height: $meta-icon-size-em;
-		width: auto;
-		height: auto;
 		object-fit: scale-down;
+
+		@include equal-dim(auto);
 	}
 }
 
 :host {
 	& > .content {
 		position: relative;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-evenly;
 		padding: 1em;
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
 		text-transform: none;
 
+		// TODO: Check if flex-wrap: nowrap isn't causing any issues using mixin
+		@include flex-column-evenly;
+		@include full-perc-size;
+		@include no-overflow;
+
+		& > .card-scroller {
+			width: 100vw;
+			@include full-viewport-width;
+		}
+
 		& .card-internal {
-			display: flex;
-			flex-flow: column nowrap;
-			justify-content: space-around;
 			padding: 1rem 0;
 			width: 100%;
 			height: 100%;
 
+			@include flex-column-around;
+
 			&.nav-card {
-				justify-content: center;
+				@include flex-column-evenly;
+
+				& > #action-icon {
+					@include equal-dim(4em);
+				}
 			}
 
 			& > .description {
-				& > h1.action-icon {
-					font-size: 4em;
-				}
-
 				& > h2 {
 					font-weight: 700;
 				}
@@ -57,10 +61,8 @@ $tooltip-max-meta-icons: 4;
 			}
 
 			& > .info {
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				justify-content: space-around;
+				// TODO: Check if flex-wrap: nowrap isn't causing any issues using mixin
+				@include flex-row-around;
 
 				& > * {
 					flex-basis: 0;
@@ -77,9 +79,8 @@ $tooltip-max-meta-icons: 4;
 				}
 
 				& > .licenses {
-					display: flex;
-					flex-direction: column;
-					align-items: center;
+					// TODO: Check if justify-content: center is causing any issues
+					@include flex-column-center;
 
 					& > * {
 						margin: 0.5em;
@@ -89,8 +90,7 @@ $tooltip-max-meta-icons: 4;
 				& > .meta {
 					& > .frameworks, & > .languages, & > .tools {
 						& > img {
-							width: 2.25rem;
-							height: 2.25rem;
+							@include equal-dim(2.25rem);
 						}
 					}
 				}

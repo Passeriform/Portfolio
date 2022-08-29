@@ -1,3 +1,5 @@
+@use "modifiers" as *;
+
 $no-of-items: 5;
 $max-inter-item-width: 1em;
 $max-width: ($no-of-items * 2em) + ($no-of-items + 1) * $max-inter-item-width;
@@ -11,19 +13,17 @@ $max-width: ($no-of-items * 2em) + ($no-of-items + 1) * $max-inter-item-width;
 }
 
 :host {
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: space-evenly;
-	margin: auto;
-	width: min(54em, 100%);
+	width: 100%;
+
+	// TODO: Make sure align-items isn't causing any issue
+	@include flex-row-evenly;
 
 	& > * {
 		padding: 1em 0;
 	}
 
 	& img {
-		width: 2em;
-		height: 2em;
+		@include equal-dim(2em);
 
 		&:not(.inverted) {
 			@include normal;

@@ -8,8 +8,6 @@ import { distinctUntilChanged, map, switchMap } from "rxjs/operators";
 import type { WikiEntry } from "@core/services/wiki.interface";
 import { WikiService } from "@core/services/wiki.service";
 
-// TODO: Convert to service and cache wiki entries. Trigger wiki entries fetch on hover on techstack.
-
 @Pipe({
 	name: "wiki",
 })

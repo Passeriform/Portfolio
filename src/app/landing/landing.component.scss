@@ -1,9 +1,17 @@
 @use "sass:map";
-@use "global";
 @use "assets" as *;
 @use "page" as *;
+@use "media" as *;
+@use "modifiers" as *;
 
 @import "./landing.colors";
+
+// TODO: Use min-max mixin and abstract all used values to global
+
+::selector {
+	background: map.get($theme, "background", "invert", "hex");
+	foreground: map.get($theme, "foreground", "invert", "hex");
+}
 
 :host {
 	& .page {
@@ -17,24 +25,26 @@
 			background-size: cover;
 			filter: brightness(50%);
 
-			@supports (filter: blur(0.2em)) {
-				filter: brightness(50%) blur(0.2em);
+			@include if-supported("filter", brightness(50%), blur(0.2em)) {
 				transform: scale(1.02);
 			}
 		}
 
 		& > .content {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
+			@include flex-column-center;
 
 			& > h1 {
-				margin-bottom: -0.25em;
-				padding: 0;
+				color: map.get($theme, "foreground", "hex");
+				// TODO: Verify fonts, sizes and weights and abstract to global
 				font-family: "Share Tech Mono", monospace;
-				font-size: max(4em, min(10vw, 10em));
+				font-size: clamp(3em, 10vw, 10em);
 				font-weight: 500;
+
+				@include reset-offsets;
+
+				@include override-modifiers {
+					margin-bottom: -0.25em;
+				}
 			}
 		}
 	}

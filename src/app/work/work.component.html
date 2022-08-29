@@ -55,7 +55,9 @@
 					<br />
 					<span>E</span>xplorer.
 				</h1>
-				<p *ngIf="displayInitialTip">Start by clicking the top-right corner.</p>
+				<div *ngIf="displayInitialTip" class="hint-text">
+					<p>Start by clicking the top-right corner.</p>
+				</div>
 			</div>
 		</div>
 	</ng-template>

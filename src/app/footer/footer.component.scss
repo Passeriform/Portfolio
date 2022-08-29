@@ -1,7 +1,8 @@
 @use "sass:map";
-@use "global";
+@use "global" as *;
 @use "media" as *;
 @use "separator" as *;
+@use "modifiers" as *;
 
 @import "./footer.colors";
 
@@ -9,25 +10,25 @@ $expanded-breakpoint: 52em;
 $linear-breakpoint: 42em;
 
 @mixin expanded {
-	& {
-		height: calc(100% - var(--shrink-header-size-em));
+	height: calc(100% - var(--shrink-header-size-em, #{$shrink-header-size-em}));
 
-		& > #footer-content {
-			flex-grow: 1;
-		}
+	& > #footer-content {
+		flex-grow: 1;
 	}
 }
 
 @mixin linear {
+	@include expanded;
+
 	& > #footer-content {
-		flex-direction: column;
-		justify-content: start;
-		height: unset;
 		overflow-y: auto;
 
+		@include flex-column-start;
+
 		& > #brand {
-			margin: 0 auto;
-			width: calc(100vw - 2em);
+			margin: 0;
+			padding: 1em;
+			width: 100%;
 		}
 
 		& > #brand-separator {
@@ -35,9 +36,13 @@ $linear-breakpoint: 42em;
 		}
 
 		& > #links {
-			flex-flow: row wrap;
+			@include flex-row-start;
+			@include override-modifiers {
+				flex-wrap: wrap;
+			}
 
 			& > section {
+				// TODO: Weird condition. Recheck.
 				min-width: calc((100vw / 2) - 4em);
 			}
 		}
@@ -45,16 +50,20 @@ $linear-breakpoint: 42em;
 }
 
 @mixin stacked {
+	height: unset;
+
 	@include media("<=#{$expanded-breakpoint}") {
 		@include expanded;
 	}
 
 	& > #footer-content {
-		flex-direction: row;
 		height: 28em;
 
+		@include flex-row-center;
+
 		& > #brand {
-			margin: auto 1em;
+			margin: 1em;
+			padding: 0;
 			width: 14em;
 		}
 
@@ -63,10 +72,12 @@ $linear-breakpoint: 42em;
 		}
 
 		& > #links {
-			flex-flow: column wrap;
-			flex-grow: 1;
-			justify-content: flex-start;
-			margin: 1em;
+			@include full-perc-size;
+			@include flex-column-start;
+
+			@include override-modifiers {
+				flex-wrap: wrap;
+			}
 		}
 	}
 }
@@ -84,12 +95,8 @@ $linear-breakpoint: 42em;
 }
 
 :host {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	display: flex;
-	flex-direction: column;
-
+	@include absolute-bottom-left;
+	@include flex-column-start;
 	@include linear;
 
 	@include media("portrait") {
@@ -114,6 +121,9 @@ $linear-breakpoint: 42em;
 		background-color: map.get($theme, "background", "light-10%", "hex");
 		text-align: center;
 
+		@include inflexible;
+		@include full-viewport-width;
+
 		& > h6 {
 			margin: 1em;
 			font-family: "Fira Code", monospace;
@@ -121,43 +131,40 @@ $linear-breakpoint: 42em;
 	}
 
 	& > #footer-content {
-		display: flex;
-		justify-content: space-around;
 		padding: 2em 0;
-		width: 100vw;
-		height: 28em;
 		background-color: map.get($theme, "background", "hex");
+		flex-grow: 0;
+
+		@include full-viewport-width;
 
 		& > #brand {
-			margin: auto 1em;
 			text-align: center;
 
 			& > div {
 				& > p {
-					margin: 0;
 					font-family: "Share Tech Mono", monospace;
 					font-size: 1.8em;
 					font-weight: 800;
+
+					@include reset-offsets;
 				}
 
 				& > img {
 					width: 10em;
 					filter: invert(1);
-					mix-blend-mode: difference;
+
+					@include layer(difference);
 				}
 
 				& > small {
+					// TODO: Use the white-space/word-wrap mixin here
 					white-space: nowrap;
 				}
 			}
 		}
 
 		& > #links {
-			display: flex;
-			flex-flow: column wrap;
-			flex-grow: 1;
-			justify-content: flex-start;
-			margin: 1em;
+			padding: 1em;
 
 			& > .section {
 				margin: 1em;
@@ -171,15 +178,16 @@ $linear-breakpoint: 42em;
 					padding-left: 0.1em;
 
 					& > a {
-						display: flex;
-						flex-direction: column;
 						color: map.get($theme, "foreground", "dark-35%", "hex");
 						font-weight: 500;
 						line-height: 5vh;
 						text-decoration: none;
+						// TODO: Use the white-space/word-wrap mixin here
 						white-space: nowrap;
 						cursor: pointer;
 						transition: all 0.3s ease-out;
+
+						@include flex-column-start;
 
 						&:hover {
 							color: map.get($theme, "foreground", "light-35%", "hex");

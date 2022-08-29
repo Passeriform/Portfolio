@@ -1,20 +1,22 @@
 @use "sass:map";
-@use "global";
+@use "sass:math";
 @use "page" as *;
+@use "media" as *;
+@use "modifiers" as *;
 
 @import "./error.colors";
 
 :host {
-	position: absolute;
-	top: 0;
-	left: 0;
 	display: block;
-	opacity: 0;
-	pointer-events: none;
+
+	@include absolute-top-left;
+
+	&:not(.show) {
+		@include hide;
+	}
 
 	&.show {
-		opacity: 1;
-		pointer-events: all;
+		@include unhide;
 	}
 
 	& .page {
@@ -27,11 +29,7 @@
 		}
 
 		& > .content {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: space-evenly;
-			text-align: center;
+			@include flex-column-evenly;
 
 			& > .error-greeter {
 				margin: 5em 0;
@@ -55,31 +53,20 @@
 			}
 
 			& > .blur-fix {
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 100vw;
-				height: 100vh;
-				visibility: visible;
-				opacity: 0;
 				background-color: map.get($theme, "shadow", "hex");
 				transition: opacity 0.3s ease, backdrop-filter 0.5s ease;
-				pointer-events: none;
 
-				@supports (backdrop-filter: blur(2em)) {
-					& {
-						backdrop-filter: none;
-					}
-				}
+				@include absolute-top-left;
+				@include full-perc-size;
+				@include hide;
+				@include if-supported("backdrop-filter", none);
 
 				&.activate {
-					opacity: 0.9;
-					pointer-events: all;
+					@include unhide;
+					@include if-supported("backdrop-filter", blur(2em));
 
-					@supports (backdrop-filter: blur(2em)) {
-						& {
-							backdrop-filter: blur(2em);
-						}
+					@include override-modifiers {
+						opacity: 0.9;
 					}
 				}
 			}
@@ -90,15 +77,19 @@
 				width: 60%;
 				height: 100%;
 				overflow: auto;
-				border-radius: 0.5rem;
-				box-shadow: 0 0 2px 2px map.get($theme, "shadow", "hex") inset;
+				border-radius: 0.4em;
+				box-shadow: 0 0 0.2em 0.2em map.get($theme, "shadow", "hex") inset;
 				background-color: map.get($theme, "background", "dark-10%", "hex");
 				transition: all 0.3s ease-in-out;
 
 				&.expand {
+					$expanded-size-perc: 80%;
+
+					min-height: 5em;
 					max-height: 80vh;
-					width: 80vw;
-					transform: translateY(-32vh);
+					width: $expanded-size-perc;
+					height: $expanded-size-perc;
+					transform: translateY(-#{math.div($expanded-size-perc, 2)});
 					background-color: map.get($theme, "background", "hex");
 				}
 

@@ -12,6 +12,7 @@ import { CageGridDirective } from "./cage-grid/cage-grid.directive";
 import { NavigatorComponent } from "./navigator/navigator.component";
 import { IconUriPipe } from "./pipes/icon-uri.pipe";
 import { RetainPipe } from "./pipes/retain.pipe";
+import { SplitByPipe } from "./pipes/split-by.pipe";
 import { EnvironmentPipe } from "./pipes/environment.pipe";
 import { WikiPipe } from "./pipes/wiki.pipe";
 import { SocialGlyphsComponent } from "./social-glyphs/social-glyphs.component";
@@ -29,6 +30,7 @@ import { SocialGlyphsComponent } from "./social-glyphs/social-glyphs.component";
 		NavigatorComponent,
 		OverlayComponent,
 		RetainPipe,
+		SplitByPipe,
 		ScrollableComponent,
 		PageNavComponent,
 		SocialGlyphsComponent,
@@ -47,6 +49,7 @@ import { SocialGlyphsComponent } from "./social-glyphs/social-glyphs.component";
 		NavigatorComponent,
 		OverlayComponent,
 		RetainPipe,
+		SplitByPipe,
 		ScrollableComponent,
 		PageNavComponent,
 		SocialGlyphsComponent,

@@ -1,36 +1,166 @@
 @use "sass:map";
 @use "sass:math";
-@use "global";
-@use "shapes";
-
-// TODO: Use css variable instead of this import
-@use "../header.component" as header;
+@use "global" as *;
+@use "shapes" as *;
+@use "media" as *;
+@use "modifiers" as *;
 
 @import "./navtab.colors";
 
-/* Check once */
-$nav-ul-height: math.div(header.$header-size, 2);
+$link-padding: max(#{$header-padding-offset-mobile}, 5%);
+
+@mixin after-mixer {
+	& > li {
+		& > a:after {
+			// TODO: Try using flex-child instead of this positioning hack
+			transition: all 0.2s ease;
+			transform: scaleY(0.05);
+			transform-origin: bottom;
+			background-color: map.get($theme, "background", "invert", "hex");
+
+			@include absolute-center;
+			@include layer(difference);
+			@include content-fix;
+			@include full-perc-size;
+
+			@include override-modifiers {
+				width: 80%;
+			}
+		}
+
+		&:hover > a:after {
+			transform: scaleY(1);
+		}
+	}
+}
+
+@mixin mobile-navtab {
+	padding:
+		math.div($header-padding-offset-mobile, 2) // Top
+		$link-padding // Right
+		3 * math.div($header-padding-offset-mobile, 2) // Bottom
+		calc(#{$header-padding-offset-mobile} + #{$link-padding}); // Left
+	min-width: 10rem;
+	max-width: 14rem;
+	width: 100%;
+	background-color: map.get($theme, "background", "invert", "hex");
+
+	@include flex-column-start;
+	@include shape(
+		["distorted-square", "top-right"],
+		("left": $header-padding-offset-mobile, "corner-x": 0, "corner-y": calc(100% - #{$header-padding-offset-mobile}))
+	);
+
+	@include override-modifiers {
+		align-items: stretch;
+	}
+
+	& > li {
+		a {
+			color: map.get($theme, "foreground", "invert", "hex");
+
+			&:before {
+				z-index: -1;
+				width: 100%;
+				height: 2.5em;
+				transform: scaleX(0.05);
+				transform-origin: left;
+				background-color: map.get($theme, "background", "invert", "hex");
+
+				@include layer(difference);
+			}
+		}
+
+		&:hover > a {
+			color: map.get($theme, "foreground", "hex");
+
+			&:before {
+				transform: scaleX(1);
+			}
+		}
+	}
+}
+
+@mixin normal-navtab {
+	@include flex-row-start;
+
+	& > li {
+		a {
+			color: map.get($theme, "foreground", "hex");
+
+			&:before {
+				width: 80%;
+				height: 100%;
+				transform: scaleY(0.05);
+				transform-origin: bottom;
+				background-color: map.get($theme, "background", "hex");
+
+				@include layer(overlay);
+			}
+		}
+
+		&:hover > a:before {
+			transform: scaleY(1);
+		}
+	}
+}
+
+@mixin shrink-navtab {
+	padding: 0 0.5em;
+	padding-left: 2em;
+	background-color: map.get($theme, "background", "invert", "hex");
+
+	@include flex-row-start;
+	@include shape(["skewed-pentagon", "left"], ("first": 1.5em, "second": 2em));
+
+	& > li {
+		padding: 1em;
+		line-height: 2em;
+
+		& > a {
+			color: map.get($theme, "accent", "invert", "hex");
+
+			&:before {
+				width: 80%;
+				transform: scaleX(0);
+				background-color: map.get($theme, "background", "invert", "hex");
+
+				@include layer(difference);
+			}
+		}
+	}
+
+	& > li:hover > a:before {
+		transform: scaleX(1);
+		background-color: map.get($theme, "background", "invert", "hex");
+	}
+}
 
 :host {
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
+	min-width: calc(100% - #{$header-size-em});
 	height: 100%;
 
+	@include flex-row-center;
+	@include override-modifiers {
+		justify-content: flex-end;
+	}
+
+	@include media("screen", "<=phone") {
+		align-items: flex-start;
+	}
+
 	& ::ng-deep ul {
-		display: flex;
-		flex-flow: row nowrap;
-		align-content: flex-end;
-		justify-content: flex-start;
 		margin: 0;
 		padding: #{math.div(($nav-ul-height - 1em), 4)} 5%;
-		overflow: hidden;
 		transition: all 0.5s ease;
 
+		@include no-overflow;
+
 		& > li {
+			// TODO: Special use-case. Check if can be modified or reused.
 			position: relative;
-			display: inline-block;
 			padding: 1em 2em;
+			text-align: center;
 			cursor: pointer;
 			transition: all 0.5s ease;
 
@@ -41,132 +171,33 @@ $nav-ul-height: math.div(header.$header-size, 2);
 				transition: all 0.5s ease;
 
 				&:before {
-					content: "";
-					position: absolute;
-					top: 0;
-					right: 0;
-					bottom: 0;
-					left: 0;
-					margin: auto;
 					height: 2em;
 					transition: all 0.5s ease;
+
+					@include absolute-center;
+					@include content-fix;
 				}
 			}
 		}
 
 		&.shrink-navtab {
-			padding: 0 0.5em;
-			padding-left: 2em;
-			background-color: map.get($theme, "accent", "hex");
-			clip-path: shapes.get-shape(["skewed-pentagon", "left"], ("first": 1.5em, "second": 2em));
-
-			& > li {
-				padding: 1em;
-				line-height: 2em;
-
-				& > a {
-					color: invert(map.get($theme, "accent", "hex"));
-
-					&:before {
-						top: 0;
-						bottom: 0;
-						width: 80%;
-						transform: scaleX(0);
-						background-color: mix(black, map.get($theme, "accent", "hex"), 100%);
-						mix-blend-mode: difference;
-					}
-				}
-			}
-
-			& > li:hover > a:before {
-				border: 1px solid invert(map.get($theme, "accent", "hex"));
-				transform: scaleX(1);
-				background-color: mix(white, invert(map.get($theme, "background", "hex")), 100%);
-			}
+			@include shrink-navtab;
 		}
 
 		&:not(.shrink-navtab) {
-			& > li {
-				& > a {
-					color: map.get($theme, "accent", "hex");
+			@include normal-navtab;
 
-					&:before {
-						width: 80%;
-						height: 100%;
-						transform: scaleY(0.05);
-						transform-origin: bottom;
-						background-color: black;
-						mix-blend-mode: overlay;
-					}
-				}
-
-				&:hover > a:before {
-					transform: scaleY(1);
-				}
+			@include media("screen", "<=phone") {
+				@include mobile-navtab;
 			}
 
-			@media screen and (min-width: 28em) {
-				& > li {
-					& > a:after {
-						content: "";
-						position: absolute;
-						top: 0;
-						right: 0;
-						bottom: 0;
-						left: 0;
-						margin: auto;
-						transition: all 0.2s ease;
-						width: 80%;
-						height: 100%;
-						transform: scaleY(0.05);
-						transform-origin: bottom;
-						background-color: map.get($theme, "accent", "hex");
-						mix-blend-mode: difference;
-					}
-
-					&:hover > a:after {
-						transform: scaleY(1);
-					}
-				}
-			}
-
-			@media screen and (max-width: 28em) {
-				flex-direction: column;
-				padding-bottom: #{math.div(($nav-ul-height - 1em), 4) + 0.5em};
-				padding-left: 10%;
-				background-color: invert(map.get($theme, "background", "hex"));
-				clip-path: shapes.get-shape(
-					["distorted-square", "top-right"],
-					("left": 1.25rem, "bottom-x": 0, "bottom-y": 90%)
-				);
-
-				& > li {
-					text-align: center;
-
-					& > a {
-						color: invert(map.get($theme, "accent", "hex"));
-
-						&:before {
-							z-index: -1;
-							width: 100%;
-							height: 2.5em;
-							visibility: visible;
-							transform: scaleX(0.05);
-							transform-origin: left;
-							background-color: invert(map.get($theme, "background", "hex"));
-							mix-blend-mode: difference;
-						}
-					}
-
-					&:hover > a {
-						color: map.get($theme, "accent", "hex");
-					}
-				}
+			@include media("screen", ">phone") {
+				@include after-mixer;
 			}
 		}
 	}
 
 	&.logo-shrink-fix {
-		min-width: calc(100% - #{header.$shrink-header-size});
+		min-width: calc(100% - #{$shrink-header-size-em});
 	}
 }

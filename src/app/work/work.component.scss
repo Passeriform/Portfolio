@@ -1,10 +1,11 @@
 @use "sass:map";
-@use "sass:math";
-@use "global";
 @use "media" as *;
 @use "page" as *;
+@use "modifiers" as *;
 
 @import "./work.colors";
+
+$h1-responsive-font-size: clamp(5em, 10vw, 7em);
 
 :host {
 	& .page {
@@ -17,16 +18,18 @@
 		& > #placeholder-content {
 			position: relative;
 			padding: 2em 5em;
-			overflow: hidden;
+
+			@include no-overflow;
 
 			@include media("screen", "<=400px") {
 				padding: 2em 1em;
 			}
 
 			& > h1 {
-				width: min(max(5em, 10vw), 7em);
+				position: relative;
+				width: $h1-responsive-font-size;
 				height: 2em;
-				font-size: min(max(5em, 10vw), 7em);
+				font-size: $h1-responsive-font-size;
 				line-height: 0.9em;
 				text-align: start;
 				text-transform: initial;
@@ -36,24 +39,26 @@
 				}
 			}
 
-			& > p {
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				margin: auto;
-				width: 11em;
-				transform: translate(-50%, -50%);
-				color: map.get($theme, "accent", "hex");
-				font-size: 2em;
-				font-weight: 400;
-				letter-spacing: 0.1em;
-				line-height: 1.2em;
-				text-align: center;
-				text-transform: initial;
-				word-spacing: 0.2em;
+			& > div.hint-text {
 
-				@include media("<=30em") {
-					display: none;
+				@include absolute-top-left;
+				@include flex-column-center;
+				@include full-perc-size;
+
+				& > p {
+					width: 11em;
+					color: map.get($theme, "accent", "hex");
+					font-size: 2em;
+					font-weight: 400;
+					letter-spacing: 0.1em;
+					line-height: 1.2em;
+					text-align: center;
+					text-transform: initial;
+					word-spacing: 0.2em;
+
+					@include media("<=30em") {
+						display: none;
+					}
 				}
 			}
 		}

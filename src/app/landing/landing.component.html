@@ -12,11 +12,14 @@
     </div>
     <div class="content">
       <h1>PASSERIFORM</h1>
+			<!-- TODO: Consider using image in case unicode is unsupported -->
       <app-sweeper i18n-leading [auto]="true" leading="❯">
-        <!-- // TODO: Add sweepable directive with label for sweeped item number -->
+        <!-- TODO: Add sweepable directive with label for sweeped item number -->
         <p #sweepable>A pseudonym for quality.</p>
+				<!-- TODO: Add presence status UI -->
         <p #sweepable>Status: Online</p>
-        <p #sweepable>Working on <code>GodWit</code></p>
+				<!-- TODO: Add GodWit workon API -->
+        <p #sweepable>Working on <q>GodWit</q></p>
       </app-sweeper>
     </div>
   </div>

@@ -1,30 +1,26 @@
 @use "sass:map";
 @use "sass:math";
-@use "sass:selector";
-@use "global";
-@use "shapes";
+@use "shapes" as *;
+@use "media" as *;
+@use "modifiers" as *;
 
 @import "./contact-form.colors";
 
 // TODO: Use direct properties when shorthand not required (background, margin)
 
-$half-margin: 1em;
-$net-half-width: calc(50% - #{math.div($half-margin, 2)});
+$half-input-margin: 1em;
 $textarea-height: 10em;
 $textarea-label-height-fix: 4px;
 $input-element-padding: 1em;
 
 @mixin form-element {
 	border: 1px solid map.get($theme, "accent", "hex");
-	background-color: transparent;
 	color: map.get($theme, "accent", "invert", "hex");
-	backdrop-filter: blur(0.5em);
-	mix-blend-mode: lighten;
 	transition: background-color 0.5s;
 
-	@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
-		mix-blend-mode: normal;
-	}
+	@include no-bg;
+	@include if-supported("backdrop-filter", blur(0.5em));
+	@include layer(lighten);
 
 	&:focus {
 		background-color: map.get($theme, "background", "dark-5%", "hex");
@@ -32,25 +28,26 @@ $input-element-padding: 1em;
 }
 
 :host > form#contact-form > ul {
-	margin: 0;
-	padding: 0;
+	@include reset-offsets;
 
 	& > li {
 		position: relative;
-		display: block;
 		margin-bottom: 1em;
-		clear: both;
-		overflow: hidden;
+
+		@include no-overflow;
 
 		&.half {
-			margin-left: $half-margin;
-			width: $net-half-width;
+			margin-left: $half-input-margin;
+			width: calc(50% - #{math.div($half-input-margin, 2)});
 			float: left;
-			clear: none;
 
 			&:first-child {
 				margin-left: 0;
 			}
+		}
+
+		&:not(.half) {
+			@include clear-fix;
 		}
 
 		& > .input-field {
@@ -64,10 +61,6 @@ $input-element-padding: 1em;
 
 			@at-root #{selector-replace(&, ".input-field", "input.input-field")}:not([ type=submit ]) {
 				padding: 0 $input-element-padding;
-
-				&:focus {
-					outline: 0;
-				}
 			}
 
 			@at-root #{selector-replace(&, ".input-field", "textarea.input-field")} {
@@ -84,28 +77,26 @@ $input-element-padding: 1em;
 				letter-spacing: 0.2em;
 
 				&:hover + .input-label:after {
-					transform: translate3d(0, 0, 0);
+					transform: translateX(0);
 				}
 			}
 
 			&:focus + .input-label:after {
-				transform: translate3d(0, 0, 0) !important;
+				transform: translateX(0);
 			}
 		}
 
 		& > .input-label {
 			&:after {
-				content: "";
-				position: absolute;
-				top: 0;
-				left: 0;
-				pointer-events: none;
-				width: 100%;
-				height: 100%;
-				transform: translate3d(-100%, 0, 0);
-				background-color: invert(map.get($theme, "background", "hex"));
+				transform: translateX(-100%);
+				background-color: map.get($theme, "background", "invert", "hex");
 				transition: transform 0.3s;
-				mix-blend-mode: exclusion;
+
+				@include absolute-top-left;
+				@include full-perc-size;
+				@include content-fix;
+				@include pointer-disable;
+				@include layer(exclusion);
 			}
 		}
 
@@ -114,7 +105,7 @@ $input-element-padding: 1em;
 			float: right;
 
 			& > .input-label:after {
-				clip-path: shapes.get-shape(["snipped-rectangle", "top-left"], 1em);
+				@include shape(["snipped-rectangle", "top-left"], 1em);
 			}
 		}
 	}

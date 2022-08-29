@@ -1,41 +1,40 @@
 @use "sass:map";
-@use "global";
+@use "modifiers" as *;
 
 @import "./describe.colors";
 
 :host {
 	& > .content {
-		display: flex;
-		flex-flow: row wrap;
-		align-content: space-evenly;
-		justify-content: space-evenly;
 		height: 100%;
+
+		@include flex-row-evenly;
 
 		& > * {
 			padding: 0 3em;
 		}
 
 		& > #screenshot {
-			display: flex;
-			justify-content: space-around;
 			min-width: 25em;
 			max-width: 40em;
 
+			// TODO: Check if wrapping/text-align is working fine
+			@include flex-row-around;
+
 			& > img {
 				margin: auto;
-				width: 100%;
+
+				@include full-perc-size;
 			}
 		}
 
 		& > #text {
-			min-width: 30em;
-			max-width: 80em;
-			width: 60vw;
+			@include responsive-width(30em, 80em, 60vw);
 
 			& > #logo {
 				padding: 0 2em;
 
 				& > h1 {
+					// TODO: Abstract these font sizes/weights into global
 					margin-bottom: -0.1em;
 					font-size: 5em;
 					font-weight: 700;
@@ -48,7 +47,7 @@
 				}
 
 				& > img {
-					width: 30em;
+					@include equal-dim(30em);
 				}
 			}
 		}

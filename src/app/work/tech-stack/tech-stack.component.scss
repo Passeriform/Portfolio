@@ -1,36 +1,28 @@
-@use "sass:math";
-@use "global";
+@use "modifiers" as *;
 
 :host {
-		position: relative;
-		width: 100vw;
+	& .model-attr {
+		& > ul {
+			align-items: center;
 
-		& .model-attr {
-			& > ul {
-				display: flex;
-				flex-flow: row wrap;
-				align-items: center;
-				justify-content: space-evenly;
-				margin: 0;
-				padding: 0;
-				width: 100%;
-				height: 100%;
+			@include flex-row-evenly;
+			// TODO: Check if this can be done in styles.scss for all ul elements
+			@include full-perc-size;
+			@include reset-offsets;
 
-				& > li {
-					padding: 1em;
+			& > li {
+				padding: 1em;
 
-					& > .img-container {
-						height: 4em;
+				& > .img-container {
+					height: 4em;
 
-						& > img {
-							width: 100%;
-							height: 100%;
-						}
+					& > img {
+						@include full-perc-size;
 					}
 				}
-
 			}
 		}
+	}
 }
 
 .techstack-tooltip-content {

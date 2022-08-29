@@ -5,7 +5,7 @@
     </ng-template>
 
     <div i18n-position appTooltip
-        class="badge"
+        class="type-badge"
         [position]="Position.TOP"
         [template]="tooltipTemplate"
       >
@@ -13,7 +13,11 @@
     </div>
 
     <div class="repo">
-      <a href="{{ entry.repo.url }}">{{ entry.repo.name }}</a>
+      <a href="{{ entry.repo.url }}">
+				<span class="repo-org">{{ (entry.repo.name | splitBy:'/')[0] }}</span>
+				<span class="slash-separator">/</span>
+				<span class="repo-project">{{ (entry.repo.name | splitBy:'/')[1] }}</span>
+			</a>
     </div>
     <!-- <div class="org">
       <p> {{ entry.org }} </p>

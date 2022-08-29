@@ -1,5 +1,13 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
 
+// TODO: Move to separate navigator module.
+
+// TODO: Rename to `terminal`.
+
+// TODO: Add expand on typing colon, like vim.
+
+// TODO: Add commands config.
+
 @Component({
 	selector: "app-navigator",
 	styleUrls: [ "./navigator.component.scss" ],

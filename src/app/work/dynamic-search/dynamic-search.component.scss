@@ -1,25 +1,31 @@
 @use "sass:map";
-@use "global";
+@use "modifiers" as *;
 
 @import "./dynamic-search.colors";
 
-$search-box-border-radius: 0.25rem;
+:host {
+	// TODO: Check if wrapping is fine
+	@include flex-row-center;
 
-:host > input {
-	padding: 0.5em 2em;
-	width: 80vw;
-	height: 3em;
-	border: 0.2em solid map.get($theme, "accent", "hex");
-	border-radius: $search-box-border-radius;
-	background-clip: border-box;
-	background-color: transparent;
-	color: map.get($theme, "accent", "hex");
-	font-weight: 500;
-	word-wrap: break-word;
-	transition: color 0.5s ease, background-color 0.5s ease;
-
-	&:focus {
-		background-color: map.get($theme, "background", "dark-10%", "hex");
+	& > input {
+		padding: 0.5em 2em;
+		width: 80vw;
+		height: 3em;
+		border: 0.2em solid map.get($theme, "accent", "hex");
+		border-radius: 0.25rem;
+		background-clip: border-box;
 		color: map.get($theme, "accent", "hex");
+		// TODO: Check if a modifier would look nice: @include bold
+		font-weight: 500;
+		// TODO: Check if white-space and word-wrap can be combined into another modifier
+		word-wrap: break-word;
+		transition: color 0.5s ease, background-color 0.5s ease;
+
+		@include no-bg;
+
+		&:focus {
+			background-color: map.get($theme, "background", "dark-10%", "hex");
+			color: map.get($theme, "accent", "hex");
+		}
 	}
 }

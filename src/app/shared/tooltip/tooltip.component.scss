@@ -1,19 +1,17 @@
 @use "sass:map";
 @use "sass:math";
-@use "global";
-@use "modifiers";
+@use "inset" as *;
+@use "modifiers" as *;
 
 @import "./tooltip.colors";
 
 $tooltip-window-width-em: 20em;
-$tooltip-window-height-em: 20em;
-$tooltip-arrow-width-em: 1em;
-$tooltip-arrow-height-em: 1em;
+$tooltip-arrow-size-em: 1em;
 
 @mixin normal-color {
-	border: 1px solid invert(map.get($theme, "accent", "hex"));
-	background-color: invert(map.get($theme, "background", "hex"));
-	color: invert(map.get($theme, "foreground", "hex"));
+	border: 1px solid map.get($theme, "accent", "invert", "hex");
+	background-color: map.get($theme, "background", "invert", "hex");
+	color: map.get($theme, "foreground", "invert", "hex");
 }
 
 @mixin invert-color {
@@ -22,17 +20,61 @@ $tooltip-arrow-height-em: 1em;
 	color: map.get($theme, "foreground", "hex");
 }
 
+@mixin corner {
+	transform: translateX(0);
+}
+
 :host {
 	position: absolute;
-	top: var(--tooltip-top);
-	left: var(--tooltip-left);
+	top: var(--tooltip-top, 50vh);
+	left: var(--tooltip-left, 50vw);
+	// TODO: Extract all z-indexes to global variable and provision from there
 	z-index: 10;
 	display: inline-block;
-	width: 0;
-	height: 0;
-	visibility: hidden;
-	opacity: 0;
 	transition: top 0.2s ease, left 0.2s ease, visibility 0.5s ease, opacity 0.5s ease;
+
+	@include zero-perc-size;
+	@include unhide;
+
+	@each $position in $valid-insets {
+		&.#{$position} {
+			& > .tooltip-internal {
+				#{opposite-inset($position)}: $tooltip-arrow-size-em * 2;
+
+				@if (is-vertical-inset($position)) {
+					transform: translateX(-50%);
+
+					&:after {
+						top: if($position == bottom, 0, 100%);
+						left: 50%;
+					}
+
+					&.corner > .tooltip-internal:after {
+						top: 0;
+					}
+				} @else {
+					transform: translateY(-50%);
+
+					&:after {
+						top: 50%;
+						left: if($position == right, 0, 100%);
+					}
+
+					&.corner > .tooltip-internal:after {
+						left: 0;
+					}
+				}
+			}
+
+			&.corner > .tooltip-internal:after {
+				@if (is-vertical-inset($position)) {
+					left: 0;
+				} @else {
+					top: 0;
+				}
+			}
+		}
+	}
 
 	& > .tooltip-internal {
 		position: absolute;
@@ -40,23 +82,25 @@ $tooltip-arrow-height-em: 1em;
 		padding: 1em 2em;
 		max-width: $tooltip-window-width-em;
 		box-shadow: 0 0 5px -3px map.get($theme, "shadow", "hex");
-		transform: translateX(-50%);
 
-		@include normal-color;
-		@include modifiers.max-content-width;
+		@include max-content-width;
 
 		&:after {
-			content: "";
 			position: absolute;
-			left: 50%;
-			margin-top: -#{math.div($tooltip-arrow-width-em, 2)};
-			margin-left: -#{math.div($tooltip-arrow-width-em, 2)};
-			width: $tooltip-arrow-width-em;
-			height: $tooltip-arrow-height-em;
 			box-shadow: 0 0 5px -3px map.get($theme, "shadow", "hex");
-			transform: rotate(45deg);
+			transform: translate(-50%, -50%) rotate(45deg);
 
+			@include content-fix;
+			@include equal-dim($tooltip-arrow-size-em);
+		}
+
+		// TODO: Find a way to deduplicate this using mixins
+		&:not(.invert) {
 			@include normal-color;
+
+			&:after {
+				@include invert-color;
+			}
 		}
 
 		&.invert {
@@ -69,67 +113,74 @@ $tooltip-arrow-height-em: 1em;
 	}
 
 	&.corner > .tooltip-internal {
-		transform: translateX(0);
+		@include corner;
 	}
 
-	&.top {
-		& > .tooltip-internal {
-			bottom: $tooltip-arrow-width-em * 2;
+	// &.top {
+	// 	& > .tooltip-internal {
+	// 		bottom: $tooltip-arrow-size-em * 2;
+	// 		transform: translateX(-50%);
+	//
+	// 		&:after {
+	// 			top: 100%;
+	// 			left: 50%;
+	// 		}
+	// 	}
+	//
+	// 	&.corner > .tooltip-internal:after {
+	// 		left: 0;
+	// 	}
+	// }
+	//
+	// &.right {
+	// 	& > .tooltip-internal {
+	// 		left: $tooltip-arrow-size-em * 2;
+	// 		transform: translateY(-50%);
+	//
+	// 		&:after {
+	// 			top: 50%;
+	// 			left: 0;
+	// 		}
+	// 	}
+	//
+	// 	&.corner > .tooltip-internal:after {
+	// 		top: 0;
+	// 	}
+	// }
+	//
+	// &.bottom {
+	// 	& > .tooltip-internal {
+	// 		top: $tooltip-arrow-size-em * 2;
+	// 		transform: translateX(-50%);
+	//
+	// 		&:after {
+	// 			top: 0;
+	// 			left: 50%;
+	// 		}
+	// 	}
+	//
+	// 	&.corner > .tooltip-internal:after {
+	// 		left: 0;
+	// 	}
+	// }
+	//
+	// &.left {
+	// 	& > .tooltip-internal {
+	// 		right: $tooltip-arrow-size-em * 2;
+	// 		transform: translateY(-50%);
+	//
+	// 		&:after {
+	// 			top: 50%;
+	// 			left: 100%;
+	// 		}
+	// 	}
+	//
+	// 	&.corner > .tooltip-internal:after {
+	// 		top: 0;
+	// 	}
+	// }
 
-			&:after {
-				top: 100%;
-			}
-		}
-
-		&.corner > .tooltip-internal:after {
-			left: 0;
-		}
-	}
-
-	&.right {
-		& > .tooltip-internal {
-			left: $tooltip-arrow-width-em * 2;
-
-			&:after {
-				left: 0;
-			}
-		}
-
-		&.corner > .tooltip-internal:after {
-			top: 0;
-		}
-	}
-
-	&.bottom {
-		& > .tooltip-internal {
-			top: $tooltip-arrow-width-em * 2;
-
-			&:after {
-				top: 0;
-			}
-		}
-
-		&.corner > .tooltip-internal:after {
-			left: 0;
-		}
-	}
-
-	&.left {
-		& > .tooltip-internal {
-			right: $tooltip-arrow-width-em * 2;
-
-			&:after {
-				left: 100%;
-			}
-		}
-
-		&.corner > .tooltip-internal:after {
-			top: 0;
-		}
-	}
-
-	&.show {
-		visibility: visible;
-		opacity: 1;
+	&:not(.show) {
+		@include hide;
 	}
 }

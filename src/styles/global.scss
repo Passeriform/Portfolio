@@ -1,19 +1,29 @@
 @use "sass:math";
-@use "sass:map";
 
+/* --------- Variables --------- */
 $scrollbar-colors: ("scrollbar": ("thumb": #4A4A4A99, "track": #24242499));
 
 $big-block-em: 12em;
+$big-block-mobile-em: 10em;
 $small-block-em: 6em;
 $shrink-leaf-em: 8em;
 $shrink-block-em: 4em;
+$minor-offset-rem: 1.25rem;
 
-$line-height-px: 22px;
+/* --------- Header --------- */
+$header-size-em: $big-block-em;
+$shrink-header-size-em: $shrink-block-em;
+$header-padding-offset-mobile: $minor-offset-rem;
+
+/* --------- Navtab --------- */
+$nav-ul-height: math.div($small-block-em, 2);
 
 /* --------- Scrollbar --------- */
-$scrollbar-width-em: 0.5em;
-$scrollbar-flap-size-em: 0.5em;
-$scrollbar-track-width-em: 0.4em;
+$scrollbar-thickness-em: 0.5em;
+$scrollbar-flap-size-em: $scrollbar-thickness-em;
+$scrollbar-track-width-em: $scrollbar-thickness-em - 0.1em;
+$scrollbar-gradient-from: calc(50% - max(1%, #{math.div($scrollbar-track-width-em, 2)}));
+$scrollbar-gradient-to: calc(50% + max(1%, #{math.div($scrollbar-track-width-em, 2)}));
 
 /* --------- Overlay --------- */
 $overlay-flap-size: $small-block-em;
