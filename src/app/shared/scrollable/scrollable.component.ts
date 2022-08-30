@@ -116,7 +116,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		return (this.orientation === Orientation.VERTICAL && this.fullpage) ? "var(--apparent-viewport-height, 100vh)" : "100%";
 	}
 
-	@HostBinding("style.top")
+	@HostBinding("style.margin-top")
 	public get top(): string {
 		if (this.orientation === Orientation.HORIZONTAL || !(this.startReveal || this.endReveal)) {
 			return "0px";
@@ -129,7 +129,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 			: `-${Math.min(this.endRevealElement.clientHeight, windowHeight)}px`;
 	}
 
-	@HostBinding("style.left")
+	@HostBinding("style.margin-left")
 	public get left(): string {
 		if (this.orientation === Orientation.VERTICAL || !(this.startReveal || this.endReveal)) {
 			return "0px";
@@ -263,9 +263,9 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		}
 
 		const {
-			[`client${Orientation.HORIZONTAL ? "Width" : "Height"}` as const]: elementSize,
-			[`scroll${Orientation.HORIZONTAL ? "Width" : "Height"}` as const]: scrollableSize,
-			[`scroll${Orientation.HORIZONTAL ? "Left" : "Top"}` as const]: scrolled,
+			[`client${this.orientation === Orientation.HORIZONTAL ? "Width" : "Height"}` as const]: elementSize,
+			[`scroll${this.orientation === Orientation.HORIZONTAL ? "Width" : "Height"}` as const]: scrollableSize,
+			[`scroll${this.orientation === Orientation.HORIZONTAL ? "Left" : "Top"}` as const]: scrolled,
 		} = pageElement;
 
 		if (shiftAmt < 0) {
