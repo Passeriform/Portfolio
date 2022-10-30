@@ -4,10 +4,15 @@
 @use "shapes" as *;
 @use "media" as *;
 @use "modifiers" as *;
+@use "stack" as *;
 
 @import "./navtab.colors";
 
 $link-padding: max(#{$header-padding-offset-mobile}, 5%);
+$stack-order: (
+	"pseudo",
+	"tab",
+);
 
 @mixin after-mixer {
 	& > li {
@@ -141,6 +146,7 @@ $link-padding: max(#{$header-padding-offset-mobile}, 5%);
 	height: 100%;
 
 	@include flex-row-center;
+	@include stack("navtab");
 	@include override-modifiers {
 		justify-content: flex-end;
 	}

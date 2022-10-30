@@ -3,6 +3,7 @@
 @use "shapes" as *;
 @use "media" as *;
 @use "modifiers" as *;
+@use "stack" as *;
 
 @import "./header.colors";
 
@@ -11,6 +12,9 @@ $logo-size-normal: $big-block-em;
 $logo-size-mobile: $big-block-mobile-em;
 $logo-img-size: $small-block-em;
 $logo-flap-size: $shrink-leaf-em;
+$stack-order: (
+	"logo",
+);
 
 @mixin mobile-header-logo-link {
 	background-color: map.get($theme, "background", "hex");
@@ -89,6 +93,7 @@ $logo-flap-size: $shrink-leaf-em;
 :host {
 	@include full-viewport-width;
 	@include absolute-top-left;
+	@include stack("header");
 
 	& > #header-wrapper {
 		transition: all 0.5s ease;
@@ -97,10 +102,8 @@ $logo-flap-size: $shrink-leaf-em;
 		@include normal-header;
 
 		#logo {
-			// TODO: Fix z-index conflict with loader
-			z-index: 1;
-
 			@include flex-row-start;
+			@include stack("header", "logo", $stack-order);
 		}
 
 		&.shrink-header {

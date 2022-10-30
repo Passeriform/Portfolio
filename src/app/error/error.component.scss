@@ -3,6 +3,7 @@
 @use "page" as *;
 @use "media" as *;
 @use "modifiers" as *;
+@use "stack" as *;
 
 @import "./error.colors";
 
@@ -10,6 +11,7 @@
 	display: block;
 
 	@include absolute-top-left;
+	@include stack("error");
 
 	&:not(.show) {
 		@include hide;

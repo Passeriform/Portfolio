@@ -4,6 +4,7 @@
 @use "shapes" as *;
 @use "modifiers" as *;
 @use "media" as *;
+@use "stack" as *;
 
 @import "./cage-grid.colors";
 
@@ -15,6 +16,11 @@ $h2-padding-y-em: 0.25em;
 $content-shift-x-em: 0.2em;
 $content-shift-y-em: 0.2em;
 $border-shift-em: $title-flap-size-em - $cage-grid-border-size;
+// TODO: Move this declaration into global config
+$stack-order: (
+	"content",
+	"title",
+);
 
 :host {
 	padding: 2em;
@@ -50,13 +56,13 @@ $border-shift-em: $title-flap-size-em - $cage-grid-border-size;
 
 		& > .title {
 			position: relative;
-			z-index: 1;
 			margin-bottom: -3em;
 			text-transform: capitalize;
 			// TODO: Add a nowrap mixin with white-space and word-wrap
 			white-space: nowrap;
 
 			@include no-overflow;
+			@include stack(null, "title", $stack-order);
 
 			& > h2 {
 				// TODO: Check if this is even required or does block suffice
@@ -80,6 +86,7 @@ $border-shift-em: $title-flap-size-em - $cage-grid-border-size;
 			border: $cage-grid-size solid map.get($theme, "canvas", "hex");
 
 			@include no-bg;
+			@include stack(null, "content", $stack-order);
 			@include shape(
 				["border-with-label", "top-left"],
 				(

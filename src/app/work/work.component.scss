@@ -2,12 +2,19 @@
 @use "media" as *;
 @use "page" as *;
 @use "modifiers" as *;
+@use "stack" as *;
 
 @import "./work.colors";
 
 $h1-responsive-font-size: clamp(5em, 10vw, 7em);
+$stack-order: (
+	"placeholder-hint-text",
+	"placeholder-title",
+);
 
 :host {
+	@include stack("route");
+
 	& .page {
 		@include page;
 	}
@@ -34,16 +41,18 @@ $h1-responsive-font-size: clamp(5em, 10vw, 7em);
 				text-align: start;
 				text-transform: initial;
 
+				@include stack("page", "placeholder-title", $stack-order);
+
 				& > span {
 					color: map.get($theme, "accent", "hex");
 				}
 			}
 
 			& > div.hint-text {
-
 				@include absolute-top-left;
 				@include flex-column-center;
 				@include full-perc-size;
+				@include stack("page", "placeholder-hint-text", $stack-order);
 
 				& > p {
 					width: 11em;

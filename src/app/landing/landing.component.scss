@@ -3,6 +3,7 @@
 @use "page" as *;
 @use "media" as *;
 @use "modifiers" as *;
+@use "stack" as *;
 
 @import "./landing.colors";
 
@@ -14,6 +15,10 @@
 }
 
 :host {
+	position: relative;
+
+	@include stack("route");
+
 	& .page {
 		@include page;
 	}

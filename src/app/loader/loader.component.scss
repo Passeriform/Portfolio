@@ -1,15 +1,15 @@
 @use "modifiers" as *;
+@use "stack" as *;
 
 :host {
 	// TODO: Check if making it flex would work instead of the position: absolute hack
 	transition: all 0.7s ease-in-out;
 
-	// TODO: Prefer to remove all z-index
-
 	@include absolute-center;
 	@include full-perc-size;
 	@include hide-with-transition;
 	@include pointer-disable;
+	@include stack("loader");
 
 	&.show {
 		@include unhide-with-transition;

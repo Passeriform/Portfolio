@@ -3,6 +3,7 @@
 @use "media" as *;
 @use "shapes" as *;
 @use "modifiers" as *;
+@use "stack" as *;
 
 @import "./overlay.colors";
 
@@ -38,6 +39,7 @@
 	@include absolute-top-left;
 	@include full-perc-size;
 	@include pointer-disable;
+	@include stack("overlay");
 
 	&.header-offset {
 		padding-top: var(--current-header-shift-offset, 0);

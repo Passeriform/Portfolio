@@ -2,6 +2,7 @@
 @use "assets" as *;
 @use "page" as *;
 @use "modifiers" as *;
+@use "stack" as *;
 
 @import "./about.colors";
 
@@ -10,6 +11,10 @@ $content-font-size: clamp(1em, 2vw, 1.5em);
 // TODO: Use align-selfs in places where performing weird compromises on parent styles
 
 :host {
+	position: relative;
+
+	@include stack("route");
+
 	& .page {
 		@include page;
 

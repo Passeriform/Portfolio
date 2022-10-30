@@ -3,6 +3,7 @@
 @use "global" as *;
 @use "shapes" as *;
 @use "modifiers" as *;
+@use "stack" as *;
 
 @import "./navigator.colors";
 
@@ -13,6 +14,7 @@
 }
 
 :host {
+	@include stack("navigator");
 	& > .flap-button {
 		position: absolute;
 		right: -($navigator-expand-length - $navigator-flap-size);
