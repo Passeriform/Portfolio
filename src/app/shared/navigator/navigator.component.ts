@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from "@angular/core";
+import { Component, ElementRef, HostBinding, HostListener, ViewChild } from "@angular/core";
 
 // TODO: Move to separate navigator module.
 
@@ -18,7 +18,7 @@ export class NavigatorComponent {
 
 	public expanded = false;
 
-	public expand(event: MouseEvent): void {
+	@HostListener("mousedown", [ "$event" ]) public expand(event: MouseEvent): void {
 		if (this.expanded) {
 			const target = event.target ?? event.currentTarget;
 			if (target === this.captureElement.nativeElement) {
@@ -27,5 +27,9 @@ export class NavigatorComponent {
 		} else {
 			this.expanded = !this.expanded;
 		}
+	}
+
+	@HostBinding("class.expanded") public get isExpanded(): boolean {
+		return this.expanded;
 	}
 }
