@@ -15,7 +15,7 @@ export class ErrorComponent implements OnInit {
 	public error: Record<string, HttpErrorCodes | string> | undefined;
 	public debugExpanded: boolean;
 
-	@HostListener("document:click", [ "$event" ]) public onDocumentClick(): void {
+	@HostListener("document:mousedown", [ "$event" ]) public onDocumentClick(): void {
 		if (!this.debugWindow) {
 			return;
 		}
