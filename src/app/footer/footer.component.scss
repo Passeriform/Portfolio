@@ -11,7 +11,7 @@ $expanded-breakpoint: 52em;
 $linear-breakpoint: 42em;
 
 @mixin expanded {
-	height: calc(100% - var(--shrink-header-size-em, #{$shrink-header-size-em}));
+	height: calc(100% - var(--current-header-shift-offset, #{$shrink-header-size-em}));
 
 	& > #footer-content {
 		flex-grow: 1;
