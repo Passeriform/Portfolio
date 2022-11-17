@@ -4,18 +4,13 @@ $no-of-items: 5;
 $max-inter-item-width: 1em;
 $max-width: ($no-of-items * 2em) + ($no-of-items + 1) * $max-inter-item-width;
 
-@mixin normal {
-	filter: invert(0);
-}
-
 @mixin inverted {
-	filter: invert(1);
+	@include invert-color;
 }
 
 :host {
 	width: 100%;
 
-	// TODO: Make sure align-items isn't causing any issue
 	@include flex-row-evenly;
 
 	& > * {
@@ -25,9 +20,6 @@ $max-width: ($no-of-items * 2em) + ($no-of-items + 1) * $max-inter-item-width;
 	& img {
 		@include equal-dim(2em);
 
-		&:not(.inverted) {
-			@include normal;
-		}
 		&.inverted {
 			@include inverted;
 		}
