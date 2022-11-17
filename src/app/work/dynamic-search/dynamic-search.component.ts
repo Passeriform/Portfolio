@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, HostListener, Input, Output } from "@angular/core";
 import type { AfterViewInit } from "@angular/core";
 
 import { Observable } from "rxjs";
@@ -20,6 +20,11 @@ export class DynamicSearchComponent<T extends { readonly tags: readonly string[]
 	@Input() public readonly resetTrigger$: Observable<void>;
 
 	@Output() public readonly propagate: EventEmitter<readonly T[]> = new EventEmitter<readonly T[]>();
+
+	@HostListener("mousedown", [ "$event" ])
+	public onInputClick(event: MouseEvent): void {
+		event.stopPropagation()
+	}
 
 	public searchText = "";
 

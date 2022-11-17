@@ -5,6 +5,4 @@
     type="text"
     [(ngModel)]="searchText"
     (ngModelChange)="updateModel()"
-    (mousedown)="$event.stopPropagation()"
   />
-<!-- TODO: Move mousedown callback to HostListener instead -->
