@@ -1,9 +1,10 @@
 <input i18n-placeholder i18n-name
-			class="filter"
-			name="filter"
-			placeholder="Filter by keywords...."
-			type="text"
-			[(ngModel)]="queryString"
-			(ngModelChange)="applyFilter()"
-			(mousedown)="$event.stopPropagation()"
-		/>
+    class="filter"
+    name="filter"
+    placeholder="Filter by keywords...."
+    type="text"
+    [(ngModel)]="searchText"
+    (ngModelChange)="updateModel()"
+    (mousedown)="$event.stopPropagation()"
+  />
+<!-- TODO: Move mousedown callback to HostListener instead -->

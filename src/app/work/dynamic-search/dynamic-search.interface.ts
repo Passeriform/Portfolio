@@ -1,4 +1,1 @@
-export interface WordScore {
-	score: number;
-	readonly tags: readonly string[];
-}
+export type RankedEntry<T extends { readonly tags: readonly string[] }> = T & { score: number };
