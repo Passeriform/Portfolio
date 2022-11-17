@@ -13,6 +13,10 @@ $stack-order: (
 );
 
 :host {
+	position: relative;
+	display: block;
+
+	@include full-perc-size;
 	@include stack("route");
 
 	& .page {

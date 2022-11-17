@@ -5,12 +5,12 @@ import { HttpClient } from "@angular/common/http";
 
 import type { Observable } from "rxjs";
 import { of } from "rxjs";
-import { catchError, concatWith, first, map } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
 
 import { LoaderService } from "@app/loader/loader.service";
 import { ErrorService } from "@app/error/error.service";
 
-import { routeFilters } from "./work.config";
+import { NO_TRANSFORM, routeFilters } from "./work.config";
 import type { WorkModel } from "./work.interface";
 import { WorkService } from "./services/work.service";
 
@@ -31,8 +31,6 @@ export class WorkResolver implements Resolve<readonly WorkModel[]> {
 
 		return this.workService.refreshCache$()
 			.pipe(
-				concatWith(this.workService.workActiveState$),
-				first(),
 				map((model?: readonly WorkModel[]): readonly WorkModel[] => {
 					// Fatal error (mostly API hit issue)
 					if (!model) {
@@ -69,10 +67,16 @@ export class WorkResolver implements Resolve<readonly WorkModel[]> {
 					if (segment?.path === "explore") {
 						const activeFilter: string | undefined = route.url[1]?.path;
 						if (routeFilters.includes(activeFilter)) {
-							this.workService.setFilter((entity: WorkModel) => entity.type === activeFilter);
+							this.workService.setTransform(
+								(workModel: WorkModel[]) => workModel.filter(
+									(entity: WorkModel) => entity.type === activeFilter
+								)
+							);
 						} else if (activeFilter) {
 							this.router.navigate([ "/explore" ]);
-						}
+						} else {
+              this.workService.setTransform(NO_TRANSFORM);
+            }
 					}
 
 					this.loaderService.endLoading("[http] work");

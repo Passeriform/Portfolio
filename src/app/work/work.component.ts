@@ -1,6 +1,5 @@
 import type { AfterViewInit, OnInit } from "@angular/core";
 import { Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 
 import type { Observable } from "rxjs";
 import { Subject } from "rxjs";
@@ -18,8 +17,9 @@ import { WorkService } from "./services/work.service";
 	templateUrl: "./work.component.html",
 })
 export class WorkComponent implements OnInit, AfterViewInit {
+	private readonly scrollResetSource$ = new Subject<void>();
+
 	public displayInitialTip = true;
-	public scrollResetSource$ = new Subject<void>();
 	public scrollResetState$: Observable<void> = this.scrollResetSource$.asObservable();
 	public model: readonly WorkModel[];
 	public selected?: WorkModel;
@@ -28,7 +28,6 @@ export class WorkComponent implements OnInit, AfterViewInit {
 	constructor(
 			private readonly workService: WorkService,
 			private readonly loaderService: LoaderService,
-			private readonly route: ActivatedRoute,
 			private readonly splashStateService: SplashStateService,
 	) {
 		// this.loaderService.flushJobs();
@@ -36,9 +35,9 @@ export class WorkComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnInit() {
-		this.route.data.subscribe(
-			(data: { readonly model: readonly WorkModel[] }) => {
-				this.model = data.model;
+		this.workService.workActiveState$.subscribe(
+			(model: readonly WorkModel[]) => {
+				this.model = model;
 			},
 		);
 
