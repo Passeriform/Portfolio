@@ -19,12 +19,16 @@ export class ShowcaseComponent implements OnInit {
 
 	@ViewChild("cardScroller", { read: ElementRef }) public readonly cardChild: ElementRef<HTMLElement>;
 
+	private readonly scrollResetSource$ = new Subject<void>();
+	private readonly searchResetSource$ = new Subject<void>();
+
 	public readonly Position = Position;
 	public readonly Orientation = Orientation;
 
-	public scrollResetSource$ = new Subject<void>();
 	public scrollResetState$: Observable<void> = this.scrollResetSource$.asObservable();
+	public searchResetState$: Observable<void> = this.searchResetSource$.asObservable();
 	public model: readonly WorkModel[];
+	public activeModel: readonly WorkModel[];
 	public showExpanded: boolean;
 
 	@HostListener("window:resize")
@@ -41,8 +45,11 @@ export class ShowcaseComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.workService.workActiveState$.subscribe((model: WorkModel[]) => {
+		this.workService.workCacheState$.subscribe((model: WorkModel[]) => {
 			this.model = model;
+		});
+		this.workService.workActiveState$.subscribe((model: WorkModel[]) => {
+			this.activeModel = model;
 		});
 	}
 
@@ -57,7 +64,7 @@ export class ShowcaseComponent implements OnInit {
 			)
 			: 0;
 
-			this.showExpanded = windowHeight > 32;
+		this.showExpanded = windowHeight > 32;
 	}
 
 	public setSelected(entry: WorkModel): void {
@@ -65,11 +72,23 @@ export class ShowcaseComponent implements OnInit {
 		this.selectionEvent.emit(entry);
 	}
 
-	public setActive(activeModel: readonly WorkModel[]): void {
-		this.workService.setActive(activeModel);
+	public setTransform(updatedModel: readonly WorkModel[]): void {
+		const modelTransform = (model: WorkModel[]) => updatedModel.map(
+			(updatedEntry: WorkModel) => model.find(
+				(entry: WorkModel) => entry.ref === updatedEntry.ref,
+			),
+		);
+
+		this.workService.setTransform(modelTransform);
 	}
 
 	public resetScroll(event: MouseEvent): void {
 		this.scrollResetSource$.next();
+		event.stopPropagation();
+	}
+
+	public resetSearch(event: MouseEvent): void {
+		this.searchResetSource$.next();
+		event.stopPropagation();
 	}
 }

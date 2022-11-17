@@ -1,7 +1,8 @@
 <div class="content">
-  <app-dynamic-search
-      [model]="model"
-      (propagate)="setActive($event)"
+	<app-dynamic-search
+			[model]="model"
+      [resetTrigger$]="searchResetState$"
+      (propagate)="setTransform($event)"
     >
   </app-dynamic-search>
 
@@ -15,8 +16,9 @@
         #cardScroller
       >
       <app-raisecard
-          *ngIf="!(model?.length)"
+          *ngIf="!(activeModel?.length)"
           [ngClass]="!showExpanded ? 'compact' : ''"
+          (mousedown)="resetSearch($event)"
           #page
         >
         <div class="card-internal">
@@ -26,7 +28,7 @@
       </app-raisecard>
 
       <app-raisecard
-          *ngFor="let entry of model"
+          *ngFor="let entry of activeModel"
           [marker]="entry.type"
           [ngClass]="!showExpanded ? 'compact' : ''"
           (mousedown)="setSelected(entry)"
@@ -129,9 +131,9 @@
       </app-raisecard>
 
 			<app-raisecard
-          *ngIf="model?.length"
+          *ngIf="activeModel?.length"
           [ngClass]="!showExpanded ? 'compact' : ''"
-					(mousedown)="resetScroll($event); $event.stopPropagation()"
+					(mousedown)="resetScroll($event)"
           #page
         >
         <div class="card-internal nav-card">
