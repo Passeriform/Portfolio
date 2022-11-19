@@ -37,7 +37,7 @@ $traveller-continuous-inter-offset: calc(
 	)}
 );
 $traveller-discrete-inter-offset: calc(#{$nav-flap-size + $nav-link-inter-padding} + (#{$nav-link-dot-size + (2 * $nav-link-inter-padding)} * var(--traveller-offset, 0)));
-$arrow-main-size: math.div(math.sqrt(3), 2) * math.div($nav-link-dot-size, 2);
+$arrow-main-size: math.div($nav-extent-em - $nav-link-dot-size, 2);
 $arrow-cross-size: $nav-link-dot-size;
 $nav-flap-shapes: (
 	top: get-shape(["trapezoid", "short-bottom"], $nav-flap-size),
@@ -273,18 +273,25 @@ $traveller-arrow-shapes: (
 
 				@at-root #{selector-replace(&, ":host", ":host.continuous")} {
 					@include continuous-traveller($inset-type);
+
+					@at-root #{selector-replace(&, ":host", ":host.expanded")} {
+						border-radius: $nav-link-dot-size;
+					}
 				}
 
 				@at-root #{selector-replace(&, ":host", ":host.discrete")} {
 					@include discrete-traveller($inset-type);
+
+					@at-root #{selector-replace(&, ":host", ":host.expanded")} {
+						@include circle-border;
+					}
 				}
 			}
 
 			&:not(.expanded) > ul.page-nav-container > .page-nav-traveller {
 				#{$inset-type}: $traveller-centering-offset + $traveller-arrow-offset;
 				clip-path: $shape;
-
-				@include equal-dim($nav-link-dot-size);
+				border-radius: 0;
 			}
 
 			@include media("touchscreen") {
@@ -322,7 +329,6 @@ $traveller-arrow-shapes: (
 
 		& > .page-nav-traveller {
 			position: absolute;
-			border-radius: $nav-link-dot-size;
 			background-color: map.get($theme, "background", "invert", "hex");
 			transition: all 0.2s ease;
 
@@ -332,7 +338,7 @@ $traveller-arrow-shapes: (
 	}
 
 	&.inverted > ul.page-nav-container {
-		filter: invert(1);
+		@include invert-color;
 	}
 
 	& > * {

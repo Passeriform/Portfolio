@@ -21,8 +21,8 @@ export class PageNavComponent implements AfterViewInit, OnChanges {
 	@Input() public expanded = false;
 
 	@HostListener("document:touchstart", ["$event"]) public touchHandler(event): void {
-    this.expanded = this.elementReference.nativeElement.contains(event.target);
-  }
+		this.expanded = this.elementReference.nativeElement.contains(event.target);
+	}
 
 	@HostBinding("class") public get positionClass(): string {
 		const positionClasses: Record<Position, string> = {
@@ -30,7 +30,7 @@ export class PageNavComponent implements AfterViewInit, OnChanges {
 			[Position.RIGHT]: "right",
 			[Position.BOTTOM]: "bottom",
 			[Position.LEFT]: "left",
-		}
+		};
 
 		return positionClasses[this.position];
 	}
@@ -65,32 +65,36 @@ export class PageNavComponent implements AfterViewInit, OnChanges {
 
 	ngOnChanges(changes: SimpleChanges) {
 		if (changes.items) {
-			this.elementReference.nativeElement.style.setProperty("--item-step-count", this.items.length)
+			this.elementReference.nativeElement.style.setProperty("--item-step-count", this.items.length);
 		}
 
 		if (changes.activePage) {
 			if (this.discrete) {
-				this.updateTravellerPosition(this.activePage)
+				this.updateTravellerPosition(this.activePage);
 			} else {
-	      this.updateTravellerPosition(this.activePage * this.apparentTravelFactor)
+				this.updateTravellerPosition(this.activePage * this.apparentTravelFactor);
 			}
-	  }
+		}
 	}
 
 	public switchToPage(travellerPosition: number): void {
-		// apparentTravelFactor = delta / fullWidth
-		// traveller-offset = activePage * apparentTravelFactor
-		// travellerPosition = seekbar-gutter-size * traveller-offset
-		//
-		// (fullWidth / seekbarTrackWidth) * (position * 1em) / delta = activePage
-		// activePage = (fullWidth<ts> / seekbarTrackWidth<sass>) * (position<input> * 1em<sass>) / delta<ts>
-		// activePage = (fullWidth<ts> / delta<ts>) * (1em<sass> / seekbarTrackWidth<sass>) * position<input>
-		// activePage = (travellerPosition / apparentTravelFactor) * (1em<sass> / seekbarTrackWidth<sass>)
-		//
-		// TODO: Remove traveellerTrackSize, move traveller offset into component and simplify calculation according to above
-		const travellerTrackSize = (this.items.length - 1) - 2
+		if (this.discrete) {
+			this.setActivePage.next(travellerPosition);
+		} else {
+			// apparentTravelFactor = delta / fullWidth
+			// traveller-offset = activePage * apparentTravelFactor
+			// travellerPosition = seekbar-gutter-size * traveller-offset
+			//
+			// (fullWidth / seekbarTrackWidth) * (position * 1em) / delta = activePage
+			// activePage = (fullWidth<ts> / seekbarTrackWidth<sass>) * (position<input> * 1em<sass>) / delta<ts>
+			// activePage = (fullWidth<ts> / delta<ts>) * (1em<sass> / seekbarTrackWidth<sass>) * position<input>
+			// activePage = (travellerPosition / apparentTravelFactor) * (1em<sass> / seekbarTrackWidth<sass>)
+			//
+			// TODO: Remove travellerTrackSize, move traveller offset into component and simplify calculation according to above
+			const travellerTrackSize = (this.items.length - 1) - 2;
 
-		this.setActivePage.next((travellerPosition / this.apparentTravelFactor) / travellerTrackSize);
+			this.setActivePage.next((travellerPosition / this.apparentTravelFactor) / travellerTrackSize);
+		}
 	}
 
 	public setExpanded(state: boolean): void {

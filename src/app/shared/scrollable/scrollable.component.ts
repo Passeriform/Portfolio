@@ -216,7 +216,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	}
 
 	private computePageNavTravelFactor() {
-		this.pageNavTravelFactor = this.delta / ((this.items.length - 1) * (this.items.get(0)?.nativeElement?.clientWidth ?? 0))
+		this.pageNavTravelFactor = this.delta / ((this.items.length - 1) * (this.items.get(0)?.nativeElement?.clientWidth ?? 0));
 	}
 
 	private readonly getStartRevealElementEvent = (listener: string): Observable<Event> => {
@@ -322,6 +322,8 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 			this.computeMaxScrollSize();
 			this.computeDeltaIfFullpage();
 			this.computePageNavTravelFactor();
+
+			this.pageIndex = Math.min(this.pageIndex, this.maxScrollableSize / this.delta);
 		});
 	}
 
@@ -407,11 +409,11 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 
 	// TODO: Make PageNav compatible when fullpage is false. Use delta and expected scroll to index.
 
-	public getPageNavPosition() {
+	public getPageNavPosition(): Position {
 		return this.pageNavPosition ?? (this.orientation === Orientation.HORIZONTAL ? Position.BOTTOM : Position.LEFT);
 	}
 
-	public setActivePageIndex(index: number) {
+	public setActivePageIndex(index: number): void {
 		this.endReveal = this.startReveal = false;
 		this.pageIndex = index;
 		this.pageChangeEvent.emit(this.pageIndex);

@@ -3,8 +3,8 @@ import { Orientation } from "@shared/models/cardinals.interface";
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 export const Constants: {
 	readonly DELTA_DEFAULT: number;
-	readonly ORIENTATION_DEFAULT: Orientation;
 	readonly INITIAL_PAGE_INDEX: number;
+	readonly ORIENTATION_DEFAULT: Orientation;
 	readonly SCROLL_SCALING_FACTOR: number;
 	readonly SCROLL_THRESHOLD: number;
 	readonly SENSITIVITY_DEFAULT: number;
@@ -15,8 +15,8 @@ export const Constants: {
 	readonly VERTICAL: boolean;
 } = {
 	DELTA_DEFAULT: 100,
-	ORIENTATION_DEFAULT: Orientation.VERTICAL,
 	INITIAL_PAGE_INDEX: 0,
+	ORIENTATION_DEFAULT: Orientation.VERTICAL,
 	SCROLL_SCALING_FACTOR: 90,
 	SCROLL_THRESHOLD: 0.1,
 	SENSITIVITY_DEFAULT: 1,
