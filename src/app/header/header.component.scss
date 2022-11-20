@@ -29,29 +29,18 @@ $stack-order: (
 @mixin normal-header {
 	height: $header-size-em;
 
-	@include flex-row-start;
 	@include no-bg;
 
 	#logo {
 		@include equal-dim($logo-size-normal);
 
 		& > a {
-			transition: all 0.5s ease;
-
-			@include flex-row-center;
 			@include equal-dim($logo-size-normal);
+			@include shape(["square"]);
 
-			@include media("screen", "<=phone") {
-				@include mobile-header-logo-link;
-			}
-
-			& > #img-wrapper {
-				& > img {
-					filter: invert(1);
-					transition: all 0.5s ease;
-
-					@include equal-dim($logo-img-size);
-				}
+			& > #img-wrapper > img {
+				@include invert-color;
+				@include equal-dim($logo-img-size);
 			}
 		}
 	}
@@ -69,6 +58,7 @@ $stack-order: (
 				display: block;
 				background-color: map.get($theme, "accent", "hex");
 
+				// TODO: Check if same can be applied to normal header
 				@include absolute-top-left;
 				@include equal-dim($logo-flap-size);
 				@include shape(["flap", "top-left"]);
@@ -80,8 +70,7 @@ $stack-order: (
 					@include center-anchored-image;
 
 					& > img {
-						filter: invert(0);
-
+						@include reset-invert-color;
 						@include equal-dim($flap-content-size);
 					}
 				}
@@ -99,11 +88,30 @@ $stack-order: (
 		transition: all 0.5s ease;
 
 		@include flex-row-start;
-		@include normal-header;
 
 		#logo {
 			@include flex-row-start;
 			@include stack("header", "logo", $stack-order);
+
+			& > a {
+				transition: all 0.5s ease;
+
+				@include flex-row-center;
+
+				& > #img-wrapper > img {
+					transition: all 0.5s ease;
+				}
+			}
+		}
+
+		&:not(.shrink-header) {
+			@include normal-header;
+
+			@include media("screen", "<=phone") {
+				& > #logo > a {
+					@include mobile-header-logo-link;
+				}
+			}
 		}
 
 		&.shrink-header {

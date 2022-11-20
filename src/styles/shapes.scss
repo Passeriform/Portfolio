@@ -148,6 +148,7 @@ $shapes: (
 		 *	 \						│
 		 *	  ────────────┘
 		 */
+		"top",
 		"left",
 	),
 	"distorted-square": (
@@ -295,7 +296,8 @@ $shapes: (
 			"point-right": polygon(0 0, 100% 50%, 0 100%),
 		),
 		"skewed-pentagon": (
-			"left": polygon(map.get($delta, "first") 0, 100% 0, 100% 100%, map.get($delta, "second") 100%, 0 map.get($delta, "first")),
+      "top": polygon(map.get($delta, "peak-shift") 0, 100% map.get($delta, "second"), 100% 100%, 0 100%, 0 map.get($delta, "first")),
+			"left": polygon(map.get($delta, "first") 0, 100% 0, 100% 100%, map.get($delta, "second") 100%, 0 map.get($delta, "peak-shift")),
 		),
 		"distorted-square": (
 			"top-right": polygon(map.get($delta, "left") 0, 100% 0, 100% 100%, map.get($delta, "corner-x") map.get($delta, "corner-y")),

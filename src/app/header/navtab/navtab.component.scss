@@ -18,7 +18,7 @@ $stack-order: (
 	& > li {
 		& > a:after {
 			// TODO: Try using flex-child instead of this positioning hack
-			transition: all 0.2s ease;
+			transition: all 0.5s ease;
 			transform: scaleY(0.05);
 			transform-origin: bottom;
 			background-color: map.get($theme, "background", "invert", "hex");
@@ -27,6 +27,7 @@ $stack-order: (
 			@include layer(difference);
 			@include content-fix;
 			@include full-perc-size;
+      @include shape(["skewed-pentagon", "top"], ("first": 35%, "second": 15%, "peak-shift": 70%));
 
 			@include override-modifiers {
 				width: 80%;
@@ -88,19 +89,25 @@ $stack-order: (
 
 @mixin normal-navtab {
 	@include flex-row-start;
+	@include after-mixer;
 
 	& > li {
+		padding-top: 1.2em;
+		padding-bottom: 0.8em;
+
 		a {
 			color: map.get($theme, "foreground", "hex");
 
 			&:before {
 				width: 80%;
 				height: 100%;
+				transition: all 0.2s ease;
 				transform: scaleY(0.05);
 				transform-origin: bottom;
 				background-color: map.get($theme, "background", "hex");
 
 				@include layer(overlay);
+        @include shape(["skewed-pentagon", "top"], ("first": 20%, "second": 35%, "peak-shift": 25%));
 			}
 		}
 
@@ -116,7 +123,7 @@ $stack-order: (
 	background-color: map.get($theme, "background", "invert", "hex");
 
 	@include flex-row-start;
-	@include shape(["skewed-pentagon", "left"], ("first": 1.5em, "second": 2em));
+	@include shape(["skewed-pentagon", "left"], ("first": 1.5em, "second": 2em, "peak-shift": 1.5em));
 
 	& > li {
 		padding: 1em;
@@ -126,17 +133,18 @@ $stack-order: (
 			color: map.get($theme, "accent", "invert", "hex");
 
 			&:before {
-				width: 80%;
-				transform: scaleX(0);
+				width: 90%;
+				transform: scaleX(0) translateX(-6%);
 				background-color: map.get($theme, "background", "invert", "hex");
 
 				@include layer(difference);
+				@include shape(["skewed-pentagon", "left"], ("first": 0.75em, "second": 1em, "peak-shift": 0.75em));
 			}
 		}
 	}
 
 	& > li:hover > a:before {
-		transform: scaleX(1);
+		transform: scaleX(1) translateX(-6%);
 		background-color: map.get($theme, "background", "invert", "hex");
 	}
 }
@@ -147,6 +155,7 @@ $stack-order: (
 
 	@include flex-row-center;
 	@include stack("navtab");
+
 	@include override-modifiers {
 		justify-content: flex-end;
 	}
@@ -191,14 +200,12 @@ $stack-order: (
 		}
 
 		&:not(.shrink-navtab) {
-			@include normal-navtab;
-
 			@include media("screen", "<=phone") {
 				@include mobile-navtab;
 			}
 
 			@include media("screen", ">phone") {
-				@include after-mixer;
+				@include normal-navtab;
 			}
 		}
 	}
