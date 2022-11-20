@@ -184,6 +184,14 @@
 	width: $vary-with;
 }
 
+@mixin invert-color {
+	filter: invert(1);
+}
+
+@mixin reset-invert-color {
+	filter: invert(0);
+}
+
 @mixin layer($mode) {
 	mix-blend-mode: $mode;
 }
