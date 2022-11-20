@@ -304,14 +304,19 @@ $shapes: (
 		"border-with-label": (
 			"top-left": polygon(
 				0 0,
-				calc(#{map.get($delta, "flap-base-x")} + #{map.get($delta, "border-shift")}) 0,
+				calc(#{map.get($delta, "label-width")} + #{map.get($delta, "label-horizontal-overhang")}) 0,
 				// TODO: Find optimal intersection point for next line
-				map.get($delta, "flap-base-x") map.get($delta, "border-shift"),
-				calc(100% - #{map.get($delta, "border-shift")}) map.get($delta, "border-shift"),
+				map.get($delta, "label-width") map.get($delta, "top-border-shift"),
+				calc(100% - #{map.get($delta, "border-shift")}) map.get($delta, "top-border-shift"),
 				calc(100% - #{map.get($delta, "border-shift")}) calc(100% - #{map.get($delta, "border-shift")}),
-				map.get($delta, "border-shift") calc(100% - #{map.get($delta, "border-shift")}),
-				map.get($delta, "border-shift") map.get($delta, "flap-base-y") + map.get($delta, "border-shift"),
-				0 map.get($delta, "flap-base-y"),
+				map.get($delta, "left-border-shift") calc(100% - #{map.get($delta, "border-shift")}),
+				map.get($delta, "left-border-shift") #{
+					css-min(
+						calc(100% - #{map.get($delta, "border-shift")}),
+						calc(#{map.get($delta, "label-height")} + #{map.get($delta, "label-vertical-overhang")})
+					)
+				},
+				0 map.get($delta, "label-height"),
 			),
 		),
 	);
