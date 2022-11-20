@@ -6,6 +6,7 @@ import { Directive, Input, TemplateRef } from "@angular/core";
 })
 export class CageGridDirective {
 	@Input("appCaged") public readonly title: string;
+	@Input("appCagedAnimateContent") public readonly animateContent: boolean;
 
 	public readonly cageTemplate: TemplateRef<ElementRef<HTMLElement>>;
 

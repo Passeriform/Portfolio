@@ -8,14 +8,16 @@
 
 @import "./cage-grid.colors";
 
+$title-flap-size-em: $cage-grid-size;
+$minimized-title-flap-size-em: math.div($title-flap-size-em, 2);
 $cage-grid-border-size: 0.2em;
-$title-flap-size-em: 3em;
 $h2-font-size-em: 1.75em;
 $h2-padding-x-em: 0.5em;
 $h2-padding-y-em: 0.25em;
 $content-shift-x-em: 0.2em;
 $content-shift-y-em: 0.2em;
 $border-shift-em: $title-flap-size-em - $cage-grid-border-size;
+$minimized-border-shift-em: $minimized-title-flap-size-em - $cage-grid-border-size;
 // TODO: Move this declaration into global config
 $stack-order: (
 	"content",
@@ -73,6 +75,8 @@ $stack-order: (
 				background-color: map.get($theme, "background", "hex");
 				color: map.get($theme, "foreground", "hex");
 				font-size: $h2-font-size-em;
+				font-weight: 800;
+				text-transform: uppercase;
 
 				@include shape(["snipped-rectangle", "top-left"], math.div($title-flap-size-em, 2) + $h2-padding-y-em);
 			}
@@ -82,19 +86,64 @@ $stack-order: (
 			position: relative;
 			top: $content-shift-y-em;
 			left: $content-shift-x-em;
-			padding: 2em;
-			border: $cage-grid-size solid map.get($theme, "canvas", "hex");
+			border: $title-flap-size-em solid map.get($theme, "canvas", "hex");
+			border-top-width: $minimized-title-flap-size-em;
+			border-left-width: $minimized-title-flap-size-em;
+			transition: all 0.2s ease;
 
+			@include reset-offsets;
 			@include no-bg;
 			@include stack(null, "content", $stack-order);
 			@include shape(
 				["border-with-label", "top-left"],
 				(
-					"flap-base-x": 30%,
-					"flap-base-y": $content-shift-y-em + $title-flap-size-em,
+					"label-width": 30%,
+					"label-height": $content-shift-y-em + $title-flap-size-em,
+					"label-vertical-overhang": $minimized-title-flap-size-em,
+					"label-horizontal-overhang": $minimized-title-flap-size-em,
+					"top-border-shift": $minimized-border-shift-em,
+					"left-border-shift": $minimized-border-shift-em,
 					"border-shift": $border-shift-em,
 				)
 			);
+
+			&:not(.animated) {
+				padding: 1em;
+				border-top-width: $title-flap-size-em;
+				border-left-width: $title-flap-size-em;
+
+				@include shape(
+					["border-with-label", "top-left"],
+					(
+						"label-width": 30%,
+						"label-height": $content-shift-y-em + $title-flap-size-em,
+						"label-vertical-overhang": $title-flap-size-em,
+						"label-horizontal-overhang": $title-flap-size-em,
+						"top-border-shift": $border-shift-em,
+						"left-border-shift": $border-shift-em,
+						"border-shift": $border-shift-em,
+					)
+				);
+			}
+
+			&.animated:hover {
+				padding: 1em;
+				border-top-width: $title-flap-size-em;
+				border-left-width: $title-flap-size-em;
+
+				@include shape(
+					["border-with-label", "top-left"],
+					(
+						"label-width": 30%,
+						"label-height": $content-shift-y-em + $title-flap-size-em,
+						"label-vertical-overhang": $title-flap-size-em,
+						"label-horizontal-overhang": $title-flap-size-em,
+						"top-border-shift": $border-shift-em,
+						"left-border-shift": $border-shift-em,
+						"border-shift": $border-shift-em,
+					)
+				);
+			}
 		}
 	}
 }

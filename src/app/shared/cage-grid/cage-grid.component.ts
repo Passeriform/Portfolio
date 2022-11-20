@@ -1,4 +1,4 @@
-import type { QueryList } from "@angular/core";
+import type { AfterViewInit, QueryList } from "@angular/core";
 import { Component, ContentChildren } from "@angular/core";
 
 import { CageGridDirective } from "./cage-grid.directive";
@@ -8,6 +8,10 @@ import { CageGridDirective } from "./cage-grid.directive";
 	styleUrls: [ "./cage-grid.component.scss" ],
 	templateUrl: "./cage-grid.component.html",
 })
-export class CageGridComponent {
+export class CageGridComponent implements AfterViewInit {
 	@ContentChildren(CageGridDirective, { descendants: true }) public readonly cagedList: QueryList<CageGridDirective>;
+
+	ngAfterViewInit() {
+		// ngAfterViewInit
+	}
 }

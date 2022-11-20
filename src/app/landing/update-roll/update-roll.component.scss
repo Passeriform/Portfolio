@@ -1,18 +1,26 @@
 @use "sass:map";
+@use "global" as *;
+@use "media" as *;
 @use "modifiers" as *;
 
 @import "./update-roll.colors";
 
+// TODO: Convert to grid layouts to flex.
+
+// TODO: Instead of using background as hack for border, use proper border attribute
+
 :host {
 	display: grid;
-	grid-gap: 0;
+	grid-gap: 2px;
 	max-height: 60vh;
 	overflow: hidden auto;
+	border: 1px solid map.get($theme, "primary", "hex");
+	background-color: map.get($theme, "primary", "hex");
 
 	& > .brief {
 		display: grid;
-		grid-gap: 2px;
-		grid-template-columns: max(4em, 10%) auto max(10em, 50%) auto auto;
+		grid-gap: 1px;
+		grid-template-columns: minmax(4em, 8em) minmax(9em, 40em) minmax(20em, 45em);
 		cursor: pointer;
 
 		&:not(:first-child) {
@@ -20,29 +28,69 @@
 		}
 
 		& > * {
-			border: 1px solid map.get($theme, "accent", "hex");
-			background-color: map.get($theme, "canvas", "hex");
+			padding: 1em;
 		}
 
-		& > .type-badge {
+		& > div:nth-child(even) {
+			background-color: map.get($theme, "accent", "hex");
+		}
+
+		& > div:nth-child(odd) {
+			background-color: map.get($theme, "alt-accent", "hex");
+		}
+
+		& > div.type-badge {
 			grid-column: 1 / 1;
+
+			@include flex-column-center;
 		}
 
-		& > .type {
+		& > div.repo {
 			grid-column: 2 / 2;
-		}
-
-		& > .repo {
-			grid-column: 3 / 3;
 
 			@include flex-column-center;
 
 			& > a {
-				padding: 0 1em;
+				color: map.get($theme, "foreground", "invert", "hex");
 				text-decoration: none;
 
-				@include flex-row-center;
 				@include full-perc-size;
+
+				@include media(">=tablet") {
+					@include flex-row-center;
+
+					& > span.repo-org {
+						text-align: right;
+					}
+
+					& > span.slash-separator:before {
+						content: "/";
+					}
+
+					& > span.repo-project {
+						text-align: left;
+					}
+				}
+
+				@include media("<tablet") {
+					@include flex-column-center;
+
+					& > span.repo-org {
+						text-align: center;
+					}
+
+					& > span.slash-separator:before {
+						content: "―";
+					}
+
+					& > span.repo-project {
+						text-align: center;
+					}
+				}
+
+				&:hover {
+					color: map.get($theme, "foreground", "hex");
+				}
 
 				& > span {
 					word-wrap: anywhere;
@@ -51,37 +99,141 @@
 				& > span.repo-org {
 					width: 100%;
 					font-weight: 800;
-					text-align: right;
 				}
 
 				& > span.slash-separator {
 					margin: 0 0.5em;
-					width: 1em;
-					font-size: 2em;
-					font-weight: 500;
-					text-align: center;
+
+					&:before {
+						font-size: 2em;
+						font-weight: 500;
+						text-align: center;
+					}
 				}
 
 				& > span.repo-project {
 					width: 100%;
-					text-align: left;
 				}
 			}
 		}
 
-		& > .org {
-			grid-column: 4 / 4;
-		}
+		& > div.message {
+			grid-column: 3 / 3;
 
-		& > .message {
-			grid-column: 5 / 5;
+			@include flex-column-center;
+
+			@include override-modifiers {
+				text-align: left;
+			}
+
+			& p.message-text {
+				margin: 0;
+				width: 100%;
+				white-space: pre-line;
+			}
+
+			& > p.action-message {
+				color: $info-blue;
+				font-weight: 800;
+				text-align: center;
+				text-transform: capitalize;
+			}
+
+			& > ul.commit-container {
+				margin: 0;
+				padding-left: 1em;
+				list-style: disclosure-closed;
+
+				& > li.commit-message {
+					padding: 0.5em 0.25em;
+					white-space: pre-line;
+				}
+			}
 		}
 	}
 
 	& > .details {
 		display: grid;
-		grid-gap: 0;
-		grid-template-columns: auto auto auto;
+		grid-gap: 2px;
+		border-inline: 1em solid map.get($theme, "primary", "hex");
+		transition: height 0.2s ease;
+
+		@include no-overflow;
+
+		& > .commit-history {
+			display: grid;
+			grid-gap: 2px;
+			grid-template-columns: minmax(10em, 40em) minmax(5em, 30em) minmax(8em, 30em);
+
+			& > div {
+				background-color: map.get($theme, "accent", "hex");
+				color: map.get($theme, "foreground", "invert", "hex");
+
+				@include flex-column-center;
+
+				&.message-container {
+					justify-content: flex-start;
+
+					& > p.message {
+						white-space: pre-line;
+					}
+				}
+
+				& > p, & > a {
+					margin: 0;
+					padding: 1em;
+					width: 100%;
+				}
+
+				&.checksum-container > a.checksum, &.author-container > a.author {
+					color: map.get($theme, "foreground", "invert", "hex");
+					text-align: center;
+					text-decoration: none;
+					word-wrap: break-word;
+				}
+
+				& > a.checksum:hover, & > a.author:hover {
+					color: map.get($theme, "foreground", "hex");
+				}
+
+				&.author-container > a.author > span.author-name {
+					font-weight: 700;
+				}
+			}
+		}
+
+		& > a.event-summary {
+			padding: 1em;
+			background-color: map.get($theme, "alt-accent", "hex");
+			color: map.get($theme, "foreground", "hex");
+			text-decoration: none;
+
+			@include flex-row-evenly;
+
+			& > p {
+				margin: 0.5em;
+
+				& > span.title > img {
+					width: 1em;
+					filter: invert(1);
+					margin-inline: 0.5em;
+				}
+			}
+		}
+
+		& > div.no-details {
+			background-color: map.get($theme, "alt-accent", "hex");
+
+			@include flex-column-center;
+
+			& > p.no-details-text {
+				margin: 1em;
+				color: $info-blue;
+				font-weight: 800;
+				text-align: center;
+				text-transform: capitalize;
+			}
+		}
 	}
 }
 

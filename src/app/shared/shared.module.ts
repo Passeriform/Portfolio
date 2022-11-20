@@ -13,6 +13,7 @@ import { NavigatorComponent } from "./navigator/navigator.component";
 import { IconUriPipe } from "./pipes/icon-uri.pipe";
 import { RetainPipe } from "./pipes/retain.pipe";
 import { SplitByPipe } from "./pipes/split-by.pipe";
+import { BoldSpanPipe } from "./pipes/bold-span.pipe";
 import { EnvironmentPipe } from "./pipes/environment.pipe";
 import { WikiPipe } from "./pipes/wiki.pipe";
 import { SocialGlyphsComponent } from "./social-glyphs/social-glyphs.component";
@@ -23,23 +24,25 @@ import { SocialGlyphsComponent } from "./social-glyphs/social-glyphs.component";
 @NgModule({
 	declarations: [
 		// BreadcrumbComponent,
+		BoldSpanPipe,
 		CageGridComponent,
 		CageGridDirective,
 		EnvironmentPipe,
 		IconUriPipe,
 		NavigatorComponent,
 		OverlayComponent,
-		RetainPipe,
-		SplitByPipe,
-		ScrollableComponent,
 		PageNavComponent,
+		RetainPipe,
+		ScrollableComponent,
 		SocialGlyphsComponent,
+		SplitByPipe,
 		TooltipComponent,
 		TooltipDirective,
 		WikiPipe,
 	],
 	exports: [
 		// BreadcrumbComponent,
+		BoldSpanPipe,
 		CageGridComponent,
 		CageGridDirective,
 		CommonModule,
@@ -48,11 +51,11 @@ import { SocialGlyphsComponent } from "./social-glyphs/social-glyphs.component";
 		IconUriPipe,
 		NavigatorComponent,
 		OverlayComponent,
-		RetainPipe,
-		SplitByPipe,
-		ScrollableComponent,
 		PageNavComponent,
+		RetainPipe,
+		ScrollableComponent,
 		SocialGlyphsComponent,
+		SplitByPipe,
 		TooltipComponent,
 		TooltipDirective,
 		WikiPipe,

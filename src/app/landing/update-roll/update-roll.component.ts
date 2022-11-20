@@ -4,6 +4,7 @@ import { Component } from "@angular/core";
 import { Position } from "@shared/models/cardinals.interface";
 
 import type { GithubEvent } from "./github.interface";
+import { commitCategoryPattern, githubActionStringMap } from "./github.interface";
 import { GithubService } from "./github.service";
 
 type GithubEventUIState = GithubEvent & { expand?: boolean };
@@ -15,6 +16,7 @@ type GithubEventUIState = GithubEvent & { expand?: boolean };
 })
 export class UpdateRollComponent implements OnInit {
 	public readonly Position = Position;
+	public readonly commitCategoryPattern = commitCategoryPattern;
 
 	public updates: GithubEventUIState[];
 
@@ -34,6 +36,10 @@ export class UpdateRollComponent implements OnInit {
 		this.githubService.fetchUpdate$();
 	}
 
+	public textForAction(actionType: string): string {
+		return githubActionStringMap[actionType];
+	}
+
 	// TODO: Move this method out of class
 
 	public toggleDetails(entry: GithubEventUIState): void {
@@ -41,9 +47,7 @@ export class UpdateRollComponent implements OnInit {
 	}
 
 	public refresh(): void {
-
 		// TODO: Handle updates refresh.
-
 	}
 
 	public loadMore(after: number): void {
