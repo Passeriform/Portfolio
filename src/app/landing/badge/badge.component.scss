@@ -8,7 +8,8 @@
 
 		& > img {
 			width: 1.5em;
-			filter: invert(1);
+
+			@include invert-color;
 		}
 	}
 }
