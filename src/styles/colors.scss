@@ -35,11 +35,11 @@ $theme-registry: ("default": generate-color-swatch());
 	$secondary: #191919,
 	$accent: $primary,
 	$alt-accent: $accent,
-	$foreground: $accent,
+	$foreground: $primary,
 	$background: $secondary,
 	$canvas: $background,
 	$highlight: $accent,
-	$shadow: $secondary
+	$shadow: $alt-accent,
 ) {
 	$primary: map-merge-all(("hex": $primary), generate-accents($primary));
 	$secondary: map-merge-all(("hex": $secondary), generate-accents($secondary));
