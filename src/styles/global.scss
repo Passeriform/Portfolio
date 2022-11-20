@@ -1,6 +1,6 @@
 @use "sass:math";
 
-/* --------- Variables --------- */
+/* ========= Variables ========= */
 $scrollbar-colors: ("scrollbar": ("thumb": #4A4A4A99, "track": #24242499));
 
 $big-block-em: 12em;
@@ -9,6 +9,7 @@ $small-block-em: 6em;
 $shrink-leaf-em: 8em;
 $shrink-block-em: 4em;
 $minor-offset-rem: 1.25rem;
+$info-blue: #2196F3;
 
 /* --------- Header --------- */
 $header-size-em: $big-block-em;
