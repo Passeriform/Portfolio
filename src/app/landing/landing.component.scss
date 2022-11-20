@@ -11,7 +11,7 @@
 
 ::selector {
 	background: map.get($theme, "background", "invert", "hex");
-	foreground: map.get($theme, "foreground", "invert", "hex");
+	color: map.get($theme, "foreground", "invert", "hex");
 }
 
 :host {

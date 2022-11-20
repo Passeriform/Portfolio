@@ -166,3 +166,11 @@ export interface GithubEvent {
 }
 
 /* eslint-enable camelcase */
+
+export const githubActionStringMap = {
+	opened: "New Issue",
+	started: "Now Watching",
+	// TODO: Add other required actions
+};
+
+export const commitCategoryPattern = /^((\[[\w\s\|\,]+\]\s+)+|[\w\s\|\,]+\:)/;

@@ -6,31 +6,31 @@
 		[allowEndReveal]="true"
 		(pageChangeEvent)="handlePageChange($event)"
 	>
-  <div class="page splash" id="splash" #page>
-    <div class="bg-img-wrapper">
-      <div class="bg-img"></div>
-    </div>
-    <div class="content">
-      <h1>PASSERIFORM</h1>
+	<div class="page splash" id="splash" #page>
+		<div class="bg-img-wrapper">
+			<div class="bg-img"></div>
+		</div>
+		<div class="content">
+			<h1>PASSERIFORM</h1>
 			<!-- TODO: Consider using image in case unicode is unsupported -->
-      <app-sweeper i18n-leading [auto]="true" leading="❯">
-        <!-- TODO: Add sweepable directive with label for sweeped item number -->
-        <p #sweepable>A pseudonym for quality.</p>
+			<app-sweeper i18n-leading [auto]="true" leading="❯">
+				<!-- TODO: Add sweepable directive with label for sweeped item number -->
+				<p #sweepable>A pseudonym for quality.</p>
 				<!-- TODO: Add presence status UI -->
-        <p #sweepable>Status: Online</p>
+				<p #sweepable>Status: Online</p>
 				<!-- TODO: Add GodWit workon API -->
-        <p #sweepable>Working on <q>GodWit</q></p>
-      </app-sweeper>
-    </div>
-  </div>
+				<p #sweepable>Working on <q>GodWit</q></p>
+			</app-sweeper>
+		</div>
+	</div>
 
-  <div class="page" id="overview" #page>
-    <div class="bg-img-wrapper">
-      <div class="bg-img"></div>
-    </div>
-    <div class="content">
-    </div>
-  </div>
+	<div class="page" id="overview" #page>
+		<div class="bg-img-wrapper">
+			<div class="bg-img"></div>
+		</div>
+		<div class="content">
+		</div>
+	</div>
 
 	<div class="page" id="stats-view" #page>
 		<div class="bg-img-wrapper">
@@ -41,7 +41,7 @@
 				<div *appCaged="'Announcements'">
 					<p>&lt;Announcement list&gt;</p>
 				</div>
-				<div *appCaged="'Tracker'">
+				<div *appCaged="'Tracker'; animateContent: true">
 					<app-update-roll></app-update-roll>
 				</div>
 				<div *appCaged="'Todolist'">
@@ -51,11 +51,11 @@
 		</div>
 	</div>
 
-  <div class="page" id="map-view" #page>
-    <div class="bg-img-wrapper">
-      <div class="bg-img"></div>
-    </div>
+	<div class="page" id="map-view" #page>
+		<div class="bg-img-wrapper">
+			<div class="bg-img"></div>
+		</div>
 		<div class="content">
 		</div>
-  </div>
+	</div>
 </app-scrollable>
