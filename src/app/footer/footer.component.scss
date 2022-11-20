@@ -129,6 +129,14 @@ $linear-breakpoint: 42em;
 		& > h6 {
 			margin: 1em;
 			font-family: "Fira Code", monospace;
+
+			& img#chirpy-icon {
+				// HACK: Fix baseline alignment for image
+				margin-top: -0.2rem;
+
+				@include invert-color;
+				@include equal-dim(1.25rem);
+			}
 		}
 	}
 
@@ -152,9 +160,8 @@ $linear-breakpoint: 42em;
 				}
 
 				& > img {
-					width: 10em;
-					filter: invert(1);
-
+					@include invert-color;
+					@include equal-dim(10em);
 					@include layer(difference);
 				}
 
