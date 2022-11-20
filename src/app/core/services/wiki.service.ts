@@ -3,18 +3,18 @@ import { HttpClient } from "@angular/common/http";
 
 import type { Observable } from "rxjs";
 import { BehaviorSubject } from "rxjs";
-import { distinctUntilChanged, map, shareReplay, switchMap } from "rxjs/operators";
+import { map, shareReplay, switchMap, tap } from "rxjs/operators";
 
 import type { EntityRegistry } from "@shared/models/registry.interface";
-import { EntityIdentifier, registry, inverseGet } from "@shared/models/registry.interface";
+import { EntityIdentifier, inverseGet, registry } from "@shared/models/registry.interface";
 
-import type { WikiResponseModel, WikiResponsePage } from "./wiki.interface";
-import { INIT_WIKI_RESPONSE_PAGE, WikiEntry } from "./wiki.interface";
+import type { WikiEntry, WikiResponseModel, WikiResponsePage } from "./wiki.interface";
+import { INIT_WIKI_RESPONSE_PAGE } from "./wiki.interface";
 
 @Injectable()
 export class WikiService {
-	private readonly wikiEntriesSubject = new BehaviorSubject<Record<string, Observable<WikiEntry>>>({});
-	private readonly wikiEntryState$ = this.wikiEntriesSubject.asObservable();
+	private readonly wikiEntriesSubject$ = new BehaviorSubject<Record<string, Observable<WikiEntry> | undefined>>({});
+	private readonly wikiEntryState$ = this.wikiEntriesSubject$.asObservable();
 
 	// TODO: Move this method out of class
 
@@ -92,16 +92,19 @@ export class WikiService {
 
 	constructor(private readonly http: HttpClient) { }
 
-	public getWikiDetails(entryKey: string): Observable<WikiEntry> {
-		let wikiEntry: Observable<WikiEntry> = this.wikiEntriesSubject.value[entryKey];
-
-		if (wikiEntry) {
-			return wikiEntry;
-		}
-
-		wikiEntry = this.fetchWikiDetails(entryKey)
-
-		this.wikiEntriesSubject.next({ ...this.wikiEntriesSubject.value, [entryKey]: wikiEntry })
-		return wikiEntry;
+	public getWikiDetail$(entryKey: string): Observable<WikiEntry> {
+		return this.wikiEntryState$.pipe(
+			map(
+				(entries: Record<string, Observable<WikiEntry> | undefined>) => entries[entryKey] ?? this.fetchWikiDetails(entryKey),
+			),
+			tap((entry$: Observable<WikiEntry>) => {
+				this.wikiEntriesSubject$.next({
+					// eslint-disable-next-line rxjs/no-subject-value
+					...this.wikiEntriesSubject$.value,
+					[entryKey]: entry$,
+				});
+			}),
+			switchMap((entry$: Observable<WikiEntry>) => entry$),
+		);
 	}
 }
