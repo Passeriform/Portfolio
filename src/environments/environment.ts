@@ -7,9 +7,8 @@ export const environment: {
 	readonly githubEventsApiUrl: string;
 	readonly production: boolean;
 } = {
-	/* eslint-disable-next-line unicorn/string-content */
 	apiUrl: "http://localhost:3000",
-	blogUrl: "http://blog.passeriform.com",
+	blogUrl: "https://blog.passeriform.com",
 	githubEventsApiUrl: "https://api.github.com/users/Passeriform/events",
 	production: false,
 };

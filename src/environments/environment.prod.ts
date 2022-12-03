@@ -4,7 +4,7 @@ export const environment: {
 	readonly githubEventsApiUrl: string;
 	readonly production: boolean;
 } = {
-	apiUrl: "https://passeriform-portfolio-api.herokuapp.com",
+	apiUrl: "https://api.portfolio.passeriform.com",
 	blogUrl: "http://blog.passeriform.com",
 	githubEventsApiUrl: "https://api.github.com/users/Passeriform/events",
 	production: true,
