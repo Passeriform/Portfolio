@@ -62,3 +62,13 @@
 @function css-clamp($process-params...) {
 	@return css-function("clamp", $process-params...)
 }
+
+@function str-replace($string, $search, $replace) {
+  $idx: str-index($string, $search);
+
+  @if $idx {
+    @return str-slice($string, 1, $idx - 1) + $replace + str-replace(str-slice($string, $idx + str-length($search)), $search, $replace);
+  }
+
+  @return $string;
+}

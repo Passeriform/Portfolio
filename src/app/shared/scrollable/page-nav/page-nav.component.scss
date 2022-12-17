@@ -232,11 +232,11 @@ $traveller-arrow-shapes: (
 			}
 
 			& > ul.page-nav-container > li.page-nav-entry > a.page-nav-link {
-				@at-root #{selector-replace(&, ":host", ":host.continuous")} {
+				@at-root #{str-replace("#{&}", ":host", ":host.continuous")} {
 					@include continuous-nav-link($inset-type);
 				}
 
-				@at-root #{selector-replace(&, ":host", ":host.discrete")} {
+				@at-root #{str-replace("#{&}", ":host", ":host.discrete")} {
 					@include discrete-nav-link($inset-type);
 				}
 			}
@@ -271,18 +271,18 @@ $traveller-arrow-shapes: (
 
 				@include equal-dim($nav-link-dot-size);
 
-				@at-root #{selector-replace(&, ":host", ":host.continuous")} {
+				@at-root #{str-replace("#{&}", ":host", ":host.continuous")} {
 					@include continuous-traveller($inset-type);
 
-					@at-root #{selector-replace(&, ":host", ":host.expanded")} {
+					@at-root #{str-replace("#{&}", ":host", ":host.expanded")} {
 						border-radius: $nav-link-dot-size;
 					}
 				}
 
-				@at-root #{selector-replace(&, ":host", ":host.discrete")} {
+				@at-root #{str-replace("#{&}", ":host", ":host.discrete")} {
 					@include discrete-traveller($inset-type);
 
-					@at-root #{selector-replace(&, ":host", ":host.expanded")} {
+					@at-root #{str-replace("#{&}", ":host", ":host.expanded")} {
 						@include circle-border;
 					}
 				}
