@@ -3,9 +3,10 @@ import type { AfterViewInit } from "@angular/core";
 
 import { Observable } from "rxjs";
 
+import { FuzzyAnalyzer } from "@shared/injectables/fuzzy-analyzer";
+
 import { Constants } from "./dynamic-search.config";
 import type { RankedEntry } from "./dynamic-search.interface";
-import { FuzzyAnalyzer } from "./fuzzy-analyzer";
 
 @Component({
 	providers: [ FuzzyAnalyzer ],
