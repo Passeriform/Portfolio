@@ -1,16 +1,19 @@
-// TODO: Remove lag from scroll/swipe.
+import type { AfterContentInit, AfterViewInit } from "@angular/core";
+import { Component, ContentChildren, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, QueryList } from "@angular/core";
 
-import type { AfterContentInit, AfterViewInit, QueryList } from "@angular/core";
-import { Component, ContentChildren, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output } from "@angular/core";
-
-import type { Observable } from "rxjs";
-import { NEVER, concat, fromEvent, identity, merge } from "rxjs";
-import { bufferCount, filter, map, pluck, repeat, take, takeUntil, throttleTime } from "rxjs/operators";
+import { EMPTY, Observable } from "rxjs";
+import { NEVER, fromEvent, identity, merge } from "rxjs";
+import { filter, map, startWith, switchMap, throttleTime } from "rxjs/operators";
 
 import { Orientation, Position } from "@shared/models/cardinals.interface";
-import { PageEndRevealService } from "@core/services/page-end-reveal.service";
+import { PageRevealService } from "@app/core/services/page-reveal.service";
+import { pluck } from "@utility/rxjs";
 
+import { transitionEndEvents, transitionStartEvents } from './scrollable.interface';
 import { Constants } from "./scrollable.config";
+import { fromMotionEvent, selfTargetFilter } from '@utility/events';
+
+// TODO: Remove lag from scroll/swipe.
 
 // TODO: Modify member utility function to exported free functions and move out to separate utility file.
 
@@ -25,19 +28,19 @@ import { Constants } from "./scrollable.config";
 })
 export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	// TODO: Throw error if nestedScroll is enabled without fullpage
-	@Input() private readonly nestedScroll = false;
-	@Input() private readonly sensitivity = Constants.SENSITIVITY_DEFAULT;
-	@Input() private readonly throttle = Constants.THROTTLE_DEFAULT;
-	@Input() private readonly smoothScroll = Constants.SMOOTH_SCROLL_DEFAULT;
+	@Input() private readonly nestedScroll: boolean = false;
+	@Input() private readonly sensitivity: number = Constants.SENSITIVITY_DEFAULT;
+	@Input() private readonly throttle: number = Constants.THROTTLE_DEFAULT;
+	@Input() private readonly smoothScroll: boolean = Constants.SMOOTH_SCROLL_DEFAULT;
 	@Input() private readonly allowStartReveal: boolean;
 	@Input() private readonly allowEndReveal: boolean;
 	@Input() private startRevealElement: HTMLElement;
 	@Input() private endRevealElement: HTMLElement;
-	@Input() public readonly orientation = Constants.ORIENTATION_DEFAULT;
-	@Input() public readonly showPageNav = false;
-	@Input() public delta = Constants.DELTA_DEFAULT;
-	@Input() public endReveal = false;
-	@Input() public startReveal = false;
+	@Input() public readonly orientation: Orientation = Constants.ORIENTATION_DEFAULT;
+	@Input() public readonly showPageNav: boolean = false;
+	@Input() public delta: number = Constants.DELTA_DEFAULT;
+	@Input() public endReveal: boolean = false;
+	@Input() public startReveal: boolean = false;
 	@Input() public readonly pageNavPosition: Position;
 	@Input() public readonly fullpage: boolean;
 	@Input() public readonly pageResetTrigger$: Observable<void>;
@@ -52,53 +55,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	public pageIndex: number = Constants.INITIAL_PAGE_INDEX;
 	public pageNavTravelFactor: number = 0;
 	private maxScrollableSize: number;
-
-	// Scroll Parameters
-	private readonly scrollThreshold: number = Constants.SCROLL_THRESHOLD;
-	private readonly scrollScalingFactor: number = Constants.SCROLL_SCALING_FACTOR;
-
-	// Swipe distance in pixels
-	private readonly swipeThreshold: number = Constants.SWIPE_THRESHOLD;
-	private readonly swipeScalingFactor: number = Constants.SWIPE_SCALING_FACTOR;
-
-	private readonly transitionStartEvents: readonly string[] = [
-		"transitionstart",
-		"oTransitionStart",
-		"webkitTransitionStart",
-	];
-
-	private readonly transitionEndEvents: readonly string[] = [
-		"transitionend",
-		"oTransitionEnd",
-		"webkitTransitionEnd",
-	];
-
-	private readonly transitionStartStream$ = this.transitionStartEvents.map(
-		(eventName: string) => merge(
-			fromEvent(this.hostElement.nativeElement as EventTarget, eventName),
-			this.allowStartReveal
-				? this.getStartRevealElementEvent(eventName) as Observable<TransitionEvent>
-				: NEVER,
-			this.allowEndReveal
-				? this.getEndRevealElementEvent(eventName) as Observable<TransitionEvent>
-				: NEVER,
-		).pipe(
-			filter(
-				(event: Event) => event.target === this.hostElement.nativeElement,
-			),
-		),
-	);
-
-	private readonly transitionEndStream$ = this.transitionEndEvents.map(
-		(eventName: string) => fromEvent(this.hostElement.nativeElement as EventTarget, eventName).pipe(
-			filter(
-				(event: Event) => event.target === this.hostElement.nativeElement,
-			),
-		),
-	);
-
-	private scrollStream$: Observable<number>;
-	private swipeStream$: Observable<number>;
+	private readonly threshold: number = Constants.THRESHOLD;
 
 	@HostListener("window:resize")
 	public onResize(): void {
@@ -219,24 +176,6 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		this.pageNavTravelFactor = this.delta / ((this.items.length - 1) * (this.items.get(0)?.nativeElement?.clientWidth ?? 0));
 	}
 
-	private readonly getStartRevealElementEvent = (listener: string): Observable<Event> => {
-		const eventCapturer = this.startRevealElement.firstChild as HTMLElement;
-
-		return fromEvent(eventCapturer, listener)
-			.pipe(
-				filter(() => eventCapturer[this.orientation === Orientation.HORIZONTAL ? "scrollLeft" : "scrollTop"] === this.getViewSize(eventCapturer)),
-			);
-	};
-
-	private readonly getEndRevealElementEvent = (listener: string): Observable<Event> => {
-		const eventCapturer = this.endRevealElement.firstChild as HTMLElement;
-
-		return fromEvent(eventCapturer, listener)
-			.pipe(
-				filter(() => eventCapturer[this.orientation === Orientation.HORIZONTAL ? "scrollLeft" : "scrollTop"] === 0),
-			);
-	};
-
 	private readonly getViewSize = (element: HTMLElement): number => element[
 		`${
 			this.nestedScroll ? "client" : "offset"
@@ -277,43 +216,64 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		return (scrollableSize - elementSize) === scrolled;
 	};
 
-	private readonly applyScrollOptimization = (
-			scrollStream$: Observable<WheelEvent>,
-	): Observable<number> => scrollStream$
-		.pipe(
-			pluck(this.orientation === Orientation.HORIZONTAL ? "deltaX" : "deltaY"),
-			filter((difference: number) => Math.abs(difference) >= Math.abs(this.scrollThreshold)),
-			filter(this.nestedScrollFilter),
+  private readonly subscribeShiftStream$ = () => {
+    const shiftStream$ = merge(
+      fromMotionEvent(this.hostElement.nativeElement, this.orientation).pipe(
+        filter((difference: number) => Math.abs(difference) >= Math.abs(this.threshold)),
+        filter(this.nestedScrollFilter),
+        this.smoothScroll ? identity : throttleTime(this.throttle),
+      ),
+      this.allowStartReveal && this.startRevealElement.firstChild
+        ? fromMotionEvent(this.startRevealElement.firstChild as HTMLElement, this.orientation).pipe(
+            filter(() => (this.endRevealElement.firstChild as HTMLElement)[this.orientation === Orientation.HORIZONTAL ? "scrollLeft" : "scrollTop"] === this.getViewSize(this.endRevealElement.firstChild as HTMLElement)),
+            filter((difference: number) => Math.abs(difference) >= Math.abs(this.threshold)),
+            filter(this.nestedScrollFilter),
+            this.smoothScroll ? identity : throttleTime(this.throttle),
+          )
+        : NEVER,
+        this.allowEndReveal && this.endRevealElement.firstChild
+        ? fromMotionEvent(this.endRevealElement.firstChild as HTMLElement, this.orientation).pipe(
+            filter(() => (this.endRevealElement.firstChild as HTMLElement)[this.orientation === Orientation.HORIZONTAL ? "scrollLeft" : "scrollTop"] === 0),
+            filter((difference: number) => Math.abs(difference) >= Math.abs(this.threshold)),
+            filter(this.nestedScrollFilter),
+            this.smoothScroll ? identity : throttleTime(this.throttle),
+          )
+        : NEVER,
+    )
+
+		const transitionStartStreams$ = transitionStartEvents.map(
+      (eventName) => fromEvent<TransitionEvent>(this.hostElement.nativeElement as HTMLElement, eventName).pipe(
+        selfTargetFilter(this.hostElement.nativeElement),
+      ),
 		);
 
-	// TODO: Use pluck wherever necessary.
-	private readonly applySwipeOptimization = (
-			swipeStream$: Observable<TouchEvent>,
-			element: HTMLElement,
-	): Observable<number> => swipeStream$
-		.pipe(
-			pluck("touches"),
-			map(([ touch ]: TouchList) => touch),
-			map(
-				(touch: Touch | undefined) => this.orientation === Orientation.HORIZONTAL
-					? touch?.pageX ?? 0
-					: touch?.pageY ?? 0,
-			),
-			bufferCount(2, 1),
-			map(([ init, end ]: [ number, number ]) => init - end),
-			takeUntil(
-				concat(
-					fromEvent(element, "touchend").pipe(take(1)),
-					fromEvent(element, "touchstart").pipe(take(1)),
-				),
-			),
-			filter((difference: number) => Math.abs(difference) >= Math.abs(this.swipeThreshold)),
-			repeat(),
+		const transitionEndStreams$ = transitionEndEvents.map(
+      (eventName) => fromEvent<TransitionEvent>(this.hostElement.nativeElement as EventTarget, eventName).pipe(
+        selfTargetFilter(this.hostElement.nativeElement)
+      ),
+    );
+
+    const scrollStreamToggle$ = merge(
+      merge(...transitionStartStreams$).pipe(map(() => false)),
+      merge(...transitionEndStreams$).pipe(map(() => true)),
+    ).pipe(startWith(true));
+
+    scrollStreamToggle$.pipe(
+      switchMap(
+        (allowEvents) => allowEvents
+          ? shiftStream$
+          : EMPTY
+      )
+    ).subscribe(
+			(shiftAmt: number) => {
+				this.pageShift(shiftAmt);
+			},
 		);
+  }
 
 	constructor(
 			private readonly hostElement: ElementRef,
-			private readonly pageEndRevealService: PageEndRevealService,
+			private readonly pageRevealService: PageRevealService,
 	) { }
 
 	ngAfterContentInit() {
@@ -332,71 +292,17 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		this.computeDeltaIfFullpage();
 		this.computePageNavTravelFactor();
 
-		this.pageResetTrigger$?.subscribe(() => this.setActivePageIndex(0));
+		this.pageResetTrigger$?.subscribe(() => this.pageReset());
 
-		this.pageEndRevealService.pageEndRevealElement$.subscribe((pageEndRevealElement: HTMLElement) => {
-			this.endRevealElement = pageEndRevealElement!;
+		this.pageRevealService.pageStartRevealElement$.subscribe((pageStartRevealElement: HTMLElement) => {
+			this.startRevealElement = pageStartRevealElement;
 		});
 
-		// TODO: Add mousewheel, mousescroll, scroll, events to merge
-		this.scrollStream$ = merge(
-			this.applyScrollOptimization(
-				fromEvent<WheelEvent>(this.hostElement.nativeElement as HTMLElement, "wheel"),
-			),
-			this.allowStartReveal
-				? this.applyScrollOptimization(
-					this.getStartRevealElementEvent("wheel") as Observable<WheelEvent>,
-				).pipe(
-					filter((shiftAmt: number) => shiftAmt > 0),
-				)
-				: NEVER,
-			this.allowEndReveal
-				? this.applyScrollOptimization(
-					this.getEndRevealElementEvent("wheel") as Observable<WheelEvent>,
-				).pipe(
-					filter((shiftAmt: number) => shiftAmt < 0),
-				)
-				: NEVER,
-		).pipe(
-			map((shiftAmt: number) => shiftAmt / this.scrollScalingFactor),
-			this.smoothScroll ? identity : throttleTime(this.throttle),
-		);
+		this.pageRevealService.pageEndRevealElement$.subscribe((pageEndRevealElement: HTMLElement) => {
+			this.endRevealElement = pageEndRevealElement;
+		});
 
-		this.swipeStream$ = merge(
-			this.applySwipeOptimization(
-				fromEvent<TouchEvent>(this.hostElement.nativeElement as HTMLElement, "touchmove"),
-				this.hostElement.nativeElement as HTMLElement,
-			),
-			this.allowStartReveal
-				? this.applySwipeOptimization(
-					this.getStartRevealElementEvent("touchmove") as Observable<TouchEvent>,
-					this.startRevealElement,
-				).pipe(
-					filter((shiftAmt: number) => shiftAmt > 0),
-				)
-				: NEVER,
-			this.allowEndReveal
-				? this.applySwipeOptimization(
-					this.getEndRevealElementEvent("touchmove") as Observable<TouchEvent>,
-					this.endRevealElement,
-				).pipe(
-					filter((shiftAmt: number) => shiftAmt < 0),
-				)
-				: NEVER,
-		).pipe(
-			map((shiftAmt: number) => shiftAmt / this.swipeScalingFactor),
-			this.smoothScroll ? identity : throttleTime(this.throttle),
-		);
-
-		merge(this.scrollStream$, this.swipeStream$).subscribe(
-			(shiftAmt: number) => {
-				this.pageShift(shiftAmt);
-			},
-		);
-
-		// TODO: Race with existing streams
-		merge(...this.transitionStartStream$).subscribe();
-		merge(...this.transitionEndStream$).subscribe();
+    this.subscribeShiftStream$();
 	}
 
 	public get scrollableTransform(): string {
