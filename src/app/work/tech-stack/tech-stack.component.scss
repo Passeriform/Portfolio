@@ -1,4 +1,7 @@
+@use "sass:map";
 @use "modifiers" as *;
+
+@import "./tech-stack.colors";
 
 :host {
 	& .model-attr {
@@ -26,7 +29,11 @@
 }
 
 .techstack-tooltip-content {
-	& p {
+  text-decoration: none;
+
+
+	& > p {
+    color: map.get($theme, "foreground", "invert", "hex");
 		text-transform: capitalize;
-	}
+  }
 }

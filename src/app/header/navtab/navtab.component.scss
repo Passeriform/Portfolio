@@ -27,7 +27,7 @@ $stack-order: (
 			@include layer(difference);
 			@include content-fix;
 			@include full-perc-size;
-      @include shape(["skewed-pentagon", "top"], ("first": 35%, "second": 15%, "peak-shift": 70%));
+      @include shape(["skewed-pentagon", "top"], ("first": 0, "second": 0, "peak-shift": 50%));
 
 			@include override-modifiers {
 				width: 80%;
@@ -36,6 +36,8 @@ $stack-order: (
 
 		&:hover > a:after {
 			transform: scaleY(1);
+
+      @include shape(["skewed-pentagon", "top"], ("first": 35%, "second": 15%, "peak-shift": 70%));
 		}
 	}
 }
@@ -107,12 +109,14 @@ $stack-order: (
 				background-color: map.get($theme, "background", "hex");
 
 				@include layer(overlay);
-        @include shape(["skewed-pentagon", "top"], ("first": 20%, "second": 35%, "peak-shift": 25%));
+        @include shape(["skewed-pentagon", "top"], ("first": 0, "second": 0, "peak-shift": 50%));
 			}
 		}
 
 		&:hover > a:before {
 			transform: scaleY(1);
+
+        @include shape(["skewed-pentagon", "top"], ("first": 20%, "second": 35%, "peak-shift": 25%));
 		}
 	}
 }
