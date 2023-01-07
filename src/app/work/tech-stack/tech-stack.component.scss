@@ -1,5 +1,6 @@
 @use "sass:map";
 @use "modifiers" as *;
+@use "shapes" as *;
 
 @import "./tech-stack.colors";
 
@@ -28,9 +29,23 @@
 	}
 }
 
+.techstack-tooltip-loading {
+  padding: 1em 2em;
+}
+
 .techstack-tooltip-content {
   text-decoration: none;
 
+  & > * {
+    padding: 1em 2em;
+  }
+
+  & > h5 {
+    color: map.get($theme, "foreground", "hex");
+    background: map.get($theme, "background", "hex");
+
+    @include shape(["skewed-pentagon", "bottom"], ("first": 85%, "second": 75%, "peak-shift": 15%));
+  }
 
 	& > p {
     color: map.get($theme, "foreground", "invert", "hex");

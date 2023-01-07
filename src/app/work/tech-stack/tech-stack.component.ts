@@ -2,6 +2,8 @@ import { Component, Input } from "@angular/core";
 
 import { Position } from "@shared/models/cardinals.interface";
 
+import { TechStackModel } from "./tech-stack.interface";
+
 @Component({
 	selector: "app-tech-stack",
 	styleUrls: [ "./tech-stack.component.scss" ],
@@ -10,7 +12,5 @@ import { Position } from "@shared/models/cardinals.interface";
 export class TechStackComponent {
 	public readonly Position = Position;
 
-	@Input() public readonly model: readonly Record<string, unknown>[];
-
-	public readonly tooltipShownFor: string;
+	@Input() public readonly model: TechStackModel;
 }
