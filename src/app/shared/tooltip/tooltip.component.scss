@@ -79,11 +79,13 @@ $tooltip-arrow-size-em: 1em;
 	& > .tooltip-internal {
 		position: absolute;
 		box-sizing: border-box;
-		padding: 1em 2em;
-		max-width: $tooltip-window-width-em;
 		box-shadow: 0 0 5px -3px map.get($theme, "shadow", "hex");
 
-		@include max-content-width;
+		@include max-content-width($tooltip-window-width-em);
+
+    &.content-padding {
+      padding: 1em 2em;
+    }
 
 		&:after {
 			position: absolute;
