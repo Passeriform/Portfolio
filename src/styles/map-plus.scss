@@ -1,11 +1,11 @@
-@import "list-plus";
+@use "list-plus";
 
-@function map-deep-set($map, $keys, $value) {
+@function deep-set($map, $keys, $value) {
 	$maps: ($map,);
 	$result: null;
 
 	@if type-of(nth($keys, -1)) == "map" {
-		@warn "The last key you specified is a map; it will be overrided with `#{$value}`.";
+		@warn "The last key specified is a map; it will be overriden by `#{$value}`.";
 	}
 
 	@if length($keys) == 1 {
@@ -34,13 +34,13 @@
 	@return $result;
 }
 
-@function map-merge-recursive($map1, $map2, $config:()) {
+@function merge-recursive($map1, $map2, $config:()) {
 	@if (type-of($map1) == map or (type-of($map1) == list and length($map1) == 0)) and (type-of($map2) == map or (type-of($map2) == list and length($map2) == 0)) {
 		$result: $map1;
 
 		@each $key, $value in $map2 {
 			@if (type-of(map-get($result, $key)) == map and type-of($value) == map) {
-				$result: map-merge($result, ($key: map-merge-recursive(map-get($result, $key), $value)));
+				$result: map-merge($result, ($key: merge-recursive(map-get($result, $key), $value)));
 			} @else if (map-get($config, "merge-lists") and type-of(map-get($result, $key)) == list and type-of($value) == list) {
 				$result: map-merge($result, ($key: join(map-get($result, $key), $value)));
 			} @else {
@@ -56,15 +56,15 @@
 	}
 }
 
-@function map-merge-all($map-collector, $arg-maps...) {
+@function merge-all($map-collector, $arg-maps...) {
 	@if length($arg-maps) > 1 {
-		$leftover: list-slice($arg-maps, 2, length($arg-maps));
+		$leftover: list-plus.slice($arg-maps, 2, length($arg-maps));
 
-		$merged: map-merge-all(nth($arg-maps, 1), $leftover...);
+		$merged: merge-all(nth($arg-maps, 1), $leftover...);
 
 		$map-collector: map-merge($map-collector, $merged);
 	} @else {
-		$map-collector: map-merge-recursive($map-collector, nth($arg-maps, 1));
+		$map-collector: merge-recursive($map-collector, nth($arg-maps, 1));
 	}
 
 	@return $map-collector;

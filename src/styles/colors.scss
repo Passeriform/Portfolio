@@ -1,7 +1,6 @@
 @use "sass:map";
 @use "sass:math";
-
-@import "map-plus";
+@use "map-plus";
 
 /// Global registry for persistent use
 $theme-registry: ("default": generate-color-swatch());
@@ -41,15 +40,15 @@ $theme-registry: ("default": generate-color-swatch());
 	$highlight: $accent,
 	$shadow: $alt-accent,
 ) {
-	$primary: map-merge-all(("hex": $primary), generate-accents($primary));
-	$secondary: map-merge-all(("hex": $secondary), generate-accents($secondary));
-	$accent: map-merge-all(("hex": $accent), generate-accents($accent));
-	$alt-accent: map-merge-all(("hex": $alt-accent), generate-accents($alt-accent));
-	$foreground: map-merge-all(("hex": $foreground), generate-accents($foreground));
-	$background: map-merge-all(("hex": $background), generate-accents($background));
-	$canvas: map-merge-all(("hex": $canvas), generate-accents($canvas));
-	$highlight: map-merge-all(("hex": $highlight), generate-accents($highlight));
-	$shadow: map-merge-all(("hex": $shadow), generate-accents($shadow));
+	$primary: map-plus.merge-all(("hex": $primary), generate-accents($primary));
+	$secondary: map-plus.merge-all(("hex": $secondary), generate-accents($secondary));
+	$accent: map-plus.merge-all(("hex": $accent), generate-accents($accent));
+	$alt-accent: map-plus.merge-all(("hex": $alt-accent), generate-accents($alt-accent));
+	$foreground: map-plus.merge-all(("hex": $foreground), generate-accents($foreground));
+	$background: map-plus.merge-all(("hex": $background), generate-accents($background));
+	$canvas: map-plus.merge-all(("hex": $canvas), generate-accents($canvas));
+	$highlight: map-plus.merge-all(("hex": $highlight), generate-accents($highlight));
+	$shadow: map-plus.merge-all(("hex": $shadow), generate-accents($shadow));
 
 	$primitive-map: (
 		"primary": $primary,
@@ -88,7 +87,7 @@ $theme-registry: ("default": generate-color-swatch());
 			)
 		);
 
-		$shades-and-tints: map-merge-all($shades-and-tints, $shade, $tint);
+		$shades-and-tints: map-plus.merge-all($shades-and-tints, $shade, $tint);
 	}
 
 	@return map-merge($shades-and-tints, ("invert": ("hex": invert($color))));
