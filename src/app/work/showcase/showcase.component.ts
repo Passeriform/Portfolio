@@ -8,6 +8,7 @@ import { Orientation, Position } from "@shared/models/cardinals.interface";
 
 import type { WorkModel } from "../work.interface";
 import { WorkService } from "../services/work.service";
+import { EXPANDED_HEIGHT_THRESHOLD } from "./showcase.config";
 
 @Component({
 	selector: "app-showcase",
@@ -64,7 +65,7 @@ export class ShowcaseComponent implements OnInit {
 			)
 			: 0;
 
-		this.showExpanded = windowHeight > 32;
+		this.showExpanded = windowHeight > EXPANDED_HEIGHT_THRESHOLD;
 	}
 
 	public setSelected(entry: WorkModel): void {
