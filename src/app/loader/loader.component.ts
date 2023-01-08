@@ -1,6 +1,6 @@
 import { Component, HostBinding } from "@angular/core";
 
-import { AnimationState } from "./loader.config";
+import { AnimationState } from "./models/loader.interface";
 
 @Component({
 	selector: "app-loader",
@@ -10,7 +10,8 @@ import { AnimationState } from "./loader.config";
 export class LoaderComponent {
 	public animationState: AnimationState = AnimationState.STOPPED;
 
-	@HostBinding("class.show") public get canvasDisplay(): boolean {
+	@HostBinding("class.show")
+	public get canvasDisplay(): boolean {
 		return this.animationState !== AnimationState.STOPPED;
 	}
 }

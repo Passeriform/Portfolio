@@ -1,10 +1,4 @@
-import type { LoaderConfig } from "../loader.interface";
-
-export enum AnimationState {
-	STOPPED,
-	RUNNING,
-	RESOLVING,
-}
+import type { LoaderConfig } from "../models/loader.interface";
 
 export type HarmonicLoaderConfig = LoaderConfig & {
 	readonly amplitude: number;

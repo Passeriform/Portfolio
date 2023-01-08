@@ -7,14 +7,26 @@ import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
 
 import { CanvasService } from "@core/services/canvas.service";
 
-import { LoadingState } from "../loader.interface";
+import { AnimationState, LoadingState } from "../models/loader.interface";
 import { Constants, generateLoaderConfig } from "./harmonic-loader.config";
 import type { HarmonicLoaderConfig } from "./harmonic-loader.interface";
 import { percToPhaseAngle } from "./harmonic-loader.helper";
-import { AnimationState } from "../loader.config";
+import type { LoadingJob } from "../services/loader.service";
+import { LoaderService } from "../services/loader.service";
 import { LoaderComponent } from "../loader.component";
-import type { LoadingJob } from "../loader.service";
-import { LoaderService } from "../loader.service";
+
+
+const getDotsXPos = (splitDistance: number): readonly number[] => {
+	// TODO: Fix magic numbers
+	const dotsCount: number = Math.floor(window.innerWidth / splitDistance);
+	const splitLocs: readonly number[] = Array.from({ length: dotsCount })
+		.fill(0)
+		.map(
+			(_, index: number) => splitDistance * (index - ((dotsCount - 0.5) / 2)),
+		);
+
+	return splitLocs;
+};
 
 @Component({
 	selector: "app-harmonic-loader",
@@ -32,13 +44,13 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 		static: true,
 	}) private readonly loaderCanvas: ElementRef<HTMLCanvasElement>;
 
-	public retarder: number = Constants.DEFAULT_RETARDER;
 	public animStartFrame: number;
 	public context?: CanvasRenderingContext2D;
 	public dotsXPos: readonly number[];
 	public loaderConfig: HarmonicLoaderConfig;
 	public loaderPerc: number;
 	public loadingJobsState: readonly LoadingJob[];
+	public retarder: number = Constants.DEFAULT_RETARDER;
 
 	/*
 	 * TODO: Move into canvas and resize logic into CanvasService
@@ -61,18 +73,6 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 				this.loaderPerc = loadedPercentage;
 			},
 		);
-	}
-
-	private getDotsXPos(splitDist: number): readonly number[] {
-		// TODO: Fix magic numbers
-		const dotsCount: number = Math.floor(window.innerWidth / splitDist);
-		const splitLocs: readonly number[] = Array.from({ length: dotsCount })
-			.fill(0)
-			.map(
-				(_, index: number) => splitDist * (index - ((dotsCount - 0.5) / 2)),
-			);
-
-		return splitLocs;
 	}
 
 	private drawSineDot(
@@ -102,36 +102,6 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 
 		return timestamp - this.animStartFrame;
 	}
-
-	private readonly tick = (timestamp: number): void => {
-		const elapsed: number = this.getElapsedTime(timestamp);
-
-		this.context?.clearRect(0, 0, this.loaderCanvas.nativeElement.width, this.loaderCanvas.nativeElement.height);
-
-		this.dotsXPos.forEach((dotXPos: number, index: number) => {
-			this.drawSineDot({
-				amplitude: this.loaderConfig.amplitude,
-				color: `hsl(241, 30%, ${(index * 2) + 50}%)`,
-				dotXPos,
-				phi: this.loaderConfig.basePhase,
-				time: elapsed,
-			});
-			this.drawSineDot({
-				amplitude: this.loaderConfig.amplitude,
-				color: `hsl(241, 30%, ${(index * 2) + 1 + 50}%)`,
-				dotXPos: dotXPos + (this.loaderConfig.dotsDist / 2),
-				phi: this.loaderConfig.basePhase + percToPhaseAngle(this.loaderPerc),
-				time: elapsed,
-			});
-		});
-
-		if (this.loaderService.areAllJobsCompleted) {
-			this.animationState = AnimationState.RESOLVING;
-			window.requestAnimationFrame(this.resolveDots);
-		} else {
-			window.requestAnimationFrame(this.tick);
-		}
-	};
 
 	private readonly resolveDots = (timestamp: number): void => {
 		const elapsed: number = this.getElapsedTime(timestamp);
@@ -165,6 +135,36 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 		}
 	};
 
+	private readonly tick = (timestamp: number): void => {
+		const elapsed: number = this.getElapsedTime(timestamp);
+
+		this.context?.clearRect(0, 0, this.loaderCanvas.nativeElement.width, this.loaderCanvas.nativeElement.height);
+
+		this.dotsXPos.forEach((dotXPos: number, index: number) => {
+			this.drawSineDot({
+				amplitude: this.loaderConfig.amplitude,
+				color: `hsl(241, 30%, ${(index * 2) + 50}%)`,
+				dotXPos,
+				phi: this.loaderConfig.basePhase,
+				time: elapsed,
+			});
+			this.drawSineDot({
+				amplitude: this.loaderConfig.amplitude,
+				color: `hsl(241, 30%, ${(index * 2) + 1 + 50}%)`,
+				dotXPos: dotXPos + (this.loaderConfig.dotsDist / 2),
+				phi: this.loaderConfig.basePhase + percToPhaseAngle(this.loaderPerc),
+				time: elapsed,
+			});
+		});
+
+		if (this.loaderService.areAllJobsCompleted) {
+			this.animationState = AnimationState.RESOLVING;
+			window.requestAnimationFrame(this.resolveDots);
+		} else {
+			window.requestAnimationFrame(this.tick);
+		}
+	};
+
 	ngAfterViewInit() {
 		this.canvasService.setCanvasElement(this.loaderCanvas);
 
@@ -187,10 +187,10 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 					);
 
 				// Only trigger when new labels are found to be queued
-				if (Array.isArray(initiationLabels) && initiationLabels.length > 0) {
+				if (initiationLabels.length > 0) {
 					this.loaderService.setAnimationStart(initiationLabels);
 
-					// Only triggers when jobs aren"t all loaded and animation is not running
+					// Only triggers when jobs aren't all loaded and animation is not running
 					if (
 						!this.loaderService.areAllJobsCompleted
 						&& this.animationState === AnimationState.STOPPED
@@ -200,6 +200,14 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 				}
 			},
 		);
+	}
+
+	public beginLoadingAnimation(): void {
+		this.animationState = AnimationState.RUNNING;
+
+		this.prepareCanvas();
+
+		window.requestAnimationFrame(this.tick);
 	}
 
 	public prepareCanvas(): void {
@@ -213,14 +221,6 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 			this.loaderCanvas.nativeElement.height,
 		);
 
-		this.dotsXPos = this.getDotsXPos(this.loaderConfig.dotsDist);
-	}
-
-	public beginLoadingAnimation(): void {
-		this.animationState = AnimationState.RUNNING;
-
-		this.prepareCanvas();
-
-		window.requestAnimationFrame(this.tick);
+		this.dotsXPos = getDotsXPos(this.loaderConfig.dotsDist);
 	}
 }
