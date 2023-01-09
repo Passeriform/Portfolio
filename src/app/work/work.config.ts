@@ -1,4 +1,4 @@
-import type { WorkModel } from "./work.interface";
+import type { WorkModel } from "./models/work.interface";
 
 // TODO: Fetch filters from mongo dynamically.
 export const routeFilters: string[] = [

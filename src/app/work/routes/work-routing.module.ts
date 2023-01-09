@@ -2,10 +2,11 @@ import type { Routes } from "@angular/router";
 import { RouterModule } from "@angular/router";
 import { NgModule } from "@angular/core";
 
-import { routeFilters } from "./work.config";
-import { WorkComponent } from "./work.component";
+// import { PersonalityGuard } from "@core/guards/personality.guard";
+
+import { routeFilters } from "../work.config";
+import { WorkComponent } from "../work.component";
 import { WorkResolver } from "./work-resolver.service";
-// import { PersonalityGuard } from "../core";
 
 const routes: Routes = [
 	// Register default explore route

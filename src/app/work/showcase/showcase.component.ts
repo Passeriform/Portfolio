@@ -5,8 +5,9 @@ import type { Observable } from "rxjs";
 import { Subject } from "rxjs";
 
 import { Orientation, Position } from "@shared/models/cardinals.interface";
+import { stopClickPropagation } from "@utility/events";
 
-import type { WorkModel } from "../work.interface";
+import type { WorkModel } from "../models/work.interface";
 import { WorkService } from "../services/work.service";
 import { EXPANDED_HEIGHT_THRESHOLD } from "./showcase.config";
 
@@ -16,21 +17,24 @@ import { EXPANDED_HEIGHT_THRESHOLD } from "./showcase.config";
 	templateUrl: "./showcase.component.html",
 })
 export class ShowcaseComponent implements OnInit {
-	@Output() public readonly selectionEvent: EventEmitter<WorkModel> = new EventEmitter<WorkModel>();
-
-	@ViewChild("cardScroller", { read: ElementRef }) public readonly cardChild: ElementRef<HTMLElement>;
-
 	private readonly scrollResetSource$ = new Subject<void>();
 	private readonly searchResetSource$ = new Subject<void>();
 
-	public readonly Position = Position;
-	public readonly Orientation = Orientation;
-
+	public activeModel$: Observable<readonly WorkModel[]>;
+	public cancelClick: (event: MouseEvent) => void = stopClickPropagation;
+	public model$: Observable<readonly WorkModel[]>;
 	public scrollResetState$: Observable<void> = this.scrollResetSource$.asObservable();
 	public searchResetState$: Observable<void> = this.searchResetSource$.asObservable();
-	public model: readonly WorkModel[];
-	public activeModel: readonly WorkModel[];
 	public showExpanded: boolean;
+
+	/* eslint-disable @typescript-eslint/member-ordering */
+	public readonly Orientation = Orientation;
+	public readonly Position = Position;
+	/* eslint-enable @typescript-eslint/member-ordering */
+
+	@Output() public readonly selectionEvent: EventEmitter<WorkModel> = new EventEmitter<WorkModel>();
+
+	@ViewChild("cardScroller", { read: ElementRef }) public readonly cardChild: ElementRef<HTMLElement>;
 
 	@HostListener("window:resize")
 	public onResize(): void {
@@ -41,17 +45,9 @@ export class ShowcaseComponent implements OnInit {
 		this.updateShowExpanded();
 	}
 
-	public cancelClick(event: MouseEvent): void {
-		event.stopPropagation();
-	}
-
 	ngOnInit() {
-		this.workService.workCacheState$.subscribe((model: WorkModel[]) => {
-			this.model = model;
-		});
-		this.workService.workActiveState$.subscribe((model: WorkModel[]) => {
-			this.activeModel = model;
-		});
+		this.model$ = this.workService.workCacheState$;
+		this.activeModel$ = this.workService.workActiveState$ as Observable<WorkModel[]>;
 	}
 
 	public updateShowExpanded(): void {

@@ -8,7 +8,7 @@ import { LoaderService } from "@app/loader/loader.service";
 import { SplashState } from "@core/services/splash-state.interface";
 import { SplashStateService } from "@core/services/splash-state.service";
 
-import type { WorkModel } from "./work.interface";
+import type { WorkModel } from "./models/work.interface";
 import { WorkService } from "./services/work.service";
 
 @Component({

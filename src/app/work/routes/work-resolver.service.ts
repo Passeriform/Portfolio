@@ -1,4 +1,4 @@
-import type { ActivatedRouteSnapshot, Resolve, UrlSegment } from "@angular/router";
+import type { ActivatedRouteSnapshot, Resolve } from "@angular/router";
 import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
@@ -7,12 +7,12 @@ import type { Observable } from "rxjs";
 import { of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
-import { LoaderService } from "@app/loader/loader.service";
-import { ErrorService } from "@app/error/error.service";
+import { LoaderService } from "@app/loader/services/loader.service";
+import { ErrorService } from "@app/error/services/error.service";
 
-import { NO_TRANSFORM, routeFilters } from "./work.config";
-import type { WorkModel } from "./work.interface";
-import { WorkService } from "./services/work.service";
+import { NO_TRANSFORM, routeFilters } from "../work.config";
+import type { WorkModel } from "../models/work.interface";
+import { WorkService } from "../services/work.service";
 
 @Injectable()
 export class WorkResolver implements Resolve<readonly WorkModel[]> {
@@ -41,10 +41,10 @@ export class WorkResolver implements Resolve<readonly WorkModel[]> {
 					}
 
 					// TODO: Define RouteSnapshot type in types.d.ts
-					const segment: UrlSegment | undefined = route.url[0];
+					const [ segment ] = route.url;
 
 					// Showcasing only
-					if (routeFilters.includes(segment?.path)) {
+					if (segment?.path && routeFilters.includes(segment.path)) {
 						// Keep this active filter local only. Let explore flap explore all entities.
 						const activeFilter: string = segment.path;
 
@@ -54,7 +54,9 @@ export class WorkResolver implements Resolve<readonly WorkModel[]> {
 						}
 
 						const concatRoute: string = Object.values(route.params).join("/");
-						const queriedEntry: WorkModel | undefined = model.find((entry: WorkModel) => entry.ref === concatRoute && entry.type === activeFilter);
+						const queriedEntry: WorkModel | undefined = model.find(
+							(entry: WorkModel) => entry.ref === concatRoute && entry.type === activeFilter,
+						);
 
 						if (queriedEntry) {
 							this.workService.setSelected(queriedEntry);
@@ -65,18 +67,18 @@ export class WorkResolver implements Resolve<readonly WorkModel[]> {
 					}
 
 					if (segment?.path === "explore") {
-						const activeFilter: string | undefined = route.url[1]?.path;
-						if (routeFilters.includes(activeFilter)) {
+						const activeFilter = route.url[1]?.path;
+						if (routeFilters.includes(activeFilter ?? "")) {
 							this.workService.setTransform(
 								(workModel: WorkModel[]) => workModel.filter(
-									(entity: WorkModel) => entity.type === activeFilter
-								)
+									(entity: WorkModel) => entity.type === activeFilter,
+								),
 							);
-						} else if (activeFilter) {
+						} else if (Boolean(activeFilter)) {
 							this.router.navigate([ "/explore" ]);
 						} else {
-              this.workService.setTransform(NO_TRANSFORM);
-            }
+							this.workService.setTransform(NO_TRANSFORM);
+						}
 					}
 
 					this.loaderService.endLoading("[http] work");
