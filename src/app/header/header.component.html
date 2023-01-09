@@ -1,6 +1,6 @@
 <div
     id="header-wrapper"
-    [ngClass]="{'shrink-header': splashState !== SplashState.FOCUSSED}"
+    [ngClass]="{'shrink-header': (splashState$ | async) !== SplashState.FOCUSSED}"
   >
 	<div id="logo">
     <a routerLink="{{ target }}">
