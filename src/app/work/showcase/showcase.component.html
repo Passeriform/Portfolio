@@ -1,146 +1,146 @@
 <div class="content">
-	<app-dynamic-search
-			[model]="model"
-      [resetTrigger$]="searchResetState$"
-      (propagate)="setTransform($event)"
-    >
+  <app-dynamic-search
+	  [model]="(model$ | async) ?? []"
+	  [resetTrigger$]="searchResetState$"
+	  (propagate)="setTransform($event)"
+	>
   </app-dynamic-search>
 
   <div class="card-scroller">
-    <app-scrollable
-        [orientation]="Orientation.HORIZONTAL"
-				[delta]="5"
-        [sensitivity]="20"
-        [smoothScroll]="true"
-				[pageResetTrigger$]="scrollResetState$"
-        #cardScroller
-      >
-      <app-raisecard
-          *ngIf="!(activeModel?.length)"
-          [ngClass]="!showExpanded ? 'compact' : ''"
-          (mousedown)="resetSearch($event)"
-          #page
-        >
-        <div class="card-internal">
-          <h2>No entries found here!</h2>
-          <p>Click to get back to explore.</p>
-        </div>
-      </app-raisecard>
+	<app-scrollable
+		[delta]="5"
+		[orientation]="Orientation.HORIZONTAL"
+		[pageResetTrigger$]="scrollResetState$"
+		[sensitivity]="20"
+		[smoothScroll]="true"
+		#cardScroller
+	  >
+	  <app-raisecard
+		  *ngIf="!(activeModel$ | async)?.length"
+		  [ngClass]="!showExpanded ? 'compact' : ''"
+		  (mousedown)="resetSearch($event)"
+		  #page
+		>
+		<div class="card-internal">
+		  <h2>No entries found here!</h2>
+		  <p>Click to get back to explore.</p>
+		</div>
+	  </app-raisecard>
 
-      <app-raisecard
-          *ngFor="let entry of activeModel"
-          [marker]="entry.type"
-          [ngClass]="!showExpanded ? 'compact' : ''"
-          (mousedown)="setSelected(entry)"
-          #page
-        >
-        <div class="card-internal">
-					<div class="description">
-						<h2>{{ entry.title }}</h2>
-						<p>{{ entry.subtitle }}</p>
-					</div>
+	  <app-raisecard
+		  *ngFor="let entry of activeModel$ | async"
+		  [marker]="entry.type"
+		  [ngClass]="!showExpanded ? 'compact' : ''"
+		  (mousedown)="setSelected(entry)"
+		  #page
+		>
+		<div class="card-internal">
+		  <div class="description">
+			<h2>{{ entry.title }}</h2>
+			<p>{{ entry.subtitle }}</p>
+		  </div>
 
-          <div *ngIf="showExpanded" class="info">
-            <div class="meta">
-							<!-- TODO: Fix wrapping child images with max-content of parent. -->
-              <ng-template #languageTooltipTemplate>
-                <h5>Languages</h5>
-                <div class="meta-icons">
-                  <ng-container *ngFor="let language of entry.languages">
-                    <img alt="{{ language }}" src="{{ language | iconUri }}" />
-                  </ng-container>
-                </div>
-              </ng-template>
+		  <div *ngIf="showExpanded" class="info">
+			<div class="meta">
+			  <!-- TODO: Fix wrapping child images with max-content of parent. -->
+			  <ng-template #languageTooltipTemplate>
+				<h5 class="meta-title">Languages</h5>
+				<div class="meta-icons">
+				  <ng-container *ngFor="let language of entry.languages">
+					<img alt="{{ language }}" src="{{ language | iconUri }}" />
+				  </ng-container>
+				</div>
+			  </ng-template>
 
-              <div i18n-position appTooltip
-                  *ngIf="entry.languages?.length"
-                  class="languages"
-                  [position]="Position.TOP"
-                  [invert]="true"
-                  [template]="languageTooltipTemplate"
-                >
-                <img i18n-alt
-                    alt="Languages"
-                    src="https://img.icons8.com/color/source-code"
-                    (mousedown)="cancelClick($event)"
-                  />
-              </div>
+			  <div i18n-position appTooltip
+				  *ngIf="entry.languages.length"
+				  class="languages"
+				  [invert]="true"
+				  [position]="Position.TOP"
+				  [template]="languageTooltipTemplate"
+				>
+				<img i18n-alt
+					alt="Languages"
+					src="https://img.icons8.com/color/source-code"
+					(mousedown)="cancelClick($event)"
+				  />
+			  </div>
 
-              <ng-template #frameworkTooltipTemplate>
-                <h5>Frameworks</h5>
-                <div class="meta-icons">
-                  <ng-container *ngFor="let framework of entry.frameworks">
-                    <img alt="{{ framework }}" src="{{ framework | iconUri }}" />
-                  </ng-container>
-                </div>
-              </ng-template>
+			  <ng-template #frameworkTooltipTemplate>
+				<h5 class="meta-title">Frameworks</h5>
+				<div class="meta-icons">
+				  <ng-container *ngFor="let framework of entry.frameworks">
+					<img alt="{{ framework }}" src="{{ framework | iconUri }}" />
+				  </ng-container>
+				</div>
+			  </ng-template>
 
-              <div i18n-position appTooltip
-                  *ngIf="entry.frameworks?.length"
-                  class="frameworks"
-                  [position]="Position.TOP"
-                  [invert]="true"
-                  [template]="frameworkTooltipTemplate"
-                >
-                <img i18n-alt
-                    alt="Frameworks"
-                    src="https://img.icons8.com/color/administrative-tools"
-                    (mousedown)="cancelClick($event)"
-                  />
-              </div>
+			  <div i18n-position appTooltip
+				  *ngIf="entry.frameworks.length"
+				  class="frameworks"
+				  [invert]="true"
+				  [position]="Position.TOP"
+				  [template]="frameworkTooltipTemplate"
+				>
+				<img i18n-alt
+					alt="Frameworks"
+					src="https://img.icons8.com/color/administrative-tools"
+					(mousedown)="cancelClick($event)"
+				  />
+			  </div>
 
-              <ng-template #toolTooltipTemplate>
-                <h5>Tools</h5>
-                <div class="meta-icons">
-                  <ng-container *ngFor="let tool of entry.tools">
-                    <img alt="{{ tool }}" src="{{ tool | iconUri }}" />
-                  </ng-container>
-                </div>
-              </ng-template>
+			  <ng-template #toolTooltipTemplate>
+				<h5 class="meta-title">Tools</h5>
+				<div class="meta-icons">
+				  <ng-container *ngFor="let tool of entry.tools">
+					<img alt="{{ tool }}" src="{{ tool | iconUri }}" />
+				  </ng-container>
+				</div>
+			  </ng-template>
 
-              <div i18n-position appTooltip
-                  *ngIf="entry.tools?.length"
-                  class="tools"
-                  [position]="Position.TOP"
-                  [invert]="true"
-                  [template]="toolTooltipTemplate"
-                >
-                <img i18n-alt
-                    alt="Tools"
-                    src="https://img.icons8.com/color/toolbox"
-                    (mousedown)="cancelClick($event)"
-                  />
-              </div>
-            </div>
+			  <div i18n-position appTooltip
+				  *ngIf="entry.tools.length"
+				  class="tools"
+				  [invert]="true"
+				  [position]="Position.TOP"
+				  [template]="toolTooltipTemplate"
+				>
+				<img i18n-alt
+					alt="Tools"
+					src="https://img.icons8.com/color/toolbox"
+					(mousedown)="cancelClick($event)"
+				  />
+			  </div>
+			</div>
 
-            <a class="repo" href="{{ entry.repository }}">
-              <img i18n-alt alt="github-repo" src="{{ 'github' | iconUri }}"/>
-            </a>
+			<a class="repo" href="{{ entry.repository }}">
+			  <img i18n-alt alt="github-repo" src="{{ 'github' | iconUri }}"/>
+			</a>
 
-            <div class="licenses">
-              <ng-container *ngFor="let license of entry.license">
-                <img
-                    alt="license-{{ license }}"
-                    src="{{ license | iconUri }}"
-                    (mousedown)="cancelClick($event)"
-                  />
-              </ng-container>
-            </div>
-          </div>
-        </div>
-      </app-raisecard>
+			<div class="licenses">
+			  <ng-container *ngFor="let license of entry.license">
+				<img
+					alt="license-{{ license }}"
+					src="{{ license | iconUri }}"
+					(mousedown)="cancelClick($event)"
+				  />
+			  </ng-container>
+			</div>
+		  </div>
+		</div>
+	  </app-raisecard>
 
-			<app-raisecard
-          *ngIf="activeModel?.length"
-          [ngClass]="!showExpanded ? 'compact' : ''"
-					(mousedown)="resetScroll($event)"
-          #page
-        >
-        <div class="card-internal nav-card">
-					<img i18n-alt id="action-icon" alt="⮈" src="/assets/images/icons/circled-arrow.svg" />
-          <h2>Back to start</h2>
-        </div>
-      </app-raisecard>
-    </app-scrollable>
+	  <app-raisecard
+		  *ngIf="(activeModel$ | async)?.length"
+		  [ngClass]="!showExpanded ? 'compact' : ''"
+		  (mousedown)="resetScroll($event)"
+		  #page
+		>
+		<div class="card-internal nav-card">
+		  <img i18n-alt alt="⮈" id="action-icon" src="/assets/images/icons/circled-arrow.svg" />
+		  <h2>Back to start</h2>
+		</div>
+	  </app-raisecard>
+	</app-scrollable>
   </div>
 </div>

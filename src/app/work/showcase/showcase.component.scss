@@ -6,6 +6,10 @@ $tooltip-max-meta-icons: 4;
 
 // TODO: Fix icons moving to next line
 
+.meta-title {
+  @include center-text;
+}
+
 .meta-icons {
 	@include flex-row-evenly;
 
