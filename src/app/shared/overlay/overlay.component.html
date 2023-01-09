@@ -1,8 +1,8 @@
 <div class="overlay-trigger">
 	<div
+		[ngClass]="{'show': overlayState === OverlayState.SHOW}"
 		class="overlay"
 		(mousedown)="hideOverlay()"
-		[ngClass]="{'show': overlayState === OverlayState.SHOW}"
 		>
 		<ng-content></ng-content>
 	</div>
