@@ -4,7 +4,7 @@ import { Component } from "@angular/core";
 import type { Observable } from "rxjs";
 import { Subject } from "rxjs";
 
-import { LoaderService } from "@app/loader/loader.service";
+import { LoaderService } from "@app/loader/services/loader.service";
 import { SplashState } from "@core/services/splash-state.interface";
 import { SplashStateService } from "@core/services/splash-state.service";
 
@@ -18,12 +18,10 @@ import { WorkService } from "./services/work.service";
 })
 export class WorkComponent implements OnInit, AfterViewInit {
 	private readonly scrollResetSource$ = new Subject<void>();
-
 	public displayInitialTip = true;
-	public scrollResetState$: Observable<void> = this.scrollResetSource$.asObservable();
-	public model: readonly WorkModel[];
-	public selected?: WorkModel;
 	public readonly marker: string;
+	public scrollResetState$: Observable<void> = this.scrollResetSource$.asObservable();
+	public selectedModel$: Observable<WorkModel | undefined>;
 
 	constructor(
 			private readonly workService: WorkService,
@@ -35,16 +33,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnInit() {
-		this.workService.workActiveState$.subscribe(
-			(model: readonly WorkModel[]) => {
-				this.model = model;
-			},
-		);
-
-		this.workService.workSelectedState$.subscribe((entity: WorkModel) => {
-			this.selected = entity;
-		});
-
+		this.selectedModel$ = this.workService.workSelectedState$;
 		this.splashStateService.changeSplashState(SplashState.BLURRED);
 	}
 

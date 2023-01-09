@@ -7,9 +7,11 @@ import { BehaviorSubject, combineLatest } from "rxjs";
 import { map, tap } from "rxjs/operators";
 
 import { environment } from "@env/environment";
+import type { Framework, Language, License, Tool } from "@shared/models/registry.interface";
+import { LoaderService } from "@app/loader/services/loader.service";
 import { filterNonKeywords, populateTags } from "@utility/tags";
 
-import type { WorkModel } from "../work.interface";
+import type { WorkModel } from "../models/work.interface";
 import { NO_TRANSFORM } from "../work.config";
 
 const extractKeywords = (textString: string): readonly string[] => filterNonKeywords(
@@ -19,35 +21,28 @@ const extractKeywords = (textString: string): readonly string[] => filterNonKeyw
 @Injectable()
 export class WorkService {
 	// TODO: Add support for multiple named filters
-	private readonly workTransformSource$ = new BehaviorSubject<typeof NO_TRANSFORM>(NO_TRANSFORM);
 	private readonly workCacheSource$ = new BehaviorSubject<readonly WorkModel[]>([]);
 	private readonly workSelectedSource$ = new BehaviorSubject<WorkModel | undefined>(undefined);
+	private readonly workTransformSource$ = new BehaviorSubject<typeof NO_TRANSFORM>(NO_TRANSFORM);
 
-	public readonly workTransformState$: Observable<(_: readonly WorkModel[]) => unknown[]> = this.workTransformSource$.asObservable();
+	public readonly workActiveState$: Observable<readonly unknown[]>;
 	public readonly workCacheState$: Observable<readonly WorkModel[]> = this.workCacheSource$.asObservable();
 	public readonly workSelectedState$: Observable<WorkModel | undefined> = this.workSelectedSource$.asObservable();
-	public readonly workActiveState$: Observable<readonly unknown[]> = combineLatest(
-		[
-			this.workCacheState$,
-			this.workTransformState$,
-		],
-		(cache: readonly WorkModel[], transform: (_: readonly WorkModel[]) => unknown[]) => transform(cache),
-	);
+	public readonly workTransformState$: Observable<(_: readonly WorkModel[]) => unknown[]> = this.workTransformSource$.asObservable();
 
 	constructor(
 			private readonly http: HttpClient,
-			private readonly tagger: TaggerService,
 			private readonly loaderService: LoaderService,
 			private readonly location: Location,
-	) { }
-
-	public setSelected(model: WorkModel): void {
-		this.location.replaceState(`${model.type}/${model.ref}`);
-		this.workSelectedSource$.next(model);
-	}
-
-	public setTransform(transformMethod: (_: readonly WorkModel[]) => unknown[]): void {
-		this.workTransformSource$.next(transformMethod);
+	) {
+		this.workActiveState$ = combineLatest(
+			[
+				this.workCacheState$,
+				this.workTransformState$,
+			],
+			// TODO: Type this transform to infer return value
+			(cache: readonly WorkModel[], transform: (_: readonly WorkModel[]) => unknown[]) => transform(cache),
+		);
 	}
 
 	public refreshCache$(): Observable<readonly WorkModel[]> {
@@ -81,5 +76,14 @@ export class WorkService {
 					this.workCacheSource$.next(model);
 				}),
 			);
+	}
+
+	public setSelected(model: WorkModel): void {
+		this.location.replaceState(`${model.type}/${model.ref}`);
+		this.workSelectedSource$.next(model);
+	}
+
+	public setTransform(transformMethod: (_: readonly WorkModel[]) => unknown[]): void {
+		this.workTransformSource$.next(transformMethod);
 	}
 }

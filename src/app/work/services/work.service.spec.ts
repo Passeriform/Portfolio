@@ -1,12 +1,12 @@
 import { TestBed } from "@angular/core/testing";
 
-import { WorkService } from "./services/work.service";
+import { WorkService } from "./work.service";
 
 describe("WorkService", () => {
 	beforeEach(() => TestBed.configureTestingModule({ }));
 
 	it("should be created", () => {
-		const service: WorkService = TestBed.get(WorkService);
+		const service: WorkService = TestBed.inject(WorkService);
 		expect(service).toBeTruthy();
 	});
 });

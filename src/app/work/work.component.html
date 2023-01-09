@@ -1,17 +1,17 @@
 <app-scrollable
+		[allowEndReveal]="true"
 		[fullpage]="true"
 		[nestedScroll]="true"
-		[showPageNav]="true"
-		[allowEndReveal]="true"
 		[pageResetTrigger$]="scrollResetState$"
+		[showPageNav]="true"
 	>
-  <ng-container *ngIf="selected; else modelPlaceholder">
+	<ng-container *ngIf="selectedModel$ | async as selectedModel; else modelPlaceholder">
 		<div class="page" id="description" #page>
 			<div class="bg-img-wrapper">
 				<div class="bg-img"></div>
 			</div>
 			<div class="content">
-				<app-describe [model]="selected">
+				<app-describe [model]="selectedModel | retain: 'title':'subtitle':'logo':'screenshots':'description'">
 				</app-describe>
 			</div>
 		</div>
@@ -20,7 +20,7 @@
 				<div class="bg-img"></div>
 			</div>
 			<div class="content">
-				<!-- <app-stats [model]="selected" >
+				<!-- <app-stats [model]="selectedModel" >
 				</app-stats> -->
 			</div>
 		</div>
@@ -29,7 +29,7 @@
 				<div class="bg-img"></div>
 			</div>
 			<div class="content">
-				<app-tech-stack [model]="$any(selected) | retain: 'languages':'frameworks':'tools'">
+				<app-tech-stack [model]="selectedModel | retain: 'languages':'frameworks':'tools'">
 				</app-tech-stack>
 			</div>
 		</div>
@@ -38,7 +38,7 @@
 				<div class="bg-img"></div>
 			</div>
 			<div class="content">
-				<!-- <app-timeline [model]="selected">
+				<!-- <app-timeline [model]="selectedModel">
 				</app-timeline> -->
 			</div>
 		</div>
@@ -56,7 +56,7 @@
 					<span>E</span>xplorer.
 				</h1>
 				<div *ngIf="displayInitialTip" class="hint-text">
-					<p>Start by clicking the top-right corner.</p>
+					<p i18n-explore-tip>Start by clicking the top-right corner.</p>
 				</div>
 			</div>
 		</div>
