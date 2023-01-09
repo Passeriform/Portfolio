@@ -1,6 +1,6 @@
 import type { HttpErrorResponse } from "@angular/common/http";
 
-export enum HttpErrorCodes {
+export const enum HttpErrorCodes {
 	/* eslint-disable @typescript-eslint/no-magic-numbers */
 	BAD_REQUEST = 400,
 	FORBIDDEN = 403,

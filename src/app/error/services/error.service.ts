@@ -3,8 +3,8 @@ import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
 import { Subject } from "rxjs";
 
-import type { ApiError } from "./error.interface";
-import { ClientError, isError } from "./error.interface";
+import type { ApiError } from "../models/error.interface";
+import { ClientError, isError } from "../models/error.interface";
 
 @Injectable()
 export class ErrorService {

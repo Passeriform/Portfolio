@@ -2,8 +2,8 @@ import { NgModule } from "@angular/core";
 
 import { SharedModule } from "@shared/shared.module";
 
+import { ErrorService } from "./services/error.service";
 import { ErrorComponent } from "./error.component";
-import { ErrorService } from "./error.service";
 
 @NgModule({
 	declarations: [ ErrorComponent ],

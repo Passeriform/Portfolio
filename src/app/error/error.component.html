@@ -21,7 +21,6 @@
 					*ngIf="!('production' | environment)"
 					class="debug-window"
 					[ngClass]="{'expand': debugExpanded}"
-					(mousedown)="debugExpand()"
 					(wheel)="scrollFired($event)"
 					#debugWindow
 				>
@@ -32,6 +31,7 @@
 					</div>
 				</div>
 			</div>
+			<!-- TODO: Consider using image if unicode is unsupported -->
 			<p>
 				Scroll down for SiteMap. ⏷
 			</p>
