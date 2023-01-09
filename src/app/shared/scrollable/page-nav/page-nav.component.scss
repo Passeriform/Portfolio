@@ -40,16 +40,16 @@ $traveller-discrete-inter-offset: calc(#{$nav-flap-size + $nav-link-inter-paddin
 $arrow-main-size: math.div($nav-extent-em - $nav-link-dot-size, 2);
 $arrow-cross-size: $nav-link-dot-size;
 $nav-flap-shapes: (
-	top: get-shape(["trapezoid", "short-bottom"], $nav-flap-size),
-	right: get-shape(["trapezoid", "short-left"], $nav-flap-size),
-	bottom: get-shape(["trapezoid", "short-top"], $nav-flap-size),
-	left: get-shape(["trapezoid", "short-right"], $nav-flap-size),
+	top: get-shape(("trapezoid", "short-bottom"), $nav-flap-size),
+	right: get-shape(("trapezoid", "short-left"), $nav-flap-size),
+	bottom: get-shape(("trapezoid", "short-top"), $nav-flap-size),
+	left: get-shape(("trapezoid", "short-right"), $nav-flap-size),
 );
 $traveller-arrow-shapes: (
-	top: get-shape(["arrow", "point-down"]),
-	right: get-shape(["arrow", "point-left"]),
-	bottom: get-shape(["arrow", "point-up"]),
-	left: get-shape(["arrow", "point-right"]),
+	top: get-shape(("arrow", "point-down")),
+	right: get-shape(("arrow", "point-left")),
+	bottom: get-shape(("arrow", "point-up")),
+	left: get-shape(("arrow", "point-right")),
 );
 
 @mixin discrete-nav-link($inset-type) {
@@ -224,7 +224,7 @@ $traveller-arrow-shapes: (
 				}
 			}
 
-			// TODO: Remove all :not switchers if a default is reqired in styles
+			// TODO: Remove all :not switchers if a default is required in styles
 			@include hide-nav-flap($inset-type);
 
 			@include media("touchscreen") {

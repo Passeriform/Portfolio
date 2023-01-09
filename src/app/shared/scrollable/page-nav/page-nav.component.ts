@@ -1,7 +1,10 @@
-import type { AfterViewInit, OnChanges, QueryList, SimpleChanges } from "@angular/core";
-import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output } from "@angular/core";
+import type { AfterViewInit, OnChanges } from "@angular/core";
+import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, QueryList } from "@angular/core";
 
 import { Position } from "@shared/models/cardinals.interface";
+
+import { Constants } from "./page-nav.config";
+import type { PageNavChanges } from "./page-nav.interface";
 
 @Component({
 	selector: "app-page-nav",
@@ -9,22 +12,24 @@ import { Position } from "@shared/models/cardinals.interface";
 	templateUrl: "./page-nav.component.html",
 })
 export class PageNavComponent implements AfterViewInit, OnChanges {
-	private currentPageIndex: number;
-
 	@Input() public readonly items: QueryList<ElementRef>;
 	@Input() public readonly apparentTravelFactor: number;
 	@Input() public readonly position: Position = Position.LEFT;
-	@Input() public readonly activePage = 0;
-	@Input() public readonly discrete = true;
-	@Input() public readonly invert = false;
-	@Input() public readonly keepExpanded = false;
+	@Input() public readonly activePage: number = Constants.INITIAL_ACTIVE_PAGE;
+	@Input() public readonly discrete: boolean = true;
+	@Input() public readonly invert: boolean = false;
+	@Input() public readonly keepExpanded: boolean = false;
 	@Input() public expanded = false;
 
-	@HostListener("document:touchstart", ["$event"]) public touchHandler(event): void {
-		this.expanded = this.elementReference.nativeElement.contains(event.target);
+	@HostListener("document:touchstart", [ "$event" ])
+	public onTouchstart(event: TouchEvent): void {
+		if (event.target instanceof Element) {
+			this.expanded = this.elementReference.nativeElement.contains(event.target);
+		}
 	}
 
-	@HostBinding("class") public get positionClass(): string {
+	@HostBinding("class")
+	public get positionClass(): string {
 		const positionClasses: Record<Position, string> = {
 			[Position.TOP]: "top",
 			[Position.RIGHT]: "right",
@@ -35,40 +40,44 @@ export class PageNavComponent implements AfterViewInit, OnChanges {
 		return positionClasses[this.position];
 	}
 
-	@HostBinding("class.expanded") public get navExpanded(): boolean {
-		return this.keepExpanded || this.expanded;
-	}
-
-	@HostBinding("class.inverted") public get isInverted(): boolean {
-		return this.invert;
-	}
-
-	@HostBinding("class.continuous") public get isContinuous(): boolean {
+	@HostBinding("class.continuous")
+	public get isContinuous(): boolean {
 		return !this.discrete;
 	}
 
-	@HostBinding("class.discrete") public get isDiscrete(): boolean {
+	@HostBinding("class.discrete")
+	public get isDiscrete(): boolean {
 		return this.discrete;
 	}
 
+	@HostBinding("class.expanded")
+	public get isExpanded(): boolean {
+		return this.keepExpanded || this.expanded;
+	}
+
+	@HostBinding("class.inverted")
+	public get isInverted(): boolean {
+		return this.invert;
+	}
+
 	@Output() public readonly setActivePage: EventEmitter<number> = new EventEmitter<number>();
+
+	constructor(private readonly elementReference: ElementRef<HTMLElement>) { }
 
 	private updateTravellerPosition(index: number): void {
 		this.elementReference.nativeElement.style.setProperty("--traveller-offset", `${index}`);
 	}
 
-	constructor(private elementReference: ElementRef) { }
-
 	ngAfterViewInit() {
 		this.updateTravellerPosition(this.activePage);
 	}
 
-	ngOnChanges(changes: SimpleChanges) {
+	ngOnChanges(changes: PageNavChanges) {
 		if (changes.items) {
-			this.elementReference.nativeElement.style.setProperty("--item-step-count", this.items.length);
+			this.elementReference.nativeElement.style.setProperty("--item-step-count", `${this.items.length}`);
 		}
 
-		if (changes.activePage) {
+		if (Boolean(changes.activePage)) {
 			if (this.discrete) {
 				this.updateTravellerPosition(this.activePage);
 			} else {

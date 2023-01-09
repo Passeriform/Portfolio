@@ -1,10 +1,10 @@
 <ul
 		class="page-nav-container"
-		(mousedown)="$event.stopPropagation()"
-		(mouseover)="setExpanded(true)"
-		(mouseout)="setExpanded(false)"
-		(focus)="setExpanded(true)"
 		(blur)="setExpanded(false)"
+		(focus)="setExpanded(true)"
+		(mousedown)="$event.stopPropagation()"
+		(mouseout)="setExpanded(false)"
+		(mouseover)="setExpanded(true)"
 	>
 	<li *ngFor="let item of items; let idx = index" class="page-nav-entry">
 		<a class="page-nav-link" (mousedown)="switchToPage(idx)">
