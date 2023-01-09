@@ -1,12 +1,12 @@
 <div id="footer-content">
   <div id="brand">
     <div>
-      <img i18n-alt src="/assets/images/icons/passeriform.svg" alt="logo" />
+      <img i18n-alt alt="logo" src="/assets/images/icons/passeriform.svg" />
       <p>
         PASSERIFORM
       </p>
     </div>
-    <app-social-glyphs [model]="socials" [invert]="true"></app-social-glyphs>
+    <app-social-glyphs *ngIf="socialEntries$ | async as socialEntries" [invert]="true" [model]="socialEntries"></app-social-glyphs>
     <div>
       <small>&copy; Copyright 2021, Passeriform</small>
     </div>
@@ -16,8 +16,8 @@
     <div class="section" id="navigator">
       <h6>NAVIGATE</h6>
       <div>
-        <ng-container *ngFor="let work of works">
-          <a routerLink="{{ work.link }}" class="quick-links">{{ work.name }}</a>
+        <ng-container *ngFor="let work of workEntries$ | async">
+          <a class="quick-links" routerLink="{{ work.link }}">{{ work.name }}</a>
         </ng-container>
         <div class="separator horizontal"></div>
         <a routerLink="/explore">Explore</a>
@@ -28,7 +28,7 @@
     <div class="section" id="about">
       <h6>ABOUT US</h6>
       <div>
-        <ng-container *ngFor="let entity of abouts">
+        <ng-container *ngFor="let entity of aboutEntries$ | async">
           <a routerLink="{{ entity.link }}">{{ entity.name }}</a>
         </ng-container>
       </div>
@@ -51,10 +51,8 @@
 </div>
 <div id="post-note">
   <h6>Made by
-    <app-chirpy
-        [say]="['Chirp!', 'Birds Unite', 'Cheep! Cheep!', 'Peckers']"
-      >
-			<img i18n-alt id="chirpy-icon" alt="🐦" src="/assets/images/icons/passeriform.svg" />
+    <app-chirpy>
+			<img i18n-alt alt="🐦" id="chirpy-icon" src="/assets/images/icons/passeriform.svg" />
     </app-chirpy>
   </h6>
 </div>

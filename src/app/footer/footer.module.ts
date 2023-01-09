@@ -4,8 +4,8 @@ import { RouterModule } from "@angular/router";
 import { SharedModule } from "@shared/shared.module";
 
 import { ChirpyComponent } from "./chirpy/chirpy.component";
+import { FooterService } from "./services/footer.service";
 import { FooterComponent } from "./footer.component";
-import { FooterService } from "./footer.service";
 
 @NgModule({
 	declarations: [
