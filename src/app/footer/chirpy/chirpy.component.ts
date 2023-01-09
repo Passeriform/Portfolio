@@ -1,6 +1,7 @@
-import { Component, ElementRef, HostListener, Input, ViewChild } from "@angular/core";
+import { Component, HostListener } from "@angular/core";
 
 import { Position } from "@shared/models/cardinals.interface";
+import { SAY_MESSAGES, SPECIAL_MESSAGES } from "./chirpy.config";
 
 @Component({
 	selector: "app-chirpy",
@@ -8,18 +9,24 @@ import { Position } from "@shared/models/cardinals.interface";
 	templateUrl: "./chirpy.component.html",
 })
 export class ChirpyComponent {
-	@Input() public say: readonly string[];
+	private hoverCount = 0;
 
-	public Position = Position;
-	public currentMessage: string;
+	public currentMessage = "";
+	public readonly Position = Position;
 
 	@HostListener("mouseover")
 	public onMouseover(): void {
+		this.hoverCount += 1;
 		this.sayMessage();
 	}
 
 	public sayMessage(): void {
-		const messageIndex = Math.floor(Math.random() * this.say.length);
-		this.currentMessage = this.say[messageIndex];
+		if (Object.keys(SPECIAL_MESSAGES).includes(this.hoverCount.toString())) {
+			// TODO: Add background, border, animation and other glam for easter egg hoverCount.
+			this.currentMessage = SPECIAL_MESSAGES[this.hoverCount]!;
+		} else {
+			const messageIndex = 0 + Math.floor(Math.random() * SAY_MESSAGES.length);
+			this.currentMessage = SAY_MESSAGES[messageIndex]!;
+		}
 	}
 }
