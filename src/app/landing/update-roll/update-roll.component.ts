@@ -1,11 +1,14 @@
 import type { OnInit } from "@angular/core";
 import { Component } from "@angular/core";
 
+import type { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+
 import { Position } from "@shared/models/cardinals.interface";
 
-import type { GithubEvent } from "./github.interface";
-import { commitCategoryPattern, githubActionStringMap } from "./github.interface";
-import { GithubService } from "./github.service";
+import type { GithubEvent } from "./models/github.interface";
+import { commitCategoryPattern, githubActionPresentation, isActionEvent, isPushEvent } from "./models/github.interface";
+import { GithubService } from "./services/github.service";
 
 type GithubEventUIState = GithubEvent & { expand?: boolean };
 
@@ -15,29 +18,24 @@ type GithubEventUIState = GithubEvent & { expand?: boolean };
 	templateUrl: "./update-roll.component.html",
 })
 export class UpdateRollComponent implements OnInit {
-	public readonly Position = Position;
+	public readonly actionPresentation = githubActionPresentation;
 	public readonly commitCategoryPattern = commitCategoryPattern;
+	public readonly isActionEvent = isActionEvent;
+	public readonly isPushEvent = isPushEvent;
+	public readonly Position = Position;
 
-	public updates: GithubEventUIState[];
+	public updates$: Observable<GithubEventUIState[]>;
 
 	constructor(private readonly githubService: GithubService) {
-		this.githubService.githubFeedState$.subscribe((updates: GithubEventUIState[]) => {
-			this.updates = updates;
-
-			this.updates.forEach(
-				(update: GithubEventUIState) => {
-					update.expand = false;
-				},
-			);
-		});
+		this.updates$ = this.githubService.githubFeedState$.pipe(
+			map((updates: GithubEventUIState[]) => updates.map(
+				(update: GithubEventUIState) => ({ ...update, expand: false }),
+			)),
+		);
 	}
 
 	ngOnInit() {
 		this.githubService.fetchUpdate$();
-	}
-
-	public textForAction(actionType: string): string {
-		return githubActionStringMap[actionType];
 	}
 
 	// TODO: Move this method out of class

@@ -160,6 +160,14 @@
 
 		@include no-overflow;
 
+		&.expanded {
+			height: 100%;
+		}
+
+		&:not(.expanded) {
+			height: 0;
+		}
+
 		& > .commit-history {
 			display: grid;
 			grid-gap: 2px;

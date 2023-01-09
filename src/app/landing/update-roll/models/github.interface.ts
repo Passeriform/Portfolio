@@ -1,3 +1,22 @@
+type GithubEventPayload =
+	| CommitCommentEventPayload
+	| CreateDeleteEventPayload
+	| ForkEventPayload
+	| GollumEventPayload
+	| IssueCommentEventPayload
+	| IssuesEventPayload
+	| MemberEventPayload
+	| PullRequestEventPayload
+	| PullRequestReviewCommentEventPayload
+	| PushEventPayload
+	| ReleaseEventPayload
+	| SponsorshipEventPayload
+	| WatchEventPayload;
+
+type EventWithPayload<P extends GithubEventPayload> = Omit<GithubEvent, "payload"> & {
+	payload: P;
+};
+
 /* eslint-disable camelcase */
 
 interface GithubUser {
@@ -149,28 +168,25 @@ export interface GithubEvent {
 	readonly public: boolean;
 	readonly repo: GithubRepo;
 	readonly type: string;
-	readonly payload?:
-	| CommitCommentEventPayload
-	| CreateDeleteEventPayload
-	| ForkEventPayload
-	| GollumEventPayload
-	| IssueCommentEventPayload
-	| IssuesEventPayload
-	| MemberEventPayload
-	| PullRequestEventPayload
-	| PullRequestReviewCommentEventPayload
-	| PushEventPayload
-	| ReleaseEventPayload
-	| SponsorshipEventPayload
-	| WatchEventPayload;
+	readonly payload?: GithubEventPayload;
 }
 
 /* eslint-enable camelcase */
 
-export const githubActionStringMap = {
+export const isActionEvent = (
+		event: GithubEvent,
+): event is EventWithPayload<Extract<GithubEventPayload, {
+	action: unknown;
+}>> => Boolean(event.payload && "action" in event.payload);
+
+export const isPushEvent = (
+		event: GithubEvent,
+): event is EventWithPayload<PushEventPayload> => Boolean(event.payload && "commits" in event.payload);
+
+export const githubActionPresentation = {
 	opened: "New Issue",
 	started: "Now Watching",
 	// TODO: Add other required actions
-};
+} as const;
 
 export const commitCategoryPattern = /^((\[[\w\s\|\,]+\]\s+)+|[\w\s\|\,]+\:)/;

@@ -6,8 +6,8 @@ import { HeaderModule } from "@app/header/header.module";
 import { SweeperComponent } from "./sweeper/sweeper.component";
 import { BadgeComponent } from "./badge/badge.component";
 import { UpdateRollComponent } from "./update-roll/update-roll.component";
-import { GithubService } from "./update-roll/github.service";
-import { LandingRoutingModule } from "./landing-routing.module";
+import { GithubService } from "./update-roll/services/github.service";
+import { LandingRoutingModule } from "./routes/landing-routing.module";
 import { LandingComponent } from "./landing.component";
 
 @NgModule({

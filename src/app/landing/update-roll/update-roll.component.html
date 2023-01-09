@@ -1,4 +1,4 @@
-<ng-container *ngFor="let entry of updates">
+<ng-container *ngFor="let entry of updates$ | async">
 	<div class="brief" (mousedown)="toggleDetails(entry)">
 		<ng-template #tooltipTemplate>
 			<code class="type-desc">{{ entry.type }}</code>
@@ -20,43 +20,44 @@
 			</a>
 		</div>
 		<div class="message">
-			<p class="action-message message-text" *ngIf="entry.payload?.action"> {{ textForAction(entry.payload.action) }} </p>
-			<ul class="commit-container" *ngIf="entry.payload?.commits">
-				<li class="commit-message message-text" *ngFor="let commit of entry.payload.commits">
+			<p *ngIf="isActionEvent(entry)" class="action-message message-text"> {{ actionPresentation[entry.payload.action] }} </p>
+			<ul *ngIf="isPushEvent(entry)" class="commit-container">
+				<li *ngFor="let commit of entry.payload.commits" class="commit-message message-text">
 					{{ commit.message }}
 				</li>
 			</ul>
 		</div>
 	</div>
 
-	<div class="details" [style.height]="entry.expand ? '100%' : 0">
+  <!-- TODO: Find a ways to remove ugly `any` casting -->
+	<div class="details" [ngClass]="{'expanded': $any(entry).expand}">
 		<!-- PushEvent -->
-		<ng-container *ngIf="entry.payload?.commits; else defaultEvent">
-			<div class="commit-history" *ngFor="let commit of entry.payload.commits">
+		<ng-container *ngIf="isPushEvent(entry); else defaultEvent">
+			<div *ngFor="let commit of entry.payload.commits" class="commit-history">
 				<div class="message-container">
-					<p class="message" *ngIf="commit.message" [innerHtml]="commit.message | boldSpan:commitCategoryPattern"></p>
+					<p *ngIf="commit.message" class="message" [innerHtml]="commit.message | boldSpan:commitCategoryPattern"></p>
 				</div>
 				<div class="checksum-container">
-					<a href="https://github.com/{{ entry.repo.name }}/commit/{{ commit.sha }}" class="checksum" *ngIf="commit.sha">{{ commit.sha }}</a>
+					<a *ngIf="commit.sha" class="checksum" href="https://github.com/{{ entry.repo.name }}/commit/{{ commit.sha }}">{{ commit.sha }}</a>
 				</div>
 				<div class="author-container">
-					<a href="https://github.com/{{ commit.author.name }}" class="author" *ngIf="commit.author.email && commit.author.name">
-						<span class="author-name" *ngIf="commit.author.name">
+					<a *ngIf="commit.author.email && commit.author.name" class="author" href="https://github.com/{{ commit.author.name }}">
+						<span *ngIf="commit.author.name" class="author-name">
 							{{ commit.author.name}}
 						</span>
-						<span class="author-email" *ngIf="commit.author.email">
+						<span *ngIf="commit.author.email" class="author-email">
 							{{ "<" + commit.author.email + ">" }}
 						</span>
 					</a>
 				</div>
 			</div>
-			<a href="https://github.com/{{ entry.repo.name }}/tree/{{ (entry.payload.ref | splitBy:'/')[2] }}" class="event-summary">
-				<p *ngIf="entry.payload.ref">
+			<a class="event-summary" href="https://github.com/{{ entry.repo.name }}/tree/{{ (entry.payload.ref | splitBy:'/')[2] }}">
+				<p>
 					<span class="title"><img alt="ᛅ" src="/assets/images/icons/gh-branch.webp" /></span>
 					<!-- TODO: Consider using a more dynamic system in case branches contain slash -->
 					{{ (entry.payload.ref | splitBy:'/')[2] }}
 				</p>
-				<p *ngIf="entry.payload.head">
+				<p>
 					<span class="title"><img alt="✓" src="/assets/images/icons/gh-check.svg" /></span>
 					{{ entry.payload.head }}
 				</p>

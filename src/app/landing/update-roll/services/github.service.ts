@@ -6,7 +6,7 @@ import { BehaviorSubject } from "rxjs";
 
 import { environment } from "@env/environment";
 
-import type { GithubEvent } from "./github.interface";
+import type { GithubEvent } from "../models/github.interface";
 
 @Injectable()
 export class GithubService {
