@@ -1,4 +1,4 @@
-import type { LinkModel } from "@shared/models/link.interface";
+import type { SocialGlyphModel } from "@shared/social-glyphs/social-glyphs.interface";
 
 export interface TextSection {
 	readonly paragraph: string;
@@ -12,14 +12,19 @@ export interface TimelineSection {
 	readonly period: string;
 }
 
+export type IntroModel = TextSection & {
+	readonly heading: string;
+};
+
 export interface ContributorModel {
+	readonly aboutUrl: string;
 	readonly description: string;
 	readonly img: string;
 	readonly title: string;
 }
 
 export type ContactModel = TextSection & {
-	readonly links: LinkModel;
+	readonly links: readonly SocialGlyphModel[];
 	readonly mediaplugpara: string;
 };
 
@@ -27,7 +32,7 @@ export interface AboutModel {
 	readonly subject: string;
 	readonly contact?: ContactModel;
 	readonly contributors?: readonly ContributorModel[];
-	readonly intro?: TextSection;
+	readonly intro?: IntroModel;
 	readonly overview?: readonly TextSection[];
 	readonly story?: readonly TimelineSection[];
 }

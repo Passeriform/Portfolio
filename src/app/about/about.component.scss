@@ -21,7 +21,6 @@ $content-font-size: clamp(1em, 2vw, 1.5em);
 		& > .content {
 			padding: 1em;
 			padding-top: 2em;
-			width: 100%;
 			text-transform: none;
 
 			& > .content-wrapper {
@@ -56,6 +55,8 @@ $content-font-size: clamp(1em, 2vw, 1.5em);
 		}
 
 		&#contact {
+      @include flex-row-center;
+
 			@include page-bg-content {
 				background-image: url(#{map.get($asset-registry, "about", "contact-background")});
 				background-repeat: no-repeat;
@@ -63,24 +64,37 @@ $content-font-size: clamp(1em, 2vw, 1.5em);
 				filter: brightness(50%);
 			}
 
-			& > .content > .content-wrapper {
-				padding: 1em;
+			& > .content {
+        padding: 0 10%;
+        max-width: 80em;
 
-				& > img {
-					@include equal-dim(12em);
-					@include circle-border;
-				}
+        &> .content-wrapper {
+          padding: 1em;
 
-				& > .contact-details {
-					& > h1 {
-						font-size: 3rem;
-						font-weight: 100;
-					}
+          & > img {
+            @include equal-dim(12em);
+            @include circle-border;
+          }
 
-					& > .postform {
-						@include clear-fix;
-					}
-				}
+          & > .contact-details {
+            @include full-perc-size;
+
+            // TODO: Implement profile-pic slide-reveal, when hovering on h1
+            & > h1 {
+              font-size: 3rem;
+              font-weight: 400;
+              background: map.get($theme, "background", "invert", "hex");
+              color: map.get($theme, "accent", "hex");
+              width: fit-content;
+              padding: 0.2em;
+              line-height: 1;
+            }
+
+            & > .postform {
+              @include clear-fix;
+            }
+          }
+        }
 			}
 		}
 
@@ -114,7 +128,7 @@ $content-font-size: clamp(1em, 2vw, 1.5em);
 
 		&#story {
 			@include page-bg-content {
-				background-image: url(#{map.get($asset-registry, "about", "intro-story")});
+				background-image: url(#{map.get($asset-registry, "about", "story-background")});
 				background-repeat: no-repeat;
 				background-size: cover;
 				filter: brightness(50%);
