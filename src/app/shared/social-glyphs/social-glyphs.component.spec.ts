@@ -1,5 +1,5 @@
 import type { ComponentFixture } from "@angular/core/testing";
-import { TestBed, async } from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 
 import { SocialGlyphsComponent } from "./social-glyphs.component";
 
@@ -7,9 +7,9 @@ describe("SocialGlyphsComponent", () => {
 	let component: SocialGlyphsComponent;
 	let fixture: ComponentFixture<SocialGlyphsComponent>;
 
-	beforeEach(async(() => {
+	beforeEach(waitForAsync(() => {
 		TestBed.configureTestingModule({
-			declarations: [SocialGlyphsComponent],
+			declarations: [ SocialGlyphsComponent ],
 		})
 			.compileComponents();
 	}));

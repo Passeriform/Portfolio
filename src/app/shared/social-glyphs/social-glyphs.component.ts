@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 
-import type { LinkModel } from "@shared/models/link.interface";
+import type { SocialGlyphModel } from "./social-glyphs.interface";
 
 @Component({
 	selector: "app-social-glyphs",
@@ -9,6 +9,6 @@ import type { LinkModel } from "@shared/models/link.interface";
 })
 export class SocialGlyphsComponent {
 	// TODO: Add dynamic palette support
-	@Input() public readonly model: readonly LinkModel[];
-	@Input() public readonly invert = false;
+	@Input() public readonly invert: boolean = false;
+	@Input() public readonly model: readonly SocialGlyphModel[];
 }
