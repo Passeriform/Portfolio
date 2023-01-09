@@ -4,31 +4,36 @@ import type { Observable } from "rxjs";
 import { throwError } from "rxjs";
 import { catchError, retry } from "rxjs/operators";
 
-import type { ApiErrorResponse } from "@app/error/error.interface";
-import { ApiError, ClientError } from "@app/error/error.interface";
+import { ApiError, ClientError, HttpErrorCodes } from "@app/error/models/error.interface";
 
 export class HttpErrorInterceptor implements HttpInterceptor {
 	intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<ApiError | ClientError>> {
 		return next.handle(request)
 			.pipe(
 				retry(1),
-				catchError((error: ApiErrorResponse | ErrorEvent) => error instanceof ErrorEvent
-					? throwError(
-						// Client error
-						() => new ClientError({
-							message: error.message,
-							name: (error.error as Error).name,
-						}),
-					)
-					: throwError(
+				catchError((error: unknown) => {
+					if (error instanceof ErrorEvent) {
+						return throwError(
+							// Client error
+							() => new ClientError({
+								message: error.message,
+								name: (error.error as Error).name,
+							}),
+						);
+					}
+
+					const {
+						message = "",
+						name = "",
+						status = HttpErrorCodes.UNKNOWN_ERROR,
+						statusText = "",
+					} = error as ApiError;
+
+					return throwError(
 						// Server error
-						() => new ApiError({
-							message: error.message,
-							name: error.name,
-							status: error.status,
-							statusText: error.statusText,
-						}),
-					)),
+						() => new ApiError({ message, name, status, statusText }),
+					);
+				}),
 			);
 	}
 }
