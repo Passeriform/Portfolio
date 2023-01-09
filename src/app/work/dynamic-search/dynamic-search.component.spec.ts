@@ -1,15 +1,15 @@
 import type { ComponentFixture } from "@angular/core/testing";
-import { TestBed, async } from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 
 import { DynamicSearchComponent } from "./dynamic-search.component";
 
 describe("DynamicSearchComponent", () => {
-	let component: DynamicSearchComponent;
-	let fixture: ComponentFixture<DynamicSearchComponent>;
+	let component: DynamicSearchComponent<{ tags: readonly string[] }>;
+	let fixture: ComponentFixture<DynamicSearchComponent<{ tags: readonly string[] }>>;
 
-	beforeEach(async(() => {
+	beforeEach(waitForAsync(() => {
 		TestBed.configureTestingModule({
-			declarations: [DynamicSearchComponent],
+			declarations: [ DynamicSearchComponent ],
 		})
 			.compileComponents();
 	}));

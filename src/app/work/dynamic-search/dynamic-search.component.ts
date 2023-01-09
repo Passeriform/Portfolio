@@ -3,18 +3,20 @@ import type { AfterViewInit } from "@angular/core";
 
 import { Observable } from "rxjs";
 
-import { FuzzyAnalyzer } from "@shared/injectables/fuzzy-analyzer";
+import { scoreWord } from "@utility/fuzzy";
+import { stopClickPropagation } from "@utility/events";
 
 import { Constants } from "./dynamic-search.config";
 import type { RankedEntry } from "./dynamic-search.interface";
 
 @Component({
-	providers: [ FuzzyAnalyzer ],
 	selector: "app-dynamic-search",
 	styleUrls: [ "./dynamic-search.component.scss" ],
 	templateUrl: "./dynamic-search.component.html",
 })
 export class DynamicSearchComponent<T extends { readonly tags: readonly string[] }> implements AfterViewInit {
+	public searchText = "";
+
 	@Input() public readonly matchThreshold: number = Constants.MATCH_THRESHOLD;
 	@Input() public readonly minimumSearchLength: number = Constants.MINIMUM_SEARCH_LENGTH;
 	@Input() public model: readonly T[];
@@ -23,13 +25,7 @@ export class DynamicSearchComponent<T extends { readonly tags: readonly string[]
 	@Output() public readonly propagate: EventEmitter<readonly T[]> = new EventEmitter<readonly T[]>();
 
 	@HostListener("mousedown", [ "$event" ])
-	public onInputClick(event: MouseEvent): void {
-		event.stopPropagation()
-	}
-
-	public searchText = "";
-
-	constructor(private readonly fuzzyAnalyzer: FuzzyAnalyzer) { }
+	public onMousedown: (event: MouseEvent) => void = stopClickPropagation;
 
 	ngAfterViewInit() {
 		this.resetTrigger$.subscribe(() => {
@@ -43,7 +39,7 @@ export class DynamicSearchComponent<T extends { readonly tags: readonly string[]
 			.map((entry: T): RankedEntry<T> => ({
 				...entry,
 				score: entry.tags
-					.map((word: string) => this.fuzzyAnalyzer.scoreValue(word, this.searchText))
+					.map((word: string) => scoreWord(word, this.searchText))
 					.reduce((minScore: number, currentScore: number) => Math.max(minScore, currentScore)),
 			}))
 			.filter(

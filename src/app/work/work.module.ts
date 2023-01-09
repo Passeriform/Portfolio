@@ -36,7 +36,6 @@ import { WorkResolver } from "./work-resolver.service";
 		WorkRoutingModule,
 	],
 	providers: [
-		TaggerService,
 		WorkResolver,
 		WorkService,
 	],
