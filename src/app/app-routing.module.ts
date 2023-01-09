@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
-import type { LoadChildrenCallback, Routes } from "@angular/router";
-import { Route } from "@angular/router";
+import type { LoadChildrenCallback, Route, Routes } from "@angular/router";
 import { RouterModule } from "@angular/router";
 
 const constructLazy = (urlPath: string, childrenLoader: LoadChildrenCallback): Route => (
@@ -15,15 +14,19 @@ const constructLazy = (urlPath: string, childrenLoader: LoadChildrenCallback): R
 	}
 );
 
-// TODO: Pull filters from http service before bootstraping routes [dependency on GraphQL migration].
+// TODO: Pull filters from http service before bootstrapping routes [dependency on GraphQL migration].
 
 // TODO: Revert landing and work reordering when static values are available.
 
+// TODO: Convert naming about, work and landing to <route>Page. Move it to pages folder.
+
 // NOTE: Reordering landing and work modules as a hack to make same-named paths work.
 const routes: Routes = [
-	constructLazy("about", async () => import("./about/about.module").then((childModule) => childModule.AboutModule)),
-	constructLazy("", async () => import("./landing/landing.module").then((childModule) => childModule.LandingModule)),
-	constructLazy("", async () => import("./work/work.module").then((childModule) => childModule.WorkModule)),
+	/* eslint-disable @typescript-eslint/promise-function-async */
+	constructLazy("about", () => import("./about/about.module").then((childModule) => childModule.AboutModule)),
+	constructLazy("", () => import("./landing/landing.module").then((childModule) => childModule.LandingModule)),
+	constructLazy("", () => import("./work/work.module").then((childModule) => childModule.WorkModule)),
+	/* eslint-enable @typescript-eslint/promise-function-async */
 ];
 
 @NgModule({
@@ -31,7 +34,6 @@ const routes: Routes = [
 	imports: [
 		RouterModule.forRoot(routes, {
 			paramsInheritanceStrategy: "always",
-			relativeLinkResolution: "corrected",
 			// enableTracing: true,
 		}),
 	],

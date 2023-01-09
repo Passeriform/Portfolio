@@ -1,6 +1,7 @@
 import { Component, HostListener } from "@angular/core";
+import { FooterVariant } from "@app/footer/models/footer.interface";
 
-// import { LoaderService } from "@app/loader/loader.service";
+// import { LoaderService } from "@app/loader/services/loader.service";
 
 @Component({
 	selector: "app-root",
@@ -10,13 +11,16 @@ import { Component, HostListener } from "@angular/core";
 export class AppComponent {
 	// TODO: Support i18n
 
+	public readonly FooterVariant = FooterVariant;
+
 	public readonly title = "Passeriform";
 
 	/// Fix for dynamic viewport height in mobile browser
-	@HostListener("document:resize", [ "$event" ]) public onDocumentResize(): void {
+	@HostListener("document:resize", [ "$event" ])
+	public onDocumentResize(): void {
 		document.documentElement.style.setProperty(
 			"--apparent-viewport-height",
-			`${window.innerHeight}px`
+			`${window.innerHeight}px`,
 		);
 	}
 

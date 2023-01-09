@@ -1,4 +1,4 @@
-<app-footer i18n-maxItemCount i18n-variant variant="stacked" maxItemCount="6"></app-footer>
+<app-footer i18n-maxItemCount i18n-variant [variant]="FooterVariant.STACKED" [maxItemCount]="6"></app-footer>
 <router-outlet (activate)="onRouteChange()"></router-outlet>
 <app-navigator>
 </app-navigator>
