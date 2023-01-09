@@ -6,31 +6,21 @@ import { BehaviorSubject } from "rxjs";
 
 @Injectable()
 export class CanvasService {
-	private canvasElement: ElementRef<HTMLCanvasElement>;
 	private canvasContext: CanvasRenderingContext2D;
-	private readonly canvasElementSource$ = new BehaviorSubject<ElementRef<HTMLCanvasElement> | undefined>(undefined);
 	private readonly canvasContextSource$ = new BehaviorSubject<CanvasRenderingContext2D | undefined>(undefined);
+	private canvasElement: ElementRef<HTMLCanvasElement>;
+	private readonly canvasElementSource$ = new BehaviorSubject<ElementRef<HTMLCanvasElement> | undefined>(undefined);
 
-	public readonly canvasElement$: Observable<ElementRef<HTMLCanvasElement> | undefined> = this.canvasElementSource$.asObservable();
 	public readonly canvasContext$: Observable<CanvasRenderingContext2D | undefined> = this.canvasContextSource$.asObservable();
+	public readonly canvasElement$: Observable<ElementRef<HTMLCanvasElement> | undefined> = this.canvasElementSource$.asObservable();
 
 	constructor() {
-		this.canvasElementSource$.subscribe((canvasElement: ElementRef<HTMLCanvasElement>) => {
-			this.canvasElement = canvasElement;
-		});
 		this.canvasContextSource$.subscribe((canvasContext: CanvasRenderingContext2D) => {
 			this.canvasContext = canvasContext;
 		});
-	}
-
-	public setCanvasElement(canvas: ElementRef<HTMLCanvasElement>): void {
-		this.canvasElementSource$.next(canvas);
-	}
-
-	public refreshContext(): void {
-		this.canvasContextSource$.next(
-			this.canvasElement.nativeElement.getContext("2d") as CanvasRenderingContext2D | undefined,
-		);
+		this.canvasElementSource$.subscribe((canvasElement: ElementRef<HTMLCanvasElement>) => {
+			this.canvasElement = canvasElement;
+		});
 	}
 
 	public drawDot(
@@ -47,5 +37,15 @@ export class CanvasService {
 		/* eslint-disable-next-line no-magic-numbers */
 		this.canvasContext.arc(xPos, yPos, radius, 0, Math.PI * 2, true);
 		this.canvasContext.fill();
+	}
+
+	public refreshContext(): void {
+		this.canvasContextSource$.next(
+			this.canvasElement.nativeElement.getContext("2d") as CanvasRenderingContext2D | undefined,
+		);
+	}
+
+	public setCanvasElement(canvas: ElementRef<HTMLCanvasElement>): void {
+		this.canvasElementSource$.next(canvas);
 	}
 }
