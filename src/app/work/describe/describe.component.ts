@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 
-import type { WorkDescriptionModel } from "../work.interface";
+import { WorkDescriptionModel } from "./describe.interface";
 
 @Component({
 	selector: "app-describe",
