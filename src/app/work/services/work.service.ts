@@ -7,11 +7,14 @@ import { BehaviorSubject, combineLatest } from "rxjs";
 import { map, tap } from "rxjs/operators";
 
 import { environment } from "@env/environment";
-import { LoaderService } from "@app/loader/loader.service";
+import { filterNonKeywords, populateTags } from "@utility/tags";
 
 import type { WorkModel } from "../work.interface";
 import { NO_TRANSFORM } from "../work.config";
-import { TaggerService } from "./tagger.service";
+
+const extractKeywords = (textString: string): readonly string[] => filterNonKeywords(
+	textString.split(/[\s"(),./:;?\\\-]+/),
+);
 
 @Injectable()
 export class WorkService {
@@ -59,7 +62,16 @@ export class WorkService {
 					// TODO: Add a @trackForLoading decorator which awaits the statement and completes the loading as below
 					this.loaderService.beginLoading("[tag] work");
 
-					const taggedModel: readonly WorkModel[] = this.tagger.appendTags(model);
+					const taggedModel: readonly WorkModel[] = populateTags(model, (entry) => [
+						entry.type.toString(),
+						...extractKeywords(entry.title),
+						...extractKeywords(entry.subtitle),
+						...extractKeywords(entry.description),
+						...entry.license.map((license: License) => license.toString()),
+						...entry.languages.map((language: Language) => language.toString()),
+						...entry.frameworks.map((framework: Framework) => framework.toString()),
+						...entry.tools.map((tool: Tool) => tool.toString()),
+					]);
 
 					this.loaderService.endLoading("[tag] work");
 
