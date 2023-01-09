@@ -1,10 +1,13 @@
-import type { OnInit, QueryList } from "@angular/core";
-import { Component, ContentChildren, HostBinding } from "@angular/core";
+import type { OnInit } from "@angular/core";
+import { Component, ContentChildren, HostBinding, QueryList } from "@angular/core";
+
+import type { Observable } from "rxjs";
 
 import { SplashState } from "@core/services/splash-state.interface";
 import { SplashStateService } from "@core/services/splash-state.service";
+import { propagateClickToChildren } from "@utility/events";
 
-import { NavtabDirective } from "./navtab.directive";
+import { NavtabDirective } from "./directives/navtab.directive";
 
 @Component({
 	selector: "app-navtab",
@@ -16,28 +19,17 @@ export class NavtabComponent implements OnInit {
 
 	@ContentChildren(NavtabDirective) public readonly navtabItems: QueryList<NavtabDirective>;
 
-	public splashState: SplashState;
+	public splashState$: Observable<SplashState>;
+	public propagateClick: (clickEvent: MouseEvent | TouchEvent) => void = propagateClickToChildren;
 
 	constructor(private readonly splashStateService: SplashStateService) { }
 
 	ngOnInit() {
-		this.splashStateService.splashState$.subscribe(
-			(splashState: SplashState) => {
-				this.splashState = splashState;
-				this.shrinkFix = splashState !== SplashState.FOCUSSED;
-			},
-		);
+		this.splashState$ = this.splashStateService.splashState$;
+		this.splashState$.subscribe((splashState: SplashState) => {
+			this.shrinkFix = splashState !== SplashState.FOCUSSED;
+		});
 	}
 
 	// TODO: Shift to external utility
-
-	public propagateClick(event: MouseEvent | TouchEvent): void {
-		const target: HTMLElement = (
-			event.target ?? event.currentTarget
-		) as HTMLElement;
-
-		[ ...target.children ].forEach((child: HTMLElement) => {
-			child.click();
-		});
-	}
 }

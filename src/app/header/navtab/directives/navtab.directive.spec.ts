@@ -1,4 +1,4 @@
-import { NavtabDirective } from "./navtab.directive";
+import { NavtabDirective } from "./directives/navtab.directive";
 
 describe("NavtabDirective", () => {
 	it("should create an instance", () => {
