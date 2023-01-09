@@ -1,12 +1,12 @@
 import { TestBed } from "@angular/core/testing";
 
-import { PageEndRevealService } from "./services/page-end-reveal.service";
+import { PageRevealService } from "./page-reveal.service";
 
 describe("PageEndRevealService", () => {
 	beforeEach(() => TestBed.configureTestingModule({ }));
 
 	it("should be created", () => {
-		const service: PageEndRevealService = TestBed.get(PageEndRevealService);
+		const service: PageRevealService = TestBed.inject(PageRevealService);
 		expect(service).toBeTruthy();
 	});
 });
