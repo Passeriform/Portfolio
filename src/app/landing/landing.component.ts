@@ -1,7 +1,7 @@
 import type { AfterViewInit, OnInit } from "@angular/core";
 import { Component } from "@angular/core";
 
-import { LoaderService } from "@app/loader/loader.service";
+import { LoaderService } from "@app/loader/services/loader.service";
 import { SplashState } from "@core/services/splash-state.interface";
 import { SplashStateService } from "@core/services/splash-state.service";
 

@@ -1,9 +1,9 @@
 <!-- Use template name as input and register the template to a global scope for revealElements -->
 <app-scrollable
+		[allowEndReveal]="true"
 		[fullpage]="true"
 		[nestedScroll]="true"
 		[showPageNav]="true"
-		[allowEndReveal]="true"
 		(pageChangeEvent)="handlePageChange($event)"
 	>
 	<div class="page splash" id="splash" #page>
@@ -13,12 +13,12 @@
 		<div class="content">
 			<h1>PASSERIFORM</h1>
 			<!-- TODO: Consider using image in case unicode is unsupported -->
-			<app-sweeper i18n-leading [auto]="true" leading="❯">
+			<app-sweeper [auto]="true" [leading]="'❯'">
 				<!-- TODO: Add sweepable directive with label for sweeped item number -->
 				<p #sweepable>A pseudonym for quality.</p>
 				<!-- TODO: Add presence status UI -->
 				<p #sweepable>Status: Online</p>
-				<!-- TODO: Add GodWit workon API -->
+				<!-- TODO: Add GodWit WorkOn API -->
 				<p #sweepable>Working on <q>GodWit</q></p>
 			</app-sweeper>
 		</div>
