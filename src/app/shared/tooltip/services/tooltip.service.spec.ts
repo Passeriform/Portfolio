@@ -6,7 +6,7 @@ describe("TooltipService", () => {
 	beforeEach(() => TestBed.configureTestingModule({ }));
 
 	it("should be created", () => {
-		const service: TooltipService = TestBed.get(TooltipService);
+		const service: TooltipService = TestBed.inject(TooltipService);
 		expect(service).toBeTruthy();
 	});
 });
