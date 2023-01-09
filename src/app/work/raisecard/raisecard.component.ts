@@ -6,6 +6,6 @@ import { Component, Input } from "@angular/core";
 	templateUrl: "./raisecard.component.html",
 })
 export class RaisecardComponent {
-	@Input() public readonly title: string;
 	@Input() public readonly marker: string;
+	@Input() public readonly title: string;
 }
