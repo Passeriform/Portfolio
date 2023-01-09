@@ -13,6 +13,7 @@ import { NavigatorComponent } from "./navigator/navigator.component";
 import { IconUriPipe } from "./pipes/icon-uri.pipe";
 import { RetainPipe } from "./pipes/retain.pipe";
 import { SplitByPipe } from "./pipes/split-by.pipe";
+import { UnionArrayPipe } from "./pipes/union-array.pipe";
 import { BoldSpanPipe } from "./pipes/bold-span.pipe";
 import { EnvironmentPipe } from "./pipes/environment.pipe";
 import { WikiPipe } from "./pipes/wiki.pipe";
@@ -38,6 +39,7 @@ import { SocialGlyphsComponent } from "./social-glyphs/social-glyphs.component";
 		SplitByPipe,
 		TooltipComponent,
 		TooltipDirective,
+		UnionArrayPipe,
 		WikiPipe,
 	],
 	exports: [
@@ -58,6 +60,7 @@ import { SocialGlyphsComponent } from "./social-glyphs/social-glyphs.component";
 		SplitByPipe,
 		TooltipComponent,
 		TooltipDirective,
+		UnionArrayPipe,
 		WikiPipe,
 	],
 	imports: [
