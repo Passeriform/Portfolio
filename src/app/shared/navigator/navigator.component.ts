@@ -14,11 +14,12 @@ import { Component, ElementRef, HostBinding, HostListener, ViewChild } from "@an
 	templateUrl: "./navigator.component.html",
 })
 export class NavigatorComponent {
-	@ViewChild("clickCapture", { read: ElementRef }) public readonly captureElement: ElementRef;
-
 	public expanded = false;
 
-	@HostListener("mousedown", [ "$event" ]) public expand(event: MouseEvent): void {
+	@ViewChild("clickCapture", { read: ElementRef }) public readonly captureElement: ElementRef;
+
+	@HostListener("mousedown", [ "$event" ])
+	public onMousedown(event: MouseEvent): void {
 		if (this.expanded) {
 			const target = event.target ?? event.currentTarget;
 			if (target === this.captureElement.nativeElement) {
@@ -29,7 +30,8 @@ export class NavigatorComponent {
 		}
 	}
 
-	@HostBinding("class.expanded") public get isExpanded(): boolean {
+	@HostBinding("class.expanded")
+	public get isExpanded(): boolean {
 		return this.expanded;
 	}
 }
