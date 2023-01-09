@@ -128,7 +128,7 @@
       "decrement",
       "vertical",
       "horizontal",
-      "root",
+      "root"
     ],
     "selector-pseudo-element-allowed-list": [
       "link",

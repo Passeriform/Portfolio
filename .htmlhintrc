@@ -5,8 +5,8 @@
 	"attr-unsafe-chars": true,
 	"attr-value-double-quotes": true,
 	"attr-value-not-empty": false,
-  "csslint": true,
-  "doctyle-first": true,
+	"csslint": true,
+	"doctyle-first": true,
 	"doctype-html5": true,
 	"empty-tag-not-self-closed": true,
 	"href-abs-or-rel": false,
@@ -21,8 +21,8 @@
 	"spec-char-escape": true,
 	"src-not-empty": true,
 	"style-disabled": true,
-  "tag-pair": true,
+	"tag-pair": true,
 	"tag-self-close": true,
-  "tagname-lowercase": true,
-  "title-require": true
+	"tagname-lowercase": true,
+	"title-require": true
 }

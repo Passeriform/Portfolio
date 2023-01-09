@@ -106,3 +106,6 @@ dist
 
 # Spike files
 spike/
+
+# Angular
+.angular/

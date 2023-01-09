@@ -16,32 +16,34 @@
       "@shared/*": [
         "src/app/shared/*"
       ],
-			"@utility/*": [
+      "@utility/*": [
         "src/utility/*"
       ]
     },
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "strictNullChecks": true,
     "esModuleInterop": true,
-    "module": "es2020",
+    "module": "es2022",
     "moduleResolution": "node",
+    "noUncheckedIndexedAccess": true,
     "importHelpers": true,
-    "target": "es2015",
+    "target": "es2022",
     "typeRoots": [
       "node_modules/@types"
     ],
     "lib": [
-      "es2020",
+      "es2022",
       "dom",
       "dom.Iterable"
     ]
   },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
+    "strictTemplates": true,
     "strictInjectionParameters": true,
     "stringTemplates": true
   }
