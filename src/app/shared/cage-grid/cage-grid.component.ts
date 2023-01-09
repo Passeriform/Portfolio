@@ -1,7 +1,7 @@
-import type { AfterViewInit, QueryList } from "@angular/core";
-import { Component, ContentChildren } from "@angular/core";
+import type { AfterViewInit } from "@angular/core";
+import { Component, ContentChildren, QueryList } from "@angular/core";
 
-import { CageGridDirective } from "./cage-grid.directive";
+import { CageGridDirective } from "./directives/cage-grid.directive";
 
 @Component({
 	selector: "app-cage-grid",
