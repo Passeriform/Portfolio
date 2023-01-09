@@ -8,10 +8,10 @@ import { throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 
 import { environment } from "@env/environment";
-import { ErrorService } from "@app/error/error.service";
-import { LoaderService } from "@app/loader/loader.service";
+import { ErrorService } from "@app/error/services/error.service";
+import { LoaderService } from "@app/loader/services/loader.service";
 
-import type { AboutModel } from "./models/about.interface";
+import type { AboutModel } from "../models/about.interface";
 
 @Injectable()
 export class AboutResolver implements Resolve<AboutModel> {
@@ -26,9 +26,9 @@ export class AboutResolver implements Resolve<AboutModel> {
 		this.loaderService.beginLoading("[http] about");
 
 		return this.http
-			.get<AboutModel>(`${environment.apiUrl}/about/${route.params.slug as string || "passeriform"}`)
+			.get<AboutModel | undefined>(`${environment.apiUrl}/about/${route.params.slug as string || "passeriform"}`)
 			.pipe(
-				tap((model?: AboutModel) => {
+				tap((model) => {
 					this.loaderService.endLoading("[http] about");
 
 					if (!model) {

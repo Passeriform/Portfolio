@@ -2,9 +2,10 @@ import { NgModule } from "@angular/core";
 import type { Routes } from "@angular/router";
 import { RouterModule } from "@angular/router";
 
-import { AboutComponent } from "./about.component";
+// import { PersonalityGuard } from "@core/guards/personality.guard";
+
+import { AboutComponent } from "../about.component";
 import { AboutResolver } from "./about-resolver.service";
-// import { PersonalityGuard } from "../core";
 
 const routes: Routes = [
 	{
