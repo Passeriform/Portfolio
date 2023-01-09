@@ -1,4 +1,4 @@
-import { SplitByPipe } from "./splitBy.pipe";
+import { SplitByPipe } from "./split-by.pipe";
 
 describe("SplitByPipe", () => {
 	it("create an instance", () => {

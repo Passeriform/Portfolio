@@ -5,17 +5,9 @@ import { Pipe } from "@angular/core";
 	name: "retain",
 })
 export class RetainPipe implements PipeTransform {
-	transform(inObject: Record<string, unknown>, ...keepProperties: readonly string[]): Record<string, unknown> {
-		const outObject: Record<string, unknown> = { };
-
-		Object.keys(inObject).forEach(
-			(key: string) => {
-				if (keepProperties.includes(key)) {
-					outObject[key] = inObject[key];
-				}
-			},
-		);
-
-		return outObject;
+	transform<T extends Record<PropertyKey, any>, P extends keyof T>(inObject: T, ...keepProperties: readonly P[]): Pick<T, P> {
+		return Object.fromEntries(Object.entries(inObject).filter(
+			([ attrib ]) => keepProperties.includes(attrib as P),
+		)) as Pick<T, P>;
 	}
 }

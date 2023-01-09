@@ -1,4 +1,5 @@
-import { Pipe, PipeTransform, SecurityContext } from '@angular/core';
+import type { PipeTransform } from "@angular/core";
+import { Pipe, SecurityContext } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 
 @Pipe({
@@ -8,7 +9,7 @@ export class BoldSpanPipe implements PipeTransform {
 	constructor(private readonly sanitizer: DomSanitizer) { }
 
 	transform(text: string, rawPattern: RegExp | string): string | null {
-		const replacerPattern: RegExp = (typeof rawPattern === "string")
+		const replacerPattern: RegExp = typeof rawPattern === "string"
 			? new RegExp(rawPattern, "gi")
 			: rawPattern;
 
