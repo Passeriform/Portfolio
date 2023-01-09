@@ -3,11 +3,11 @@
 </div>
 <app-page-nav
 		*ngIf="showPageNav"
-		[position]="getPageNavPosition()"
+		[activePage]="pageIndex"
+		[apparentTravelFactor]="pageNavTravelFactor"
 		[discrete]="fullpage"
 		[items]="items"
-		[apparentTravelFactor]="pageNavTravelFactor"
-		[activePage]="pageIndex"
 		[keepExpanded]="!fullpage || startReveal || endReveal"
+		[position]="pageNavPosition"
 		(setActivePage)="setActivePageIndex($event)"
 	></app-page-nav>

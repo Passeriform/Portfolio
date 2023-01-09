@@ -1,21 +1,21 @@
 import type { ComponentFixture } from "@angular/core/testing";
-import { TestBed, async } from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 
-import { PagesComponent } from "./pages.component";
+import { ScrollableComponent } from "./scrollable.component";
 
-describe("PagesComponent", () => {
-	let component: PagesComponent;
-	let fixture: ComponentFixture<PagesComponent>;
+describe("ScrollableComponent", () => {
+	let component: ScrollableComponent;
+	let fixture: ComponentFixture<ScrollableComponent>;
 
-	beforeEach(async(() => {
+	beforeEach(waitForAsync(() => {
 		TestBed.configureTestingModule({
-			declarations: [ PagesComponent ],
+			declarations: [ ScrollableComponent ],
 		})
 			.compileComponents();
 	}));
 
 	beforeEach(() => {
-		fixture = TestBed.createComponent(PagesComponent);
+		fixture = TestBed.createComponent(ScrollableComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});
