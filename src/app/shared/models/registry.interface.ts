@@ -1,114 +1,127 @@
-// NOTE: Don"t touch this interface unless a better design approach is reached
+// NOTE: Don't touch this interface unless a better design approach is reached
 
+export const WType = {
+	misc: "misc",
+	product: "product",
+	project: "project",
+};
 
-export enum WType {
-	misc = "misc",
-	product = "product",
-	project = "project",
-}
+export type WType = typeof WType[keyof typeof WType];
 
-export enum License {
-	apache2 = "apache2",
-	free = "free",
-	gpl3 = "gpl3",
-	mit = "mit",
-}
+export const License = {
+	apache2: "apache2",
+	free: "free",
+	gpl3: "gpl3",
+	mit: "mit",
+};
 
-export enum Language {
-	assemblyx86 = "assemblyx86",
-	bash = "bash",
-	batch = "batch",
-	c = "c",
-	cpp = "cpp",
-	elua = "elua",
-	go = "go",
-	java = "java",
-	javascript = "javascript",
-	lua = "lua",
-	php = "php",
-	python = "python",
-	qt4 = "qt4",
-	ruby = "ruby",
-	rust = "rust",
-	shell = "shell",
-	solidity = "solidity",
-	typescript = "typescript",
-}
+export type License = typeof License[keyof typeof License];
 
-export enum Framework {
-	airsim = "airsim",
-	angular = "angular",
-	arduino = "arduino",
-	blas = "blas",
-	boost = "boost",
-	crossterm = "crossterm",
-	cuda = "cuda",
-	django = "django",
-	ethereum = "ethereum",
-	ffmpeg = "ffmpeg",
-	flask = "flask",
-	googleapi = "googleapi",
-	imlib = "imlib",
-	lex = "lex",
-	libav = "libav",
-	libglass = "libglass",
-	mathjax = "mathjax",
-	numpy = "numpy",
-	opencv = "opencv",
-	praw = "praw",
-	pygame = "pygame",
-	pytorch = "pytorch",
-	quovo = "quovo",
-	rabbitmq = "rabbitmq",
-	react = "react",
-	rst = "rst",
-	rxjs = "rxjs",
-	sass = "sass",
-	sympy = "sympy",
-	truffle = "truffle",
-	unreal = "unreal",
-	webgl = "webgl",
-	yacc = "yacc",
-	zmq = "zmq",
-}
+export const Language = {
+	assemblyx86: "assemblyx86",
+	bash: "bash",
+	batch: "batch",
+	c: "c",
+	cpp: "cpp",
+	elua: "elua",
+	go: "go",
+	java: "java",
+	javascript: "javascript",
+	lua: "lua",
+	php: "php",
+	python: "python",
+	qt4: "qt4",
+	ruby: "ruby",
+	rust: "rust",
+	shell: "shell",
+	solidity: "solidity",
+	typescript: "typescript",
+};
 
-export enum Tool {
-	blender = "blender",
-	cargo = "cargo",
-	cmake = "cmake",
-	dex = "dex",
-	ganache = "ganache",
-	ghpages = "ghpages",
-	illustrator = "illustrator",
-	latex = "latex",
-	make = "make",
-	man = "man",
-	photoshop = "photoshop",
-}
+export type Language = typeof Language[keyof typeof Language];
 
-export enum Social {
-	dribbble = "dribbble",
-	email = "email",
-	facebook = "facebook",
-	github = "github",
-	gitlab = "gitlab",
-	gmail = "gmail",
-	instagram = "instagram",
-	linkedin = "linkedin",
-	pinterest = "pinterest",
-	twitter = "twitter",
-}
+export const Framework = {
+	airsim: "airsim",
+	angular: "angular",
+	arduino: "arduino",
+	blas: "blas",
+	boost: "boost",
+	crossterm: "crossterm",
+	cuda: "cuda",
+	django: "django",
+	ethereum: "ethereum",
+	ffmpeg: "ffmpeg",
+	flask: "flask",
+	googleapi: "googleapi",
+	imlib: "imlib",
+	lex: "lex",
+	libav: "libav",
+	libglass: "libglass",
+	mathjax: "mathjax",
+	numpy: "numpy",
+	opencv: "opencv",
+	praw: "praw",
+	pygame: "pygame",
+	pytorch: "pytorch",
+	quovo: "quovo",
+	rabbitmq: "rabbitmq",
+	react: "react",
+	rst: "rst",
+	rxjs: "rxjs",
+	sass: "sass",
+	sympy: "sympy",
+	truffle: "truffle",
+	unreal: "unreal",
+	webgl: "webgl",
+	yacc: "yacc",
+	zmq: "zmq",
+};
 
-export enum GhEvent {
-	createEvent = "CreateEvent",
-	deleteEvent = "DeleteEvent",
-	forkEvent = "ForkEvent",
-	issuesEvent = "IssuesEvent",
-	pullRequestEvent = "PullRequestEvent",
-	pushEvent = "PushEvent",
-	releaseEvent = "ReleaseEvent",
-	watchEvent = "WatchEvent",
-}
+export type Framework = typeof Framework[keyof typeof Framework];
+
+export const Tool = {
+	blender: "blender",
+	cargo: "cargo",
+	cmake: "cmake",
+	dex: "dex",
+	ganache: "ganache",
+	ghpages: "ghpages",
+	illustrator: "illustrator",
+	latex: "latex",
+	make: "make",
+	man: "man",
+	photoshop: "photoshop",
+};
+
+export type Tool = typeof Tool[keyof typeof Tool];
+
+export const Social = {
+	dribbble: "dribbble",
+	email: "email",
+	facebook: "facebook",
+	github: "github",
+	gitlab: "gitlab",
+	gmail: "gmail",
+	instagram: "instagram",
+	linkedin: "linkedin",
+	pinterest: "pinterest",
+	twitter: "twitter",
+};
+
+export type Social = typeof Social[keyof typeof Social];
+
+export const GhEvent = {
+	createEvent: "CreateEvent",
+	deleteEvent: "DeleteEvent",
+	forkEvent: "ForkEvent",
+	issuesEvent: "IssuesEvent",
+	pullRequestEvent: "PullRequestEvent",
+	pushEvent: "PushEvent",
+	releaseEvent: "ReleaseEvent",
+	watchEvent: "WatchEvent",
+};
+
+export type GhEvent = typeof GhEvent[keyof typeof GhEvent];
 
 // NOTE: Only used as a union type for all icon-registry based operations.
 export type EntityIdentifierType = Framework | GhEvent | Language | License | Social | Tool | WType;
@@ -122,7 +135,10 @@ export const EntityIdentifier = {
 	...Tool,
 	...Social,
 	...GhEvent,
+	unknown: "Unknown Entity",
 };
+
+export type EntityIdentifier = typeof EntityIdentifier[keyof typeof EntityIdentifier];
 
 export interface EntityRegistry {
 	// Casual identifier
@@ -375,9 +391,9 @@ const frameworkRegistry: readonly EntityRegistry[] = [
 		wikiTitle: "Unreal Engine",
 	},
 	{
-		iconUrl: "^https://libglass.sourceforge.net/baseimages/libglass.jpg",
+		iconUrl: "https://libglass.sourceforge.net/baseimages/libglass.jpg",
 		identifier: Framework.libglass,
-		wikiTitle: "^https://libglass.sourceforge.net/baseimages/libglass.jpg",
+		wikiTitle: "https://libglass.sourceforge.net/baseimages/libglass.jpg",
 	},
 	{
 		iconUrl: "https://upload.wikimedia.org/wikipedia/en/b/b9/Nvidia_CUDA_Logo.jpg",
@@ -531,43 +547,43 @@ const toolRegistry: readonly EntityRegistry[] = [
 
 const socialRegistry: readonly EntityRegistry[] = [
 	{
-		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/envelope.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/svgs/solid/envelope.svg",
 		identifier: Social.email,
 	},
 	{
-		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/envelope.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/svgs/solid/envelope.svg",
 		identifier: Social.gmail,
 	},
 	{
-		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/svgs/brands/github.svg",
 		identifier: Social.github,
 	},
 	{
-		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/gitlab.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/svgs/brands/gitlab.svg",
 		identifier: Social.gitlab,
 	},
 	{
-		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/linkedin.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/svgs/brands/linkedin.svg",
 		identifier: Social.linkedin,
 	},
 	{
-		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/dribbble.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/svgs/brands/dribbble.svg",
 		identifier: Social.dribbble,
 	},
 	{
-		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/instagram.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/svgs/brands/instagram.svg",
 		identifier: Social.instagram,
 	},
 	{
-		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/facebook.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/svgs/brands/facebook.svg",
 		identifier: Social.facebook,
 	},
 	{
-		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/twitter.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/svgs/brands/twitter.svg",
 		identifier: Social.twitter,
 	},
 	{
-		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/pinterest.svg",
+		iconUrl: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/svgs/brands/pinterest.svg",
 		identifier: Social.pinterest,
 	},
 ];
@@ -583,6 +599,13 @@ export const registry: readonly EntityRegistry[] = [
 ];
 
 // TODO: Invert the registry building instead of this utility function.
-export const inverseGet = (queryValue) => Object.keys(EntityIdentifier).find(
-	(key: keyof typeof EntityIdentifier) => EntityIdentifier[key] === queryValue
-) ?? (() => { throw new Error("Entry not found in registry.") })()
+export const inverseGet = (queryValue: string) => Object.keys(EntityIdentifier).find(
+	(key: keyof typeof EntityIdentifier) => EntityIdentifier[key] === queryValue,
+) ?? EntityIdentifier.unknown;
+
+// TODO: Too many fallbacks make this hard to read. Use easier logic
+export const getWikiTitle = (entityString: string): string => {
+	return registry.find(
+		(entry: EntityRegistry) => entry.identifier === (EntityIdentifier[inverseGet(entityString)] || EntityIdentifier[entityString]),
+	)?.wikiTitle ?? EntityIdentifier[inverseGet(entityString)] ?? EntityIdentifier[entityString] ?? "";
+}
