@@ -1,7 +1,7 @@
-import type { AfterContentInit, ElementRef, QueryList } from "@angular/core";
-import { Component, ContentChildren, HostBinding, Input } from "@angular/core";
+import type { AfterContentInit, ElementRef } from "@angular/core";
+import { Component, ContentChildren, Input, QueryList } from "@angular/core";
 
-import { interval } from "rxjs";
+import { filter, interval } from "rxjs";
 
 import { Constants } from "./sweeper.config";
 
@@ -11,9 +11,9 @@ import { Constants } from "./sweeper.config";
 	templateUrl: "./sweeper.component.html",
 })
 export class SweeperComponent implements AfterContentInit {
-	@Input() public readonly leading: boolean;
 	@Input() public readonly auto: boolean;
 	@Input() public readonly delay: number = Constants.INITIAL_DELAY;
+	@Input() public readonly leading: string;
 
 	// TODO: Add read argument
 
@@ -23,14 +23,15 @@ export class SweeperComponent implements AfterContentInit {
 
 	public get sweepTransform(): string {
 		const factor: number = 100 / this.swipeList.length;
+
 		return `translateY(-${factor * this.inViewIndex}%) translateY(-0.5em)`;
 	}
 
 	ngAfterContentInit() {
-		interval(this.delay).subscribe(() => {
-			if (this.auto) {
+		interval(this.delay)
+			.pipe(filter(() => this.auto))
+			.subscribe(() => {
 				this.inViewIndex = (this.inViewIndex + 1) % this.swipeList.length;
-			}
-		});
+			});
 	}
 }

@@ -6,7 +6,7 @@ describe("SplashStateService", () => {
 	beforeEach(() => TestBed.configureTestingModule({ }));
 
 	it("should be created", () => {
-		const service: SplashStateService = TestBed.get(SplashStateService);
+		const service: SplashStateService = TestBed.inject(SplashStateService);
 		expect(service).toBeTruthy();
 	});
 });

@@ -6,6 +6,6 @@ export enum Position {
 }
 
 export enum Orientation {
-	VERTICAL = "vertical",
 	HORIZONTAL = "horizontal",
+	VERTICAL = "vertical",
 }
