@@ -436,6 +436,11 @@ module.exports = {
 							"group": "internal",
 							"position": "after",
 						},
+            {
+							"pattern": "@graphql/**",
+							"group": "internal",
+							"position": "after",
+						},
 						{
 							"pattern": "@utility/**",
 							"group": "internal",
@@ -510,6 +515,11 @@ module.exports = {
 					}
 				}],
 				"unicorn/prefer-at": "error",
+				"unicorn/prefer-module": ["error",
+        {
+
+        }
+        ],
 				"unicorn/prefer-object-has-own": "error",
 				"unicorn/prefer-string-replace-all": "error",
 				"unicorn/prefer-top-level-await": "error",
