@@ -33,6 +33,7 @@
     "esModuleInterop": true,
     "module": "es2022",
     "moduleResolution": "node",
+    "noErrorTruncation": true,
     "noUncheckedIndexedAccess": true,
     "importHelpers": true,
     "target": "es2022",
