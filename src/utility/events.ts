@@ -39,10 +39,6 @@ export const fromMotionEvent = (
 	),
 );
 
-export const selfTargetFilter = <E extends Event>(sourceTarget: EventTarget | HTMLElement): MonoTypeOperatorFunction<E> => filter(
-	(actualEvent: E) => actualEvent.target === sourceTarget,
-);
-
 export const stopClickPropagation = (clickEvent: MouseEvent): void => {
 	clickEvent.stopPropagation();
 };

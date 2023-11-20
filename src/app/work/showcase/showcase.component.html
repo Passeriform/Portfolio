@@ -8,11 +8,9 @@
 
   <div class="card-scroller">
 	<app-scrollable
-		[delta]="5"
+    [sensitivity]="100"
 		[orientation]="Orientation.HORIZONTAL"
 		[pageResetTrigger$]="scrollResetState$"
-		[sensitivity]="20"
-		[smoothScroll]="true"
 		#cardScroller
 	  >
 	  <app-raisecard

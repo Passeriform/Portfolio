@@ -3,6 +3,7 @@
 		[fullpage]="true"
 		[nestedScroll]="true"
 		[pageResetTrigger$]="scrollResetState$"
+    [throttle]="500"
 		[showPageNav]="true"
 	>
 	<ng-container *ngIf="selectedModel$ | async as selectedModel; else modelPlaceholder">
@@ -11,7 +12,7 @@
 				<div class="bg-img"></div>
 			</div>
 			<div class="content">
-				<app-describe [model]="selectedModel | retain: 'title':'subtitle':'logo':'screenshots':'description'">
+				<app-describe [model]="selectedModel | retain: 'assets':'brief':'logo':'subtitle':'title'">
 				</app-describe>
 			</div>
 		</div>
