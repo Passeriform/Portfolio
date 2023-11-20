@@ -1,0 +1,130 @@
+@mixin chromatic-aberration($color) {
+  $extracted-red: rgba(red($color), 0, 0);
+  $extracted-green: rgba(0, green($color), 0);
+  $extracted-blue: rgba(0, 0, blue($color));
+
+  @debug $extracted-blue;
+
+  @keyframes chromatic-aberration {
+    2% {
+      text-shadow:
+        0 0 0 $extracted-red,
+        0 0 0 $extracted-green,
+        0 0 0 $extracted-blue;
+    }
+    3% {
+      text-shadow:
+        -1px 0 1px $extracted-red,
+        2px 1px 0 $extracted-green,
+        0 0 0 $extracted-blue;
+    }
+    4% {
+      text-shadow:
+        0 2px 2px $extracted-red,
+        -1px 1px 1px $extracted-green,
+        0 0 0 $extracted-blue;
+    }
+    5% {
+      text-shadow:
+        0 0 0 $extracted-red,
+        -1px 1px 1px $extracted-green,
+        0 0 0 $extracted-blue;
+    }
+    8% {
+      text-shadow:
+        0 0 0 $extracted-red,
+        -1px 1px 0 $extracted-green,
+        0 0 0 $extracted-blue;
+    }
+    9% {
+      text-shadow:
+        1px 0 -1px $extracted-red,
+        2px 0 -2px $extracted-green,
+        0 0 0 $extracted-blue;
+    }
+    10% {
+      text-shadow:
+        1px 2px 1px $extracted-red,
+        1px 0px 1px $extracted-green,
+        0px 0px 2px $extracted-blue;
+    }
+    11% {
+      text-shadow:
+        1px 0 0 $extracted-red,
+        2px 0 1px $extracted-green,
+        0 2px 0 $extracted-blue;
+    }
+    12% {
+      text-shadow:
+        0 0 0 $extracted-red,
+        0 0 0 $extracted-green,
+        0 0 2px $extracted-blue;
+    }
+    24% {
+      text-shadow:
+        0 0 0 $extracted-red,
+        0 0 0 $extracted-green,
+        0 0 2px $extracted-blue;
+    }
+    25% {
+      text-shadow:
+        3px 2px -2px $extracted-red,
+        2px 1px 0 $extracted-green,
+        1px 1px 0 $extracted-blue;
+    }
+    26% {
+      text-shadow:
+        3px 0 0 $extracted-red,
+        2px 1px 0 $extracted-green,
+        0 1px 0 $extracted-blue;
+    }
+    28% {
+      text-shadow:
+        -2px -2px 2px $extracted-red,
+        -4px 0 0 $extracted-green,
+        1px -2px 0 $extracted-blue;
+    }
+    30% {
+      text-shadow:
+        0 -2px 0 $extracted-red,
+        -4px 0 0 $extracted-green,
+        1px -2px 0 $extracted-blue;
+    }
+    32% {
+      text-shadow:
+        -1px -2px 0 $extracted-red,
+        -2px 0 0 $extracted-green,
+        1px -2px 0 $extracted-blue;
+    }
+    36% {
+      text-shadow:
+        -1px 0 0 $extracted-red,
+        -1px 0 0 $extracted-green,
+        0 0 3px $extracted-blue;
+    }
+    62% {
+      text-shadow:
+        -1px 0 0 $extracted-red,
+        -1px 0 1px $extracted-green,
+        0 2px 0 $extracted-blue;
+    }
+    63% {
+      text-shadow:
+        -2px -2px 0 $extracted-red,
+        -2px 0 2px $extracted-green,
+        1px 1px 0 $extracted-blue;
+    }
+    64% {
+      text-shadow:
+        0 0 0 $extracted-red,
+        0 0 0 $extracted-green,
+        0 1px 0 $extracted-blue;
+    }
+    100% {
+      text-shadow:
+        0 0 0 $extracted-red,
+        0 0 0 $extracted-green,
+        0 0 0 $extracted-blue;
+    }
+  }
+}
