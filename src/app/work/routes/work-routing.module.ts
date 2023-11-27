@@ -8,7 +8,7 @@ import { routeFilters } from "../work.config";
 import { WorkComponent } from "../work.component";
 import { WorkResolver } from "./work-resolver.service";
 
-const routes: Routes = [
+const routes: Readonly<Routes> = [
 	// Register default explore route
 	{
 		component: WorkComponent,
@@ -68,6 +68,6 @@ const routes: Routes = [
 
 @NgModule({
 	exports: [ RouterModule ],
-	imports: [ RouterModule.forChild(routes) ],
+	imports: [ RouterModule.forChild(routes as Routes) ],
 })
 export class WorkRoutingModule { }

@@ -19,157 +19,157 @@ type EventWithPayload<P extends GithubEventPayload> = Omit<GithubEvent, "payload
 
 /* eslint-disable camelcase */
 
-interface GithubUser {
-	readonly avatar_url: string;
-	readonly id: number;
-	readonly login: string;
-	readonly url: string;
-}
+type GithubUser = Readonly<{
+	avatar_url: string;
+	id: number;
+	login: string;
+	url: string;
+}>;
 
-interface GithubRepo {
-	readonly id: number;
-	readonly name: string;
-	readonly url: string;
-}
+type GithubRepo = Readonly<{
+	id: number;
+	name: string;
+	url: string;
+}>;
 
-interface CommitCommentEventPayload {
-	readonly action: string;
-	readonly comment: Record<string, unknown>;
-}
+type CommitCommentEventPayload = Readonly<{
+	action: string;
+	comment: Record<string, unknown>;
+}>;
 
-interface CreateDeleteEventPayload {
-	readonly ref: string;
-	readonly ref_type: string;
-	readonly description?: string;
-	readonly master_branch?: string;
-}
+type CreateDeleteEventPayload = Readonly<{
+	ref: string;
+	ref_type: string;
+	description?: string;
+	master_branch?: string;
+}>;
 
-interface ForkEventPayload {
-	readonly forkee: Record<string, unknown>;
-}
+type ForkEventPayload = Readonly<{
+	forkee: Record<string, unknown>;
+}>;
 
-interface GollumEventPayload {
-	readonly pages: readonly {
-		readonly action: string;
-		readonly html_url: string;
-		readonly page_name: string;
-		readonly sha: string;
-		readonly title: string;
-	}[];
-}
+type GollumEventPayload = Readonly<{
+	pages: readonly Readonly<{
+		action: string;
+		html_url: string;
+		page_name: string;
+		sha: string;
+		title: string;
+	}>[];
+}>;
 
-interface IssueCommentEventPayload {
-	readonly action: string;
-	readonly changes: {
-		readonly body: {
-			readonly from: string;
+type IssueCommentEventPayload = Readonly<{
+	action: string;
+	changes: Readonly<{
+		body: {
+			from: string;
 		};
-	};
-	readonly comment: Record<string, unknown>;
-	readonly issue: Record<string, unknown>;
-}
+	}>;
+	comment: Record<string, unknown>;
+	issue: Record<string, unknown>;
+}>;
 
-interface IssuesEventPayload {
-	readonly action: string;
-	readonly assignee: Record<string, unknown>;
-	readonly changes: {
-		readonly body: { readonly from: string };
-		readonly title: { readonly from: string };
-	};
-	readonly issue: Record<string, unknown>;
-	readonly label: Record<string, unknown>;
-}
+type IssuesEventPayload = Readonly<{
+	action: string;
+	assignee: Record<string, unknown>;
+	changes: Readonly<{
+		body: { from: string };
+		title: { from: string };
+	}>;
+	issue: Record<string, unknown>;
+	label: Record<string, unknown>;
+}>;
 
-interface MemberEventPayload {
-	readonly action: string;
-	readonly changes: {
-		readonly old_permission: {
-			readonly from: string;
+type MemberEventPayload = Readonly<{
+	action: string;
+	changes: Readonly<{
+		old_permission: {
+			from: string;
 		};
-	};
-	readonly member: Record<string, unknown>;
-}
+	}>;
+	member: Record<string, unknown>;
+}>;
 
-interface PullRequestEventPayload {
-	readonly action: string;
-	readonly changes: {
-		readonly body: { readonly from: string };
-		readonly title: { readonly from: string };
-	};
+type PullRequestEventPayload = Readonly<{
+	action: string;
+	changes: Readonly<{
+		body: { from: string };
+		title: { from: string };
+	}>;
 	/* eslint-disable-next-line id-denylist */
-	readonly number: number;
-	readonly pull_request: Record<string, unknown>;
-}
+	number: number;
+	pull_request: Record<string, unknown>;
+}>;
 
-interface PullRequestReviewCommentEventPayload {
-	readonly action: string;
-	readonly changes: {
-		readonly body: {
-			readonly from: string;
+type PullRequestReviewCommentEventPayload = Readonly<{
+	action: string;
+	changes: Readonly<{
+		body: {
+			from: string;
 		};
-	};
-	readonly comment: Record<string, unknown>;
-	readonly pull_request: Record<string, unknown>;
-}
+	}>;
+	comment: Record<string, unknown>;
+	pull_request: Record<string, unknown>;
+}>;
 
-interface PushEventPayload {
-	readonly before: string;
-	readonly commits: readonly {
-		readonly author: {
-			readonly email: string;
-			readonly name: string;
+type PushEventPayload = Readonly<{
+	before: string;
+	commits: readonly Readonly<{
+		author: {
+			email: string;
+			name: string;
 		};
-		readonly distinct: boolean;
-		readonly message: string;
-		readonly sha: string;
-		readonly url: string;
-	}[];
-	readonly distinct_size: number;
-	readonly head: string;
-	readonly push_id: number;
-	readonly ref: string;
-	readonly size: number;
-}
+		distinct: boolean;
+		message: string;
+		sha: string;
+		url: string;
+	}>[];
+	distinct_size: number;
+	head: string;
+	push_id: number;
+	ref: string;
+	size: number;
+}>;
 
-interface ReleaseEventPayload {
-	readonly action: string;
-	readonly changes: {
-		readonly body: {
-			readonly from: string;
+type ReleaseEventPayload = Readonly<{
+	action: string;
+	changes: Readonly<{
+		body: {
+			from: string;
 		};
-		readonly name: {
-			readonly from: string;
+		name: {
+			from: string;
 		};
-		readonly release: Record<string, unknown>;
-	};
-}
+		release: Record<string, unknown>;
+	}>;
+}>;
 
-interface SponsorshipEventPayload {
-	readonly action: string;
-	readonly changes: {
-		readonly privacy_level: {
-			readonly from: string;
+type SponsorshipEventPayload = Readonly<{
+	action: string;
+	changes: Readonly<{
+		privacy_level: {
+			from: string;
 		};
-		readonly tier: {
-			readonly from: Record<string, unknown>;
+		tier: {
+			from: Record<string, unknown>;
 		};
-	};
-	readonly effective_date: string;
-}
+	}>;
+	effective_date: string;
+}>;
 
-interface WatchEventPayload {
-	readonly action: string;
-}
+type WatchEventPayload = Readonly<{
+	action: string;
+}>;
 
-export interface GithubEvent {
-	readonly actor: GithubUser;
-	readonly created_at: string;
-	readonly id: number;
-	readonly public: boolean;
-	readonly repo: GithubRepo;
-	readonly type: string;
-	readonly payload?: GithubEventPayload;
-}
+export type GithubEvent = Readonly<{
+	actor: GithubUser;
+	created_at: string;
+	id: number;
+	public: boolean;
+	repo: GithubRepo;
+	type: string;
+	payload?: GithubEventPayload;
+}>;
 
 /* eslint-enable camelcase */
 

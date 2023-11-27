@@ -7,10 +7,10 @@ export const enum LoadingState {
 }
 
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-export const enum Progress {
-	INIT = 0,
-	COMPLETE = 100,
-}
+export const ProgressCheckpoint = {
+	COMPLETE: 100,
+	INIT: 0,
+} as const;
 /* eslint-enable @typescript-eslint/no-magic-numbers */
 
 export const enum AnimationState {
@@ -20,7 +20,7 @@ export const enum AnimationState {
 }
 
 
-export interface LoaderConfig {
-	readonly retardationRate: number;
-	readonly yoffset: number;
-}
+export type LoaderConfig = Readonly<{
+	retardationRate: number;
+	yoffset: number;
+}>;

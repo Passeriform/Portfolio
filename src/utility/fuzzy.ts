@@ -1,7 +1,7 @@
-export interface FuzzySegment {
+export type FuzzySegment = {
 	isMatch: boolean;
 	value: string;
-}
+};
 
 // TODO: Prune results if score exceeds threshold to reduce the result array size
 

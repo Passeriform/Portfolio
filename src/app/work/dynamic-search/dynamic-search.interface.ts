@@ -1,1 +1,1 @@
-export type RankedEntry<T extends { readonly tags: readonly string[] }> = T & { score: number };
+export type RankedEntry<T extends { tags: readonly string[] }> = T & { score: number };

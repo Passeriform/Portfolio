@@ -9,11 +9,11 @@
       <p>{{ model.subtitle }}</p>
     </div>
 
-    <p>{{ model.description }}</p>
+    <p>{{ model.brief }}</p>
   </div>
 
-  <div *ngIf="model.screenshots" id="screenshot">
+  <div *ngIf="model.assets[0]" id="screenshot">
     <!-- // TODO: Add a slideshow of screenshots -->
-    <img alt="screenshot-{{ model.title }}-0" src="{{ model.screenshots[0] }}" />
+    <img alt="screenshot-{{ model.title }}-0" src="{{ model.assets[0] }}" />
   </div>
 </div>

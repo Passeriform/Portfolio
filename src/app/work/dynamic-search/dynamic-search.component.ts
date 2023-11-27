@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 
 import { scoreWord } from "@utility/fuzzy";
 import { stopClickPropagation } from "@utility/events";
+import type{ Taggable } from "@utility/tags";
 
 import { Constants } from "./dynamic-search.config";
 import type { RankedEntry } from "./dynamic-search.interface";
@@ -14,12 +15,12 @@ import type { RankedEntry } from "./dynamic-search.interface";
 	styleUrls: [ "./dynamic-search.component.scss" ],
 	templateUrl: "./dynamic-search.component.html",
 })
-export class DynamicSearchComponent<T extends { readonly tags: readonly string[] }> implements AfterViewInit {
+export class DynamicSearchComponent<T extends Required<Taggable>> implements AfterViewInit {
 	public searchText = "";
 
+	@Input() public model: readonly T[];
 	@Input() public readonly matchThreshold: number = Constants.MATCH_THRESHOLD;
 	@Input() public readonly minimumSearchLength: number = Constants.MINIMUM_SEARCH_LENGTH;
-	@Input() public model: readonly T[];
 	@Input() public readonly resetTrigger$: Observable<void>;
 
 	@Output() public readonly propagate: EventEmitter<readonly T[]> = new EventEmitter<readonly T[]>();

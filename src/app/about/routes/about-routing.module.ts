@@ -7,7 +7,7 @@ import { RouterModule } from "@angular/router";
 import { AboutComponent } from "../about.component";
 import { AboutResolver } from "./about-resolver.service";
 
-const routes: Routes = [
+const routes: Readonly<Routes> = [
 	{
 		component: AboutComponent,
 		path: "",
@@ -38,6 +38,6 @@ const routes: Routes = [
 
 @NgModule({
 	exports: [ RouterModule ],
-	imports: [ RouterModule.forChild(routes) ],
+	imports: [ RouterModule.forChild(routes as Routes) ],
 })
 export class AboutRoutingModule { }

@@ -1,3 +1,5 @@
+@use "sass:list";
+
 $max-children-per-root: 10;
 $root-stack-order: (
 	"footer",
@@ -14,21 +16,20 @@ $root-stack-order: (
 // TODO: Fix blur on backdrop-filter and filter (overlay, contact-form, error)
 // TODO: Add keyboard navigation
 
-
 @mixin stack($main: null, $internal: null, $internal-stack-order: ()) {
 	$main-order: 0;
 	$internal-order: 0;
 
-	@if $main == null {
+	@if not $main {
 		@warn "Global identifier omitted. Stacking only on local order.";
 	} @else if not(index($root-stack-order, $main)) {
 		@warn "Element #{$main} does not exist in root-stack-order. Sending behind all stacks.";
 	} @else {
-		$main-order: index($root-stack-order, $main);
+		$main-order: list.index($root-stack-order, $main);
 	}
 
-	@if $internal != null and index($internal-stack-order, $internal) {
-		$internal-order: index($internal-stack-order, $internal);
+	@if $internal and list.index($internal-stack-order, $internal) {
+		$internal-order: list.index($internal-stack-order, $internal);
 	}
 
 	z-index: ($main-order * $max-children-per-root) + $internal-order;

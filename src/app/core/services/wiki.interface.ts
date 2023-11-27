@@ -16,33 +16,33 @@ export const INIT_WIKI_RESPONSE_PAGE: WikiResponsePage = {
 	touched: "",
 };
 
-export interface WikiResponsePage {
-	readonly canonicalurl: string;
-	readonly contentmodel: string;
-	readonly description: string;
-	readonly descriptionsource: string;
-	readonly editurl: string;
-	readonly fullurl: string;
-	readonly lastrevid: number;
-	readonly length: number;
-	readonly ns: number;
-	readonly pageid: number;
-	readonly pagelanguage: string;
-	readonly pagelanguagedir: string;
-	readonly pagelanguagehtmlcode: string;
-	readonly title: string;
-	readonly touched: string;
-}
+export type WikiResponsePage = Readonly<{
+	canonicalurl: string;
+	contentmodel: string;
+	description: string;
+	descriptionsource: string;
+	editurl: string;
+	fullurl: string;
+	lastrevid: number;
+	length: number;
+	ns: number;
+	pageid: number;
+	pagelanguage: string;
+	pagelanguagedir: string;
+	pagelanguagehtmlcode: string;
+	title: string;
+	touched: string;
+}>;
 
-export interface WikiResponseModel {
-	readonly batchcomplete: boolean;
-	readonly query?: {
-		readonly pages?: readonly WikiResponsePage[];
-	};
-}
+export type WikiResponseModel = Readonly<{
+	batchcomplete: boolean;
+	query?: Readonly<{
+		pages?: readonly WikiResponsePage[];
+	}>;
+}>;
 
-export interface WikiEntry {
-	readonly description: string;
-	readonly href: string;
-	readonly title: string;
-}
+export type WikiEntry = Readonly<{
+	description: string;
+	href: string;
+	title: string;
+}>;

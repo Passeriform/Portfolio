@@ -17,7 +17,7 @@
       <h6>NAVIGATE</h6>
       <div>
         <ng-container *ngFor="let work of workEntries$ | async">
-          <a class="quick-links" routerLink="{{ work.link }}">{{ work.name }}</a>
+          <a class="quick-links" routerLink="{{ work.route }}">{{ work.title }}</a>
         </ng-container>
         <div class="separator horizontal"></div>
         <a routerLink="/explore">Explore</a>
@@ -29,7 +29,7 @@
       <h6>ABOUT US</h6>
       <div>
         <ng-container *ngFor="let entity of aboutEntries$ | async">
-          <a routerLink="{{ entity.link }}">{{ entity.name }}</a>
+          <a routerLink="{{ entity.route }}">{{ entity.title }}</a>
         </ng-container>
       </div>
     </div>

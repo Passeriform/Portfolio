@@ -45,16 +45,16 @@
 				font-family: "Share Tech Mono", monospace;
 				font-size: clamp(3em, 10vw, 10em);
 				font-weight: 500;
-        transition: color 0.2s ease;
-
-        &:hover {
-          color: map.get($theme, "accent", "invert", "hex");
-          animation: chromatic-aberration 10s ease infinite;
-        }
+				transition: color 0.2s ease;
 
 				@include reset-offsets;
-        @include disallow-selection;
-        @include chromatic-aberration(map.get($theme, "accent", "hex"));
+				@include disallow-selection;
+				@include chromatic-aberration(map.get($theme, "accent", "hex"));
+
+				&:hover {
+					color: map.get($theme, "accent", "invert", "hex");
+					animation: chromatic-aberration 10s ease infinite;
+				}
 			}
 		}
 	}

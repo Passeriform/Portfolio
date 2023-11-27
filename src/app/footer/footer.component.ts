@@ -2,11 +2,10 @@ import { Component, ElementRef, HostBinding, Input } from "@angular/core";
 
 import type { Observable } from "rxjs";
 
-import type { SocialGlyphModel } from "@shared/social-glyphs/social-glyphs.interface";
 import { PageRevealService } from "@core/services/page-reveal.service";
 
 import { Constants } from "./footer.config";
-import type { FooterLinkModel } from "./models/footer.interface";
+import type { TopAboutModel, TopSocialModel, TopWorkModel } from "./models/footer.interface";
 import { FooterVariant } from "./models/footer.interface";
 import { FooterService } from "./services/footer.service";
 
@@ -25,9 +24,9 @@ export class FooterComponent {
 	@Input() public readonly variant: FooterVariant = FooterVariant.STACKED;
 	@Input() public readonly workCount: number = this.maxItemCount - 2;
 
-	public aboutEntries$: Observable<readonly FooterLinkModel[]>;
-	public socialEntries$: Observable<readonly SocialGlyphModel[]>;
-	public workEntries$: Observable<readonly FooterLinkModel[]>;
+	public aboutEntries$: Observable<readonly TopAboutModel[]>;
+	public socialEntries$: Observable<readonly TopSocialModel[]>;
+	public workEntries$: Observable<readonly TopWorkModel[]>;
 
 	@HostBinding("class")
 	public get variantClass(): FooterVariant {
@@ -35,12 +34,12 @@ export class FooterComponent {
 	}
 
 	constructor(
-			private readonly pageEndRevealElement: ElementRef,
+			private readonly pageEndRevealElement: ElementRef<HTMLElement>,
 			private readonly pageRevealService: PageRevealService,
 			private readonly footerService: FooterService,
 	) {
 		// TODO: Move this setting logic to app.ts
-		this.pageRevealService.setEndRevealElement(pageEndRevealElement.nativeElement as HTMLElement);
+		this.pageRevealService.setEndRevealElement(pageEndRevealElement.nativeElement);
 		this.footerService.refreshLinks({
 			aboutCount: this.aboutCount,
 			socialCount: this.socialCount,

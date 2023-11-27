@@ -18,6 +18,7 @@ $content-shift-x-em: 0.2em;
 $content-shift-y-em: 0.2em;
 $border-shift-em: $title-flap-size-em - $cage-grid-border-size;
 $minimized-border-shift-em: $minimized-title-flap-size-em - $cage-grid-border-size;
+
 // TODO: Move this declaration into global config
 $stack-order: (
 	"content",
@@ -33,8 +34,7 @@ $stack-order: (
 	// TODO: Look for a cleaner alternative
 	@include media("screen", "landscape", "<=400px") {
 		flex-wrap: nowrap;
-		overflow-x: auto;
-		overflow-y: hidden;
+		overflow: auto hidden;
 		scrollbar-width: none;
 		-ms-overflow-style: none;
 

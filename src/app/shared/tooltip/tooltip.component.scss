@@ -35,6 +35,7 @@ $tooltip-arrow-size-em: 1em;
 	@include zero-perc-size;
 	@include unhide;
 	@include stack("tooltip");
+	@include pointer-disable;
 
 	@each $position in $valid-insets {
 		&.#{$position} {
@@ -83,9 +84,9 @@ $tooltip-arrow-size-em: 1em;
 
 		@include max-content-width($tooltip-window-width-em);
 
-    &.content-padding {
-      padding: 1em 2em;
-    }
+		&.content-padding {
+			padding: 1em 2em;
+		}
 
 		&:after {
 			position: absolute;

@@ -5,21 +5,25 @@
 		[showPageNav]="true"
     [throttle]="500"
 	>
-  <div *ngIf="model.intro" class="page" id="intro" #page>
+  <div *ngIf="model.brief" class="page" id="intro" #page>
 		<div class="bg-img-wrapper">
 			<div class="bg-img"></div>
 		</div>
     <div class="content">
       <app-namecard
-          [avatar]="{'link': '/about/' + model.subject}"
-          [avatarImage]="model.intro.img ? {'alt': 'profile-img', 'src': model.intro.img} : undefined"
-          [description]="model.intro.paragraph"
-          [name]="model.intro.heading"
+          [avatar]="{
+            'src': model.avatar,
+            'alt': model.slug
+          }"
+          [description]="model.brief"
+          [name]="model.additionalTitle ?? model.title"
+          [link]="model.route"
         >
       </app-namecard>
     </div>
   </div>
-  <div *ngIf="model.overview" class="page" id="overview" #page>
+
+  <!-- <div *ngIf="model.overview" class="page" id="overview" #page>
 		<div class="bg-img-wrapper">
 			<div class="bg-img"></div>
 		</div>
@@ -33,23 +37,23 @@
         </section>
       </div>
     </div>
-  </div>
-  <div *ngIf="model.story" class="page" id="story" #page>
+  </div> -->
+  <!-- <div *ngIf="model.story" class="page" id="story" #page>
 		<div class="bg-img-wrapper">
 			<div class="bg-img"></div>
 		</div>
     <div class="content">
       <div class="content-wrapper">
         <section *ngFor="let section of model.story">
-          <img i18n-alt *ngIf="section.img" alt="story-section-img" src="{{ section.img }}" />
+          <img i18n-alt *ngIf="section.image" alt="story-section-img" src="{{ section.image }}" />
           <p>
             {{ section.entry.paragraph }}
           </p>
         </section>
       </div>
     </div>
-  </div>
-  <div *ngIf="model.contributors" class="page" id="contributors" #page>
+  </div> -->
+  <!-- <div *ngIf="model.contributors" class="page" id="contributors" #page>
 		<div class="bg-img-wrapper">
 			<div class="bg-img"></div>
 		</div>
@@ -73,29 +77,28 @@
         </div>
       </app-cage-grid>
     </div>
-  </div>
-  <div *ngIf="model.contact" class="page" id="contact" #page>
+  </div> -->
+  <div class="page" id="contact" #page>
 		<div class="bg-img-wrapper">
 			<div class="bg-img"></div>
 		</div>
     <div class="content">
       <div class="content-wrapper">
-        <img i18n-alt alt="contact-img" src="{{ model.contact.img }}" />
         <div class="contact-details">
-          <h1>{{ model.contact.heading }}</h1>
-          <p>{{ model.contact.paragraph }}</p>
+          <h1>Contact Details</h1>
+          <p>{{ model.contactMessage }}</p>
 
           <app-contact-form></app-contact-form>
 
           <p class="postform">
-            {{ model.contact.mediaplugpara }}
+            {{ model.contactMessage }}
           </p>
         </div>
         <!-- TODO: Try updating the below ngIf to use safe-navigation -->
-        <ng-container *ngIf="model.contact.links">
+        <ng-container *ngIf="model.socials">
           <app-social-glyphs
               [invert]="true"
-              [model]="model.contact.links"
+              [model]="model.socials"
             ></app-social-glyphs>
         </ng-container>
       </div>

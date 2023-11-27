@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "sass:map";
 @use "sass:math";
 @use "map-plus";
@@ -7,7 +8,7 @@ $theme-registry: ("default": generate-color-swatch());
 
 /// Registry operations
 @function register-theme($themeAccessor, $swatch) {
-	@if ($theme-accessor == null) {
+	@if not $theme-accessor {
 		@error "Must specify an accessor string as key for registering swatch.";
 	}
 
@@ -49,7 +50,6 @@ $theme-registry: ("default": generate-color-swatch());
 	$canvas: map-plus.merge-all(("hex": $canvas), generate-accents($canvas));
 	$highlight: map-plus.merge-all(("hex": $highlight), generate-accents($highlight));
 	$shadow: map-plus.merge-all(("hex": $shadow), generate-accents($shadow));
-
 	$primitive-map: (
 		"primary": $primary,
 		"secondary": $secondary,
@@ -66,7 +66,7 @@ $theme-registry: ("default": generate-color-swatch());
 }
 
 @function generate-accents($color) {
-	@if ($color == null) {
+	@if not $color {
 		@error "No color was supplied to the function";
 	}
 
@@ -74,19 +74,16 @@ $theme-registry: ("default": generate-color-swatch());
 
 	@for $factor from 1 through 15 {
 		$percent: $factor * 5;
-
 		$shade: (
 			"dark-#{$percent}%": (
-				"hex": darken($color, percentage(math.div($percent, 100)))
+				"hex": color.adjust($color, $lightness: -1 * math.percentage(math.div($percent, 100)))
 			)
 		);
-
 		$tint: (
 			"light-#{$percent}%": (
-				"hex": lighten($color, percentage(math.div($percent, 100)))
+				"hex": color.adjust($color, $lightness: math.percentage(math.div($percent, 100)))
 			)
 		);
-
 		$shades-and-tints: map-plus.merge-all($shades-and-tints, $shade, $tint);
 	}
 

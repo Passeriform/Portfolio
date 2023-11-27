@@ -4,7 +4,8 @@ import { HttpClient } from "@angular/common/http";
 import type { Observable } from "rxjs";
 import { map, shareReplay } from "rxjs/operators";
 
-import { getWikiTitle } from "@shared/models/registry.interface";
+import type { EntityIdentifierType } from "@shared/models/registry.interface";
+import { registry } from "@shared/models/registry.interface";
 
 import type { WikiEntry, WikiResponseModel, WikiResponsePage } from "./wiki.interface";
 import { INIT_WIKI_RESPONSE_PAGE } from "./wiki.interface";
@@ -17,7 +18,7 @@ export class WikiService {
 
 	// TODO: Use Cirrus search API instead of this hack
 
-	private fetchWikiDetails$(entity: string): Observable<WikiEntry> {
+	private fetchWikiDetails$(entity: EntityIdentifierType): Observable<WikiEntry> {
 		// TODO: Move to environment when finalized.
 
 		const callUrl: string = "https://en.wikipedia.org/w/api.php?"
@@ -27,7 +28,7 @@ export class WikiService {
 			+ "&prop=info|description"
 			+ "&formatversion=2"
 			+ "&inprop=url"
-			+ `&titles=${getWikiTitle(entity)}`;
+			+ `&titles=${registry.get(entity)?.wikiTitle ?? ""}`;
 
 		/*
 		 * Alternative Wiki APIs (extraction)
@@ -71,11 +72,7 @@ export class WikiService {
 					title,
 				}: WikiResponsePage = page ?? INIT_WIKI_RESPONSE_PAGE;
 
-				return {
-					description,
-					href,
-					title,
-				};
+				return { description, href, title };
 			}),
 			shareReplay(1),
 		);
@@ -83,9 +80,10 @@ export class WikiService {
 
 	constructor(private readonly http: HttpClient) { }
 
-	public getWikiDetail$(entryKey: string): Observable<WikiEntry> {
+	public getWikiDetail$(entryKey: EntityIdentifierType): Observable<WikiEntry> {
 		const wikiEntry$ = this.wikiEntries[entryKey] ?? this.fetchWikiDetails$(entryKey);
-    this.wikiEntries[entryKey] = wikiEntry$;
+		this.wikiEntries[entryKey] = wikiEntry$;
+
 		return wikiEntry$;
 	}
 }

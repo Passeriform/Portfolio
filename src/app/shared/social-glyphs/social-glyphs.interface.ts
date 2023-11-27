@@ -1,6 +1,6 @@
-import type { Social } from "@shared/models/registry.interface";
+import type { Social_Media_Type } from "@graphql/generated/schema";
 
-export interface SocialGlyphModel {
-	readonly link: string;
-	readonly type: Social;
-}
+export type SocialGlyphModel = {
+	link: Readonly<string>;
+	type: Readonly<Social_Media_Type>;
+};

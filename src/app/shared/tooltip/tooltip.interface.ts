@@ -2,7 +2,7 @@ import type { ElementRef, TemplateRef } from "@angular/core";
 
 import type { Position } from "../models/cardinals.interface";
 
-export interface TooltipTemplateConfig {
+export type TooltipTemplateConfig = {
 	contentPadding: boolean;
 	corner: boolean;
 	invert: boolean;
@@ -11,4 +11,4 @@ export interface TooltipTemplateConfig {
 	show: boolean;
 	template: TemplateRef<ElementRef> | undefined;
 	top: number;
-}
+};

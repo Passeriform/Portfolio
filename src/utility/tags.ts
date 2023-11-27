@@ -1,10 +1,10 @@
-interface Taggable {
-	tags?: string[];
-}
+export type Taggable = {
+	tags?: readonly string[];
+};
 
-type TagTransform<T extends Taggable> = (entry: T) => NonNullable<Taggable["tags"]>;
+export type TagTransform<T extends Taggable> = (entry: T) => NonNullable<T["tags"]>;
 
-export const nonKeywords: string[] = [
+export const nonKeywords: readonly string[] = [
 	"a",
 	"am",
 	"an",
@@ -38,7 +38,7 @@ export const nonKeywords: string[] = [
 	"you",
 ];
 
-export const filterNonKeywords = (words: string[]): string[] => words.filter(
+export const filterNonKeywords = (words: readonly string[]): readonly string[] => words.filter(
 	(word: string) => word && !nonKeywords.includes(word.toLowerCase()),
 );
 
@@ -47,12 +47,11 @@ export const populateTags = <T extends Taggable>(
 	modelCollection: readonly T[],
 	strategy: TagTransform<T> = (model: T) => model.tags ?? [],
 ): readonly T[] => modelCollection.map(
-	(model: T) => {
-		model.tags = [
+	(model: T) => ({
+		...model,
+		tags: [
 			...model.tags ?? [],
 			...strategy(model),
-		];
-
-		return model;
-	},
+		],
+	}),
 );
