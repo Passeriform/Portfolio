@@ -10,7 +10,6 @@ import { ShowcaseComponent } from "./showcase/showcase.component";
 import { TechStackComponent } from "./tech-stack/tech-stack.component";
 import { WorkService } from "./services/work.service";
 import { WorkRoutingModule } from "./routes/work-routing.module";
-import { WorkResolver } from "./routes/work-resolver.service";
 import { WorkComponent } from "./work.component";
 
 @NgModule({
@@ -34,9 +33,6 @@ import { WorkComponent } from "./work.component";
 		SharedModule,
 		WorkRoutingModule,
 	],
-	providers: [
-		WorkResolver,
-		WorkService,
-	],
+	providers: [ WorkService ],
 })
 export class WorkModule { }
