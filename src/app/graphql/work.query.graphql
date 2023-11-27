@@ -1,0 +1,53 @@
+query GetAllWork {
+  workCollection {
+    edges {
+      work: node {
+        type
+        title
+        subtitle
+        route
+        license
+        repository
+        languages
+        tools
+        tags
+        brief
+        slug
+        frameworks
+        logo
+        work_assetsCollection {
+          edges {
+            asset: node {
+              type
+              resource
+            }
+          }
+        }
+        work_referencesCollection {
+          edges {
+            references: node {
+              relation
+              work {
+                slug
+                title
+                route
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+query GetTopWorks($limit: Int = 10) {
+  workCollection(first: $limit) {
+    edges {
+      work: node {
+        slug
+        route
+        title
+      }
+    }
+  }
+}

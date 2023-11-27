@@ -1,0 +1,47 @@
+query GetPeople($slug: String!) {
+  peopleCollection(filter: { slug: { eq: $slug } }) {
+    edges {
+      people: node {
+        slug
+        title
+        route
+        avatar
+        type
+        brief
+        contactMessage: contact_message
+        additionalTitle: additional_title
+        socialCollection {
+          edges {
+            social: node {
+              link
+              type
+            }
+          }
+        }
+        people_storyCollection {
+          edges {
+            story: node {
+              story_chunk
+              image
+              from
+              upto
+              after
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+query GetTopPeople($limit: Int = 10) {
+  peopleCollection(first: $limit) {
+    edges {
+      people: node {
+        slug
+        route
+        title
+      }
+    }
+  }
+}

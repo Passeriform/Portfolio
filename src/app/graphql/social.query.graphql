@@ -1,0 +1,17 @@
+query GetSocialLinks($slug: String = "passeriform") {
+  peopleCollection(filter: { slug: { eq: $slug } }) {
+    edges {
+      people: node {
+        slug
+        socialCollection {
+          edges {
+            social: node {
+              link
+              type
+            }
+          }
+        }
+      }
+    }
+  }
+}

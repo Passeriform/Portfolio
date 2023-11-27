@@ -1,23 +1,39 @@
+// eslint-disable-next-line import/no-nodejs-modules
+import path from "node:path";
 import type { CodegenConfig } from "@graphql-codegen/cli";
-import dotenv from "dotenv";
-import path from "path";
+import { config as loadEnvironment } from "dotenv";
 
-dotenv.config();
+loadEnvironment();
 
 // eslint-disable-next-line unicorn/prefer-module
 const root = path.resolve(__filename, "../..");
 
-const { graphqlApiKey, graphqlServerUri } = process.env;
+const { GRAPHQL_API_KEY, GRAPHQL_SERVER_URI } = process.env;
 
-if (graphqlApiKey === undefined || graphqlServerUri === undefined) {
-	// eslint-disable-next-line functional/no-throw-statement
+if (!GRAPHQL_API_KEY || !GRAPHQL_SERVER_URI) {
+	// eslint-disable-next-line functional/no-throw-statements
 	throw new Error("Failed to load environment. Cannot import schema.");
 }
+
+// TODO: Redefine Maybe using option to disallow nullable fields
+// TODO: Rename enums to PascalCase
 
 const config: CodegenConfig = {
 	documents: [ `${root}/src/**/*.graphql` ],
 	generates: {
-		[`${root}/src/app/graphql/generated/queries.ts`]: {
+		[`${root}/src/app/graphql/generated/schema.ts`]: {
+			config: {
+				allowEnumStringTypes: true,
+				avoidOptionals: true,
+				defaultScalarType: "unknown",
+				enumsAsTypes: true,
+				immutableTypes: true,
+				maybeValue: "T | undefined",
+				namingConvention: "change-case-all#pascalCase",
+				skipTypename: true,
+				transformUnderscore: true,
+				useTypeImports: true,
+			},
 			plugins: [
 				"typescript",
 				"typescript-apollo-angular",
@@ -28,9 +44,9 @@ const config: CodegenConfig = {
 	overwrite: true,
 	schema: [
 		{
-			[graphqlServerUri]: {
+			[ GRAPHQL_SERVER_URI ]: {
 				headers: {
-					apiKey: graphqlApiKey,
+					apiKey: GRAPHQL_API_KEY,
 				},
 			},
 		},
