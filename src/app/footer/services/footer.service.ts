@@ -1,58 +1,44 @@
-import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 import type { Observable } from "rxjs";
 import { BehaviorSubject, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
-import { environment } from "@env/environment";
-import type { SocialGlyphModel } from "@shared/social-glyphs/social-glyphs.interface";
-import { LoaderService } from "@app/loader/services/loader.service";
 import { ErrorService } from "@app/error/services/error.service";
-import { pluck } from "@utility/rxjs";
+import { LoaderService } from "@app/loader/services/loader.service";
+import { GetSocialLinksGQL, GetTopPeopleGQL, GetTopWorksGQL } from "@graphql/generated/schema";
+import { extractTopPeople } from "@graphql/transformers/people.transformer";
+import { extractTopSocialLinks } from "@graphql/transformers/social.transformer";
+import { extractTopWorks } from "@graphql/transformers/work.transformer";
 
-import type { FooterLinkModel } from "../models/footer.interface";
+import type { TopAboutModel, TopSocialModel, TopWorkModel } from "../models/footer.interface";
 
 // TODO: Port http data service code to vercel graphql instance.
 
 @Injectable()
 export class FooterService {
-	private readonly topAboutSource$ = new BehaviorSubject<readonly FooterLinkModel[]>([]);
-	private readonly topSocialSource$ = new BehaviorSubject<readonly SocialGlyphModel[]>([]);
-	private readonly topWorkSource$ = new BehaviorSubject<readonly FooterLinkModel[]>([]);
+	private readonly topAboutSource$ = new BehaviorSubject<readonly TopAboutModel[]>([]);
+	private readonly topSocialSource$ = new BehaviorSubject<readonly TopSocialModel[]>([]);
+	private readonly topWorkSource$ = new BehaviorSubject<readonly TopWorkModel[]>([]);
 
-	public readonly aboutEntriesState$: Observable<readonly FooterLinkModel[]> = this.topAboutSource$.asObservable();
-	public readonly socialEntriesState$: Observable<readonly SocialGlyphModel[]> = this.topSocialSource$.asObservable();
-	public readonly workEntriesState$: Observable<readonly FooterLinkModel[]> = this.topWorkSource$.asObservable();
+	public readonly aboutEntriesState$: Observable<readonly TopAboutModel[]> = this.topAboutSource$.asObservable();
+	public readonly socialEntriesState$: Observable<readonly TopSocialModel[]> = this.topSocialSource$.asObservable();
+	public readonly workEntriesState$: Observable<readonly TopWorkModel[]> = this.topWorkSource$.asObservable();
 
 	constructor(
 			private readonly errorService: ErrorService,
-			private readonly http: HttpClient,
+			private readonly getTopPeopleGQL: GetTopPeopleGQL,
+			private readonly getTopWorksGQL: GetTopWorksGQL,
+			private readonly getSocialLinksGQL: GetSocialLinksGQL,
 			private readonly loaderService: LoaderService,
 	) { }
 
 	private refreshAboutEntries(aboutCount: number): void {
 		this.loaderService.beginLoading("[http] [footer] aboutEntries");
 
-		this.http
-			.get<{ data: FooterLinkModel[] }>(
-				`${environment.apiUrl}/about?`
-				+ `epp=${aboutCount}&`
-				+ "page=1&"
-				+ "select=intro.heading,subject&"
-				+ "attribs=intro.heading,subject&"
-				+ "rename=name,link",
-			)
+		this.getTopPeopleGQL.watch({ limit: aboutCount }).valueChanges
 			.pipe(
-				pluck("data"),
-				map(
-					(aboutEntries) => aboutEntries.map(
-						(about) => ({
-							...about,
-							link: `about/${about.link}`,
-						}),
-					),
-				),
+				map(extractTopPeople),
 				catchError((error: unknown) => {
 					this.loaderService.endLoading("[http] [footer] aboutEntries");
 					this.errorService.displayError(error);
@@ -70,16 +56,11 @@ export class FooterService {
 	private refreshSocialEntries(socialCount: number): void {
 		this.loaderService.beginLoading("[http] [footer] social");
 
-		this.http
-			.get<{ contact: { readonly links: readonly SocialGlyphModel[] } }>(
-				`${environment.apiUrl}/about/utkarsh-bhardwaj?`,
-			)
+		this.getSocialLinksGQL.watch().valueChanges
 			.pipe(
-				pluck("contact"),
-				pluck("links"),
-				/* eslint-enable-next-line @typescript-eslint/no-magic-numbers */
-				map((socialDocuments) => socialDocuments.slice(0, socialCount)),
-				catchError((error: unknown): Observable<SocialGlyphModel[]> => {
+				map(extractTopSocialLinks),
+				map((socialLinks) => socialLinks.slice(0, socialCount)),
+				catchError((error: unknown) => {
 					this.loaderService.endLoading("[http] [footer] social");
 					this.errorService.displayError(error);
 
@@ -96,30 +77,14 @@ export class FooterService {
 	private refreshWorkEntries(workCount: number): void {
 		this.loaderService.beginLoading("[http] [footer] workEntries");
 
-		this.http
-			.get<{ data: (FooterLinkModel & { label: string })[] }>(
-				`${environment.apiUrl}/work?`
-				+ `epp=${workCount}&`
-				+ "page=1&"
-				+ "select=title,type,ref&"
-				+ "attribs=title,type,ref&"
-				+ "rename=name,label,link",
-			)
+		this.getTopWorksGQL.watch({ limit: workCount }).valueChanges
 			.pipe(
-				pluck("data"),
-				map(
-					(workEntries) => workEntries.map(
-						(work: FooterLinkModel & { label: string }) => ({
-							link: `${work.label}/${work.link}`,
-							name: work.name,
-						}),
-					),
-				),
-				catchError((error: unknown): Observable<FooterLinkModel[]> => {
+				map(extractTopWorks),
+				catchError((error: unknown) => {
 					this.loaderService.endLoading("[http] [footer] workEntries");
 					this.errorService.displayError(error);
 
-					return of([]);
+					return of([] as readonly TopWorkModel[]);
 				}),
 			)
 			.subscribe((workEntries): void => {

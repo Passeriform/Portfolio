@@ -110,14 +110,14 @@ $linear-breakpoint: 42em;
 	}
 
 	&.linear {
-		@include linear;
+    @include linear;
 	}
 
-	@include media(">#{$linear-breakpoint}") {
-		&.stacked {
-			@include stacked;
-		}
-	}
+  @include media(">#{$linear-breakpoint}") {
+    &.stacked {
+      @include stacked;
+    }
+  }
 
 	& > #post-note {
 		background-color: map.get($theme, "background", "light-10%", "hex");
@@ -141,9 +141,9 @@ $linear-breakpoint: 42em;
 	}
 
 	& > #footer-content {
+		flex-grow: 0;
 		padding: 2em 0;
 		background-color: map.get($theme, "background", "hex");
-		flex-grow: 0;
 
 		@include full-viewport-width;
 

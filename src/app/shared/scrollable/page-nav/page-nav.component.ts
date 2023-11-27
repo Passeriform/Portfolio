@@ -68,10 +68,6 @@ export class PageNavComponent implements AfterViewInit, OnChanges {
 		this.elementReference.nativeElement.style.setProperty("--traveller-offset", `${index}`);
 	}
 
-	ngAfterViewInit() {
-		this.updateTravellerPosition(this.activePage);
-	}
-
 	ngOnChanges(changes: PageNavChanges) {
 		if (changes.items) {
 			this.elementReference.nativeElement.style.setProperty("--item-step-count", `${this.items.length}`);
@@ -84,6 +80,10 @@ export class PageNavComponent implements AfterViewInit, OnChanges {
 				this.updateTravellerPosition(this.activePage * this.apparentTravelFactor);
 			}
 		}
+	}
+
+	ngAfterViewInit() {
+		this.updateTravellerPosition(this.activePage);
 	}
 
 	public switchToPage(travellerPosition: number): void {

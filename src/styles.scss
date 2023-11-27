@@ -9,16 +9,14 @@ $theme: generate-color-swatch($highlight: #ADFF22, $shadow: #0000000F);
 
 /// CSS Variables
 :root {
-	--shrink-header-size-em: #{$shrink-header-size-em};
+  --shrink-header-size-em: #{$shrink-header-size-em};
 
 	/* --------- Shared values (Only for safe nulling) --------- */
 	--apparent-viewport-height: 100vh;
 	--tooltip-left: 0;
 	--tooltip-top: 0;
-}
 
-:root {
-	@include full-perc-size;
+  @include full-perc-size;
 }
 
 * {
@@ -67,13 +65,12 @@ ol, ul {
 
 blockquote, q {
 	quotes: none;
-	background: map.get($theme, "background", "hex");
 	padding: 0 0.5em;
 	border-radius: 0.4em;
 	box-shadow: 0 0 0.5em 0.05em black inset;
+	background: map.get($theme, "background", "hex");
 
 	&:before, &:after {
-		content: "";
 		content: none;
 	}
 }
@@ -90,7 +87,6 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-
 
 ::selection {
 	background: map.get($theme, "foreground", "hex");

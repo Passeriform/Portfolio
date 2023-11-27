@@ -109,3 +109,6 @@ spike/
 
 # Angular
 .angular/
+
+# Graphql
+**/generated/

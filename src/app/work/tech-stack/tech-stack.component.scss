@@ -30,25 +30,25 @@
 }
 
 .techstack-tooltip-loading {
-  padding: 1em 2em;
+	padding: 1em 2em;
 }
 
 .techstack-tooltip-content {
-  text-decoration: none;
+	text-decoration: none;
 
-  & > * {
-    padding: 1em 2em;
-  }
+	& > * {
+		padding: 1em 2em;
+	}
 
-  & > h5 {
-    color: map.get($theme, "foreground", "hex");
-    background: map.get($theme, "background", "hex");
+	& > h5 {
+		background-color: map.get($theme, "background", "hex");
+		color: map.get($theme, "foreground", "hex");
 
-    @include shape(["skewed-pentagon", "bottom"], ("first": 85%, "second": 75%, "peak-shift": 15%));
-  }
+		@include shape(["skewed-pentagon", "bottom"], ("first": 85%, "second": 75%, "peak-shift": 15%));
+	}
 
 	& > p {
-    color: map.get($theme, "foreground", "invert", "hex");
+		color: map.get($theme, "foreground", "invert", "hex");
 		text-transform: capitalize;
-  }
+	}
 }

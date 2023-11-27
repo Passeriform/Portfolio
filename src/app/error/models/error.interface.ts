@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import type { HttpErrorResponse } from "@angular/common/http";
 
 export const enum HttpErrorCodes {
@@ -17,12 +18,12 @@ export class ApiError implements Error {
 	public status: HttpErrorCodes;
 	public statusText: string;
 
-	constructor({ message, name, status, statusText }: {
-		readonly message?: string;
-		readonly name?: string;
-		readonly status?: HttpErrorCodes;
-		readonly statusText?: string;
-	}) {
+	constructor({ message, name, status, statusText }: Readonly<{
+		message?: string;
+		name?: string;
+		status?: HttpErrorCodes;
+		statusText?: string;
+	}>) {
 		this.message = message ?? this.message;
 		this.name = name ?? this.name;
 		this.status = status ?? this.status;
@@ -34,20 +35,21 @@ export class ClientError implements Error {
 	public message: string;
 	public name: string;
 
-	constructor({ message, name }: {
-		readonly message?: string;
-		readonly name?: string;
-	}) {
+	constructor({ message, name }: Readonly<{
+		message?: string;
+		name?: string;
+	}>) {
 		this.message = message ?? this.message;
 		this.name = name ?? this.name;
 	}
 }
 
-export interface ApiErrorResponse extends Omit<HttpErrorResponse, "name"> {
-	readonly message: string;
-	readonly name: string;
-	readonly status: HttpErrorCodes;
-	readonly statusText: string;
-}
+export type ApiErrorResponse = Omit<HttpErrorResponse, "name"> & Readonly<{
+	message: string;
+	name: string;
+	status: HttpErrorCodes;
+	statusText: string;
+}>;
 
 export const isError = (error: unknown): boolean => error instanceof ApiError || error instanceof ClientError;
+/* eslint-enable max-classes-per-file */

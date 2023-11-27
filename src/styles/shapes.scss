@@ -204,6 +204,7 @@ $shapes: (
 @function get-hypotenuse($base, $perpendicular) {
 	$base: strip-unit($base);
 	$perpendicular: strip-unit($perpendicular);
+
 	@return math.sqrt(math.pow($base, 2) + math.pow($perpendicular, 2)) * 1em;
 }
 
@@ -231,6 +232,7 @@ $shapes: (
 
 		@if ($base != $height) {
 			@warn "Explicit height cannot be set for flaps. Provided height will be ignored.";
+
 			$height: $base;
 		}
 	} @else if ($shape-type == "arrow") {
@@ -324,7 +326,6 @@ $shapes: (
 			),
 		),
 	);
-
 	$path: map.get($paths, $path-keys...);
 
 	@return $path;

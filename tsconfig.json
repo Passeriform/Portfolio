@@ -13,6 +13,9 @@
       "@core/*": [
         "src/app/core/*"
       ],
+      "@graphql/*": [
+        "src/app/graphql/*"
+      ],
       "@shared/*": [
         "src/app/shared/*"
       ],
@@ -30,6 +33,7 @@
     "esModuleInterop": true,
     "module": "es2022",
     "moduleResolution": "node",
+    "noErrorTruncation": true,
     "noUncheckedIndexedAccess": true,
     "importHelpers": true,
     "target": "es2022",
@@ -39,8 +43,10 @@
     "lib": [
       "es2022",
       "dom",
-      "dom.Iterable"
-    ]
+      "dom.Iterable",
+      "esnext.asynciterable"
+    ],
+    "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
     "strictTemplates": true,

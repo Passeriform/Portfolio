@@ -1,38 +1,7 @@
-import type { SocialGlyphModel } from "@shared/social-glyphs/social-glyphs.interface";
+import type { GetPeopleQuery } from "@graphql/generated/schema";
 
-export interface TextSection {
-	readonly paragraph: string;
-	readonly heading?: string;
-	readonly img?: string;
-}
+type BaseAboutModel = NonNullable<GetPeopleQuery["peopleCollection"]>["edges"][number]["people"];
 
-export interface TimelineSection {
-	readonly entry: TextSection;
-	readonly img: string;
-	readonly period: string;
-}
-
-export type IntroModel = TextSection & {
-	readonly heading: string;
+export type AboutModel = Omit<BaseAboutModel, "socialCollection"> & {
+	socials: readonly NonNullable<BaseAboutModel["socialCollection"]>["edges"][number]["social"][];
 };
-
-export interface ContributorModel {
-	readonly aboutUrl: string;
-	readonly description: string;
-	readonly img: string;
-	readonly title: string;
-}
-
-export type ContactModel = TextSection & {
-	readonly links: readonly SocialGlyphModel[];
-	readonly mediaplugpara: string;
-};
-
-export interface AboutModel {
-	readonly subject: string;
-	readonly contact?: ContactModel;
-	readonly contributors?: readonly ContributorModel[];
-	readonly intro?: IntroModel;
-	readonly overview?: readonly TextSection[];
-	readonly story?: readonly TimelineSection[];
-}

@@ -4,11 +4,11 @@ import type { Observable } from "rxjs";
 import { BehaviorSubject } from "rxjs";
 import { map } from "rxjs/operators";
 
-import { LoadingState, Progress } from "../models/loader.interface";
+import { LoadingState, ProgressCheckpoint } from "../models/loader.interface";
 
 // TODO: Change array of interface approach to hashmap of interface
 
-export interface LoadingJob {
+export type LoadingJob = {
 	readonly label: string;
 	progress: number;
 	state: LoadingState;
@@ -36,7 +36,7 @@ export class LoaderService {
 	public beginLoading(label: string): void {
 		const loadingJob: LoadingJob = {
 			label,
-			progress: Progress.INIT,
+			progress: ProgressCheckpoint.INIT,
 			state: LoadingState.LOADING_QUEUED,
 		};
 
@@ -65,7 +65,7 @@ export class LoaderService {
 		this.loadingJobsSource$.next(
 			this.loadingJobs.map((job: LoadingJob) => {
 				if (job.label === label) {
-					job.progress = Progress.COMPLETE;
+					job.progress = ProgressCheckpoint.COMPLETE;
 					job.state = LoadingState.LOADED;
 				}
 
@@ -122,7 +122,7 @@ export class LoaderService {
 			this.loadingJobs.map((job: LoadingJob) => {
 				if (job.label === label) {
 					job.progress = progress;
-					if (job.progress === Progress.COMPLETE) {
+					if (job.progress === ProgressCheckpoint.COMPLETE) {
 						job.state = LoadingState.LOADED;
 					}
 				}

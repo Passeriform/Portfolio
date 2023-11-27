@@ -1,6 +1,4 @@
-export type AvatarInput = { href: string, link?: never } | { link: string, href?: never };
-
-export interface AvatarImageInput {
+export type AvatarInput = {
 	alt: string;
-	src: string | undefined;
-}
+	src: string;
+};

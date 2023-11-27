@@ -1,6 +1,6 @@
-<span>{{ leading }}</span>
+<span #leadingText>{{ leading }}</span>
 <div id="sweep-window">
-  <div id="sweep-container" [style.transform]="sweepTransform">
+  <div id="sweep-container" #sweepContainer>
     <ng-content></ng-content>
   </div>
 </div>

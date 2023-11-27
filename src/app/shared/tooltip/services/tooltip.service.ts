@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import type { RouterEvent } from "@angular/router";
 import { NavigationEnd, Router } from "@angular/router";
 
 import type { Observable } from "rxjs";
@@ -31,7 +30,7 @@ export class TooltipService {
 
 	constructor(private readonly router: Router) {
 		this.router.events.pipe(
-			filter((routerEvent: RouterEvent) => routerEvent instanceof NavigationEnd),
+			filter((routerEvent) => routerEvent instanceof NavigationEnd),
 		).subscribe(() => {
 			this.setTemplateConfig$({ show: false });
 		});

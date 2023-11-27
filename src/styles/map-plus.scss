@@ -1,50 +1,52 @@
+@use "sass:list";
+@use "sass:map";
 @use "list-plus";
 
 @function deep-set($map, $keys, $value) {
 	$maps: ($map,);
 	$result: null;
 
-	@if type-of(nth($keys, -1)) == "map" {
-		@warn "The last key specified is a map; it will be overriden by `#{$value}`.";
+	@if type-of(list.nth($keys, -1)) == "map" {
+		@warn "The last key specified is a map; it will be overridden by `#{$value}`.";
 	}
 
-	@if length($keys) == 1 {
-		@return map-merge($map, ($keys: $value));
+	@if list.length($keys) == 1 {
+		@return map.merge($map, ($keys: $value));
 	}
 
-	@for $i from 1 through length($keys) - 1 {
-		$current-key: nth($keys, $i);
-		$current-map: nth($maps, -1);
-		$current-get: map-get($current-map, $current-key);
+	@for $i from 1 through list.length($keys) - 1 {
+		$current-key: list.nth($keys, $i);
+		$current-map: list.nth($maps, -1);
+		$current-get: map.get($current-map, $current-key);
 
-		@if $current-get == null {
+		@if not $current-get {
 			@error "Key `#{$key}` doesn't exist at current level in map.";
 		}
 
-		$maps: append($maps, $current-get);
+		$maps: list.append($maps, $current-get);
 	}
 
-	@for $i from length($maps) through 1 {
-		$current-map: nth($maps, $i);
-		$current-key: nth($keys, $i);
-		$current-val: if($i == length($maps), $value, $result);
-		$result: map-merge($current-map, ($current-key: $current-val));
+	@for $i from list.length($maps) through 1 {
+		$current-map: list.nth($maps, $i);
+		$current-key: list.nth($keys, $i);
+		$current-val: if($i == list.length($maps), $value, $result);
+		$result: map.merge($current-map, ($current-key: $current-val));
 	}
 
 	@return $result;
 }
 
 @function merge-recursive($map1, $map2, $config:()) {
-	@if (type-of($map1) == map or (type-of($map1) == list and length($map1) == 0)) and (type-of($map2) == map or (type-of($map2) == list and length($map2) == 0)) {
+	@if (type-of($map1) == map or (type-of($map1) == list and list.length($map1) == 0)) and (type-of($map2) == map or (type-of($map2) == list and list.length($map2) == 0)) {
 		$result: $map1;
 
 		@each $key, $value in $map2 {
-			@if (type-of(map-get($result, $key)) == map and type-of($value) == map) {
-				$result: map-merge($result, ($key: merge-recursive(map-get($result, $key), $value)));
-			} @else if (map-get($config, "merge-lists") and type-of(map-get($result, $key)) == list and type-of($value) == list) {
-				$result: map-merge($result, ($key: join(map-get($result, $key), $value)));
+			@if (type-of(map.get($result, $key)) == map and type-of($value) == map) {
+				$result: map.merge($result, ($key: merge-recursive(map.get($result, $key), $value)));
+			} @else if (map.get($config, "merge-lists") and type-of(map.get($result, $key)) == list and type-of($value) == list) {
+				$result: map.merge($result, ($key: list.join(map.get($result, $key), $value)));
 			} @else {
-				$result: map-merge($result, ($key: $value));
+				$result: map.merge($result, ($key: $value));
 			}
 		}
 
@@ -57,14 +59,12 @@
 }
 
 @function merge-all($map-collector, $arg-maps...) {
-	@if length($arg-maps) > 1 {
-		$leftover: list-plus.slice($arg-maps, 2, length($arg-maps));
-
-		$merged: merge-all(nth($arg-maps, 1), $leftover...);
-
-		$map-collector: map-merge($map-collector, $merged);
+	@if list.length($arg-maps) > 1 {
+		$leftover: list-plus.slice($arg-maps, 2, list.length($arg-maps));
+		$merged: merge-all(list.nth($arg-maps, 1), $leftover...);
+		$map-collector: map.merge($map-collector, $merged);
 	} @else {
-		$map-collector: merge-recursive($map-collector, nth($arg-maps, 1));
+		$map-collector: merge-recursive($map-collector, list.nth($arg-maps, 1));
 	}
 
 	@return $map-collector;

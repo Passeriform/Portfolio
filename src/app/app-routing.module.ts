@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import type { LoadChildrenCallback, Route, Routes } from "@angular/router";
 import { RouterModule } from "@angular/router";
 
-const constructLazy = (urlPath: string, childrenLoader: LoadChildrenCallback): Route => (
+const constructLazy = (urlPath: string, childrenLoader: LoadChildrenCallback): Readonly<Route> => (
 	{
 		children: [
 			{
@@ -21,7 +21,7 @@ const constructLazy = (urlPath: string, childrenLoader: LoadChildrenCallback): R
 // TODO: Convert naming about, work and landing to <route>Page. Move it to pages folder.
 
 // NOTE: Reordering landing and work modules as a hack to make same-named paths work.
-const routes: Routes = [
+const routes: Readonly<Routes> = [
 	/* eslint-disable @typescript-eslint/promise-function-async */
 	constructLazy("about", () => import("./about/about.module").then((childModule) => childModule.AboutModule)),
 	constructLazy("", () => import("./landing/landing.module").then((childModule) => childModule.LandingModule)),
@@ -32,7 +32,7 @@ const routes: Routes = [
 @NgModule({
 	exports: [ RouterModule ],
 	imports: [
-		RouterModule.forRoot(routes, {
+		RouterModule.forRoot(routes as Routes, {
 			paramsInheritanceStrategy: "always",
 			// enableTracing: true,
 		}),

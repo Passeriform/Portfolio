@@ -11,7 +11,7 @@ import type { AboutModel } from "./models/about.interface";
 
 @Component({
 	selector: "app-about",
-	styleUrls: [ "./about.component.scss" ],
+	styleUrls: ["./about.component.scss"],
 	templateUrl: "./about.component.html",
 })
 export class AboutComponent implements OnInit, AfterViewInit {
@@ -32,8 +32,8 @@ export class AboutComponent implements OnInit, AfterViewInit {
 
 	ngOnInit() {
 		this.route.data.subscribe(
-			(data: { readonly model: AboutModel }) => {
-				this.model = data.model;
+			(data: Readonly<{ model: readonly AboutModel[] }>) => {
+				this.model = data.model[0]!;
 			},
 		);
 

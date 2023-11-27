@@ -12,6 +12,7 @@ import { CoreModule } from "./core/core.module";
 import { LoaderModule } from "./loader/loader.module";
 import { SharedModule } from "./shared/shared.module";
 import { ErrorModule } from "./error/error.module";
+import { GraphQLModule } from "./graphql/graphql.module";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
@@ -25,6 +26,7 @@ import { AppComponent } from "./app.component";
 		ErrorModule,
 		FooterModule,
 		FormsModule,
+		GraphQLModule,
 		HeaderModule,
 		HttpClientModule,
 		LoaderModule,

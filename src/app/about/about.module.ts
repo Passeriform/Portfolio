@@ -6,7 +6,6 @@ import { HeaderModule } from "@app/header/header.module";
 import { NamecardComponent } from "./namecard/namecard.component";
 import { ContactFormComponent } from "./contact-form/contact-form.component";
 import { AboutRoutingModule } from "./routes/about-routing.module";
-import { AboutResolver } from "./routes/about-resolver.service";
 import { AboutComponent } from "./about.component";
 
 @NgModule({
@@ -20,6 +19,5 @@ import { AboutComponent } from "./about.component";
 		HeaderModule,
 		SharedModule,
 	],
-	providers: [ AboutResolver ],
 })
 export class AboutModule { }

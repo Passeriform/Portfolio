@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "animations" as *;
 @use "assets" as *;
 @use "page" as *;
 @use "media" as *;
@@ -39,16 +40,20 @@
 			@include flex-column-center;
 
 			& > h1 {
-				color: map.get($theme, "foreground", "hex");
+				color: map.get($theme, "accent", "hex");
 				// TODO: Verify fonts, sizes and weights and abstract to global
 				font-family: "Share Tech Mono", monospace;
 				font-size: clamp(3em, 10vw, 10em);
 				font-weight: 500;
+				transition: color 0.2s ease;
 
 				@include reset-offsets;
+				@include disallow-selection;
+				@include chromatic-aberration(map.get($theme, "accent", "hex"));
 
-				@include override-modifiers {
-					margin-bottom: -0.25em;
+				&:hover {
+					color: map.get($theme, "accent", "invert", "hex");
+					animation: chromatic-aberration 10s ease infinite;
 				}
 			}
 		}

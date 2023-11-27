@@ -1,3 +1,6 @@
+@use "sass:list";
+@use "sass:math";
+
 @function slice($list, $start: 1, $end: length($list)) {
 	$result: null;
 
@@ -15,7 +18,7 @@
 		$result: ();
 
 		@for $i from $start through $end {
-			$result: append($result, nth($list, $i));
+			$result: list.append($result, list.nth($list, $i));
 		}
 	}
 
@@ -23,23 +26,24 @@
 }
 
 @function replace($list, $search, $update, $recursive: false) {
-  $result: ();
+	$result: ();
 
-  @for $i from 1 through length($list) {
-    @if type-of(nth($list, $i)) == list and $recursive {
-      $result: append(
-        $result,
-        replace(nth($list, $i), $search, $update, $recursive)
-      );
-    } @else {
-      @debug nth($list, $i);
-      @if nth($list, $i) == $search {
-        $result: append($result, $update);
-      } @else {
-        $result: append($result, nth($list, $i));
-      }
-    }
-  }
+	@for $i from 1 through length($list) {
+		@if type-of(list.nth($list, $i)) == list and $recursive {
+			$result: list.append(
+				$result,
+				replace(list.nth($list, $i), $search, $update, $recursive)
+			);
+		} @else {
+			@debug list.nth($list, $i);
 
-  @return $result;
+      @if list.nth($list, $i) == $search {
+				$result: list.append($result, $update);
+			} @else {
+				$result: list.append($result, list.nth($list, $i));
+			}
+		}
+	}
+
+	@return $result;
 }

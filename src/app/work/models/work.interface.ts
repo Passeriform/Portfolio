@@ -1,21 +1,13 @@
-import type { Framework, Language, License, Tool, WType } from "@shared/models/registry.interface";
+import type { WithNonNullableArrayProperties } from "@shared/types/utility";
+import type { GetAllWorkQuery } from "@graphql/generated/schema";
 
-// TODO: Convert array attribs to sets
-export interface WorkModel {
-	readonly children: readonly string[];
-	readonly dependency: readonly string[];
-	readonly description: string;
-	readonly frameworks: readonly Framework[];
-	readonly languages: readonly Language[];
-	readonly license: readonly License[];
-	readonly logo: string;
-	readonly ref: string;
-	// TODO: Verify if this gets proper value
-	readonly repository: string;
-	readonly screenshots: string[];
-	readonly subtitle: string;
-	readonly tags: string[];
-	readonly title: string;
-	readonly tools: readonly Tool[];
-	readonly type: WType;
-}
+type BaseWorkModel = WithNonNullableArrayProperties<
+	NonNullable<GetAllWorkQuery["workCollection"]>["edges"][number]["work"],
+	"frameworks" | "languages" | "license" | "tags" | "tools"
+>;
+
+export type WorkModel = Omit<BaseWorkModel, "work_assetsCollection"> & {
+	assets: readonly NonNullable<BaseWorkModel["work_assetsCollection"]>["edges"][number]["asset"][];
+};
+
+export type WorkTransformer = (cache: readonly WorkModel[]) => readonly WorkModel[];

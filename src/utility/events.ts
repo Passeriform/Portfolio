@@ -1,18 +1,18 @@
-import type { MonoTypeOperatorFunction, Observable } from "rxjs";
+import type { Observable } from "rxjs";
 import { fromEvent, merge } from "rxjs";
-import { bufferCount, filter, map, repeat, take, takeUntil } from "rxjs/operators";
+import { bufferCount, map, repeat, take, takeUntil } from "rxjs/operators";
 
 import { Orientation } from "@shared/models/cardinals.interface";
 
 import { pluck } from "./rxjs";
 
 const SWIPE_SCALING_FACTOR = 20;
-const SCROLL_SCALING_FACTOR = 90;
+const SCROLL_SCALING_FACTOR = 20;
 
 export const fromMotionEvent = (
-		element: HTMLElement,
+		element: Readonly<HTMLElement>,
 		orientation: Orientation,
-): Observable<number> => merge(
+): Readonly<Observable<number>> => merge(
 	fromEvent<TouchEvent>(element, "touchmove").pipe(
 		pluck("touches"),
 		map(([ touch ]: TouchList) => touch),
@@ -21,8 +21,8 @@ export const fromMotionEvent = (
 				? touch?.pageX ?? 0
 				: touch?.pageY ?? 0,
 		),
-		bufferCount(2, 1),
-		map(([ init, end ]: [ number, number ]) => init - end),
+		bufferCount(2, 2),
+		map(([init, end]: [number, number]) => init - end),
 		map((shiftAmt) => shiftAmt / SWIPE_SCALING_FACTOR),
 		// TODO: Use conditional logic from scrollable component to determine when to toggle stream instead of using takeUntil
 		takeUntil(
@@ -39,20 +39,16 @@ export const fromMotionEvent = (
 	),
 );
 
-export const selfTargetFilter = <E extends Event>(sourceTarget: EventTarget | HTMLElement): MonoTypeOperatorFunction<E> => filter(
-	(actualEvent: E) => actualEvent.target === sourceTarget,
-);
-
-export const stopClickPropagation = (clickEvent: MouseEvent): void => {
+export const stopClickPropagation = (clickEvent: Readonly<MouseEvent>): void => {
 	clickEvent.stopPropagation();
 };
 
-export const propagateClickToChildren = (clickEvent: MouseEvent | TouchEvent): void => {
-	const target: HTMLElement = (
+export const propagateClickToChildren = (clickEvent: Readonly<MouseEvent | TouchEvent>): void => {
+	const target: Readonly<HTMLElement> = (
 		clickEvent.target ?? clickEvent.currentTarget
 	) as HTMLElement;
 
-	[ ...target.children ].forEach((child: HTMLElement) => {
+	[ ...target.children ].forEach((child: Readonly<HTMLElement>) => {
 		child.click();
 	});
 };

@@ -1,15 +1,14 @@
 import type { AfterContentInit, AfterViewInit } from "@angular/core";
 import { Component, ContentChildren, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, QueryList } from "@angular/core";
 
-import { EMPTY, NEVER, Observable, fromEvent, identity, merge } from "rxjs";
-import { filter, map, startWith, switchMap, throttleTime } from "rxjs/operators";
+import { NEVER, Observable, identity, merge } from "rxjs";
+import { filter, throttleTime } from "rxjs/operators";
 
 import { Orientation, Position } from "@shared/models/cardinals.interface";
 import { PageRevealService } from "@core/services/page-reveal.service";
-import { fromMotionEvent, selfTargetFilter } from "@utility/events";
+import { fromMotionEvent } from "@utility/events";
 
 import { Constants } from "./scrollable.config";
-import { transitionEndEvents, transitionStartEvents } from "./scrollable.interface";
 
 // TODO: Remove lag from scroll/swipe.
 
@@ -26,15 +25,15 @@ import { transitionEndEvents, transitionStartEvents } from "./scrollable.interfa
 })
 export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	private maxScrollableSize: number;
-	private readonly threshold: number = Constants.THRESHOLD;
+	private readonly threshold: number = Constants.THRESHOLD_DEFAULT;
 	public pageIndex: number = Constants.INITIAL_PAGE_INDEX;
 	public pageNavTravelFactor: number = 0;
+	public processingEvent: boolean = false;
 
 	// TODO: Throw error if nestedScroll is enabled without fullpage
 	@Input() private readonly nestedScroll: boolean = false;
 	@Input() private readonly sensitivity: number = Constants.SENSITIVITY_DEFAULT;
 	@Input() private readonly throttle: number = Constants.THROTTLE_DEFAULT;
-	@Input() private readonly smoothScroll: boolean = Constants.SMOOTH_SCROLL_DEFAULT;
 	@Input() private readonly allowStartReveal: boolean;
 	@Input() private readonly allowEndReveal: boolean;
 	@Input() private startRevealElement: HTMLElement;
@@ -98,7 +97,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	}
 
 	constructor(
-			private readonly hostElement: ElementRef,
+			private readonly hostElement: ElementRef<HTMLElement>,
 			private readonly pageRevealService: PageRevealService,
 	) { }
 
@@ -108,7 +107,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		if (this.allowEndReveal) {
 			if (pagesToShift > 0 && this.pageIndex === (this.maxScrollableSize / this.delta)) {
 				const expectedScrollSize: number = Math.ceil(this.delta * (
-					this.pageIndex + (pagesToShift * this.sensitivity)
+					this.pageIndex + pagesToShift
 				));
 
 				if (expectedScrollSize > this.maxScrollableSize) {
@@ -134,26 +133,18 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		return transitioned;
 	}
 
-	private pageShift(pagesToShift: number): void {
-		if (this.handleReveals(pagesToShift)) {
+	private handlePageShift(pagesToShift: number): void {
+		if (pagesToShift === 0) {
 			return;
 		}
 
 		if (pagesToShift < 0) {
-			this.pageShiftUp(Math.abs(pagesToShift));
-		} else if (pagesToShift > 0) {
-			this.pageShiftDown(Math.abs(pagesToShift));
+			this.pageIndex = Math.max(this.pageIndex + pagesToShift, 0);
+		} else {
+			const maxScrollablePages = this.maxScrollableSize / this.delta;
+			this.pageIndex = Math.min(this.pageIndex + pagesToShift, maxScrollablePages);
 		}
-	}
 
-	private pageShiftUp(pagesToShift: number): void {
-		this.pageIndex = Math.max(this.pageIndex - Math.floor(pagesToShift * this.sensitivity), 0);
-		this.pageChangeEvent.emit(this.pageIndex);
-	}
-
-	private pageShiftDown(pagesToShift: number): void {
-		const maxScrollablePages = this.maxScrollableSize / this.delta;
-		this.pageIndex = Math.min(this.pageIndex + Math.floor(pagesToShift * this.sensitivity), maxScrollablePages);
 		this.pageChangeEvent.emit(this.pageIndex);
 	}
 
@@ -175,7 +166,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		}
 	}
 
-	private computeTravelFactor() {
+	private computeTravelFactor(): void {
 		this.pageNavTravelFactor = this.delta / ((this.items.length - 1) * (this.items.get(0)?.nativeElement.clientWidth ?? 0));
 	}
 
@@ -194,10 +185,6 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		));
 
 	private readonly nestedScrollFilter = (shiftAmt: number): boolean => {
-		if (!this.nestedScroll) {
-			return true;
-		}
-
 		if (this.startReveal || this.endReveal) {
 			return true;
 		}
@@ -223,57 +210,46 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		return (scrollableSize - elementSize) === scrolled;
 	};
 
-	private subscribeShiftStream$() {
+	private subscribeShiftStream$(): void {
 		const shiftStream$ = merge(
-			fromMotionEvent(this.hostElement.nativeElement, this.orientation).pipe(
-				filter((difference: number) => Math.abs(difference) >= Math.abs(this.threshold)),
-				filter(this.nestedScrollFilter),
-				this.smoothScroll ? identity : throttleTime(this.throttle),
-			),
+			fromMotionEvent(this.hostElement.nativeElement, this.orientation),
 			this.allowStartReveal && this.startRevealElement.firstChild
 				? fromMotionEvent(this.startRevealElement.firstChild as HTMLElement, this.orientation).pipe(
-					filter(() => (this.endRevealElement.firstChild as HTMLElement)[this.orientation === Orientation.HORIZONTAL ? "scrollLeft" : "scrollTop"] === this.getViewSize(this.endRevealElement.firstChild as HTMLElement)),
-					filter((difference: number) => Math.abs(difference) >= Math.abs(this.threshold)),
-					filter(this.nestedScrollFilter),
-					this.smoothScroll ? identity : throttleTime(this.throttle),
+					filter(() => (this.endRevealElement.firstChild as HTMLElement)[
+						this.orientation === Orientation.HORIZONTAL ? "scrollLeft" : "scrollTop"
+					] === this.getViewSize(this.endRevealElement.firstChild as HTMLElement)),
 				)
 				: NEVER,
 			this.allowEndReveal && this.endRevealElement.firstChild
 				? fromMotionEvent(this.endRevealElement.firstChild as HTMLElement, this.orientation).pipe(
-					filter(() => (this.endRevealElement.firstChild as HTMLElement)[this.orientation === Orientation.HORIZONTAL ? "scrollLeft" : "scrollTop"] === 0),
-					filter((difference: number) => Math.abs(difference) >= Math.abs(this.threshold)),
-					filter(this.nestedScrollFilter),
-					this.smoothScroll ? identity : throttleTime(this.throttle),
+					filter(() => (this.endRevealElement.firstChild as HTMLElement)[
+						this.orientation === Orientation.HORIZONTAL ? "scrollLeft" : "scrollTop"
+					] === 0),
 				)
 				: NEVER,
+		).pipe(
+			this.threshold ? filter((difference: number) => Math.abs(difference) >= Math.abs(this.threshold)) : identity,
+			this.nestedScroll ? filter(this.nestedScrollFilter) : identity,
+			this.throttle ? throttleTime(this.throttle) : identity,
 		);
 
-		const transitionStartStreams$ = transitionStartEvents.map(
-			(eventName) => fromEvent<TransitionEvent>(this.hostElement.nativeElement as HTMLElement, eventName).pipe(
-				selfTargetFilter(this.hostElement.nativeElement as HTMLElement),
-			),
-		);
-
-		const transitionEndStreams$ = transitionEndEvents.map(
-			(eventName) => fromEvent<TransitionEvent>(this.hostElement.nativeElement as EventTarget, eventName).pipe(
-				selfTargetFilter(this.hostElement.nativeElement as HTMLElement),
-			),
-		);
-
-		const scrollStreamToggle$ = merge(
-			merge(...transitionStartStreams$).pipe(map(() => false)),
-			merge(...transitionEndStreams$).pipe(map(() => true)),
-		).pipe(startWith(true));
-
-		scrollStreamToggle$.pipe(
-			switchMap(
-				(allowEvents) => allowEvents
-					? shiftStream$
-					: EMPTY,
-			),
+		shiftStream$.pipe(
+			this.fullpage ? filter(() => !this.processingEvent) : identity,
 		).subscribe(
 			(shiftAmt: number) => {
-				this.pageShift(shiftAmt);
+				this.processingEvent = true;
+
+				const pagesToShift = Math.sign(shiftAmt) * (
+					this.fullpage ? 1 : Math.floor(Math.abs(shiftAmt) * this.sensitivity)
+				);
+
+				const consumedByReveals = this.handleReveals(pagesToShift);
+
+				if (!consumedByReveals) {
+					this.handlePageShift(pagesToShift);
+				}
+
+				this.processingEvent = false;
 			},
 		);
 	}
@@ -320,7 +296,8 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	// TODO: Make PageNav compatible when fullpage is false. Use delta and expected scroll to index.
 
 	public setActivePageIndex(index: number): void {
-		this.endReveal = this.startReveal = false;
+		this.startReveal = false;
+		this.endReveal = false;
 		this.pageIndex = index;
 		this.pageChangeEvent.emit(this.pageIndex);
 	}

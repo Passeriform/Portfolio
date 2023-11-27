@@ -1,16 +1,6 @@
-<ng-template #linkAvatarTemplate>
-	<a class="avatar" [routerLink]="avatar.link">
-		<ng-container *ngTemplateOutlet="imgTemplate"></ng-container>
-	</a>
-</ng-template>
-
-<ng-template #imgTemplate>
-	<img *ngIf="avatarImage" [alt]="avatarImage.alt" [src]="avatarImage.src ??  DEFAULT_AVATAR_IMAGE" />
-</ng-template>
-
 <div class="content">
-	<a *ngIf="avatar.href; else linkAvatarTemplate" class="avatar" [href]="avatar.href">
-		<ng-container *ngTemplateOutlet="imgTemplate"></ng-container>
+	<a class="avatar" [routerLink]="link">
+		<img *ngIf="avatar.src" [alt]="avatar.alt" [src]="avatar.src" />
 	</a>
 
 	<div class="content-text">

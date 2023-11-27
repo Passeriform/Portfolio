@@ -15,10 +15,10 @@ export const generateLoaderConfig = (width: number, height: number): HarmonicLoa
 	yoffset: height / 2,
 });
 
-export const Constants: {
-	readonly DEFAULT_RETARDER: number;
-	readonly FRAME_CONTRIBUTION: number;
-} = {
+export const Constants: Readonly<{
+	DEFAULT_RETARDER: number;
+	FRAME_CONTRIBUTION: number;
+}> = {
 	DEFAULT_RETARDER: 0,
 	FRAME_CONTRIBUTION: 10_000,
 };

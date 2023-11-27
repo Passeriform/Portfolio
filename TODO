@@ -15,6 +15,7 @@ TO-DO
 	☐ Use percentage instead of vh and vw
 	☐ Extract scss vars from component to configure in global
 	☐ Use light and dark mode favicon and switch as necessary
+  ☐ Convert modules to standalone components (https://blogs.halodoc.io/angular-standalone-components-unleashed-exploring-the-magic-of-a-world-without-ngmodule/)
 
 Huge Refactors
   ☐ Find alternative replacement for ng-deep selectors using typescript instead.

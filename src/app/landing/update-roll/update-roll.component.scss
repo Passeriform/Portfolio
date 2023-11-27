@@ -20,7 +20,7 @@
 	& > .brief {
 		display: grid;
 		grid-gap: 1px;
-		grid-template-columns: minmax(4em, 8em) minmax(9em, 40em) minmax(20em, 45em);
+		grid-template-columns: minmax(4em, 8em) minmax(9em, 20em) minmax(10em, auto);
 		cursor: pointer;
 
 		&:not(:first-child) {

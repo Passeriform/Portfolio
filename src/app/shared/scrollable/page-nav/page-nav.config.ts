@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-export const Constants: {
-	readonly INITIAL_ACTIVE_PAGE: number;
-} = {
+export const Constants: Readonly<{
+	INITIAL_ACTIVE_PAGE: number;
+}> = {
 	INITIAL_ACTIVE_PAGE: 0,
 };
 

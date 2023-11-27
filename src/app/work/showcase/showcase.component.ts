@@ -70,9 +70,9 @@ export class ShowcaseComponent implements OnInit {
 	}
 
 	public setTransform(updatedModel: readonly WorkModel[]): void {
-		const modelTransform = (model: WorkModel[]) => updatedModel.map(
-			(updatedEntry: WorkModel) => model.find(
-				(entry: WorkModel) => entry.ref === updatedEntry.ref,
+		const modelTransform = (model: readonly WorkModel[]) => model.filter(
+			(entry) => updatedModel.some(
+				(updatedEntry) => entry.slug === updatedEntry.slug,
 			),
 		);
 

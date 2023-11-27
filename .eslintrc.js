@@ -22,14 +22,16 @@ module.exports = {
 				"plugin:import/typescript",
 				"plugin:typescript-sort-keys/recommended",
 				"plugin:security/recommended",
-				"plugin:functional/external-recommended",
+				"plugin:functional/currying",
+				"plugin:functional/external-typescript-recommended",
+				"plugin:functional/external-vanilla-recommended",
+				"plugin:functional/no-exceptions",
+				"plugin:functional/no-other-paradigms",
+				"plugin:functional/no-mutations",
+				"plugin:functional/no-statements",
 				"plugin:functional/recommended",
 				"plugin:functional/stylistic",
-				"plugin:functional/no-object-orientation",
-				"plugin:functional/no-statements",
-				"plugin:functional/no-exceptions",
 				"plugin:jsdoc/recommended",
-				"plugin:functional/currying",
 				"plugin:unicorn/recommended",
 				"plugin:rxjs/recommended",
 				"plugin:eslint-comments/recommended",
@@ -126,6 +128,18 @@ module.exports = {
 					}
 				],
 				"@typescript-eslint/comma-dangle": ["error", "always-multiline"],
+				"@typescript-eslint/class-methods-use-this": ["error", {
+					"exceptMethods": [
+						"ngOnInit",
+						"ngAfterContentInit",
+						"ngAfterViewInit",
+						"ngOnDestroy",
+						"onRouteChange",
+						"transform",
+						"resolve",
+						"intercept"
+					]
+				}],
 				"@typescript-eslint/explicit-member-accessibility": [
 					"error",
 					{
@@ -160,11 +174,13 @@ module.exports = {
 					]
 				}],
 				"@typescript-eslint/explicit-function-return-type": "off",
+				"@typescript-eslint/max-params": "off",
 				"@typescript-eslint/no-extra-parens": ["error", "all", {
 					"nestedBinaryExpressions": false
 				}],
 				"@typescript-eslint/no-floating-promises": "off",
 				"@typescript-eslint/no-non-null-assertion": "off",
+				"@typescript-eslint/consistent-type-definitions": ["error", "type"],
 				"@typescript-eslint/consistent-type-imports": "error",
 				"@typescript-eslint/no-unused-vars": ["error", {
 					"ignoreRestSiblings": true,
@@ -190,6 +206,7 @@ module.exports = {
 							"parameters": 2
 						},
 						"offsetTernaryExpressions": true,
+						"ignoredNodes": ["TSTypeParameterInstantiation"]
 					},
 				],
 				"@typescript-eslint/member-delimiter-style": [
@@ -278,32 +295,16 @@ module.exports = {
 						100
 					]
 				}],
-				"@typescript-eslint/no-parameter-properties": ["error",
-					{
-						"allows": ["private readonly"]
-					}
-				],
-				"@typescript-eslint/parameter-properties": ["error",
-					{
-						"prefer": "parameter-property"
-					}
-				],
+				"@typescript-eslint/parameter-properties": ["error", {
+						"allow": ["private readonly"],
+				}],
 				"@typescript-eslint/no-shadow": [
 					"error",
 					{
 						"hoist": "all"
 					}
 				],
-				"@typescript-eslint/no-type-alias": ["error", {
-					"allowAliases": "in-unions-and-intersections",
-					"allowCallbacks": "always",
-					"allowConditionalTypes": "always",
-					"allowConstructors": "always",
-					"allowLiterals": "always",
-					"allowMappedTypes": "always",
-					"allowTupleTypes": "always",
-					"allowGenerics": "always",
-				}],
+				"@typescript-eslint/no-type-alias": "off",
 				"@typescript-eslint/object-curly-spacing": ["error", "always"],
 				"@typescript-eslint/lines-between-class-members": ["error", "always", {
 					"exceptAfterSingleLine": true
@@ -437,6 +438,11 @@ module.exports = {
 							"position": "after",
 						},
 						{
+							"pattern": "@graphql/**",
+							"group": "internal",
+							"position": "after",
+						},
+						{
 							"pattern": "@utility/**",
 							"group": "internal",
 							"position": "after",
@@ -510,6 +516,7 @@ module.exports = {
 					}
 				}],
 				"unicorn/prefer-at": "error",
+				"unicorn/prefer-module": "error",
 				"unicorn/prefer-object-has-own": "error",
 				"unicorn/prefer-string-replace-all": "error",
 				"unicorn/prefer-top-level-await": "error",
@@ -540,7 +547,7 @@ module.exports = {
 				],
 
 				// Override eslint-plugin-max-params-no-constructor
-				"max-params-no-constructor/max-params-no-constructor": ["error", 5],
+				"max-params-no-constructor/max-params-no-constructor": ["error", 6],
 
 				// Override eslint-plugin-rxjs
 				"rxjs/finnish": ["error", {
@@ -588,14 +595,19 @@ module.exports = {
 				"immutable/no-mutation": "off",
 
 				// eslint-plugin-functional
-				"functional/no-class": "off",
+				"functional/no-classes": "off",
 				"functional/no-this-expression": "off",
 				"functional/prefer-type-literal": "off",
 				"functional/prefer-readonly-type": "off",			// Too aggressive and lacking template checks
+				"functional/prefer-immutable-types": ["error", {
+					"enforcement": "ReadonlyShallow",
+					"ignoreClasses": true,
+					"ignoreInferredTypes": true,
+				}],
 				"functional/functional-parameters": ["error", {
 					"allowRestParameter": true,
 					"enforceParameterCount": false,
-					"ignorePattern": [
+					"ignoreIdentifierPattern": [
 						"ngOnInit",
 						"ngAfterContentInit",
 						"ngAfterViewInit",
@@ -606,10 +618,10 @@ module.exports = {
 						"intercept",
 					]
 				}],
-				"functional/no-expression-statement": "off",
+				"functional/no-expression-statements": "off",
 				"functional/immutable-data": "off",
 				"functional/no-return-void": "off",
-				"functional/no-conditional-statement": "off",
+				"functional/no-conditional-statements": "off",
 
 				// eslint-plugin-tsdoc
 				"tsdoc/syntax": "warn",
@@ -618,7 +630,7 @@ module.exports = {
 				// TODO: Recheck when documenting code
 				"jsdoc/check-access": "error",
 				"jsdoc/check-alignment": "error",
-				"jsdoc/check-examples": "error",
+				"jsdoc/check-examples": "off",    // Disabled until restored in eslint 8 (https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/check-examples.md#repos-sticky-header)
 				"jsdoc/check-indentation": "error",
 				"jsdoc/check-line-alignment": "error",
 				"jsdoc/check-param-names": "error",
@@ -632,7 +644,6 @@ module.exports = {
 				"jsdoc/match-description": "error",
 				"jsdoc/match-name": "error",
 				"jsdoc/multiline-blocks": "error",
-				"jsdoc/newline-after-description": "error",
 				"jsdoc/no-bad-blocks": "error",
 				"jsdoc/no-defaults": "error",
 				// "jsdoc/no-missing-syntax": "error",
@@ -662,7 +673,10 @@ module.exports = {
 				"jsdoc/require-throws": "error",
 				"jsdoc/require-yields": "error",
 				"jsdoc/require-yields-check": "error",
-				"jsdoc/tag-lines": "error",
+				"jsdoc/tag-lines": ["error", "never", {
+					"startLines": 1,
+					"applyToEndTag": false
+				}],
 				"jsdoc/valid-types": "error",
 
 				// eslint-plugin-deprecation
@@ -673,9 +687,8 @@ module.exports = {
 				"array-bracket-newline": ["error", {
 					"multiline": true,
 				}],
-				"array-bracket-spacing": ["error", "always", {
-					"objectsInArrays": false,
-					"arraysInArrays": false,
+				"array-bracket-spacing": ["error", "never", {
+					"singleValue": true,
 				}],
 				"arrow-body-style": ["error", "as-needed"],
 				"array-callback-return": ["error", {
@@ -694,18 +707,7 @@ module.exports = {
 				"capitalized-comments": ["error", "always", {
 					"ignorePattern": "ngOnInit|ngAfterContentInit|ngAfterViewInit|ngOnDestroy"
 				}],
-				"class-methods-use-this": ["error", {
-					"exceptMethods": [
-						"ngOnInit",
-						"ngAfterContentInit",
-						"ngAfterViewInit",
-						"ngOnDestroy",
-						"onRouteChange",
-						"transform",
-						"resolve",
-						"intercept"
-					]
-				}],
+				"class-methods-use-this": "off",
 				"comma-style": "error",
 				"complexity": ["error", {
 					"max": 5
