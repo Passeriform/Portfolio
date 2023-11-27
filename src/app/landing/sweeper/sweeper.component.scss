@@ -1,52 +1,104 @@
 @use "sass:map";
 @use "global" as *;
 @use "modifiers" as *;
+@use "shapes" as *;
 
 @import "./sweeper.colors";
 
-$padding: 0.5em;
-$font-size: max(3vw, 1em);
-$displayed-height: calc(1em + (2 * #{$padding}));
+$default-sweeper-highlight-scaling: 7;
+$font-size: clamp(1em, 3vw, 3em);
+$highlight-width-basis: 100px;
+$component-height: 2em;
+
+@mixin sweeper-highlight {
+	content: "";
+	position: absolute;
+	width: $highlight-width-basis;
+	height: $component-height;
+	transform: scaleX(var(--sweeper-highlight-text-scaling, $default-sweeper-highlight-scaling));
+	transform-origin: left;
+	transition: transform ease 0.2s, clip-path ease 0.2s, background-color ease 0.5s;
+}
+
+@mixin primary-highlight {
+	&:before {
+		background-color: map.get($theme, "accent", "invert", "hex");
+		clip-path: polygon(0 30%, 10% 0, 70% 0, 100% 20%, 95% 80%, 80% 100%, 20% 100%);
+
+		@include sweeper-highlight;
+		@include layer(overlay);
+	}
+
+	&:hover:before {
+		background-color: map.get($theme, "accent", "invert", "hex");
+		clip-path: polygon(calc(1em / var(--sweeper-highlight-text-scaling, $default-sweeper-highlight-scaling)) 50%, 0 0, 70% 0, 100% 30%, 90% 100%, 50% 100%, 0 100%);
+	}
+}
+
+@mixin secondary-highlight {
+	&:after {
+		background-color: map.get($theme, "alt-accent", "hex");
+		clip-path: polygon(0 70%, 20% 0, 90% 0, 100% 30%, 98% 75%, 93% 100%, 12% 100%);
+
+		@include sweeper-highlight;
+		@include layer(difference);
+	}
+
+	&:hover:after {
+		background-color: map.get($theme, "alt-accent", "invert", "hex");
+		clip-path: polygon(0 50%, 20% 0, 50% 0, 90% 10%, 100% 60%, 93% 100%, 20% 100%);
+	}
+}
 
 // TODO: Convert all flex-direction and flex-wrap to flex-flow and finally convert to mixins
 
 :host {
+	height: $component-height;
 	font-family: "Fira Code", monospace;
 	font-size: $font-size;
 	text-transform: none;
 
 	@include iflex;
 	@include flex-row-start;
+	@include primary-highlight;
+	@include secondary-highlight;
 
 	& > * {
 		// TODO: Check if required
-		display: inline-block;
+		display: inline;
+		margin: auto 0.5em;
 		float: left;
 	}
 
 	& > span {
 		color: map.get($theme, "foreground", "hex");
-		margin: 0.5em;
 
 		@include disallow-selection;
 	}
-}
 
-#sweep-window {
-	padding: $padding;
-	height: $displayed-height;
+	#sweep-window {
+		height: inherit;
 
-	@include no-overflow;
-}
+		@include no-overflow;
+	}
 
-#sweep-container {
-	transition: transform ease 0.5s;
+	#sweep-container {
+		transition: transform ease 0.5s;
+		width: fit-content;
 
-	&::ng-deep > * {
-		margin: 0;
-		padding: $padding;
-		color: map.get($theme, "foreground", "hex");
-		// TODO: Check the same white-space/word-wrap mixin
-		white-space: nowrap;
+		@include reset-offsets;
+
+		&::ng-deep > * {
+			color: map.get($theme, "foreground", "hex");
+			width: fit-content;
+			// TODO: Check the same white-space/word-wrap mixin
+			white-space: nowrap;
+
+			@include reset-offsets;
+
+			@include override-modifiers {
+				padding: calc((#{$component-height} - 1.5em) / 2) 0;
+			}
+		}
 	}
 }
