@@ -6,22 +6,22 @@
 					<li *ngFor="let elem of attrib.value | unionArray">
 						<ng-template #tooltipTemplate>
 							<a *ngIf="elem | wiki | async as techDetails; else loadingTechDetails"
-                  class="techstack-tooltip-content"
-                  href="{{ techDetails.href }}"
-                >
+									class="techstack-tooltip-content"
+									href="{{ techDetails.href }}"
+								>
 								<h5>{{ techDetails.title }}</h5>
 								<p>{{ techDetails.description }}</p>
 							</a>
 						</ng-template>
 
 						<ng-template #loadingTechDetails>
-              <div class="techstack-tooltip-loading">Loading...</div>
+							<div class="techstack-tooltip-loading">Loading...</div>
 							<!-- TODO: Use proper loader and mini canvas -->
 						</ng-template>
 
 						<div i18n-position appTooltip
 								class="img-container"
-                [contentPadding]="false"
+								[contentPadding]="false"
 								[position]="Position.BOTTOM"
 								[template]="tooltipTemplate"
 							>

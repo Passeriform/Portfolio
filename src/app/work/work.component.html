@@ -3,7 +3,7 @@
 		[fullpage]="true"
 		[nestedScroll]="true"
 		[pageResetTrigger$]="scrollResetState$"
-    [throttle]="500"
+		[throttle]="500"
 		[showPageNav]="true"
 	>
 	<ng-container *ngIf="selectedModel$ | async as selectedModel; else modelPlaceholder">
