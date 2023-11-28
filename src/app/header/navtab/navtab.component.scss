@@ -52,12 +52,9 @@ $stack-order: (
 	max-width: 14rem;
 	width: 100%;
 	background-color: map.get($theme, "background", "invert", "hex");
+	clip-path: polygon(50% 0, 100% 0, 100% 100%, 0  calc(100% - #{$header-padding-offset-mobile}), $header-padding-offset-mobile 0);
 
 	@include flex-column-start;
-	@include shape(
-		["distorted-square", "top-right"],
-		("left": $header-padding-offset-mobile, "corner-x": 0, "corner-y": calc(100% - #{$header-padding-offset-mobile}))
-	);
 
 	@include override-modifiers {
 		align-items: stretch;
@@ -92,6 +89,8 @@ $stack-order: (
 }
 
 @mixin normal-navtab {
+	clip-path: polygon(1.5em 0, 100% 0, 100% 100%, 2em 100%, 0 60%);
+
 	@include flex-row-start;
 	@include after-mixer;
 
@@ -118,7 +117,7 @@ $stack-order: (
 		&:hover > a:before {
 			transform: scaleY(1);
 
-      @include shape(["skewed-pentagon", "top"], ("first": 20%, "second": 35%, "peak-shift": 25%));
+			@include shape(["skewed-pentagon", "top"], ("first": 20%, "second": 35%, "peak-shift": 25%));
 		}
 	}
 }
@@ -173,7 +172,7 @@ $stack-order: (
 
 	& ::ng-deep ul {
 		margin: 0;
-		padding: #{math.div(($nav-ul-height - 1em), 4)} 5%;
+		padding: $nav-ul-height 5%;
 		transition: all 0.5s ease;
 
 		@include no-overflow;
