@@ -186,8 +186,18 @@
 							"src/**/*.(css|less|pcss|sass|scss)"
 						]
 					}
-				}
-			}
+				},
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "repo": "https://github.com/Passeriform/passeriform.github.io",
+            "name": "Passeriform",
+            "email": "bhardwajutkarsh.ub@gmail.com",
+            "cname": "www.passeriform.com",
+            "branch": "master"
+          }
+        }
+      }
 		}
 	},
 	"cli": {

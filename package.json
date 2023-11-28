@@ -17,8 +17,7 @@
     "codelint:fix": "ng lint --fix",
     "lint": "npm run codelint && npm run stylelint",
     "lint:fix": "npm run codelint:fix && npm run stylelint:fix",
-    "cpcname": "cp CNAME dist/passeriform",
-    "publish:gh-pages": "npm run build:prod && npm run cpcname && angular-cli-ghpages --repo git@github.com:Passeriform/passeriform.github.io --message 'Deploy: New publish to gh-pages.' --dir dist/passeriform --branch master"
+    "deploy": "ng deploy --message=\"Deploy: New publish to gh-pages.\""
   },
   "private": true,
   "dependencies": {
@@ -66,6 +65,7 @@
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/eslint-plugin-tslint": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
+    "angular-cli-ghpages": "^1.0.7",
     "codelyzer": "^6.0.2",
     "compass-mixins": "^0.12.12",
     "dotenv": "^16.3.1",
