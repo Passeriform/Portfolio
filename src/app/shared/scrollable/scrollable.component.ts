@@ -34,6 +34,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	@Input() private readonly nestedScroll: boolean = false;
 	@Input() private readonly sensitivity: number = Constants.SENSITIVITY_DEFAULT;
 	@Input() private readonly throttle: number = Constants.THROTTLE_DEFAULT;
+	@Input() private readonly customScrollElement: HTMLElement;
 	@Input() private readonly allowStartReveal: boolean;
 	@Input() private readonly allowEndReveal: boolean;
 	@Input() private startRevealElement: HTMLElement;
@@ -212,7 +213,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 
 	private subscribeShiftStream$(): void {
 		const shiftStream$ = merge(
-			fromMotionEvent(this.hostElement.nativeElement, this.orientation),
+			fromMotionEvent(this.customScrollElement ?? this.hostElement.nativeElement, this.orientation),
 			this.allowStartReveal && this.startRevealElement.firstChild
 				? fromMotionEvent(this.startRevealElement.firstChild as HTMLElement, this.orientation).pipe(
 					filter(() => (this.endRevealElement.firstChild as HTMLElement)[

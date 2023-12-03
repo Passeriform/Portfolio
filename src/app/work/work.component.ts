@@ -1,5 +1,6 @@
+import { DOCUMENT } from "@angular/common";
 import type { AfterViewInit, OnInit } from "@angular/core";
-import { Component } from "@angular/core";
+import { Component, Inject } from "@angular/core";
 
 import type { Observable } from "rxjs";
 import { Subject } from "rxjs";
@@ -24,6 +25,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
 	public selectedModel$: Observable<WorkModel | undefined>;
 
 	constructor(
+			@Inject(DOCUMENT) public readonly document: HTMLElement,
 			private readonly workService: WorkService,
 			private readonly loaderService: LoaderService,
 			private readonly splashStateService: SplashStateService,

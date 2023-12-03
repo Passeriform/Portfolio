@@ -5,6 +5,7 @@
 		[pageResetTrigger$]="scrollResetState$"
 		[throttle]="500"
 		[showPageNav]="true"
+    [customScrollElement]="document"
 	>
 	<ng-container *ngIf="selectedModel$ | async as selectedModel; else modelPlaceholder">
 		<div class="page" id="description" #page>

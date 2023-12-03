@@ -1,5 +1,6 @@
+import { DOCUMENT } from "@angular/common";
 import type { OnInit } from "@angular/core";
-import { Component, ElementRef, HostBinding, HostListener, ViewChild } from "@angular/core";
+import { Component, ElementRef, HostBinding, HostListener, Inject, ViewChild } from "@angular/core";
 import { stopClickPropagation } from "@utility/events";
 
 import type { ApiError, ClientError, HttpErrorCodes } from "./models/error.interface";
@@ -18,7 +19,7 @@ export class ErrorComponent implements OnInit {
 	public scrollFired: (clickEvent: MouseEvent) => void = stopClickPropagation;
 
 	@HostListener("document:mousedown", [ "$event" ])
-  public onDocumentClick(clickEvent: MouseEvent): void {
+	public onDocumentClick(clickEvent: MouseEvent): void {
 		if (!this.debugWindow) {
 			return;
 		}
@@ -29,11 +30,14 @@ export class ErrorComponent implements OnInit {
 	}
 
 	@HostBinding("class.show")
-  public get errorOcurred(): boolean {
+	public get errorOcurred(): boolean {
 		return Boolean(this.error);
 	}
 
-	constructor(private readonly errorService: ErrorService) { }
+	constructor(
+			@Inject(DOCUMENT) public readonly document: HTMLElement,
+			private readonly errorService: ErrorService,
+	) { }
 
 	ngOnInit() {
 		this.errorService.errorDetails$.subscribe((model: ApiError | ClientError) => {

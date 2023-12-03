@@ -35,7 +35,7 @@ $stack-order: (
 		@include equal-dim($logo-size-normal);
 
 		& > a {
-			clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 
 			@include equal-dim($logo-size-normal);
 
@@ -58,7 +58,7 @@ $stack-order: (
 			@include shape-content-props("flap", $logo-flap-size) using ($flap-content-size, $flap-content-offset) {
 				display: block;
 				background-color: map.get($theme, "accent", "hex");
-				clip-path: polygon(0 0, 100% 0, 50% 50%, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 50% 50%, 0 100%);
 
 				// TODO: Check if same can be applied to normal header
 				@include absolute-top-left;

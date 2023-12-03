@@ -778,6 +778,7 @@ module.exports = {
 						"Directive",
 						"HostListener",
 						"HostBinding",
+            "Inject",
 						"Injectable",
 						"Input",
 						"NgModule",
@@ -785,7 +786,7 @@ module.exports = {
 						"Pipe",
 						"Service",
 						"ViewChild",
-						"ViewChildren"
+						"ViewChildren",
 					]
 				}],
 				"new-parens": "error",

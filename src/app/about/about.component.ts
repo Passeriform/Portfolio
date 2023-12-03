@@ -1,5 +1,6 @@
 import type { AfterViewInit, OnInit } from "@angular/core";
-import { Component } from "@angular/core";
+import { DOCUMENT } from "@angular/common";
+import { Component, Inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
 import { Position } from "@shared/models/cardinals.interface";
@@ -19,6 +20,7 @@ export class AboutComponent implements OnInit, AfterViewInit {
 	public readonly Position = Position;
 
 	constructor(
+			@Inject(DOCUMENT) public readonly document: HTMLElement,
 			private readonly route: ActivatedRoute,
 			private readonly loaderService: LoaderService,
 			private readonly splashStateService: SplashStateService,

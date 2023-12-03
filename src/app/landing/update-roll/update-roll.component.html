@@ -1,5 +1,5 @@
 <ng-container *ngFor="let entry of updates$ | async">
-	<div class="brief" (mousedown)="toggleDetails(entry)">
+	<div class="brief" (mousedown)="toggleDetails(entry)" (keydown)="toggleDetails(entry)">
 		<ng-template #tooltipTemplate>
 			<code class="type-desc">{{ entry.type }}</code>
 		</ng-template>
