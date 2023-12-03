@@ -9,11 +9,50 @@
 
 @import "./page-nav.colors";
 
-@function get-traveller-continuous-offset($seekbar-unit-step-count, $seekbar-unit-step-size, $seekbar-thumb-size) {
+// TODO: Check traveler height in case of continuous collapsed/expanded
+
+
+@mixin continuous-collapsed-traveler($inset-type) {
+	#{$inset-type}: $traveler-centering-offset + $traveler-arrow-offset;
+	#{if(is-vertical-inset($inset-type), "left", "top")}: $traveler-continuous-inter-offset;
+	width: if(is-vertical-inset($inset-type), $nav-link-slider-size, $arrow-cross-size);
+	height: if(is-vertical-inset($inset-type), $arrow-cross-size, $nav-link-slider-size);
+	transform: translateX(#{if(is-vertical-inset($inset-type), "-50%", "0")}) translateY(#{if(is-vertical-inset($inset-type), "0", "-50%")}) scale(0.75);
+	border-radius: $nav-link-dot-size;
+}
+
+@mixin continuous-expanded-traveler($inset-type) {
+	#{$inset-type}: $traveler-centering-offset;
+	#{if(is-vertical-inset($inset-type), "left", "top")}: $traveler-continuous-inter-offset;
+	width: if(is-vertical-inset($inset-type), $nav-link-slider-size, $nav-link-dot-size);
+	height: if(is-vertical-inset($inset-type), $nav-link-dot-size, $nav-link-slider-size);
+	transform: translateX(#{if(is-vertical-inset($inset-type), "-50%", "0")}) translateY(#{if(is-vertical-inset($inset-type), "0", "-50%")}) scale(0.75);
+	border-radius: $nav-link-dot-size;
+}
+
+@mixin discrete-collapsed-traveler($inset-type) {
+	#{$inset-type}: $traveler-centering-offset + $traveler-arrow-offset;
+	#{if(is-vertical-inset($inset-type), "left", "top")}: $traveler-discrete-inter-offset;
+	width: if(is-vertical-inset($inset-type), $arrow-cross-size, $arrow-main-size);
+	height: if(is-vertical-inset($inset-type), $arrow-main-size, $arrow-cross-size);
+	transform: scale(1.25);
+	clip-path: map.get($traveler-arrow-shapes, $inset-type);
+	border-radius: 0;
+}
+
+@mixin discrete-expanded-traveler($inset-type) {
+	#{$inset-type}: $traveler-centering-offset;
+	#{if(is-vertical-inset($inset-type), "left", "top")}: $traveler-discrete-inter-offset;
+	@include equal-dim($nav-link-dot-size);
+	transform: scale(1.25);
+	@include circle-border;
+}
+
+@function get-traveler-continuous-offset($seekbar-unit-step-count, $seekbar-unit-step-size, $seekbar-thumb-size) {
 	// seekbar-track-size = ((seekbar-unit-count - 1) * seekbar-unit-size) - seekbar-thumb-size
 	$seekbar-track-size-unitless: calc((calc(#{$seekbar-unit-step-count} - 1) * #{strip-unit($seekbar-unit-step-size)}) - #{strip-unit($seekbar-thumb-size)});
 	// seekbar-resultant-offset = seekbar-unit-size * seekbar-track-size * item-unit-offset
-	$seekbar-resultant-offset: calc(#{$seekbar-unit-step-size} * #{$seekbar-track-size-unitless} * var(--traveller-offset, 0));
+	$seekbar-resultant-offset: calc(#{$seekbar-unit-step-size} * #{$seekbar-track-size-unitless} * var(--traveler-offset, 0));
 	$adjusted-decimal-offset: min(#{$seekbar-resultant-offset}, calc((#{$seekbar-unit-step-count} * #{$seekbar-unit-step-size}) - #{$seekbar-thumb-size}));
 
 	@return $adjusted-decimal-offset;
@@ -27,17 +66,17 @@ $nav-flap-size: $nav-extent-em;
 $nav-link-centering-padding: math.div($nav-extent-em - $nav-link-dot-size, 2);
 $nav-link-inter-padding: $nav-link-dot-size;
 $nav-marker-border: 1px solid map.get($theme, "background", "invert", "hex");
-$traveller-centering-offset: math.div($nav-extent-em - $nav-link-dot-size, 2);
-$traveller-arrow-offset: $nav-link-dot-size;
-$traveller-continuous-inter-offset: calc(
+$traveler-centering-offset: math.div($nav-extent-em - $nav-link-dot-size, 2);
+$traveler-arrow-offset: $nav-link-dot-size;
+$traveler-continuous-inter-offset: calc(
 	#{$nav-flap-size + math.div($nav-link-slider-size, 2)} +
-	#{get-traveller-continuous-offset(
+	#{get-traveler-continuous-offset(
 		var(--item-step-count, 1),
 		$nav-link-dot-size,
 		$nav-link-slider-size
 	)}
 );
-$traveller-discrete-inter-offset: calc(#{$nav-flap-size + $nav-link-inter-padding} + (#{$nav-link-dot-size + (2 * $nav-link-inter-padding)} * var(--traveller-offset, 0)));
+$traveler-discrete-inter-offset: calc(#{$nav-flap-size + $nav-link-inter-padding} + (#{$nav-link-dot-size + (2 * $nav-link-inter-padding)} * var(--traveler-offset, 0)));
 $arrow-main-size: math.div($nav-extent-em - $nav-link-dot-size, 2);
 $arrow-cross-size: $nav-link-dot-size;
 $nav-flap-shapes: (
@@ -46,7 +85,7 @@ $nav-flap-shapes: (
 	bottom: get-shape(("trapezoid", "short-top"), $nav-flap-size),
 	left: get-shape(("trapezoid", "short-right"), $nav-flap-size),
 );
-$traveller-arrow-shapes: (
+$traveler-arrow-shapes: (
 	top: get-shape(("arrow", "point-down")),
 	right: get-shape(("arrow", "point-left")),
 	bottom: get-shape(("arrow", "point-up")),
@@ -114,42 +153,6 @@ $traveller-arrow-shapes: (
 					border-bottom-right-radius: 50%;
 					border-bottom-left-radius: 50%;
 				}
-			}
-		}
-	} @else {
-		@error "#{$inset-type} is not a valid inset";
-	}
-}
-
-@mixin discrete-traveller($inset-type) {
-	transform: scale(1.25);
-
-	@if (is-inset($inset-type)) {
-		@if (is-vertical-inset($inset-type)) {
-			left: $traveller-discrete-inter-offset;
-		} @else {
-			top: $traveller-discrete-inter-offset;
-		}
-	} @else {
-		@error "#{$inset-type} is not a valid inset";
-	}
-}
-
-@mixin continuous-traveller($inset-type) {
-	transform: translateX(-50%) scale(0.75);
-
-	@if (is-inset($inset-type)) {
-		@if (is-vertical-inset($inset-type)) {
-			left: $traveller-continuous-inter-offset;
-
-			@include override-modifiers {
-				width: $nav-link-slider-size;
-			}
-		} @else {
-			top: $traveller-continuous-inter-offset;
-
-			@include override-modifiers {
-				width: $nav-link-slider-size;
 			}
 		}
 	} @else {
@@ -252,57 +255,6 @@ $traveller-arrow-shapes: (
 		}
 	}
 
-	@each $inset-type, $shape in $traveller-arrow-shapes {
-		&.#{$inset-type} {
-			@if (is-vertical-inset($inset-type)) {
-				&:not(.expanded) > ul.page-nav-container > .page-nav-traveller {
-					width: $arrow-cross-size;
-					height: $arrow-main-size;
-				}
-			} @else {
-				&:not(.expanded) > ul.page-nav-container > .page-nav-traveller {
-					width: $arrow-main-size;
-					height: $arrow-cross-size;
-				}
-			}
-
-			// TODO: Test these changes with desktop and mobile with collapsed and expanded states
-			& > ul.page-nav-container > .page-nav-traveller {
-				#{$inset-type}: $traveller-centering-offset;
-
-				@include equal-dim($nav-link-dot-size);
-
-				@at-root #{str-replace("#{&}", ":host", ":host.continuous")} {
-					@include continuous-traveller($inset-type);
-
-					@at-root #{str-replace("#{&}", ":host", ":host.expanded")} {
-						border-radius: $nav-link-dot-size;
-					}
-				}
-
-				@at-root #{str-replace("#{&}", ":host", ":host.discrete")} {
-					@include discrete-traveller($inset-type);
-
-					@at-root #{str-replace("#{&}", ":host", ":host.expanded")} {
-						@include circle-border;
-					}
-				}
-			}
-
-			&:not(.expanded) > ul.page-nav-container > .page-nav-traveller {
-				#{$inset-type}: $traveller-centering-offset + $traveller-arrow-offset;
-				clip-path: $shape;
-				border-radius: 0;
-			}
-
-			@include media("touchscreen") {
-				&:not(.expanded) > ul.page-nav-container > .page-nav-traveller {
-					#{$inset-type}: $traveller-centering-offset;
-				}
-			}
-		}
-	}
-
 	& > ul.page-nav-container {
 		// TODO: Check if position: relative can be added to iflex
 		// TODO: Check if iflex-center can be used elsewhere and in places of iflex
@@ -328,13 +280,33 @@ $traveller-arrow-shapes: (
 			}
 		}
 
-		& > .page-nav-traveller {
+		& > .page-nav-traveler {
 			position: absolute;
 			background-color: map.get($theme, "background", "invert", "hex");
 			transition: all 0.2s ease;
 
 			@include pointer-disable;
 			@include layer(difference);
+		}
+	}
+
+	@each $inset-type in ("top" "right" "bottom" "left") {
+		&.#{$inset-type}.continuous.collapsed > ul.page-nav-container > .page-nav-traveler {
+			@include continuous-collapsed-traveler($inset-type);
+		}
+
+		&.#{$inset-type}.continuous.expanded > ul.page-nav-container > .page-nav-traveler {
+			@include continuous-expanded-traveler($inset-type);
+
+		}
+
+		&.#{$inset-type}.discrete.collapsed > ul.page-nav-container > .page-nav-traveler {
+			@include discrete-collapsed-traveler($inset-type);
+
+		}
+
+		&.#{$inset-type}.discrete.expanded > ul.page-nav-container > .page-nav-traveler {
+			@include discrete-expanded-traveler($inset-type);
 		}
 	}
 
