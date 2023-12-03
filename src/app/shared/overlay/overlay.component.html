@@ -2,12 +2,13 @@
 	<div
 		[ngClass]="{'show': overlayState === OverlayState.SHOW}"
 		class="overlay"
+		(keydown)="hideOverlay()"
 		(mousedown)="hideOverlay()"
 		>
 		<ng-content></ng-content>
 	</div>
 
-	<div class="overlay-button" (mousedown)="handleButtonClick()">
+	<div class="overlay-button" (keydown)="handleButtonClick()" (mousedown)="handleButtonClick()">
 		<div class="overlay-trigger-img">
 			<img i18n-alt src="/assets/images/icons/explore-compass.svg" alt="Explore" />
 		</div>

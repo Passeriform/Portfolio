@@ -296,7 +296,7 @@ module.exports = {
 					]
 				}],
 				"@typescript-eslint/parameter-properties": ["error", {
-						"allow": ["private readonly"],
+						"allow": ["private readonly", "public readonly"],
 				}],
 				"@typescript-eslint/no-shadow": [
 					"error",

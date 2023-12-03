@@ -7,7 +7,7 @@
 		(mouseover)="setExpanded(true)"
 	>
 	<li *ngFor="let item of items; let idx = index" class="page-nav-entry">
-		<a class="page-nav-link" (mousedown)="switchToPage(idx)">
+		<a class="page-nav-link" (mousedown)="switchToPage(idx)" (keydown)="switchToPage(idx)">
 			<div class="page-nav-marker"></div>
 		</a>
 	</li>

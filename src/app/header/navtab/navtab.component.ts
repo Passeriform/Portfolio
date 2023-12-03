@@ -20,7 +20,7 @@ export class NavtabComponent implements OnInit {
 	@ContentChildren(NavtabDirective) public readonly navtabItems: QueryList<NavtabDirective>;
 
 	public splashState$: Observable<SplashState>;
-	public propagateClick: (clickEvent: MouseEvent | TouchEvent) => void = propagateClickToChildren;
+	public propagateClick: (clickEvent: KeyboardEvent | MouseEvent | TouchEvent) => void = propagateClickToChildren;
 
 	constructor(private readonly splashStateService: SplashStateService) { }
 

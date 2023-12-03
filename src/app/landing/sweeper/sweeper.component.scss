@@ -29,7 +29,7 @@ $component-height: 2em;
 		@include layer(overlay);
 	}
 
-	&:hover:before {
+	&:hover:before, &:focus-visible:before {
 		background-color: map.get($theme, "accent", "invert", "hex");
 		clip-path: polygon(calc(1em / var(--sweeper-highlight-text-scaling, $default-sweeper-highlight-scaling)) 50%, 0 0, 70% 0, 100% 30%, 90% 100%, 50% 100%, 0 100%);
 	}
@@ -44,7 +44,7 @@ $component-height: 2em;
 		@include layer(difference);
 	}
 
-	&:hover:after {
+	&:hover:after, &:focus-visible:after {
 		background-color: map.get($theme, "alt-accent", "invert", "hex");
 		clip-path: polygon(0 50%, 20% 0, 50% 0, 90% 10%, 100% 60%, 93% 100%, 20% 100%);
 	}

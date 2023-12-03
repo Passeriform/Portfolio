@@ -88,7 +88,7 @@
 					}
 				}
 
-				&:hover {
+				&:hover, &:focus-visible {
 					color: map.get($theme, "foreground", "hex");
 				}
 
@@ -200,7 +200,7 @@
 					word-wrap: break-word;
 				}
 
-				& > a.checksum:hover, & > a.author:hover {
+				& > a.checksum:hover, & > a.author:hover, & > a.checksum:focus-visible, & > a.author:focus-visible {
 					color: map.get($theme, "foreground", "hex");
 				}
 

@@ -26,7 +26,8 @@ export class DynamicSearchComponent<T extends Required<Taggable>> implements Aft
 	@Output() public readonly propagate: EventEmitter<readonly T[]> = new EventEmitter<readonly T[]>();
 
 	@HostListener("mousedown", [ "$event" ])
-	public onMousedown: (event: MouseEvent) => void = stopClickPropagation;
+	@HostListener("keydown", [ "$event" ])
+	public onSelect: (event: KeyboardEvent | MouseEvent) => void = stopClickPropagation;
 
 	ngAfterViewInit() {
 		this.resetTrigger$.subscribe(() => {

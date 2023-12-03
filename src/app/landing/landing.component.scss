@@ -51,7 +51,7 @@
 				@include disallow-selection;
 				@include chromatic-aberration(map.get($theme, "accent", "hex"));
 
-				&:hover {
+				&:hover, &:focus-visible {
 					color: map.get($theme, "accent", "invert", "hex");
 					animation: chromatic-aberration 10s ease infinite;
 				}

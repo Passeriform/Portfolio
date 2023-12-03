@@ -19,7 +19,8 @@ export class ErrorComponent implements OnInit {
 	public scrollFired: (clickEvent: MouseEvent) => void = stopClickPropagation;
 
 	@HostListener("document:mousedown", [ "$event" ])
-	public onDocumentClick(clickEvent: MouseEvent): void {
+	@HostListener("document:keydown", [ "$event" ])
+	public onDocumentClick(clickEvent: KeyboardEvent | MouseEvent): void {
 		if (!this.debugWindow) {
 			return;
 		}

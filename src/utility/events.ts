@@ -43,12 +43,13 @@ export const stopClickPropagation = (clickEvent: Readonly<MouseEvent>): void => 
 	clickEvent.stopPropagation();
 };
 
-export const propagateClickToChildren = (clickEvent: Readonly<MouseEvent | TouchEvent>): void => {
+export const propagateClickToChildren = (clickEvent: Readonly<KeyboardEvent | MouseEvent | TouchEvent>): void => {
 	const target: Readonly<HTMLElement> = (
 		clickEvent.target ?? clickEvent.currentTarget
 	) as HTMLElement;
 
 	[ ...target.children ].forEach((child: Readonly<HTMLElement>) => {
+    // TODO: Propagate the source event rather than explicitly clicking
 		child.click();
 	});
 };

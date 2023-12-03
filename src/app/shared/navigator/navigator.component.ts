@@ -19,7 +19,8 @@ export class NavigatorComponent {
 	@ViewChild("clickCapture", { read: ElementRef }) public readonly captureElement: ElementRef;
 
 	@HostListener("mousedown", [ "$event" ])
-	public onMousedown(event: MouseEvent): void {
+	@HostListener("keydown", [ "$event" ])
+	public onActivate(event: KeyboardEvent | MouseEvent | TouchEvent): void {
 		if (this.expanded) {
 			const target = event.target ?? event.currentTarget;
 			if (target === this.captureElement.nativeElement) {

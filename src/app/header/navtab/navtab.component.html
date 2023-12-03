@@ -1,6 +1,6 @@
 <ul class="tab-list" [ngClass]="{'shrink-navtab': shrinkFix}">
   <ng-container *ngFor="let item of navtabItems">
-    <li (mousedown)="propagateClick($event)">
+    <li (mousedown)="propagateClick($event)" (keydown)="propagateClick($event)">
       <ng-container *ngTemplateOutlet="item.tabTemplate"></ng-container>
     </li>
   </ng-container>

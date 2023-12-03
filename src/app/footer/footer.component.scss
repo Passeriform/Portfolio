@@ -198,7 +198,7 @@ $linear-breakpoint: 42em;
 
 						@include flex-column-start;
 
-						&:hover {
+						&:hover, &:focus-visible {
 							color: map.get($theme, "foreground", "light-35%", "hex");
 						}
 					}

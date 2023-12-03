@@ -24,6 +24,11 @@ $theme: generate-color-swatch($highlight: #ADFF22, $shadow: #0000000F);
 	white-space: normal;
 	scrollbar-color: map.get($scrollbar-colors, "scrollbar", "thumb") map.get($scrollbar-colors, "scrollbar", "track");
 	scrollbar-width: thin;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 1px 1px lime;
+  }
 }
 
 html, body {

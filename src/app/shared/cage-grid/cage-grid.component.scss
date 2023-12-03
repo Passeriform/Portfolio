@@ -126,7 +126,7 @@ $stack-order: (
 				);
 			}
 
-			&.animated:hover {
+			&.animated:hover, &.animated:focus-visible {
 				padding: 1em;
 				border-top-width: $title-flap-size-em;
 				border-left-width: $title-flap-size-em;
