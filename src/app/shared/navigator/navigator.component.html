@@ -1,11 +1,12 @@
-<div id="before"></div>
-<div id="after"></div>
-<div id="idle-icon">
-	<!-- TODO: Move into global asset config -->
-  <img i18n-alt src="/assets/images/icons/terminal-solid.svg" alt="Console" />
-</div>
-<div id="hide-icon">
-  <img i18n-alt src="/assets/images/icons/double-right-chevron-solid.svg" alt="Hide" />
+<div id="action-icon">
+  <img
+    i18n-alt
+    src="{{
+      expanded
+        ? '/assets/images/icons/double-right-chevron-solid.svg'
+        : '/assets/images/icons/terminal-solid.svg'
+    }}"
+    alt="{{ expanded ? 'Hide' : 'Console' }}" />
 </div>
 <div id="click-capture" #clickCapture></div>
 <div id="command-init">
