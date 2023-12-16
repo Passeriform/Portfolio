@@ -207,6 +207,7 @@ $traveler-arrow-shapes: (
 					@include flex-row-evenly;
 
 					& > li.page-nav-entry {
+            @include center-text;
 						@include flex-column-evenly;
 					}
 				}
@@ -220,6 +221,7 @@ $traveler-arrow-shapes: (
 				& > ul.page-nav-container {
 					padding: $nav-flap-size 0;
 
+          @include center-text;
 					@include flex-column-evenly;
 
 					& > li.page-nav-entry {

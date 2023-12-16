@@ -31,6 +31,7 @@
 		}
 
 		& > .content {
+      @include center-text;
 			@include flex-column-evenly;
 
 			& > .error-greeter {

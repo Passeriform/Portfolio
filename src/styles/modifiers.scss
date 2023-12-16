@@ -118,12 +118,19 @@
 	justify-content: space-evenly;
 }
 
+@mixin flex-row-between {
+	display: flex;
+	flex-flow: row wrap;
+	// TODO: Check if align-items can be added at all places
+	align-items: center;
+	justify-content: space-between;
+}
+
 @mixin flex-column-evenly {
 	display: flex;
 	flex-flow: column nowrap;
 	align-items: center;
 	justify-content: space-evenly;
-	text-align: center;
 }
 
 // TODO: Add align-items, justify-content and text-align to all flex mixins
@@ -181,6 +188,7 @@
 
 @mixin iflex-center {
 	display: inline-flex;
+	align-items: center;
 	justify-content: center;
 }
 

@@ -7,157 +7,137 @@
 
 @import "./footer.colors";
 
-$expanded-breakpoint: 52em;
-$linear-breakpoint: 42em;
+$tablet-breakpoint: 63rem;
+$mobile-breakpoint: 42em;
 
-@mixin expanded {
-	height: calc(100% - var(--current-header-shift-offset, #{$shrink-header-size-em}));
-
+@mixin linear {
 	& > #footer-content {
-		flex-grow: 1;
+    height: 28em;
+    padding: 2rem 0;
+
+    @include flex-row-evenly;
+
+    & > #brand {
+      margin: 0 2rem;
+    }
+
+    & > #brand-separator {
+      @include separator-vertical;
+    }
+
+    & > #links {
+      margin: 0 1rem;
+
+      @include flex-row-around;
+      @include override-modifiers {
+        align-items: flex-start;
+      }
+
+      & > .section {
+				margin: 0 1rem;
+			}
+    }
 	}
 }
 
-@mixin linear {
-	@include expanded;
 
-	& > #footer-content {
-		overflow-y: auto;
+@mixin linear-tablet {
+  @include full-perc-size;
 
-		@include flex-column-start;
+  & > #footer-content {
+    height: unset;
+    padding: 2rem 0;
+    padding-top: calc(2rem + var(--current-header-shift-offset, #{$shrink-header-size-em}));
+    flex-grow: 1;
+    overflow: hidden auto;
 
-		& > #brand {
-			margin: 0;
-			padding: 1em;
-			width: 100%;
-		}
+    @include flex-row-evenly;
+    @include override-modifiers {
+      flex-wrap: nowrap;
+    }
 
-		& > #brand-separator {
-			@include separator-horizontal;
-		}
+    & > #brand {
+      margin: 0 2rem;
+    }
 
-		& > #links {
-			@include flex-row-start;
-			@include override-modifiers {
-				flex-wrap: wrap;
+    & > #brand-separator {
+      @include separator-vertical;
+    }
+
+    & > #links {
+      margin: 0 1rem;
+
+      @include flex-row-between;
+      @include override-modifiers {
+        align-items: flex-start;
+      }
+
+      & > .section {
+        margin: 1rem;
 			}
-
-			& > section {
-				// TODO: Weird condition. Recheck.
-				min-width: calc((100vw / 2) - 4em);
-			}
-		}
+    }
 	}
 }
 
 @mixin stacked {
-	height: unset;
-
-	@include media("<=#{$expanded-breakpoint}") {
-		@include expanded;
-	}
+  @include full-perc-size;
 
 	& > #footer-content {
-		height: 28em;
+    height: unset;
+    padding: 2rem;
+    padding-top: calc(2rem + var(--current-header-shift-offset, #{$shrink-header-size-em}));
+    flex-grow: 1;
+    overflow: hidden auto;
 
-		@include flex-row-center;
+    @include flex-row-evenly;
 
-		& > #brand {
-			margin: 1em;
-			padding: 0;
-			width: 14em;
-		}
+    & > #brand {
+      margin: 2rem 0;
+    }
 
-		& > #brand-separator {
-			@include separator-vertical;
-		}
+    & > #brand-separator {
+      @include separator-horizontal;
+    }
 
-		& > #links {
-			@include full-perc-size;
-			@include flex-column-start;
+    & > #links {
+      margin: 1rem 0;
 
-			@include override-modifiers {
-				flex-wrap: wrap;
+      @include flex-row-between;
+      @include override-modifiers {
+        align-items: flex-start;
+      }
+
+      & > .section {
+				margin: 1rem;
 			}
-		}
-	}
-}
-
-.separator {
-	@include separator-horizontal;
-
-	&.vertical {
-		@include separator-vertical;
-	}
-
-	&.horizontal {
-		@include separator-horizontal;
+    }
 	}
 }
 
 :host {
-	@include absolute-bottom-left;
-	@include flex-column-start;
-	@include linear;
+  @include absolute-bottom-left;
 	@include stack("footer");
-
-	@include media("portrait") {
-		@include linear;
-	}
-
-	@include media("<=#{$linear-breakpoint}") {
-		@include linear;
-	}
-
-	&.linear {
-    @include linear;
-	}
-
-  @include media(">#{$linear-breakpoint}") {
-    &.stacked {
-      @include stacked;
-    }
-  }
-
-	& > #post-note {
-		background-color: map.get($theme, "background", "light-10%", "hex");
-		text-align: center;
-
-		@include inflexible;
-		@include full-viewport-width;
-
-		& > h6 {
-			margin: 1em;
-			font-family: "Fira Code", monospace;
-
-			& img#chirpy-icon {
-				// HACK: Fix baseline alignment for image
-				margin-top: -0.2rem;
-
-				@include invert-color;
-				@include equal-dim(1.25rem);
-			}
-		}
-	}
+  @include flex-column-center;
 
 	& > #footer-content {
-		flex-grow: 0;
-		padding: 2em 0;
 		background-color: map.get($theme, "background", "hex");
 
 		@include full-viewport-width;
+    @include override-modifiers {
+      justify-content: flex-start;
+    }
 
-		& > #brand {
+    & > #brand {
 			text-align: center;
 
-			& > div {
-				& > p {
-					font-family: "Share Tech Mono", monospace;
-					font-size: 1.8em;
-					font-weight: 800;
+      & > div {
+        & > p {
+          font-family: "Share Tech Mono", monospace;
+          font-size: 1.8em;
+          font-weight: 800;
 
-					@include reset-offsets;
-				}
+          @include reset-offsets;
+        }
 
 				& > img {
 					@include invert-color;
@@ -169,27 +149,31 @@ $linear-breakpoint: 42em;
 					// TODO: Use the white-space/word-wrap mixin here
 					white-space: nowrap;
 				}
-			}
-		}
+      }
+    }
 
-		& > #links {
-			padding: 1em;
+    & > #links {
+      @include flexible;
 
-			& > .section {
-				margin: 1em;
+      & > div.section {
+        min-width: 9rem;
 
-				& > h6 {
+        & > h3 {
 					margin-bottom: 1em;
 					font-weight: 800;
 				}
 
-				& > div {
+        & > div {
 					padding-left: 0.1em;
 
-					& > a {
+          & > #navigation-separator {
+            @include separator-horizontal;
+          }
+
+          & > a {
 						color: map.get($theme, "foreground", "dark-35%", "hex");
 						font-weight: 500;
-						line-height: 5vh;
+						line-height: 3em;
 						text-decoration: none;
 						// TODO: Use the white-space/word-wrap mixin here
 						white-space: nowrap;
@@ -202,7 +186,57 @@ $linear-breakpoint: 42em;
 							color: map.get($theme, "foreground", "light-35%", "hex");
 						}
 					}
-				}
+        }
+      }
+    }
+  }
+
+  @include media("<=#{$mobile-breakpoint}") {
+    &.linear {
+      @include linear-tablet;
+    }
+
+    &:not(.linear) {
+      @include stacked;
+    }
+  }
+
+  @include media(">#{$mobile-breakpoint}", "<=#{$tablet-breakpoint}") {
+    &.stacked {
+      @include stacked;
+    }
+
+    &:not(.stacked) {
+      @include linear-tablet;
+    }
+  }
+
+  @include media(">#{$tablet-breakpoint}") {
+    &.stacked {
+      @include stacked;
+    }
+
+    &:not(.stacked) {
+      @include linear;
+    }
+  }
+
+  & > #post-note {
+		background-color: map.get($theme, "background", "light-10%", "hex");
+		text-align: center;
+
+		@include inflexible;
+		@include full-viewport-width;
+
+		& > h3 {
+			margin: 1em;
+			font-family: "Fira Code", monospace;
+
+      @include iflex-center;
+
+			& img#chirpy-icon {
+				@include invert-color;
+				@include equal-dim(1.25rem);
 			}
 		}
 	}

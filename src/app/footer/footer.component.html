@@ -11,22 +11,22 @@
       <small>&copy; Copyright 2021, Passeriform</small>
     </div>
   </div>
-  <div class="separator" id="brand-separator"></div>
+  <div id="brand-separator"></div>
   <div id="links">
     <div class="section" id="navigator">
-      <h6>NAVIGATE</h6>
+      <h3>NAVIGATE</h3>
       <div>
         <ng-container *ngFor="let work of workEntries$ | async">
           <a class="quick-links" routerLink="{{ work.route }}">{{ work.title }}</a>
         </ng-container>
-        <div class="separator horizontal"></div>
+        <div id="navigation-separator"></div>
         <a routerLink="/explore">Explore</a>
         <a routerLink="/trickle">Trickle Explore</a>
         <a (mousedown)="popupSitemap()" (keydown)="popupSitemap()">Sitemap</a>
       </div>
     </div>
     <div class="section" id="about">
-      <h6>ABOUT US</h6>
+      <h3>ABOUT US</h3>
       <div>
         <ng-container *ngFor="let entity of aboutEntries$ | async">
           <a routerLink="{{ entity.route }}">{{ entity.title }}</a>
@@ -34,7 +34,7 @@
       </div>
     </div>
     <div class="section" id="legal">
-      <h6>MORE</h6>
+      <h3>MORE</h3>
       <div>
         <a routerLink="tos">Terms of Service</a>
         <a routerLink="privacy">Privacy Policy</a>
@@ -42,7 +42,7 @@
       </div>
     </div>
     <div class="section" id="personality">
-      <h6>ABOUT YOU</h6>
+      <h3>ABOUT YOU</h3>
       <div>
         <a (mousedown)="popupPersonalitySelector()">Personalize</a>
       </div>
@@ -50,9 +50,9 @@
   </div>
 </div>
 <div id="post-note">
-  <h6>Made by
+  <h3>Made by&nbsp;
     <app-chirpy>
 			<img i18n-alt alt="🐦" id="chirpy-icon" src="/assets/images/icons/passeriform.svg" />
     </app-chirpy>
-  </h6>
+  </h3>
 </div>

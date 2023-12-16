@@ -21,15 +21,15 @@ export class FooterComponent {
 
 	@Input() public readonly aboutCount: number = this.maxItemCount;
 	@Input() public readonly socialCount: number = Constants.SOCIAL_LINKS_COUNT;
-	@Input() public readonly variant: FooterVariant = FooterVariant.STACKED;
 	@Input() public readonly workCount: number = this.maxItemCount - 2;
+	@Input() public readonly variant: FooterVariant | undefined;
 
 	public aboutEntries$: Observable<readonly TopAboutModel[]>;
 	public socialEntries$: Observable<readonly TopSocialModel[]>;
 	public workEntries$: Observable<readonly TopWorkModel[]>;
 
 	@HostBinding("class")
-	public get variantClass(): FooterVariant {
+	public get variantClass(): FooterVariant | undefined {
 		return this.variant;
 	}
 
