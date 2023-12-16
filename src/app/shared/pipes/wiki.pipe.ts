@@ -3,7 +3,7 @@ import { Pipe } from "@angular/core";
 
 import type { Observable } from "rxjs";
 
-import type { EntityIdentifierType } from "@shared/models/registry.interface";
+import type { EntityIdentifier } from "@shared/models/registry.interface";
 import type { WikiEntry } from "@core/services/wiki.interface";
 import { WikiService } from "@core/services/wiki.service";
 
@@ -13,7 +13,7 @@ import { WikiService } from "@core/services/wiki.service";
 export class WikiPipe implements PipeTransform {
 	constructor(private readonly wikiService: WikiService) { }
 
-	public transform(entity: EntityIdentifierType): Observable<WikiEntry> {
+	public transform(entity: EntityIdentifier): Observable<WikiEntry> {
 		return this.wikiService.getWikiDetail$(entity);
 	}
 }

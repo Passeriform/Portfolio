@@ -42,7 +42,7 @@
 			<div class="meta">
 			  <!-- TODO: Fix wrapping child images with max-content of parent. -->
 			  <ng-template #languageTooltipTemplate>
-				<h5 class="meta-title">Languages</h5>
+				<h3 class="meta-title">Languages</h3>
 				<div class="meta-icons">
 				  <ng-container *ngFor="let language of entry.languages">
 					<img alt="{{ language }}" src="{{ language | iconUri }}" />
@@ -65,7 +65,7 @@
 			  </div>
 
 			  <ng-template #frameworkTooltipTemplate>
-				<h5 class="meta-title">Frameworks</h5>
+				<h3 class="meta-title">Frameworks</h3>
 				<div class="meta-icons">
 				  <ng-container *ngFor="let framework of entry.frameworks">
 					<img alt="{{ framework }}" src="{{ framework | iconUri }}" />
@@ -88,7 +88,7 @@
 			  </div>
 
 			  <ng-template #toolTooltipTemplate>
-				<h5 class="meta-title">Tools</h5>
+				<h3 class="meta-title">Tools</h3>
 				<div class="meta-icons">
 				  <ng-container *ngFor="let tool of entry.tools">
 					<img alt="{{ tool }}" src="{{ tool | iconUri }}" />
@@ -112,7 +112,7 @@
 			</div>
 
 			<a class="repo" href="{{ entry.repository }}">
-			  <img i18n-alt alt="github-repo" src="{{ 'github' | iconUri }}"/>
+        <fa-icon [icon]="registry.GITHUB.iconUrl" />
 			</a>
 
 			<div class="licenses">

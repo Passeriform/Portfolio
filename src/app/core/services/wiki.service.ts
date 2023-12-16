@@ -2,13 +2,42 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
 import type { Observable } from "rxjs";
+import { throwError } from "rxjs";
 import { map, shareReplay } from "rxjs/operators";
 
-import type { EntityIdentifierType } from "@shared/models/registry.interface";
-import { registry } from "@shared/models/registry.interface";
+import type { EntityIdentifier } from "@shared/models/registry.interface";
+import { hasWikiEntry, registry } from "@shared/models/registry.interface";
 
 import type { WikiEntry, WikiResponseModel, WikiResponsePage } from "./wiki.interface";
 import { INIT_WIKI_RESPONSE_PAGE } from "./wiki.interface";
+
+/*
+ * Alternative Wiki APIs (extraction)
+ *
+ * const callUrl: string = "https://en.wikipedia.org/w/api.php?"
+ *   + "action=query"
+ *   + "&format=json"
+ *   + "&origin=*"
+ *   + "&prop=extracts"
+ *   + "&formatversion=2"
+ *   + "&exlimit=1"
+ *   + "&exintro=1"
+ *   + "&explaintext=1"
+ *   + "&titles=${getWikiTitle(entity)}";
+ */
+
+/*
+ * Alternative Wiki APIs (list-search)
+ *
+ * const callUrl: string = "https://en.wikipedia.org/w/api.php?"
+ *   + "action=query"
+ *   + "&format=json"
+ *   + "&origin=*"
+ *   + "&list=search"
+ *   + "&srlimit=1"
+ *   + "&redirects=1"
+ *   + "&srsearch=${srtitle}_${srcategory}";
+ */
 
 @Injectable()
 export class WikiService {
@@ -18,8 +47,13 @@ export class WikiService {
 
 	// TODO: Use Cirrus search API instead of this hack
 
-	private fetchWikiDetails$(entity: EntityIdentifierType): Observable<WikiEntry> {
+	constructor(private readonly http: HttpClient) { }
+
+	private fetchWikiDetails$(entity: EntityIdentifier): Observable<WikiEntry> {
 		// TODO: Move to environment when finalized.
+		if (!hasWikiEntry(entity)) {
+			return throwError(() => new Error(`No registry entry found for ${entity}`));
+		}
 
 		const callUrl: string = "https://en.wikipedia.org/w/api.php?"
 			+ "action=query"
@@ -28,35 +62,8 @@ export class WikiService {
 			+ "&prop=info|description"
 			+ "&formatversion=2"
 			+ "&inprop=url"
-			+ `&titles=${registry.get(entity)?.wikiTitle ?? ""}`;
+			+ `&titles=${registry[entity].wikiTitle}`;
 
-		/*
-		 * Alternative Wiki APIs (extraction)
-		 *
-		 * const callUrl: string = "https://en.wikipedia.org/w/api.php?"
-		 *   + "action=query"
-		 *   + "&format=json"
-		 *   + "&origin=*"
-		 *   + "&prop=extracts"
-		 *   + "&formatversion=2"
-		 *   + "&exlimit=1"
-		 *   + "&exintro=1"
-		 *   + "&explaintext=1"
-		 *   + "&titles=${getWikiTitle(entity)}";
-		 */
-
-		/*
-		 * Alternative Wiki APIs (list-search)
-		 *
-		 * const callUrl: string = "https://en.wikipedia.org/w/api.php?"
-		 *   + "action=query"
-		 *   + "&format=json"
-		 *   + "&origin=*"
-		 *   + "&list=search"
-		 *   + "&srlimit=1"
-		 *   + "&redirects=1"
-		 *   + "&srsearch=${srtitle}_${srcategory}";
-		 */
 
 		// TODO: Use generator API to fetch proper description as well.
 
@@ -74,13 +81,11 @@ export class WikiService {
 
 				return { description, href, title };
 			}),
-			shareReplay(1),
+			shareReplay({ bufferSize: 1, refCount: true }),
 		);
 	}
 
-	constructor(private readonly http: HttpClient) { }
-
-	public getWikiDetail$(entryKey: EntityIdentifierType): Observable<WikiEntry> {
+	public getWikiDetail$(entryKey: EntityIdentifier): Observable<WikiEntry> {
 		const wikiEntry$ = this.wikiEntries[entryKey] ?? this.fetchWikiDetails$(entryKey);
 		this.wikiEntries[entryKey] = wikiEntry$;
 

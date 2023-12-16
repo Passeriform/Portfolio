@@ -1,8 +1,8 @@
-/* eslint import/max-dependencies: [ "error", { "max": 20 } ] */
 import { NgModule } from "@angular/core";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from "@angular/forms";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { HttpErrorInterceptor } from "@core/interceptors/http-error.interceptor";
 
@@ -24,6 +24,7 @@ import { AppComponent } from "./app.component";
 		BrowserModule,
 		CoreModule,
 		ErrorModule,
+		FontAwesomeModule,
 		FooterModule,
 		FormsModule,
 		GraphQLModule,

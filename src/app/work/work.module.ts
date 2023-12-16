@@ -1,4 +1,5 @@
 import { NgModule } from "@angular/core";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { HeaderModule } from "@app/header/header.module";
 import { SharedModule } from "@app/shared/shared.module";
@@ -29,6 +30,7 @@ import { WorkComponent } from "./work.component";
 		TechStackComponent,
 	],
 	imports: [
+		FontAwesomeModule,
 		HeaderModule,
 		SharedModule,
 		WorkRoutingModule,

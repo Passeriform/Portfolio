@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { CageGridComponent } from "./cage-grid/cage-grid.component";
 import { OverlayComponent } from "./overlay/overlay.component";
@@ -65,6 +66,7 @@ import { SocialGlyphsComponent } from "./social-glyphs/social-glyphs.component";
 	],
 	imports: [
 		CommonModule,
+		FontAwesomeModule,
 		FormsModule,
 	],
 })

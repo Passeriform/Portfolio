@@ -5,6 +5,7 @@ import type { Observable } from "rxjs";
 import { Subject } from "rxjs";
 
 import { Orientation, Position } from "@shared/models/cardinals.interface";
+import { registry } from "@shared/models/registry.interface";
 import { stopClickPropagation } from "@utility/events";
 
 import type { WorkModel } from "../models/work.interface";
@@ -23,6 +24,7 @@ export class ShowcaseComponent implements OnInit {
 	public activeModel$: Observable<readonly WorkModel[]>;
 	public cancelClick: (event: MouseEvent) => void = stopClickPropagation;
 	public model$: Observable<readonly WorkModel[]>;
+	public registry = registry;
 	public scrollResetState$: Observable<void> = this.scrollResetSource$.asObservable();
 	public searchResetState$: Observable<void> = this.searchResetSource$.asObservable();
 	public showExpanded: boolean;

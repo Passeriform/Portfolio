@@ -1,0 +1,3 @@
+@use "colors" as *;
+
+$theme: generate-color-swatch($primary: #EEEEEE, $secondary: #191919);

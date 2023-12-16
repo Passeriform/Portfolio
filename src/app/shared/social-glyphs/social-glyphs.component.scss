@@ -1,12 +1,11 @@
+@use "sass:map";
 @use "modifiers" as *;
+
+@import "./social-glyphs.colors";
 
 $no-of-items: 5;
 $max-inter-item-width: 1em;
 $max-width: ($no-of-items * 2em) + ($no-of-items + 1) * $max-inter-item-width;
-
-@mixin inverted {
-	@include invert-color;
-}
 
 :host {
 	width: 100%;
@@ -17,11 +16,12 @@ $max-width: ($no-of-items * 2em) + ($no-of-items + 1) * $max-inter-item-width;
 		padding: 1em 0;
 	}
 
-	& img {
-		@include equal-dim(2em);
+	& > div > a > fa-icon {
+  	color: map.get($theme, "secondary", "hex");
+    font-size: 2em;
 
 		&.inverted {
-			@include inverted;
+    	color: map.get($theme, "primary", "hex");
 		}
 	}
 }
