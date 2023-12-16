@@ -47,10 +47,11 @@
 		@include center-anchored-image;
 
 		@include shape-content-props("flap", $navigator-flap-size) using ($flap-content-size, $flap-content-offset) {
-			right: $flap-content-offset;
-			bottom: $flap-content-offset;
+			top: $navigator-flap-size - $flap-content-offset;
+			left: $navigator-flap-size - $flap-content-offset;
 
 			& > img {
+    		transition: all 0.2s;
 				@include equal-dim($flap-content-size);
 			}
 		}
