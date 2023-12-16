@@ -187,6 +187,7 @@ module.exports = {
 					"varsIgnorePattern": "^_$",
 					"argsIgnorePattern": "^_$"
 				}],
+        "@typescript-eslint/strict-boolean-expressions": "off",
 				"@typescript-eslint/space-before-function-paren": ["error",
 					{
 						"anonymous": "always",
@@ -703,7 +704,12 @@ module.exports = {
 				"arrow-spacing": "error",
 				"block-scoped-var": "error",
 				"block-spacing": ["error", "always"],
-				"camelcase": "error",
+				"camelcase": ["error", {
+          "allow": [
+            "Work_Type",
+            "Social_Media_Type"
+          ]
+        }],
 				"capitalized-comments": ["error", "always", {
 					"ignorePattern": "ngOnInit|ngAfterContentInit|ngAfterViewInit|ngOnDestroy"
 				}],
