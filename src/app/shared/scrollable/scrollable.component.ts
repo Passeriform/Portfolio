@@ -34,9 +34,9 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	@Input() private readonly nestedScroll: boolean = false;
 	@Input() private readonly sensitivity: number = Constants.SENSITIVITY_DEFAULT;
 	@Input() private readonly throttle: number = Constants.THROTTLE_DEFAULT;
+	@Input() private readonly allowStartReveal: boolean = false;
+	@Input() private readonly allowEndReveal: boolean = false;
 	@Input() private readonly customScrollElement: HTMLElement;
-	@Input() private readonly allowStartReveal: boolean;
-	@Input() private readonly allowEndReveal: boolean;
 	@Input() private startRevealElement: HTMLElement;
 	@Input() private endRevealElement: HTMLElement;
 	@Input() public readonly orientation: Orientation = Constants.ORIENTATION_DEFAULT;
@@ -102,37 +102,37 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 			private readonly pageRevealService: PageRevealService,
 	) { }
 
-	// TODO: Use boolean enum instead.
+	/* eslint-disable complexity */
 	private handleReveals(pagesToShift: number): boolean {
-		let transitioned = false;
-		if (this.allowEndReveal) {
-			if (pagesToShift > 0 && this.pageIndex === (this.maxScrollableSize / this.delta)) {
-				const expectedScrollSize: number = Math.ceil(this.delta * (
-					this.pageIndex + pagesToShift
-				));
+		const lastPageIndex = (this.maxScrollableSize / this.delta);
 
-				if (expectedScrollSize > this.maxScrollableSize) {
-					transitioned = !this.endReveal;
-					this.endReveal = true;
-				}
-			} else {
-				transitioned = this.endReveal;
-				this.endReveal = false;
-			}
-		} else if (this.allowStartReveal) {
-			if (pagesToShift < 0 && this.pageIndex === 0) {
-				transitioned = !this.startReveal;
-				this.startReveal = true;
-			}
-
-			if (this.startReveal) {
-				transitioned = this.startReveal;
-				this.startReveal = false;
-			}
+		// Open start reveal
+		if (this.allowStartReveal && !this.startReveal && this.pageIndex === 0 && pagesToShift < 0) {
+			this.startReveal = true;
+			return true;
 		}
 
-		return transitioned;
+		// Open end reveal
+		if (this.allowEndReveal && !this.endReveal && this.pageIndex === lastPageIndex && pagesToShift > 0) {
+			this.endReveal = true;
+			return true;
+		}
+
+		// Close start reveal
+		if (this.allowStartReveal && this.startReveal && pagesToShift > 0) {
+			this.startReveal = false;
+			return true;
+		}
+
+		// Close end reveal
+		if (this.allowEndReveal && this.endReveal && pagesToShift < 0) {
+			this.endReveal = false;
+			return true;
+		}
+
+		return false;
 	}
+	/* eslint-enable complexity */
 
 	private handlePageShift(pagesToShift: number): void {
 		if (pagesToShift === 0) {
@@ -186,11 +186,15 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		));
 
 	private readonly nestedScrollFilter = (shiftAmt: number): boolean => {
-		if (this.startReveal || this.endReveal) {
-			return true;
-		}
+		let pageElement: HTMLElement | undefined;
 
-		const pageElement: HTMLElement | undefined = this.items.toArray()[this.pageIndex]?.nativeElement;
+		if (this.startReveal) {
+			pageElement = this.startRevealElement.firstChild as HTMLElement
+		} else if (this.endReveal) {
+			pageElement = this.endRevealElement.firstChild as HTMLElement
+		} else {
+			pageElement = this.items.toArray()[this.pageIndex]?.nativeElement;
+		}
 
 		if (!pageElement) {
 			return false;
@@ -215,18 +219,10 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		const shiftStream$ = merge(
 			fromMotionEvent(this.customScrollElement ?? this.hostElement.nativeElement, this.orientation),
 			this.allowStartReveal && this.startRevealElement.firstChild
-				? fromMotionEvent(this.startRevealElement.firstChild as HTMLElement, this.orientation).pipe(
-					filter(() => (this.endRevealElement.firstChild as HTMLElement)[
-						this.orientation === Orientation.HORIZONTAL ? "scrollLeft" : "scrollTop"
-					] === this.getViewSize(this.endRevealElement.firstChild as HTMLElement)),
-				)
+				? fromMotionEvent(this.startRevealElement.firstChild as HTMLElement, this.orientation)
 				: NEVER,
 			this.allowEndReveal && this.endRevealElement.firstChild
-				? fromMotionEvent(this.endRevealElement.firstChild as HTMLElement, this.orientation).pipe(
-					filter(() => (this.endRevealElement.firstChild as HTMLElement)[
-						this.orientation === Orientation.HORIZONTAL ? "scrollLeft" : "scrollTop"
-					] === 0),
-				)
+				? fromMotionEvent(this.endRevealElement.firstChild as HTMLElement, this.orientation)
 				: NEVER,
 		).pipe(
 			this.threshold ? filter((difference: number) => Math.abs(difference) >= Math.abs(this.threshold)) : identity,
@@ -244,9 +240,9 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 					this.fullpage ? 1 : Math.floor(Math.abs(shiftAmt) * this.sensitivity)
 				);
 
-				const consumedByReveals = this.handleReveals(pagesToShift);
+				const handled = this.handleReveals(pagesToShift);
 
-				if (!consumedByReveals) {
+				if (!handled) {
 					this.handlePageShift(pagesToShift);
 				}
 

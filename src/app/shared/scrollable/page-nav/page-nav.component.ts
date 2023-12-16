@@ -52,7 +52,9 @@ export class PageNavComponent implements AfterViewInit, OnChanges {
 
 	@HostBinding("class.expanded")
 	public get isExpanded(): boolean {
-		return this.keepExpanded || this.expanded;
+		const isTouchscreen = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
+
+		return isTouchscreen || this.keepExpanded || this.expanded;
 	}
 
 	@HostBinding("class.collapsed")

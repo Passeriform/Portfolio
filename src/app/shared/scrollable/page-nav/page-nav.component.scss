@@ -233,10 +233,6 @@ $traveler-arrow-shapes: (
 			// TODO: Remove all :not switchers if a default is required in styles
 			@include hide-nav-flap($inset-type);
 
-			@include media("touchscreen") {
-				@include unhide-nav-flap($inset-type);
-			}
-
 			& > ul.page-nav-container > li.page-nav-entry > a.page-nav-link {
 				@at-root #{str-replace("#{&}", ":host", ":host.continuous")} {
 					@include continuous-nav-link($inset-type);

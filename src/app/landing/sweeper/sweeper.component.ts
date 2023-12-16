@@ -36,7 +36,7 @@ export class SweeperComponent implements AfterContentInit {
 		const textWidth = this.swipeList.get(this.inViewIndex)?.nativeElement.getBoundingClientRect().width;
 		const leadingWidth = this.leadingSpan.nativeElement.getBoundingClientRect().width;
 
-		if (textWidth && leadingWidth) {
+		if (textWidth) {
 			this.hostElement.nativeElement.style.setProperty(
 				"--sweeper-highlight-text-scaling",
 				`${Constants.HIGHLIGHT_PADDING_FACTOR * (textWidth + leadingWidth) / 100}`,
