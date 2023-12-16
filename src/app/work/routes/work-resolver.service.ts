@@ -1,4 +1,4 @@
-import type { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from "@angular/router";
+import type { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot, UrlSegment } from "@angular/router";
 import { Router } from "@angular/router";
 import { inject } from "@angular/core";
 
@@ -13,6 +13,59 @@ import type { Work_Type } from "@graphql/generated/schema";
 import { NO_TRANSFORM, routeFilters } from "../work.config";
 import type { WorkModel } from "../models/work.interface";
 import { WorkService } from "../services/work.service";
+
+const showcaseResolver = (
+		model: Readonly<WorkModel[]>,
+		{ workService }: Readonly<{ workService: Readonly<WorkService> }>,
+		{ route, router, segment }: Readonly<{
+			route: Readonly<ActivatedRouteSnapshot>;
+			router: Readonly<Router>;
+			segment: Readonly<UrlSegment>;
+		}>,
+): void => {
+	// Keep this active filter local only. Let explore flap explore all entities.
+	const activeFilter = segment.path.toLocaleUpperCase() as Work_Type;
+
+	// Redirect to filtering
+	if (!Boolean(route.params.package)) {
+		router.navigate([ `/explore/${activeFilter}` ]);
+	}
+
+	const concatRoute: string = Object.values(route.params).join("/");
+	const queriedEntry: Readonly<WorkModel | undefined> = model.find(
+		(entry: Readonly<WorkModel>) => entry.route === concatRoute && entry.type === activeFilter,
+	);
+
+	if (queriedEntry) {
+		workService.setSelected(queriedEntry);
+	} else {
+		// TODO: Redirect with a message that project wasn't found and try searching for it in explore view.
+		router.navigate([ "/explore" ]);
+	}
+};
+
+const exploreResolver = (
+		model: Readonly<WorkModel[]>,
+		{ workService }: Readonly<{ workService: Readonly<WorkService> }>,
+		{ route, router }: Readonly<{
+			route: Readonly<ActivatedRouteSnapshot>;
+			router: Readonly<Router>;
+		}>,
+): void => {
+	const activeFilter = route.url[1]?.path as Lowercase<Work_Type> | undefined;
+
+	if (activeFilter && routeFilters.includes(activeFilter)) {
+		workService.setTransform(
+			(workModel: readonly WorkModel[]) => workModel.filter(
+				(entity: Readonly<WorkModel>) => entity.type === activeFilter.toLocaleUpperCase(),
+			),
+		);
+	} else if (Boolean(activeFilter)) {
+		router.navigate([ "/explore" ]);
+	} else {
+		workService.setTransform(NO_TRANSFORM);
+	}
+};
 
 export const WorkResolver: ResolveFn<readonly WorkModel[]> = (
 		route: Readonly<ActivatedRouteSnapshot>,
@@ -39,42 +92,12 @@ export const WorkResolver: ResolveFn<readonly WorkModel[]> = (
 				const [ segment ] = route.url;
 
 				// Showcasing only
-				if (segment?.path && routeFilters.includes(segment.path as Work_Type)) {
-					// Keep this active filter local only. Let explore flap explore all entities.
-					const activeFilter: string = segment.path;
-
-					// Redirect to filtering
-					if (!Boolean(route.params.package)) {
-						router.navigate([ `/explore/${activeFilter}` ]);
-					}
-
-					const concatRoute: string = Object.values(route.params).join("/");
-					const queriedEntry: Readonly<WorkModel | undefined> = model.find(
-						// TODO: Check if this should use slug or route
-						(entry: Readonly<WorkModel>) => entry.slug === concatRoute && entry.type === activeFilter,
-					);
-
-					if (queriedEntry) {
-						workService.setSelected(queriedEntry);
-					} else {
-						// TODO: Redirect with a message that project wasn't found and try searching for it in explore view.
-						router.navigate([ "/explore" ]);
-					}
+				if (segment?.path && routeFilters.includes(segment.path as Lowercase<Work_Type>)) {
+					showcaseResolver(model, { workService }, { route, router, segment });
 				}
 
 				if (segment?.path === "explore") {
-					const activeFilter = route.url[1]?.path;
-					if (routeFilters.includes((activeFilter ?? "") as Work_Type)) {
-						workService.setTransform(
-							(workModel: readonly WorkModel[]) => workModel.filter(
-								(entity: Readonly<WorkModel>) => entity.type === activeFilter,
-							),
-						);
-					} else if (Boolean(activeFilter)) {
-						router.navigate([ "/explore" ]);
-					} else {
-						workService.setTransform(NO_TRANSFORM);
-					}
+					exploreResolver(model, { workService }, { route, router });
 				}
 
 				loaderService.endLoading("[http] work");
