@@ -2,6 +2,7 @@
 @use "global" as *;
 @use "media" as *;
 @use "modifiers" as *;
+@use "stack" as *;
 
 @import "./update-roll.colors";
 
@@ -9,240 +10,251 @@
 
 // TODO: Instead of using background as hack for border, use proper border attribute
 
+$stack-order: (
+	"details",
+	"brief",
+);
+
 :host {
-	display: grid;
-	grid-gap: 2px;
-	max-height: 60vh;
-	overflow: hidden auto;
-	border: 1px solid map.get($theme, "primary", "hex");
-	background-color: map.get($theme, "primary", "hex");
+  & > div {
+    display: grid;
+    grid-template-rows: min-content 0fr;
+    transition: grid-template-rows 0.2s;
 
-	& > .brief {
-		display: grid;
-		grid-gap: 1px;
-		grid-template-columns: minmax(4em, 8em) minmax(9em, 20em) minmax(10em, auto);
-		cursor: pointer;
+    & > .brief {
+      display: grid;
+      width: 100%;
+      grid-gap: 1px;
+      grid-template-columns: minmax(4em, 8em) minmax(9em, 20em) minmax(10em, auto);
+      border: 1px solid map.get($theme, "foreground", "hex");
+      transition: all 0.2s;
+      cursor: pointer;
 
-		&:not(:first-child) {
-			margin-top: -1px;
-		}
+      @include stack("route", "brief", $stack-order);
 
-		& > * {
-			padding: 1em;
-		}
+      &:not(:first-child) {
+        margin-top: -1px;
+      }
 
-		& > div:nth-child(even) {
-			background-color: map.get($theme, "accent", "hex");
-		}
+      & > * {
+        padding: 1em;
+      }
 
-		& > div:nth-child(odd) {
-			background-color: map.get($theme, "alt-accent", "hex");
-		}
+      & > div:nth-child(even) {
+        background-color: map.get($theme, "accent", "hex");
+      }
 
-		& > div.type-badge {
-			grid-column: 1 / 1;
+      & > div:nth-child(odd) {
+        background-color: map.get($theme, "alt-accent", "hex");
+      }
 
-			@include flex-column-center;
-		}
+      & > div.type-badge {
+        grid-column: 1 / 1;
 
-		& > div.repo {
-			grid-column: 2 / 2;
+        @include flex-column-center;
+      }
 
-			@include flex-column-center;
+      & > div.repo {
+        grid-column: 2 / 2;
 
-			& > a {
-				color: map.get($theme, "foreground", "invert", "hex");
-				text-decoration: none;
+        @include flex-column-center;
 
-				@include full-perc-size;
+        & > a {
+          color: map.get($theme, "foreground", "invert", "hex");
+          text-decoration: none;
 
-				@include media(">=tablet") {
-					@include flex-row-center;
+          @include full-perc-size;
 
-					& > span.repo-org {
-						text-align: right;
-					}
+          @include media(">=tablet") {
+            @include flex-row-center;
 
-					& > span.slash-separator:before {
-						content: "/";
-					}
+            & > span.repo-org {
+              text-align: right;
+            }
 
-					& > span.repo-project {
-						text-align: left;
-					}
-				}
+            & > span.slash-separator:before {
+              content: "/";
+            }
 
-				@include media("<tablet") {
-					@include flex-column-center;
+            & > span.repo-project {
+              text-align: left;
+            }
+          }
 
-					& > span.repo-org {
-						text-align: center;
-					}
+          @include media("<tablet") {
+            @include flex-column-center;
 
-					& > span.slash-separator:before {
-						content: "―";
-					}
+            & > span.repo-org {
+              text-align: center;
+            }
 
-					& > span.repo-project {
-						text-align: center;
-					}
-				}
+            & > span.slash-separator:before {
+              content: "―";
+            }
 
-				&:hover, &:focus-visible {
-					color: map.get($theme, "foreground", "hex");
-				}
+            & > span.repo-project {
+              text-align: center;
+            }
+          }
 
-				& > span {
-					word-wrap: anywhere;
-				}
+          &:hover, &:focus-visible {
+            color: map.get($theme, "foreground", "hex");
+          }
 
-				& > span.repo-org {
-					width: 100%;
-					font-weight: 800;
-				}
+          & > span {
+            word-wrap: anywhere;
+          }
 
-				& > span.slash-separator {
-					margin: 0 0.5em;
+          & > span.repo-org {
+            width: 100%;
+            font-weight: 800;
+          }
 
-					&:before {
-						font-size: 2em;
-						font-weight: 500;
-						text-align: center;
-					}
-				}
+          & > span.slash-separator {
+            margin: 0 0.5em;
 
-				& > span.repo-project {
-					width: 100%;
-				}
-			}
-		}
+            &:before {
+              font-size: 2em;
+              font-weight: 500;
+              text-align: center;
+            }
+          }
 
-		& > div.message {
-			grid-column: 3 / 3;
+          & > span.repo-project {
+            width: 100%;
+          }
+        }
+      }
 
-			@include flex-column-center;
+      & > div.message {
+        grid-column: 3 / 3;
 
-			@include override-modifiers {
-				text-align: left;
-			}
+        @include flex-column-center;
 
-			& p.message-text {
-				margin: 0;
-				width: 100%;
-				white-space: pre-line;
-			}
+        @include override-modifiers {
+          text-align: left;
+        }
 
-			& > p.action-message {
-				color: $info-blue;
-				font-weight: 800;
-				text-align: center;
-				text-transform: capitalize;
-			}
+        & p.message-text {
+          margin: 0;
+          width: 100%;
+          white-space: pre-line;
+        }
 
-			& > ul.commit-container {
-				margin: 0;
-				padding-left: 1em;
-				list-style: disclosure-closed;
+        & > p.action-message {
+          color: $info-blue;
+          font-weight: 800;
+          text-align: center;
+          text-transform: capitalize;
+        }
 
-				& > li.commit-message {
-					padding: 0.5em 0.25em;
-					white-space: pre-line;
-				}
-			}
-		}
-	}
+        & > ul.commit-container {
+          margin: 0;
+          padding-left: 1em;
+          list-style: disclosure-closed;
 
-	& > .details {
-		display: grid;
-		grid-gap: 2px;
-		border-inline: 1em solid map.get($theme, "primary", "hex");
-		transition: height 0.2s ease;
+          & > li.commit-message {
+            padding: 0.5em 0.25em;
+            white-space: pre-line;
+          }
+        }
+      }
+    }
 
-		@include no-overflow;
+    & > .details {
+      display: grid;
+      margin: 0 1rem;
+      grid-gap: 2px;
+      background-color: map.get($theme, "primary", "hex");
 
-		&.expanded {
-			height: 100%;
-		}
+      @include no-overflow;
+      @include stack("route", "details", $stack-order);
 
-		&:not(.expanded) {
-			height: 0;
-		}
+      & > .commit-history {
+        display: grid;
+        grid-gap: 2px;
+        grid-template-columns: 5fr 25rem 4fr;
 
-		& > .commit-history {
-			display: grid;
-			grid-gap: 2px;
-			grid-template-columns: minmax(10em, 40em) minmax(5em, 30em) minmax(8em, 30em);
+        & > div {
+          background-color: map.get($theme, "accent", "hex");
+          color: map.get($theme, "foreground", "invert", "hex");
 
-			& > div {
-				background-color: map.get($theme, "accent", "hex");
-				color: map.get($theme, "foreground", "invert", "hex");
+          @include flex-column-center;
 
-				@include flex-column-center;
+          &.message-container {
+            justify-content: flex-start;
 
-				&.message-container {
-					justify-content: flex-start;
+            & > p.message {
+              white-space: pre-line;
+            }
+          }
 
-					& > p.message {
-						white-space: pre-line;
-					}
-				}
+          & > p, & > a {
+            margin: 0;
+            padding: 1em;
+            width: 100%;
+          }
 
-				& > p, & > a {
-					margin: 0;
-					padding: 1em;
-					width: 100%;
-				}
+          &.checksum-container > a.checksum, &.author-container > a.author {
+            color: map.get($theme, "foreground", "invert", "hex");
+            text-align: center;
+            text-decoration: none;
+            word-wrap: break-word;
+          }
 
-				&.checksum-container > a.checksum, &.author-container > a.author {
-					color: map.get($theme, "foreground", "invert", "hex");
-					text-align: center;
-					text-decoration: none;
-					word-wrap: break-word;
-				}
+          & > a.checksum:hover, & > a.author:hover, & > a.checksum:focus-visible, & > a.author:focus-visible {
+            color: map.get($theme, "foreground", "hex");
+          }
 
-				& > a.checksum:hover, & > a.author:hover, & > a.checksum:focus-visible, & > a.author:focus-visible {
-					color: map.get($theme, "foreground", "hex");
-				}
+          &.author-container > a.author > span.author-name {
+            font-weight: 700;
+          }
+        }
+      }
 
-				&.author-container > a.author > span.author-name {
-					font-weight: 700;
-				}
-			}
-		}
+      & > a.event-summary {
+        padding: 1em;
+        background-color: map.get($theme, "alt-accent", "hex");
+        color: map.get($theme, "foreground", "hex");
+        border: 1px solid map.get($theme, "foreground", "hex");
+        text-decoration: none;
 
-		& > a.event-summary {
-			padding: 1em;
-			background-color: map.get($theme, "alt-accent", "hex");
-			color: map.get($theme, "foreground", "hex");
-			text-decoration: none;
+        @include flex-row-evenly;
 
-			@include flex-row-evenly;
+        & > p {
+          margin: 0.5em;
 
-			& > p {
-				margin: 0.5em;
+          & > span.title > img {
+            width: 1em;
+            filter: invert(1);
+            margin-inline: 0.5em;
+          }
+        }
+      }
 
-				& > span.title > img {
-					width: 1em;
-					filter: invert(1);
-					margin-inline: 0.5em;
-				}
-			}
-		}
+      & > div.no-details {
+        background-color: map.get($theme, "alt-accent", "hex");
 
-		& > div.no-details {
-			background-color: map.get($theme, "alt-accent", "hex");
+        @include flex-column-center;
 
-			@include flex-column-center;
+        & > p.no-details-text {
+          margin: 1em;
+          color: $info-blue;
+          font-weight: 800;
+          text-align: center;
+          text-transform: capitalize;
+        }
+      }
+    }
 
-			& > p.no-details-text {
-				margin: 1em;
-				color: $info-blue;
-				font-weight: 800;
-				text-align: center;
-				text-transform: capitalize;
-			}
-		}
-	}
+    &.expanded {
+      grid-template-rows: min-content 1fr;
+
+      & > .brief {
+        box-shadow: 0 4px 4px -2px map.get($theme, "canvas", "hex");
+      }
+    }
+  }
 }
 
 code.type-desc {

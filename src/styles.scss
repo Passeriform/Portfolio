@@ -42,13 +42,16 @@ html, body {
 	@include full-viewport-size;
 }
 
-html > body {
-	color: map.get($theme, "accent", "hex");
+html, body, input, select, textarea {
 	font-family: "Raleway", sans-serif;
 	font-size: 13px;
 	font-weight: 400;
+	color: map.get($theme, "accent", "hex");
 	letter-spacing: 1px;
 	text-shadow: 1px 1px 1px map.get($theme, "shadow", "hex");
+}
+
+html > body {
 
 	@include full-perc-size;
 	@include no-overflow;

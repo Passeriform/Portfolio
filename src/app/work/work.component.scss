@@ -46,7 +46,7 @@ $stack-order: (
 				text-align: start;
 				text-transform: initial;
 
-				@include stack("page", "placeholder-title", $stack-order);
+				@include stack("route", "placeholder-title", $stack-order);
 
 				& > span {
 					color: map.get($theme, "accent", "hex");
@@ -57,7 +57,7 @@ $stack-order: (
 				@include absolute-top-left;
 				@include flex-column-center;
 				@include full-perc-size;
-				@include stack("page", "placeholder-hint-text", $stack-order);
+				@include stack("route", "placeholder-hint-text", $stack-order);
 
 				& > p {
 					width: 11em;

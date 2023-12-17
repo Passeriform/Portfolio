@@ -1,4 +1,4 @@
-<ng-container *ngFor="let entry of updates$ | async">
+<div *ngFor="let entry of updates$ | async" [ngClass]="{'expanded': $any(entry).expand}">
 	<div class="brief" (mousedown)="toggleDetails(entry)" (keydown)="toggleDetails(entry)">
 		<ng-template #tooltipTemplate>
 			<code class="type-desc">{{ entry.type }}</code>
@@ -30,7 +30,7 @@
 	</div>
 
   <!-- TODO: Find a ways to remove ugly `any` casting -->
-	<div class="details" [ngClass]="{'expanded': $any(entry).expand}">
+	<div class="details">
 		<!-- PushEvent -->
 		<ng-container *ngIf="isPushEvent(entry); else defaultEvent">
 			<div *ngFor="let commit of entry.payload.commits" class="commit-history">
@@ -74,4 +74,4 @@
 		</ng-template>
 
 	</div>
-</ng-container>
+</div>
