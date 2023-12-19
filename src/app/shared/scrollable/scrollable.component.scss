@@ -13,6 +13,7 @@
 		white-space: nowrap;
 
 		// TODO: Remove most ng-deep occurrences
+    /* stylelint-disable-next-line selector-pseudo-element-no-unknown, selector-pseudo-element-allowed-list -- Noted in TODO comment */
 		& > ::ng-deep * {
 			white-space: normal;
 		}

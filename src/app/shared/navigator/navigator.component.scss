@@ -9,10 +9,10 @@
 
 @mixin navigator-flap-pseudo {
   content: "";
+  z-index: -1;
   background-color: map.get($theme, "accent", "hex");
   transform-origin: top;
 	transition: all 0.2s;
-  z-index: -1;
   clip-path: polygon(100% 0, 100% 0, 100% 100%, 0 100%);
 
   @include absolute-top-right;
@@ -28,6 +28,7 @@
 
 	&:before {
     width: 50%;
+    /* stylelint-disable-next-line unit-allowed-list -- Fix for non-matching element overlap on Gecko browsers */
 		height: calc(math.div($navigator-flap-size, 2) + 1px);
 
     @include navigator-flap-pseudo;
@@ -52,6 +53,7 @@
 
 			& > img {
     		transition: all 0.2s;
+
 				@include equal-dim($flap-content-size);
 			}
 		}
@@ -109,9 +111,9 @@
     width: $navigator-expand-length;
 
     & > #click-capture {
-      height: 50%;
-      bottom: 50%;
       right: $navigator-expand-length - $navigator-flap-size;
+      bottom: 50%;
+      height: 50%;
 
       @include shape(["arrow", "point-down"]);
     }

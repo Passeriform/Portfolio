@@ -10,11 +10,6 @@
 
 // TODO: Use min-max mixin and abstract all used values to global
 
-::selector {
-	background: map.get($theme, "background", "invert", "hex");
-	color: map.get($theme, "foreground", "invert", "hex");
-}
-
 :host {
 	position: relative;
 

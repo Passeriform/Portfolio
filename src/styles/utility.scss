@@ -47,7 +47,6 @@
 @function css-function($prop, $process-params...) {
 	@if not(index(["max", "min", "clamp"], $prop)) {
 		@error "Specified parameter is not a recognized css function: #{$prop}";
-
 		@return null;
 	}
 

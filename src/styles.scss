@@ -27,11 +27,12 @@ $theme: generate-color-swatch($highlight: #ADFF22, $shadow: #0000000F);
 
   &:focus-visible {
     outline: none;
+    /* stylelint-disable-next-line unit-allowed-list -- box-shadow can be pixel-size */
     box-shadow: 0 0 1px 1px lime;
   }
 }
 
-input[type=submit] {
+input[type="submit"] {
   cursor: pointer;
 }
 
@@ -43,16 +44,18 @@ html, body {
 }
 
 html, body, input, select, textarea {
+	color: map.get($theme, "accent", "hex");
 	font-family: "Raleway", sans-serif;
+  /* stylelint-disable-next-line unit-allowed-list -- font-size must be pixel-sized */
 	font-size: 13px;
 	font-weight: 400;
-	color: map.get($theme, "accent", "hex");
+  /* stylelint-disable-next-line unit-allowed-list -- letter-spacing must be pixel-sized */
 	letter-spacing: 1px;
+  /* stylelint-disable-next-line unit-allowed-list -- text-shadow can be pixel-sized */
 	text-shadow: 1px 1px 1px map.get($theme, "shadow", "hex");
 }
 
 html > body {
-
 	@include full-perc-size;
 	@include no-overflow;
 	@include reset-offsets;
@@ -101,8 +104,8 @@ table {
 }
 
 ::selection {
-	background: map.get($theme, "foreground", "hex");
-	color: map.get($theme, "background", "hex");
+	background: map.get($theme, "background", "invert", "hex");
+	color: map.get($theme, "foreground", "invert", "hex");
 }
 
 ::-webkit-scrollbar {

@@ -4,6 +4,7 @@
 @use "shapes" as *;
 @use "modifiers" as *;
 @use "stack" as *;
+@use "utility" as *;
 
 @import "./overlay.colors";
 
@@ -59,6 +60,10 @@
 			@include layer(difference);
 			@include shape(["flap", "top-right"]);
 
+      @at-root #{str-replace("#{&}", ":host", ":host.blink")} {
+        @include layer(normal);
+      }
+
 			& > .overlay-trigger-img {
 				@include center-anchored-image;
 
@@ -75,66 +80,58 @@
 				}
 			}
 		}
+  }
 
-		& > .overlay {
-			transition: opacity 0.5s ease, backdrop-filter 0.5s ease;
+	& > .overlay-trigger > .overlay {
+    transition: opacity 0.5s ease, backdrop-filter 0.5s ease;
 
-			@include absolute-top-left;
-			@include full-perc-size;
-			@include hide-overlay;
+    @include absolute-top-left;
+    @include full-perc-size;
+    @include hide-overlay;
 
-			&:before {
-				background-color: map.get($theme, "shadow", "hex");
-				transition: all 0.3s ease;
+    &:before {
+      background-color: map.get($theme, "shadow", "hex");
+      transition: all 0.3s ease;
 
-				@include content-fix;
-				@include absolute-top-left;
-				@include full-perc-size;
-			}
+      @include content-fix;
+      @include absolute-top-left;
+      @include full-perc-size;
+    }
 
-			&.show {
-				@include unhide-overlay;
+    &.show {
+      @include unhide-overlay;
 
-				&:before {
-					opacity: 0.9;
-				}
+      &:before {
+        opacity: 0.9;
+      }
 
-				& ~ .overlay-button {
-					$expansion-factor: 1.25;
-					$expanded-flap-size: $expansion-factor * $overlay-flap-size;
+      & ~ .overlay-button {
+        $expansion-factor: 1.25;
+        $expanded-flap-size: $expansion-factor * $overlay-flap-size;
 
-					@include equal-dim($expanded-flap-size);
+        @include equal-dim($expanded-flap-size);
 
-					& > .overlay-trigger-img {
-						@include shape-content-props("flap", $expanded-flap-size) using ($flap-content-size, $flap-content-offset) {
-							$transform-offset: ($expansion-factor - 1) * $flap-content-offset;
-							transform: translate(-#{$transform-offset}, $transform-offset);
-						}
-					}
-				}
-			}
-		}
-	}
+        & > .overlay-trigger-img {
+          @include shape-content-props("flap", $expanded-flap-size) using ($flap-content-size, $flap-content-offset) {
+            $transform-offset: ($expansion-factor - 1) * $flap-content-offset;
+            transform: translate(-#{$transform-offset}, $transform-offset);
+          }
+        }
+      }
+    }
+  }
 
-	&.blink {
-		& > .overlay-trigger {
-			&:before {
-				background-color: map.get($theme, "background", "invert", "hex");
-				animation: blink 1s ease-out infinite;
+  &.blink > .overlay-trigger:before {
+    background-color: map.get($theme, "background", "invert", "hex");
+    animation: blink 1s ease-out infinite;
 
-				@include content-fix;
-				@include absolute-right;
-				@include shape(["flap", "top-right"]);
-				@include equal-dim(1.25 * $overlay-flap-size);
-				@include unhide-with-transition;
-				@include pointer-disable;
-			}
-
-			& > .overlay-button {
-				@include layer(normal);
-			}
-		}
-	}
+    @include content-fix;
+    @include absolute-right;
+    @include shape(["flap", "top-right"]);
+    @include equal-dim(1.25 * $overlay-flap-size);
+    @include unhide-with-transition;
+    @include pointer-disable;
+  }
 }
 
 @keyframes blink {

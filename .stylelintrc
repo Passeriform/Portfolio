@@ -40,7 +40,12 @@
       }
     ],
     "selector-pseudo-element-no-unknown": true,
-    "selector-type-no-unknown": true,
+    "selector-type-no-unknown": [
+      true,
+      {
+        "ignoreTypes": ["/fa-/"]
+      }
+    ],
     "media-feature-name-no-unknown": true,
     "at-rule-no-unknown": null,
     "comment-no-empty": true,
@@ -54,7 +59,9 @@
     "no-duplicate-selectors": true,
     "no-empty-source": true,
     "no-invalid-double-slash-comments": true,
-    "no-invalid-position-at-import-rule": true,
+    "no-invalid-position-at-import-rule": [true, {
+      "severity": "warning"
+    }],
     "alpha-value-notation": "number",
     "hue-degree-notation": "angle",
     "color-function-notation": "modern",
@@ -70,13 +77,17 @@
     "number-max-precision": 2,
     "time-min-milliseconds": 100,
     "unit-allowed-list": [
-      "em",
-      "rem",
-      "s",
-      "vw",
-      "vh",
-      "deg",
-      "%"
+      [
+        "fr",
+        "em",
+        "rem",
+        "s",
+        "vw",
+        "vh",
+        "deg",
+        "%"
+      ],
+      { "severity": "warning" }
     ],
     "shorthand-property-no-redundant-values": true,
     "value-no-vendor-prefix": true,
@@ -86,6 +97,7 @@
     "declaration-property-unit-allowed-list": [
       {
         ".*": [
+          "fr",
           "em",
           "rem",
           "vw",
@@ -126,6 +138,7 @@
       "decrement",
       "vertical",
       "horizontal",
+      "focus-visible",
       "root"
     ],
     "selector-pseudo-element-allowed-list": [
@@ -194,18 +207,20 @@
       {
         "except": [
           "first-nested",
-          "blockless-after-same-name-blockless"
+          "blockless-after-blockless"
         ],
 				"ignore": [
 					"after-comment"
-				],
+        ],
         "ignoreAtRules": [
           "else"
         ]
       }
     ],
     "at-rule-name-newline-after": null,
-    "comment-empty-line-before": "always",
+    "comment-empty-line-before": ["always", {
+      "ignore": ["stylelint-commands"]
+    }],
     "comment-whitespace-inside": "always",
     "no-irregular-whitespace": true,
     "scss/at-each-key-value-single-line": true,
@@ -233,8 +248,10 @@
           "css-clip-path",
           "css-filters",
           "css-fixed",
+          "css-focus-visible",
           "css-gradients",
           "css-grid",
+          "css-grid-animation",
           "css-initial-value",
           "css-letter-spacing",
           "css-logical-props",

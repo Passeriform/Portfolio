@@ -1,4 +1,4 @@
-<div *ngFor="let entry of updates$ | async" [ngClass]="{'expanded': $any(entry).expand}">
+<div *ngFor="let entry of updates$ | async" [ngClass]="{'expanded': $any(entry).expand}" class="update-roll-item">
 	<div class="brief" (mousedown)="toggleDetails(entry)" (keydown)="toggleDetails(entry)">
 		<ng-template #tooltipTemplate>
 			<code class="type-desc">{{ entry.type }}</code>

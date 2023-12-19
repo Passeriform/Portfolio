@@ -82,9 +82,9 @@ $content-font-size: clamp(1em, 2vw, 1.5em);
 						// TODO: Implement profile-pic slide-reveal, when hovering on h1
 						& > h1 {
 							padding: 0.2em;
-							color: map.get($theme, "accent", "hex");
 							width: fit-content;
 							background: map.get($theme, "background", "invert", "hex");
+							color: map.get($theme, "accent", "hex");
 							font-size: 3rem;
 							font-weight: 400;
 							line-height: 1;

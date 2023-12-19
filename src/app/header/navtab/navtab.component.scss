@@ -63,7 +63,6 @@ $stack-order: (
 	& > li {
 		a {
 			color: map.get($theme, "foreground", "invert", "hex");
-			text-shadow: 1px solid map.get($theme, "foreground", "hex");
 
 			&:before {
 				z-index: -1;
@@ -79,7 +78,6 @@ $stack-order: (
 
 		&:hover > a, & > a:focus-visible {
 			color: map.get($theme, "foreground", "hex");
-			text-shadow: 1px solid map.get($theme, "foreground", "accent", "hex");
 
 			&:before {
 				transform: scaleX(1);
@@ -136,7 +134,6 @@ $stack-order: (
 
 		& > a {
 			color: map.get($theme, "accent", "invert", "hex");
-			text-shadow: 1px solid map.get($theme, "accent", "hex");
 
 			&:before {
 				width: 90%;

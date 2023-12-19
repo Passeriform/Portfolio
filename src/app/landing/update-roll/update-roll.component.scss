@@ -16,245 +16,247 @@ $stack-order: (
 );
 
 :host {
-  & > div {
-    display: grid;
-    grid-template-rows: min-content 0fr;
-    transition: grid-template-rows 0.2s;
+	& > .update-roll-item {
+		display: grid;
+		grid-template-rows: min-content 0fr;
+		transition: grid-template-rows 0.2s;
 
-    & > .brief {
-      display: grid;
-      width: 100%;
-      grid-gap: 1px;
-      grid-template-columns: minmax(4em, 8em) minmax(9em, 20em) minmax(10em, auto);
-      border: 1px solid map.get($theme, "foreground", "hex");
-      transition: all 0.2s;
-      cursor: pointer;
+		& > .brief {
+			display: grid;
+			width: 100%;
+			/* stylelint-disable-next-line unit-allowed-list -- grid-gap can be pixel-sized */
+			grid-gap: 1px;
+			grid-template-columns: minmax(4em, 8em) minmax(9em, 20em) minmax(10em, auto);
+			/* stylelint-disable-next-line unit-allowed-list -- borders can be pixel-sized */
+			border: 1px solid map.get($theme, "foreground", "hex");
+			transition: all 0.2s;
+			cursor: pointer;
 
-      @include stack("route", "brief", $stack-order);
+			@include stack("route", "brief", $stack-order);
 
-      &:not(:first-child) {
-        margin-top: -1px;
-      }
+			& > * {
+				padding: 1em;
+			}
 
-      & > * {
-        padding: 1em;
-      }
+			& > div:nth-child(even) {
+				background-color: map.get($theme, "accent", "hex");
+			}
 
-      & > div:nth-child(even) {
-        background-color: map.get($theme, "accent", "hex");
-      }
+			& > div:nth-child(odd) {
+				background-color: map.get($theme, "alt-accent", "hex");
+			}
 
-      & > div:nth-child(odd) {
-        background-color: map.get($theme, "alt-accent", "hex");
-      }
+			& > div.type-badge {
+				grid-column: 1 / 1;
 
-      & > div.type-badge {
-        grid-column: 1 / 1;
+				@include flex-column-center;
+			}
 
-        @include flex-column-center;
-      }
+			& > .repo {
+				grid-column: 2 / 2;
 
-      & > div.repo {
-        grid-column: 2 / 2;
+				@include flex-column-center;
 
-        @include flex-column-center;
+				& > a {
+					color: map.get($theme, "foreground", "invert", "hex");
+					text-decoration: none;
 
-        & > a {
-          color: map.get($theme, "foreground", "invert", "hex");
-          text-decoration: none;
+					@include full-perc-size;
 
-          @include full-perc-size;
+					@include media(">=tablet") {
+						@include flex-row-center;
 
-          @include media(">=tablet") {
-            @include flex-row-center;
+						& > span.repo-org {
+							text-align: right;
+						}
 
-            & > span.repo-org {
-              text-align: right;
-            }
+						& > span.slash-separator:before {
+							content: "/";
+						}
 
-            & > span.slash-separator:before {
-              content: "/";
-            }
+						& > span.repo-project {
+							text-align: left;
+						}
+					}
 
-            & > span.repo-project {
-              text-align: left;
-            }
-          }
+					@include media("<tablet") {
+						@include flex-column-center;
 
-          @include media("<tablet") {
-            @include flex-column-center;
+						& > span.repo-org {
+							text-align: center;
+						}
 
-            & > span.repo-org {
-              text-align: center;
-            }
+						& > span.slash-separator:before {
+							content: "―";
+						}
 
-            & > span.slash-separator:before {
-              content: "―";
-            }
+						& > span.repo-project {
+							text-align: center;
+						}
+					}
 
-            & > span.repo-project {
-              text-align: center;
-            }
-          }
+					&:hover, &:focus-visible {
+						color: map.get($theme, "foreground", "hex");
+					}
 
-          &:hover, &:focus-visible {
-            color: map.get($theme, "foreground", "hex");
-          }
+					& > span {
+						word-wrap: anywhere;
+					}
 
-          & > span {
-            word-wrap: anywhere;
-          }
+					& > span.repo-org {
+						width: 100%;
+						font-weight: 800;
+					}
 
-          & > span.repo-org {
-            width: 100%;
-            font-weight: 800;
-          }
+					& > span.slash-separator {
+						margin: 0 0.5em;
 
-          & > span.slash-separator {
-            margin: 0 0.5em;
+						&:before {
+							font-size: 2em;
+							font-weight: 500;
+							text-align: center;
+						}
+					}
 
-            &:before {
-              font-size: 2em;
-              font-weight: 500;
-              text-align: center;
-            }
-          }
+					& > span.repo-project {
+						width: 100%;
+					}
+				}
+			}
 
-          & > span.repo-project {
-            width: 100%;
-          }
-        }
-      }
+			& > div.message {
+				grid-column: 3 / 3;
 
-      & > div.message {
-        grid-column: 3 / 3;
+				@include flex-column-center;
 
-        @include flex-column-center;
+				@include override-modifiers {
+					text-align: left;
+				}
 
-        @include override-modifiers {
-          text-align: left;
-        }
+				& p.message-text {
+					margin: 0;
+					width: 100%;
+					white-space: pre-line;
+				}
 
-        & p.message-text {
-          margin: 0;
-          width: 100%;
-          white-space: pre-line;
-        }
+				& > p.action-message {
+					color: $info-blue;
+					font-weight: 800;
+					text-align: center;
+					text-transform: capitalize;
+				}
 
-        & > p.action-message {
-          color: $info-blue;
-          font-weight: 800;
-          text-align: center;
-          text-transform: capitalize;
-        }
+				& > ul.commit-container {
+					margin: 0;
+					padding-left: 1em;
+					list-style: disclosure-closed;
 
-        & > ul.commit-container {
-          margin: 0;
-          padding-left: 1em;
-          list-style: disclosure-closed;
+					& > li.commit-message {
+						padding: 0.5em 0.25em;
+						white-space: pre-line;
+					}
+				}
+			}
+		}
 
-          & > li.commit-message {
-            padding: 0.5em 0.25em;
-            white-space: pre-line;
-          }
-        }
-      }
-    }
+		& > .details {
+			display: grid;
+			margin: 0 1rem;
+			/* stylelint-disable-next-line unit-allowed-list -- grid-gap can be pixel-sized */
+			grid-gap: 2px;
+			background-color: map.get($theme, "primary", "hex");
 
-    & > .details {
-      display: grid;
-      margin: 0 1rem;
-      grid-gap: 2px;
-      background-color: map.get($theme, "primary", "hex");
+			@include no-overflow;
+			@include stack("route", "details", $stack-order);
 
-      @include no-overflow;
-      @include stack("route", "details", $stack-order);
+			& > .commit-history {
+				display: grid;
+				/* stylelint-disable-next-line unit-allowed-list -- grid-gap can be pixel-sized */
+				grid-gap: 2px;
+				grid-template-columns: 5fr 25rem 4fr;
 
-      & > .commit-history {
-        display: grid;
-        grid-gap: 2px;
-        grid-template-columns: 5fr 25rem 4fr;
+				& > div {
+					background-color: map.get($theme, "accent", "hex");
+					color: map.get($theme, "foreground", "invert", "hex");
 
-        & > div {
-          background-color: map.get($theme, "accent", "hex");
-          color: map.get($theme, "foreground", "invert", "hex");
+					@include flex-column-center;
 
-          @include flex-column-center;
+					&.message-container {
+						justify-content: flex-start;
 
-          &.message-container {
-            justify-content: flex-start;
+						& > p.message {
+							white-space: pre-line;
+						}
+					}
 
-            & > p.message {
-              white-space: pre-line;
-            }
-          }
+					& > p, & > a {
+						margin: 0;
+						padding: 1em;
+						width: 100%;
+					}
 
-          & > p, & > a {
-            margin: 0;
-            padding: 1em;
-            width: 100%;
-          }
+					&.checksum-container > a.checksum, &.author-container > a.author {
+						color: map.get($theme, "foreground", "invert", "hex");
+						text-align: center;
+						text-decoration: none;
+						word-wrap: break-word;
+					}
 
-          &.checksum-container > a.checksum, &.author-container > a.author {
-            color: map.get($theme, "foreground", "invert", "hex");
-            text-align: center;
-            text-decoration: none;
-            word-wrap: break-word;
-          }
+					& > a.checksum:hover, & > a.author:hover, & > a.checksum:focus-visible, & > a.author:focus-visible {
+						color: map.get($theme, "foreground", "hex");
+					}
 
-          & > a.checksum:hover, & > a.author:hover, & > a.checksum:focus-visible, & > a.author:focus-visible {
-            color: map.get($theme, "foreground", "hex");
-          }
+					&.author-container > a.author > span.author-name {
+						font-weight: 700;
+					}
+				}
+			}
 
-          &.author-container > a.author > span.author-name {
-            font-weight: 700;
-          }
-        }
-      }
+			& > a.event-summary {
+				padding: 1em;
+				/* stylelint-disable-next-line unit-allowed-list -- borders can be pixel-sized */
+				border: 1px solid map.get($theme, "foreground", "hex");
+				background-color: map.get($theme, "alt-accent", "hex");
+				color: map.get($theme, "foreground", "hex");
+				text-decoration: none;
 
-      & > a.event-summary {
-        padding: 1em;
-        background-color: map.get($theme, "alt-accent", "hex");
-        color: map.get($theme, "foreground", "hex");
-        border: 1px solid map.get($theme, "foreground", "hex");
-        text-decoration: none;
+				@include flex-row-evenly;
 
-        @include flex-row-evenly;
+				& > p {
+					margin: 0.5em;
 
-        & > p {
-          margin: 0.5em;
+					& > .title > img {
+						width: 1em;
+						filter: invert(1);
+						margin-inline: 0.5em;
+					}
+				}
+			}
 
-          & > span.title > img {
-            width: 1em;
-            filter: invert(1);
-            margin-inline: 0.5em;
-          }
-        }
-      }
+			& > div.no-details {
+				background-color: map.get($theme, "alt-accent", "hex");
 
-      & > div.no-details {
-        background-color: map.get($theme, "alt-accent", "hex");
+				@include flex-column-center;
 
-        @include flex-column-center;
+				& > p.no-details-text {
+					margin: 1em;
+					color: $info-blue;
+					font-weight: 800;
+					text-align: center;
+					text-transform: capitalize;
+				}
+			}
+		}
 
-        & > p.no-details-text {
-          margin: 1em;
-          color: $info-blue;
-          font-weight: 800;
-          text-align: center;
-          text-transform: capitalize;
-        }
-      }
-    }
+		&.expanded {
+			grid-template-rows: min-content 1fr;
 
-    &.expanded {
-      grid-template-rows: min-content 1fr;
-
-      & > .brief {
-        box-shadow: 0 4px 4px -2px map.get($theme, "canvas", "hex");
-      }
-    }
-  }
+			& > .brief {
+				/* stylelint-disable-next-line unit-allowed-list -- box-shadow can be pixel-sized */
+				box-shadow: 0 4px 4px -2px map.get($theme, "canvas", "hex");
+			}
+		}
+	}
 }
 
 code.type-desc {

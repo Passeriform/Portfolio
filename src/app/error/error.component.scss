@@ -39,7 +39,6 @@
 
 				& > h1 {
 					font-size: 8rem;
-					text-shadow: 0 0 5px map.get($theme, "shadow", "hex");
 				}
 
 				& > h5 {
@@ -52,7 +51,6 @@
 				margin: 2rem;
 				font-size: 1.75rem;
 				font-weight: 200;
-				text-shadow: 0 0 0.1rem map.get($theme, "shadow", "invert", "hex");
 			}
 
 			& > .blur-fix {
@@ -87,7 +85,6 @@
 
 				&.expand {
 					$expanded-size-perc: 80%;
-
 					min-height: 5em;
 					max-height: 80vh;
 					width: $expanded-size-perc;

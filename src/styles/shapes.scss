@@ -252,11 +252,11 @@ $shapes: (
 	@content($content-size, $content-offset);
 }
 
-@mixin shape($path-keys, $delta: 0rem) {
+@mixin shape($path-keys, $delta: 0) {
 	clip-path: get-shape($path-keys, $delta);
 }
 
-@function get-shape($path-keys, $delta: 0rem) {
+@function get-shape($path-keys, $delta: 0) {
 	@if type-of($delta) != "map" {
 		$delta: ("default": $delta);
 	}

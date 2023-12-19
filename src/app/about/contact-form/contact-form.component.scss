@@ -10,10 +10,12 @@
 
 $half-input-margin: 1em;
 $textarea-height: 10em;
+/* stylelint-disable-next-line unit-allowed-list -- Variable used as a fix for textarea pseudo elements overshooting in webkit engines */
 $textarea-label-height-fix: 4px;
 $input-element-padding: 1em;
 
 @mixin form-element {
+  /* stylelint-disable-next-line unit-allowed-list -- borders can be pixel-sized */
 	border: 1px solid map.get($theme, "accent", "hex");
 	color: map.get($theme, "accent", "invert", "hex");
 	transition: background-color 0.5s;
@@ -55,6 +57,7 @@ $input-element-padding: 1em;
 			padding: $input-element-padding;
 			width: 100%;
 			height: 3em;
+      /* stylelint-disable-next-line unit-allowed-list -- font-size must be pixel-sized */
 			font-size: 16px;
 
 			@include form-element;
@@ -81,13 +84,7 @@ $input-element-padding: 1em;
 				}
 			}
 
-			&:focus + .input-label:after {
-				transform: translateX(0);
-			}
-		}
-
-		& > .input-label {
-			&:after {
+      &:after {
 				transform: translateX(-100%);
 				background-color: map.get($theme, "background", "invert", "hex");
 				transition: transform 0.3s;
@@ -98,14 +95,9 @@ $input-element-padding: 1em;
 				@include pointer-disable;
 				@include layer(exclusion);
 			}
-		}
 
-		&.submit {
-			margin-right: 1em;
-			float: right;
-
-			& > .input-label:after {
-				@include shape(["snipped-rectangle", "top-left"], 1em);
+			&:focus + .input-label:after {
+				transform: translateX(0);
 			}
 		}
 	}

@@ -6,6 +6,7 @@ $gradient-solid-color-hex: #3D3D3D99;
 
 @mixin separator-vertical {
 	margin: 0 0.5em;
+  /* stylelint-disable-next-line unit-allowed-list -- Separator should have a static thickness */
 	width: 2px;
 	height: 100%;
 	background:
@@ -23,6 +24,7 @@ $gradient-solid-color-hex: #3D3D3D99;
 @mixin separator-horizontal {
 	margin: 0.5em 0;
 	width: 100%;
+  /* stylelint-disable-next-line unit-allowed-list -- Separator should have a static thickness */
 	height: 2px;
 	background:
 		linear-gradient(

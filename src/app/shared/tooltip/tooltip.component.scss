@@ -10,12 +10,14 @@ $tooltip-window-width-em: 20em;
 $tooltip-arrow-size-em: 1em;
 
 @mixin normal-color {
+  /* stylelint-disable-next-line unit-allowed-list -- borders can be pixel-sized */
 	border: 1px solid map.get($theme, "accent", "invert", "hex");
 	background-color: map.get($theme, "background", "invert", "hex");
 	color: map.get($theme, "foreground", "invert", "hex");
 }
 
 @mixin invert-color {
+  /* stylelint-disable-next-line unit-allowed-list -- borders can be pixel-sized */
 	border: 1px solid map.get($theme, "accent", "hex");
 	background-color: map.get($theme, "background", "hex");
 	color: map.get($theme, "foreground", "hex");
@@ -80,7 +82,8 @@ $tooltip-arrow-size-em: 1em;
 	& > .tooltip-internal {
 		position: absolute;
 		box-sizing: border-box;
-		box-shadow: 0 0 5px -3px map.get($theme, "shadow", "hex");
+    /* stylelint-disable-next-line unit-allowed-list -- box-shadow can be pixel-sized */
+    box-shadow: 0 0 5px -3px map.get($theme, "shadow", "hex");
 
 		@include max-content-width($tooltip-window-width-em);
 
@@ -90,6 +93,7 @@ $tooltip-arrow-size-em: 1em;
 
 		&:after {
 			position: absolute;
+      /* stylelint-disable-next-line unit-allowed-list -- box-shadow can be pixel-sized */
 			box-shadow: 0 0 5px -3px map.get($theme, "shadow", "hex");
 			transform: translate(-50%, -50%) rotate(45deg);
 
