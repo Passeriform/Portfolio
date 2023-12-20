@@ -1,9 +1,9 @@
 @use "sass:map";
+@use "colors" as *;
 @use "global" as *;
 @use "modifiers" as *;
 
-@import "./showcase.colors";
-
+$theme: get-theme("showcase");
 $meta-icon-size-em: 3em;
 $tooltip-max-meta-icons: 4;
 

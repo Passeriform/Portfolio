@@ -1,8 +1,9 @@
 @use "sass:map";
+@use "colors" as *;
 @use "modifiers" as *;
 @use "shapes" as *;
 
-@import "./tech-stack.colors";
+$theme: get-theme("tech-stack");
 
 :host {
 	& .model-attr {

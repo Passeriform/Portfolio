@@ -5,7 +5,7 @@ import { FooterVariant } from "@app/footer/models/footer.interface";
 
 @Component({
 	selector: "app-root",
-	styleUrls: [ "./app.component.scss" ],
+	styleUrls: [ ],
 	templateUrl: "./app.component.html",
 })
 export class AppComponent {

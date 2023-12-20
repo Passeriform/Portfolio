@@ -1,12 +1,13 @@
 @use "sass:map";
 @use "animations" as *;
 @use "assets" as *;
+@use "colors" as *;
 @use "page" as *;
 @use "media" as *;
 @use "modifiers" as *;
 @use "stack" as *;
 
-@import "./landing.colors";
+$theme: get-theme("landing");
 
 // TODO: Use min-max mixin and abstract all used values to global
 

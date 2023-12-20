@@ -1,11 +1,12 @@
 @use "sass:map";
 @use "sass:math";
-@use "page" as *;
+@use "colors" as *;
 @use "media" as *;
 @use "modifiers" as *;
+@use "page" as *;
 @use "stack" as *;
 
-@import "./error.colors";
+$theme: get-theme("error");
 
 :host {
 	display: block;

@@ -1,7 +1,8 @@
 @use "sass:map";
+@use "colors" as *;
 @use "modifiers" as *;
 
-@import "./raisecard.colors";
+$theme: get-theme("raisecard");
 
 @mixin compact {
 	height: 11.5em;

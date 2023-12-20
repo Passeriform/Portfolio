@@ -3,67 +3,7 @@
 @use "sass:math";
 @use "map-plus";
 
-/// Global registry for persistent use
-$theme-registry: ("default": generate-color-swatch());
-
-/// Registry operations
-@function register-theme($themeAccessor, $swatch) {
-	@if not $theme-accessor {
-		@error "Must specify an accessor string as key for registering swatch.";
-	}
-
-	@if (type-of($swatch) != map) {
-		@warn "Specified argument is not a color swatch map.";
-	}
-
-	@debug map.set($theme-registry, $theme-accessor, $swatch);
-}
-
-@function get-theme-element($accessor) {
-	@if (map.has-key($theme-registry, $accessor)) {
-		@return map.get($theme-registry, $accessor);
-	}
-
-	@warn "Could not find the requested theme in registry. Returning the default theme instead.";
-	@return map.get($theme-registry, "default");
-}
-
-/// Color swatch generator
-@function generate-color-swatch(
-	$primary: #EEEEEE,
-	$secondary: #191919,
-	$accent: $primary,
-	$alt-accent: $accent,
-	$foreground: $primary,
-	$background: $secondary,
-	$canvas: $background,
-	$highlight: $accent,
-	$shadow: $alt-accent,
-) {
-	$primary: map-plus.merge-all(("hex": $primary), generate-accents($primary));
-	$secondary: map-plus.merge-all(("hex": $secondary), generate-accents($secondary));
-	$accent: map-plus.merge-all(("hex": $accent), generate-accents($accent));
-	$alt-accent: map-plus.merge-all(("hex": $alt-accent), generate-accents($alt-accent));
-	$foreground: map-plus.merge-all(("hex": $foreground), generate-accents($foreground));
-	$background: map-plus.merge-all(("hex": $background), generate-accents($background));
-	$canvas: map-plus.merge-all(("hex": $canvas), generate-accents($canvas));
-	$highlight: map-plus.merge-all(("hex": $highlight), generate-accents($highlight));
-	$shadow: map-plus.merge-all(("hex": $shadow), generate-accents($shadow));
-	$primitive-map: (
-		"primary": $primary,
-		"secondary": $secondary,
-		"accent": $accent,
-		"alt-accent": $alt-accent,
-		"foreground": $foreground,
-		"background": $background,
-		"canvas": $canvas,
-		"highlight": $highlight,
-		"shadow": $shadow,
-	);
-
-	@return $primitive-map;
-}
-
+/// Generate shades and accents for a color
 @function generate-accents($color) {
 	@if not $color {
 		@error "No color was supplied to the function";
@@ -87,4 +27,120 @@ $theme-registry: ("default": generate-color-swatch());
 	}
 
 	@return map-merge($shades-and-tints, ("invert": ("hex": invert($color))));
+}
+
+@function generate-color-map($color) {
+  @if not $color {
+		@error "No color was supplied to the function";
+	}
+
+  @return map-plus.merge-all(("hex": $color), generate-accents($color));
+}
+
+/// Generate color swatch template
+@function generate-swatch-template(
+	$primary,
+	$secondary,
+	$accent: $primary,
+	$alt-accent: $accent,
+	$foreground: $primary,
+	$background: $secondary,
+	$canvas: $background,
+	$highlight: $accent,
+	$shadow: $canvas,
+) {
+	$color-map: (
+		"primary": generate-color-map($primary),
+		"secondary": generate-color-map($secondary),
+		"accent": generate-color-map($accent),
+		"alt-accent": generate-color-map($alt-accent),
+		"foreground": generate-color-map($foreground),
+		"background": generate-color-map($background),
+		"canvas": generate-color-map($canvas),
+		"highlight": generate-color-map($highlight),
+		"shadow": generate-color-map($shadow),
+	);
+
+	@return $color-map;
+}
+
+@function extend-swatch(
+	$template,
+  $primary: null,
+	$secondary: null,
+	$accent: null,
+	$alt-accent: null,
+	$foreground: null,
+	$background: null,
+	$canvas: null,
+	$highlight: null,
+	$shadow: null,
+) {
+  $color-map: (
+		"primary": if($primary, generate-color-map($primary), map.get($template, "primary")),
+		"secondary": if($secondary, generate-color-map($secondary), map.get($template, "secondary")),
+		"accent": if($accent, generate-color-map($accent), map.get($template, "accent")),
+		"alt-accent": if($alt-accent, generate-color-map($alt-accent), map.get($template, "alt-accent")),
+		"foreground": if($foreground, generate-color-map($foreground), map.get($template, "foreground")),
+		"background": if($background, generate-color-map($background), map.get($template, "background")),
+		"canvas": if($canvas, generate-color-map($canvas), map.get($template, "canvas")),
+		"highlight": if($highlight, generate-color-map($highlight), map.get($template, "highlight")),
+		"shadow": if($shadow, generate-color-map($shadow), map.get($template, "shadow")),
+	);
+
+	@return $color-map;
+}
+
+$global-swatch: generate-swatch-template($primary: #EEEEEE, $secondary: #191919, $highlight: #ADFF22, $shadow: #0000000F);
+$error-swatch: generate-swatch-template($primary: #EEEEEE, $secondary: #191919, $highlight: #7224A0, $shadow: black);
+$landing-swatch: generate-swatch-template($primary: #FFC5C5, $secondary: #1B0007, $accent: #F2ECEB, $shadow: #3D3D3D99);
+$work-swatch: generate-swatch-template($primary: #EEEEEE, $secondary: #0E1012, $accent: #7E9300);
+$about-swatch: generate-swatch-template($primary: #A8757D, $secondary: #050C26, $accent: #282F4C, $canvas: #17061E);
+
+// TODO: Modify all non-filled positions to primary and secondary color
+/// Global registry
+$themes: (
+  "global": extend-swatch($global-swatch),
+
+  "cage-grid": extend-swatch($global-swatch, $canvas: #3D3D3D99),
+  "overlay": extend-swatch($global-swatch, $shadow: black),
+  "page-nav": extend-swatch($global-swatch, $shadow: black),
+  "scrollbar": extend-swatch($global-swatch, $primary: #4A4A4A99, $secondary: #24242499),
+  "tooltip": extend-swatch($global-swatch, $shadow: black),
+  "harmonic-loader": extend-swatch($global-swatch),
+  "navigator": extend-swatch($global-swatch),
+  "loader": extend-swatch($global-swatch),
+  "social-glyphs": extend-swatch($global-swatch),
+
+  "header": extend-swatch($global-swatch),
+  "navtab": extend-swatch($global-swatch),
+
+  "error": extend-swatch($error-swatch),
+
+  "landing": extend-swatch($landing-swatch),
+  "sweeper": extend-swatch($landing-swatch, $accent: #C5C5C5, $alt-accent: #373737),
+  "update-roll": extend-swatch($landing-swatch, $accent: #97A797, $alt-accent: #191919),
+
+  "work": extend-swatch($work-swatch),
+  "showcase": extend-swatch($work-swatch),
+  "describe": extend-swatch($work-swatch),
+  "dynamic-search": extend-swatch($work-swatch),
+  "raisecard": extend-swatch($work-swatch),
+  "tech-stack": extend-swatch($work-swatch),
+
+  "about": extend-swatch($about-swatch),
+  "contact-form": extend-swatch($about-swatch),
+  "namecard": extend-swatch($about-swatch),
+
+  "footer": extend-swatch($global-swatch),
+  "chirpy": extend-swatch($global-swatch),
+);
+
+@function get-theme($accessor) {
+  @if (map.has-key($themes, $accessor)) {
+		@return map.get($themes, $accessor);
+	}
+
+	@warn "Could not find the requested theme in registry. Returning the default theme instead.";
+	@return map.get($themes, "global");
 }

@@ -1,7 +1,8 @@
 @use "sass:map";
+@use "colors" as *;
 @use "modifiers" as *;
 
-@import "./dynamic-search.colors";
+$theme: get-theme("dynamic-search");
 
 :host {
 	// TODO: Check if wrapping is fine

@@ -1,8 +1,8 @@
 @use "sass:map";
+@use "colors" as *;
 @use "modifiers" as *;
 
-@import "./social-glyphs.colors";
-
+$theme: get-theme("social-glyphs");
 $no-of-items: 5;
 $max-inter-item-width: 1em;
 $max-width: ($no-of-items * 2em) + ($no-of-items + 1) * $max-inter-item-width;

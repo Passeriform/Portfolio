@@ -1,11 +1,11 @@
 @use "sass:map";
+@use "colors" as *;
 @use "media" as *;
-@use "page" as *;
 @use "modifiers" as *;
+@use "page" as *;
 @use "stack" as *;
 
-@import "./work.colors";
-
+$theme: get-theme("work");
 $h1-responsive-font-size: clamp(5em, 10vw, 7em);
 $stack-order: (
 	"placeholder-hint-text",

@@ -1,5 +1,0 @@
-@use "colors" as *;
-
-// TODO: Enable theme inheritance for sub-components in the module.
-
-$theme: generate-color-swatch($primary: #FFC5C5, $secondary: #1B0007, $accent: #F2ECEB, $shadow: #3D3D3D99);

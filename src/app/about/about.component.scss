@@ -1,11 +1,11 @@
 @use "sass:map";
 @use "assets" as *;
+@use "colors" as *;
 @use "page" as *;
 @use "modifiers" as *;
 @use "stack" as *;
 
-@import "./about.colors";
-
+$theme: get-theme("about");
 $content-font-size: clamp(1em, 2vw, 1.5em);
 
 // TODO: Use align-selfs in places where performing weird compromises on parent styles

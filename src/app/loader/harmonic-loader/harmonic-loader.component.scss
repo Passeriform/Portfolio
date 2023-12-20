@@ -1,6 +1,7 @@
 @use "sass:map";
+@use "colors" as *;
 
-@import "../loader.colors";
+$theme: get-theme("loader");
 
 :host {
 	& > canvas {

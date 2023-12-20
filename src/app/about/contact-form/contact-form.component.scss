@@ -1,10 +1,11 @@
 @use "sass:map";
 @use "sass:math";
+@use "colors" as *;
 @use "shapes" as *;
 @use "media" as *;
 @use "modifiers" as *;
 
-@import "./contact-form.colors";
+$theme: get-theme("contact-form");
 
 // TODO: Use direct properties when shorthand not required (background, margin)
 
@@ -15,7 +16,7 @@ $textarea-label-height-fix: 4px;
 $input-element-padding: 1em;
 
 @mixin form-element {
-  /* stylelint-disable-next-line unit-allowed-list -- borders can be pixel-sized */
+	/* stylelint-disable-next-line unit-allowed-list -- borders can be pixel-sized */
 	border: 1px solid map.get($theme, "accent", "hex");
 	color: map.get($theme, "accent", "invert", "hex");
 	transition: background-color 0.5s;
@@ -52,12 +53,35 @@ $input-element-padding: 1em;
 			@include clear-fix;
 		}
 
+    & > .input-label {
+			&::after {
+				transform: translateX(-100%);
+				background-color: map.get($theme, "background", "invert", "hex");
+				transition: transform 0.3s;
+
+				@include absolute-top-left;
+				@include full-perc-size;
+				@include content-fix;
+				@include pointer-disable;
+				@include layer(exclusion);
+			}
+    }
+
+    &.submit {
+			margin-right: 1em;
+			float: right;
+
+			& > .input-label::after {
+				@include shape(["snipped-rectangle", "top-left"], 1em);
+			}
+		}
+
 		& > .input-field {
 			box-sizing: border-box;
 			padding: $input-element-padding;
 			width: 100%;
 			height: 3em;
-      /* stylelint-disable-next-line unit-allowed-list -- font-size must be pixel-sized */
+			/* stylelint-disable-next-line unit-allowed-list -- font-size must be pixel-sized */
 			font-size: 16px;
 
 			@include form-element;
@@ -69,7 +93,7 @@ $input-element-padding: 1em;
 			@at-root #{selector-replace(&, ".input-field", "textarea.input-field")} {
 				height: $textarea-height;
 
-				& + .input-label:after {
+				& + .input-label::after {
 					height: calc(#{$textarea-height + (2 * $input-element-padding)} + #{$textarea-label-height-fix});
 				}
 			}
@@ -79,24 +103,12 @@ $input-element-padding: 1em;
 				font-size: 0.85em;
 				letter-spacing: 0.2em;
 
-				&:hover + .input-label:after {
+				&:hover + .input-label::after {
 					transform: translateX(0);
 				}
 			}
 
-      &:after {
-				transform: translateX(-100%);
-				background-color: map.get($theme, "background", "invert", "hex");
-				transition: transform 0.3s;
-
-				@include absolute-top-left;
-				@include full-perc-size;
-				@include content-fix;
-				@include pointer-disable;
-				@include layer(exclusion);
-			}
-
-			&:focus + .input-label:after {
+			&:focus + .input-label::after {
 				transform: translateX(0);
 			}
 		}

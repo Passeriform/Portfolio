@@ -1,16 +1,16 @@
 @use "sass:list";
 @use "sass:map";
 @use "sass:math";
+@use "colors" as *;
 @use "media" as *;
 @use "shapes" as *;
 @use "modifiers" as *;
 @use "inset" as *;
 @use "utility" as *;
 
-@import "./page-nav.colors";
+$theme: get-theme("page-nav");
 
 // TODO: Check traveler height in case of continuous collapsed/expanded
-
 
 @mixin continuous-collapsed-traveler($inset-type) {
 	#{$inset-type}: $traveler-centering-offset + $traveler-arrow-offset;

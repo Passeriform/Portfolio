@@ -4,8 +4,8 @@
 @use "modifiers" as *;
 @use "colors" as *;
 
-// TODO: Consider moving all default styles into mixin and package with theme as a mixin
-$theme: generate-color-swatch($highlight: #ADFF22, $shadow: #0000000F);
+$theme: get-theme("global");
+$scrollbar-theme: get-theme("scrollbar");
 
 /// CSS Variables
 :root {
@@ -22,7 +22,7 @@ $theme: generate-color-swatch($highlight: #ADFF22, $shadow: #0000000F);
 * {
 	box-sizing: border-box;
 	white-space: normal;
-	scrollbar-color: map.get($scrollbar-colors, "scrollbar", "thumb") map.get($scrollbar-colors, "scrollbar", "track");
+	scrollbar-color: map.get($scrollbar-theme, "primary", "hex") map.get($scrollbar-theme, "secondary", "hex");
 	scrollbar-width: thin;
 
   &:focus-visible {
@@ -85,7 +85,7 @@ blockquote, q {
 	box-shadow: 0 0 0.5em 0.05em black inset;
 	background: map.get($theme, "background", "hex");
 
-	&:before, &:after {
+	&::before, &::after {
 		content: none;
 	}
 }

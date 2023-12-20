@@ -1,7 +1,8 @@
 @use "sass:map";
+@use "colors" as *;
 @use "modifiers" as *;
 
-@import "./describe.colors";
+$theme: get-theme("describe");
 
 :host {
 	& > .content {

@@ -1,10 +1,10 @@
 @use "sass:map";
+@use "colors" as *;
 @use "media" as *;
 @use "shapes" as *;
 @use "modifiers" as *;
 
-@import "./namecard.colors";
-
+$theme: get-theme("namecard");
 $name-shape-snip-size: 1em;
 $name-font-size: clamp(2.5rem, 6vw, 3rem);
 $description-font-size: clamp(1em, 2vw, 1.5em);

@@ -1,11 +1,11 @@
 @use "sass:map";
 @use "sass:math";
+@use "colors" as *;
 @use "inset" as *;
 @use "modifiers" as *;
 @use "stack" as *;
 
-@import "./tooltip.colors";
-
+$theme: get-theme("tooltip");
 $tooltip-window-width-em: 20em;
 $tooltip-arrow-size-em: 1em;
 
@@ -47,29 +47,29 @@ $tooltip-arrow-size-em: 1em;
 				@if (is-vertical-inset($position)) {
 					transform: translateX(-50%);
 
-					&:after {
+					&::after {
 						top: if($position == bottom, 0, 100%);
 						left: 50%;
 					}
 
-					&.corner > .tooltip-internal:after {
+					&.corner > .tooltip-internal::after {
 						top: 0;
 					}
 				} @else {
 					transform: translateY(-50%);
 
-					&:after {
+					&::after {
 						top: 50%;
 						left: if($position == right, 0, 100%);
 					}
 
-					&.corner > .tooltip-internal:after {
+					&.corner > .tooltip-internal::after {
 						left: 0;
 					}
 				}
 			}
 
-			&.corner > .tooltip-internal:after {
+			&.corner > .tooltip-internal::after {
 				@if (is-vertical-inset($position)) {
 					left: 0;
 				} @else {
@@ -91,7 +91,7 @@ $tooltip-arrow-size-em: 1em;
 			padding: 1em 2em;
 		}
 
-		&:after {
+		&::after {
 			position: absolute;
       /* stylelint-disable-next-line unit-allowed-list -- box-shadow can be pixel-sized */
 			box-shadow: 0 0 5px -3px map.get($theme, "shadow", "hex");
@@ -105,7 +105,7 @@ $tooltip-arrow-size-em: 1em;
 		&:not(.invert) {
 			@include normal-color;
 
-			&:after {
+			&::after {
 				@include invert-color;
 			}
 		}
@@ -113,7 +113,7 @@ $tooltip-arrow-size-em: 1em;
 		&.invert {
 			@include invert-color;
 
-			&:after {
+			&::after {
 				@include invert-color;
 			}
 		}

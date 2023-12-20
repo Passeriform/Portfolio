@@ -1,11 +1,12 @@
 @use "sass:map";
 @use "sass:math";
+@use "colors" as *;
 @use "global" as *;
 @use "shapes" as *;
 @use "modifiers" as *;
 @use "stack" as *;
 
-@import "./navigator.colors";
+$theme: get-theme("navigator");
 
 @mixin navigator-flap-pseudo {
   content: "";
@@ -26,7 +27,7 @@
   @include stack("navigator");
 	@include absolute-bottom-right;
 
-	&:before {
+	&::before {
     width: 50%;
     /* stylelint-disable-next-line unit-allowed-list -- Fix for non-matching element overlap on Gecko browsers */
 		height: calc(math.div($navigator-flap-size, 2) + 1px);
@@ -34,7 +35,7 @@
     @include navigator-flap-pseudo;
 	}
 
-	&:after {
+	&::after {
     width: 100%;
 		height: $navigator-flap-size;
 
@@ -118,13 +119,13 @@
       @include shape(["arrow", "point-down"]);
     }
 
-    &:before {
+    &::before {
       width: 75%;
 
 			@include shape(["snipped-rectangle", "bottom-right"], math.div($navigator-flap-size, 2));
     }
 
-		&:after {
+		&::after {
 			transform: scaleY(-50%) translateY(50%);
 			transform-origin: center;
 

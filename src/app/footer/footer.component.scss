@@ -1,12 +1,12 @@
 @use "sass:map";
+@use "colors" as *;
 @use "global" as *;
 @use "media" as *;
 @use "separator" as *;
 @use "stack" as *;
 @use "modifiers" as *;
 
-@import "./footer.colors";
-
+$theme: get-theme("footer");
 $tablet-breakpoint: 63rem;
 $mobile-breakpoint: 42em;
 
@@ -209,7 +209,7 @@ $mobile-breakpoint: 42em;
 		& > #links {
 			@include flexible;
 
-			& > div.section {
+			& > .section {
 				min-width: 9rem;
 
 				& > h3 {
