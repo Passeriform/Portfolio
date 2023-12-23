@@ -9,7 +9,7 @@ module.exports = {
 			"files": ["*.ts"],
 			"parserOptions": {
 				"ecmaVersion": 2020,
-				"project": ["tsconfig.json", "tsconfig.app.json"],
+				"project": ["tsconfig.json", "tsconfig.app.json", "tsconfig.spec.json"],
 				"sourceType": "module",
 				"createDefaultProgram": true
 			},
@@ -70,7 +70,7 @@ module.exports = {
 						"moduleDirectory": ["node_modules", "src/"]
 					},
 					"webpack": {
-						"config": "./webpack.config.js"
+						"config": "./webpack.config.ts"
 					}
 				}
 			},
@@ -413,6 +413,11 @@ module.exports = {
 							"group": "internal",
 							"position": "after",
 						},
+            {
+							"pattern": "apollo-angular/**",
+							"group": "internal",
+							"position": "after",
+						},
 						{
 							"pattern": "rxjs/**",
 							"group": "internal",
@@ -440,6 +445,11 @@ module.exports = {
 						},
 						{
 							"pattern": "@graphql/**",
+							"group": "internal",
+							"position": "after",
+						},
+            {
+							"pattern": "@mocks/**",
 							"group": "internal",
 							"position": "after",
 						},

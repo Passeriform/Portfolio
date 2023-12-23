@@ -31,15 +31,13 @@ export const AboutResolver: ResolveFn<readonly AboutModel[]> = (
 
 				if (!model.length) {
 					router.navigate([ "/" ]);
-
-					return [];
 				}
 			}),
 			catchError((error: unknown) => {
 				loaderService.endLoading("[http] about");
-				errorService.displayError(error);
+				errorService.setError(error);
 
 				return throwError(() => new Error((error as Error).message));
 			}),
 		);
-}
+};

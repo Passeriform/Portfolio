@@ -4,6 +4,7 @@ import { AnimationState } from "./models/loader.interface";
 
 @Component({
 	selector: "app-loader",
+	standalone: true,
 	styleUrls: [ "./loader.component.scss" ],
 	templateUrl: "./loader.component.html",
 })

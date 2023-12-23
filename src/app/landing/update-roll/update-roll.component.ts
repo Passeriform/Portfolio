@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import type { OnInit } from "@angular/core";
 import { Component } from "@angular/core";
 
@@ -5,15 +6,27 @@ import type { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
 import { Position } from "@shared/models/cardinals.interface";
+import { SplitByPipe } from "@shared/pipes/split-by.pipe";
+import { BoldSpanPipe } from "@shared/pipes/bold-span.pipe";
+import { TooltipDirective } from "@shared/tooltip/directives/tooltip.directive";
 
 import type { GithubEvent } from "./models/github.interface";
 import { commitCategoryPattern, githubActionPresentation, isActionEvent, isPushEvent } from "./models/github.interface";
 import { GithubService } from "./services/github.service";
+import { BadgeComponent } from "../badge/badge.component";
 
 type GithubEventUIState = GithubEvent & { expand?: boolean };
 
 @Component({
+	imports: [
+		CommonModule,
+		TooltipDirective,
+		BadgeComponent,
+		BoldSpanPipe,
+		SplitByPipe,
+	],
 	selector: "app-update-roll",
+	standalone: true,
 	styleUrls: [ "./update-roll.component.scss" ],
 	templateUrl: "./update-roll.component.html",
 })
@@ -35,7 +48,7 @@ export class UpdateRollComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.githubService.fetchUpdate$();
+		this.githubService.refreshFeed();
 	}
 
 	// TODO: Move this method out of class
@@ -49,6 +62,6 @@ export class UpdateRollComponent implements OnInit {
 	}
 
 	public loadMore(after: number): void {
-		this.githubService.fetchUpdate$(after);
+		this.githubService.refreshFeed(after);
 	}
 }

@@ -24,25 +24,6 @@ import { SocialGlyphsComponent } from "./social-glyphs/social-glyphs.component";
 // import { ShowAuthedDirective } from "./show-authed.directive";
 
 @NgModule({
-	declarations: [
-		// BreadcrumbComponent,
-		BoldSpanPipe,
-		CageGridComponent,
-		CageGridDirective,
-		EnvironmentPipe,
-		IconUriPipe,
-		NavigatorComponent,
-		OverlayComponent,
-		PageNavComponent,
-		RetainPipe,
-		ScrollableComponent,
-		SocialGlyphsComponent,
-		SplitByPipe,
-		TooltipComponent,
-		TooltipDirective,
-		UnionArrayPipe,
-		WikiPipe,
-	],
 	exports: [
 		// BreadcrumbComponent,
 		BoldSpanPipe,
@@ -65,9 +46,26 @@ import { SocialGlyphsComponent } from "./social-glyphs/social-glyphs.component";
 		WikiPipe,
 	],
 	imports: [
+		BoldSpanPipe,
+		// BreadcrumbComponent,
+		CageGridComponent,
+		CageGridDirective,
 		CommonModule,
+		EnvironmentPipe,
 		FontAwesomeModule,
 		FormsModule,
+		IconUriPipe,
+		NavigatorComponent,
+		OverlayComponent,
+		PageNavComponent,
+		RetainPipe,
+		ScrollableComponent,
+		SocialGlyphsComponent,
+		SplitByPipe,
+		TooltipComponent,
+		TooltipDirective,
+		UnionArrayPipe,
+		WikiPipe,
 	],
 })
 export class SharedModule { }

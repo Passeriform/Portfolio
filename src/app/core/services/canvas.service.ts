@@ -25,12 +25,12 @@ export class CanvasService {
 
 	public drawDot(
 			{ color, radius, xPos, yPos }:
-			{
-				readonly color: string;
-				readonly radius: number;
-				readonly xPos: number;
-				readonly yPos: number;
-			},
+			Readonly<{
+				color: string;
+				radius: number;
+				xPos: number;
+				yPos: number;
+			}>,
 	): void {
 		this.canvasContext.beginPath();
 		this.canvasContext.fillStyle = color;

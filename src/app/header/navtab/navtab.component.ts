@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import type { OnInit } from "@angular/core";
 import { Component, ContentChildren, HostBinding, QueryList } from "@angular/core";
 
@@ -10,7 +11,9 @@ import { propagateClickToChildren } from "@utility/events";
 import { NavtabDirective } from "./directives/navtab.directive";
 
 @Component({
+	imports: [ CommonModule ],
 	selector: "app-navtab",
+	standalone: true,
 	styleUrls: [ "./navtab.component.scss" ],
 	templateUrl: "./navtab.component.html",
 })

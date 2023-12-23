@@ -1,20 +1,19 @@
 import type { ComponentFixture } from "@angular/core/testing";
-import { TestBed, async } from "@angular/core/testing";
+import { TestBed } from "@angular/core/testing";
+
+import { SplashStateService } from "@core/services/splash-state.service";
 
 import { NavtabComponent } from "./navtab.component";
 
 describe("NavtabComponent", () => {
-	let component: NavtabComponent;
-	let fixture: ComponentFixture<NavtabComponent>;
-
-	beforeEach(async(() => {
-		TestBed.configureTestingModule({
-			declarations: [NavtabComponent],
-		})
-			.compileComponents();
-	}));
+	let component: Readonly<NavtabComponent>;
+	let fixture: Readonly<ComponentFixture<NavtabComponent>>;
 
 	beforeEach(() => {
+		TestBed.configureTestingModule({
+			imports: [ NavtabComponent ],
+			providers: [ SplashStateService ],
+		});
 		fixture = TestBed.createComponent(NavtabComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();

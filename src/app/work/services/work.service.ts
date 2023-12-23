@@ -57,14 +57,20 @@ export class WorkService {
 					this.loaderService.beginLoading("[tag] work");
 
 					const taggedModel = populateTags<WorkModel>(model as WorkModel[], (entry) => [
-						entry.type.toString(),
-						...extractKeywords(entry.title),
-						...extractKeywords(entry.subtitle),
-						...extractKeywords(entry.brief),
-						...entry.license.map((license) => license.toString()),
-						...entry.languages.map((language) => language.toString()),
-						...entry.frameworks.map((framework) => framework.toString()),
-						...entry.tools.map((tool) => tool.toString()),
+						...new Set(
+							[
+								entry.type.toString(),
+								...extractKeywords(entry.title),
+								...extractKeywords(entry.subtitle),
+								...extractKeywords(entry.brief),
+								...entry.license.map((license) => license.toString()),
+								...entry.languages.map((language) => language.toString()),
+								...entry.frameworks.map((framework) => framework.toString()),
+								...entry.tools.map((tool) => tool.toString()),
+							].map(
+								(keyword) => keyword.toLocaleLowerCase(),
+							).sort(),
+						),
 					]);
 
 					this.loaderService.endLoading("[tag] work");

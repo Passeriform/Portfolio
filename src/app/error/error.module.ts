@@ -6,9 +6,11 @@ import { ErrorService } from "./services/error.service";
 import { ErrorComponent } from "./error.component";
 
 @NgModule({
-	declarations: [ ErrorComponent ],
 	exports: [ ErrorComponent ],
-	imports: [ SharedModule ],
+	imports: [
+		ErrorComponent,
+		SharedModule,
+	],
 	providers: [ ErrorService ],
 })
 export class ErrorModule { }

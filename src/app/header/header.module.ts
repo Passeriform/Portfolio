@@ -8,17 +8,15 @@ import { NavtabDirective } from "./navtab/directives/navtab.directive";
 import { HeaderComponent } from "./header.component";
 
 @NgModule({
-	declarations: [
-		HeaderComponent,
-		NavtabComponent,
-		NavtabDirective,
-	],
 	exports: [
 		HeaderComponent,
 		NavtabComponent,
 		NavtabDirective,
 	],
 	imports: [
+		HeaderComponent,
+		NavtabComponent,
+		NavtabDirective,
 		RouterModule,
 		SharedModule,
 	],

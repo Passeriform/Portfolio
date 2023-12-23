@@ -1,20 +1,20 @@
 import type { ComponentFixture } from "@angular/core/testing";
-import { TestBed, async } from "@angular/core/testing";
+import { RouterTestingModule } from "@angular/router/testing";
+import { TestBed } from "@angular/core/testing";
 
 import { NamecardComponent } from "./namecard.component";
 
 describe("NamecardComponent", () => {
-	let component: NamecardComponent;
-	let fixture: ComponentFixture<NamecardComponent>;
-
-	beforeEach(async(() => {
-		TestBed.configureTestingModule({
-			declarations: [NamecardComponent],
-		})
-			.compileComponents();
-	}));
+	let component: Readonly<NamecardComponent>;
+	let fixture: Readonly<ComponentFixture<NamecardComponent>>;
 
 	beforeEach(() => {
+		TestBed.configureTestingModule({
+			imports: [
+				NamecardComponent,
+				RouterTestingModule,
+			],
+		});
 		fixture = TestBed.createComponent(NamecardComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();

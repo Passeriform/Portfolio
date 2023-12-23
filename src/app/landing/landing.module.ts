@@ -11,16 +11,14 @@ import { LandingRoutingModule } from "./routes/landing-routing.module";
 import { LandingComponent } from "./landing.component";
 
 @NgModule({
-	declarations: [
-		BadgeComponent,
-		LandingComponent,
-		SweeperComponent,
-		UpdateRollComponent,
-	],
 	imports: [
+		BadgeComponent,
 		HeaderModule,
+		LandingComponent,
 		LandingRoutingModule,
 		SharedModule,
+		SweeperComponent,
+		UpdateRollComponent,
 	],
 	providers: [ GithubService ],
 })

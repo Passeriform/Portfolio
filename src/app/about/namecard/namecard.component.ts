@@ -1,11 +1,18 @@
+import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
+import { RouterLink } from "@angular/router";
 
 import { AvatarInput } from "./namecard.interface";
 
 // TODO: Improve the placeholder styling
 
 @Component({
+	imports: [
+		CommonModule,
+		RouterLink,
+	],
 	selector: "app-namecard",
+	standalone: true,
 	styleUrls: [ "./namecard.component.scss" ],
 	templateUrl: "./namecard.component.html",
 })

@@ -106,7 +106,7 @@ export const WorkResolver: ResolveFn<readonly WorkModel[]> = (
 			}),
 			catchError((error: unknown) => {
 				loaderService.endLoading("[http] work");
-				errorService.displayError(error);
+				errorService.setError(error);
 
 				return of();
 			}),

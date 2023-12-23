@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import type { AfterViewInit, OnChanges } from "@angular/core";
 import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, QueryList } from "@angular/core";
 
@@ -7,7 +8,9 @@ import { Constants } from "./page-nav.config";
 import type { PageNavChanges } from "./page-nav.interface";
 
 @Component({
+	imports: [ CommonModule ],
 	selector: "app-page-nav",
+	standalone: true,
 	styleUrls: [ "./page-nav.component.scss" ],
 	templateUrl: "./page-nav.component.html",
 })

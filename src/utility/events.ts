@@ -49,7 +49,7 @@ export const propagateClickToChildren = (clickEvent: Readonly<KeyboardEvent | Mo
 	) as HTMLElement;
 
 	[ ...target.children ].forEach((child: Readonly<HTMLElement>) => {
-    // TODO: Propagate the source event rather than explicitly clicking
+		// TODO: Propagate the source event rather than explicitly clicking
 		child.click();
 	});
 };

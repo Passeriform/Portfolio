@@ -1,33 +1,44 @@
+import type { DebugElement } from "@angular/core";
 import { Component } from "@angular/core";
+import type { ComponentFixture } from "@angular/core/testing";
 import { TestBed } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
+
+import { Position } from "@shared/models/cardinals.interface";
+
 import { TooltipDirective } from "./tooltip.directive";
 
 @Component({
-	selector: "test-tooltip-host",
+	imports: [ TooltipDirective ],
+	selector: "app-tooltip-host",
+	standalone: true,
 	template: `
-	 <div appTooltip [position]="Position.TOP" [template]="tooltipTemplate"></div>
-	 <ng-template #tooltipTemplate><div id="tooltipContent"></div></ng-template>
+		<div appTooltip [position]="Position.TOP" [template]="tooltipTemplate"></div>
+		<ng-template #tooltipTemplate><div id="tooltipContent"></div></ng-template>
 	`,
 })
-class HostComponent { }
+class HostComponent {
+	public Position = Position;
+}
 
 describe("TooltipDirective", () => {
+	let fixture: Readonly<ComponentFixture<HostComponent>>;
+	let tooltipTrigger: Readonly<DebugElement>;
+
 	beforeEach(() => {
 		TestBed.configureTestingModule({
-			declarations: [
+			imports: [
 				HostComponent,
 				TooltipDirective,
 			],
 		});
+		fixture = TestBed.createComponent(HostComponent);
+		tooltipTrigger = fixture.debugElement.query(By.directive(TooltipDirective));
+		fixture.detectChanges();
 	});
 
 	it("should show tooltip on hover", () => {
-		TestBed.compileComponents().then(() => {
-			const fixture = TestBed.createComponent(HostComponent);
-			const tooltipTrigger = fixture.debugElement.query(By.directive(TooltipDirective));
-			tooltipTrigger.triggerEventHandler("mouseover", { });
-			expect(document.querySelectorAll("#tooltipContent")).toBeTruthy();
-		});
+		tooltipTrigger.triggerEventHandler("mouseover", { });
+		expect(document.querySelectorAll("#tooltipContent")).toBeTruthy();
 	});
 });

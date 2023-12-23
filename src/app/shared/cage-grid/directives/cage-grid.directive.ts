@@ -3,6 +3,7 @@ import { Directive, Input, TemplateRef } from "@angular/core";
 
 @Directive({
 	selector: "[appCaged]",
+	standalone: true,
 })
 export class CageGridDirective {
 	@Input("appCaged") public readonly title: string;

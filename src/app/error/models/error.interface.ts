@@ -1,27 +1,16 @@
 /* eslint-disable max-classes-per-file */
-import type { HttpErrorResponse } from "@angular/common/http";
-
-export const enum HttpErrorCodes {
-	/* eslint-disable @typescript-eslint/no-magic-numbers */
-	BAD_REQUEST = 400,
-	FORBIDDEN = 403,
-	INTERNAL_SERVER_ERROR = 500,
-	NOT_FOUND = 404,
-	UNKNOWN_ERROR = 0,
-	UNAUTHORIZED = 401,
-	/* eslint-enable @typescript-eslint/no-magic-numbers */
-}
+import type { HttpErrorResponse, HttpStatusCode } from "@angular/common/http";
 
 export class ApiError implements Error {
 	public message: string;
 	public name: string;
-	public status: HttpErrorCodes;
+	public status: HttpStatusCode;
 	public statusText: string;
 
 	constructor({ message, name, status, statusText }: Readonly<{
 		message?: string;
 		name?: string;
-		status?: HttpErrorCodes;
+		status?: HttpStatusCode;
 		statusText?: string;
 	}>) {
 		this.message = message ?? this.message;
@@ -47,7 +36,7 @@ export class ClientError implements Error {
 export type ApiErrorResponse = Omit<HttpErrorResponse, "name"> & Readonly<{
 	message: string;
 	name: string;
-	status: HttpErrorCodes;
+	status: HttpStatusCode;
 	statusText: string;
 }>;
 

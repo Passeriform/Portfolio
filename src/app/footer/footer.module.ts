@@ -8,12 +8,10 @@ import { FooterService } from "./services/footer.service";
 import { FooterComponent } from "./footer.component";
 
 @NgModule({
-	declarations: [
-		ChirpyComponent,
-		FooterComponent,
-	],
 	exports: [ FooterComponent ],
 	imports: [
+		ChirpyComponent,
+		FooterComponent,
 		RouterModule,
 		SharedModule,
 	],

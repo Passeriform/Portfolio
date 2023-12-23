@@ -15,6 +15,7 @@ export class AppComponent {
 
 	public readonly title = "Passeriform";
 
+	// TODO: Use HostElement ref instead of document
 	/// Fix for dynamic viewport height in mobile browser
 	@HostListener("document:resize", [ "$event" ])
 	public onDocumentResize(): void {

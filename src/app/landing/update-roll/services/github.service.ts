@@ -18,13 +18,11 @@ export class GithubService {
 
 	// TODO: Justify usage of after parameter
 
-	public fetchUpdate$(after?: number): Observable<readonly GithubEvent[]> {
+	public refreshFeed(after?: number): void {
 		this.http
 			.get<readonly GithubEvent[]>(environment.githubEventsApiUrl)
 			.subscribe((model: GithubEvent[]) => {
 				this.githubFeedSource$.next(model);
 			});
-
-		return this.githubFeedState$;
 	}
 }

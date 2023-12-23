@@ -12,7 +12,7 @@ export type LoadingJob = {
 	readonly label: string;
 	progress: number;
 	state: LoadingState;
-}
+};
 
 @Injectable()
 export class LoaderService {
@@ -34,15 +34,13 @@ export class LoaderService {
 	}
 
 	public beginLoading(label: string): void {
-		const loadingJob: LoadingJob = {
-			label,
-			progress: ProgressCheckpoint.INIT,
-			state: LoadingState.LOADING_QUEUED,
-		};
-
 		this.loadingJobsSource$.next([
 			...this.loadingJobs,
-			loadingJob,
+			{
+				label,
+				progress: ProgressCheckpoint.INIT,
+				state: LoadingState.LOADING_QUEUED,
+			},
 		]);
 	}
 
@@ -63,14 +61,15 @@ export class LoaderService {
 
 	public endLoading(label: string): void {
 		this.loadingJobsSource$.next(
-			this.loadingJobs.map((job: LoadingJob) => {
-				if (job.label === label) {
-					job.progress = ProgressCheckpoint.COMPLETE;
-					job.state = LoadingState.LOADED;
-				}
-
-				return job;
-			}),
+			this.loadingJobs.map(
+				(job: LoadingJob) => job.label === label
+					? {
+							...job,
+							progress: ProgressCheckpoint.COMPLETE,
+							state: LoadingState.LOADED,
+						}
+					: { ...job },
+			),
 		);
 	}
 
@@ -96,15 +95,11 @@ export class LoaderService {
 
 	public setAnimationStart(labels: string | readonly string[]): void {
 		this.loadingJobsSource$.next(
-			this.loadingJobs.map((job: LoadingJob) => {
-				if (typeof labels === "string" && job.label === labels) {
-					job.state = LoadingState.LOADING;
-				} else if (labels.includes(job.label)) {
-					job.state = LoadingState.LOADING;
-				}
-
-				return job;
-			}),
+			this.loadingJobs.map(
+				(job: LoadingJob) => labels.includes(job.label)
+					? { ...job, state: LoadingState.LOADING }
+					: { ...job },
+			),
 		);
 	}
 

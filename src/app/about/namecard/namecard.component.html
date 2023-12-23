@@ -1,6 +1,6 @@
 <div class="content">
 	<a class="avatar" [routerLink]="link">
-		<img *ngIf="avatar.src" alt="{{ avatar.alt }}" src="{{ avatar.src }}" />
+		<img *ngIf="avatar?.src" alt="{{ avatar.alt }}" src="{{ avatar.src }}" />
 	</a>
 
 	<div class="content-text">

@@ -3,7 +3,9 @@
 // TODO: Required a huge makeover (canvas-style animations do not mesh well with Angular-style ones)
 
 import type { AfterViewInit } from "@angular/core";
-import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
+import { Component, ElementRef, HostListener, NgZone, ViewChild } from "@angular/core";
+
+import { BehaviorSubject, Observable } from "rxjs";
 
 import { CanvasService } from "@core/services/canvas.service";
 
@@ -30,6 +32,7 @@ const getDotsXPos = (splitDistance: number): readonly number[] => {
 
 @Component({
 	selector: "app-harmonic-loader",
+	standalone: true,
 	styleUrls: [
 		"./harmonic-loader.component.scss",
 		"../loader.component.scss",
@@ -37,12 +40,14 @@ const getDotsXPos = (splitDistance: number): readonly number[] => {
 	templateUrl: "../loader.component.html",
 })
 export class HarmonicLoaderComponent extends LoaderComponent implements AfterViewInit {
-	// TODO: Use consistent options for ViewChild, ViewChildren, ContentChild and ContentChildren
+	private readonly animationSource$: BehaviorSubject<AnimationState> = new BehaviorSubject<AnimationState>(this.animationState);
 
+	// TODO: Use consistent options for ViewChild, ViewChildren, ContentChild and ContentChildren
 	@ViewChild("loaderCanvas", {
 		read: ElementRef,
 		static: true,
 	}) private readonly loaderCanvas: ElementRef<HTMLCanvasElement>;
+
 
 	public animStartFrame: number;
 	public context?: CanvasRenderingContext2D;
@@ -67,6 +72,10 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 			private readonly canvasService: CanvasService,
 	) {
 		super();
+
+		this.animationSource$.subscribe((state) => {
+			this.animationState = state;
+		});
 
 		this.loaderService.loadingProgressState$.subscribe(
 			(loadedPercentage: number) => {
@@ -128,7 +137,7 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 		this.retarder += this.loaderConfig.retardationRate;
 
 		if (this.retarder > this.loaderConfig.amplitude) {
-			this.animationState = AnimationState.STOPPED;
+			this.animationSource$.next(AnimationState.STOPPED);
 			this.retarder = 0;
 		} else {
 			window.requestAnimationFrame(this.resolveDots);
@@ -158,7 +167,7 @@ export class HarmonicLoaderComponent extends LoaderComponent implements AfterVie
 		});
 
 		if (this.loaderService.areAllJobsCompleted) {
-			this.animationState = AnimationState.RESOLVING;
+			this.animationSource$.next(AnimationState.RESOLVING);
 			window.requestAnimationFrame(this.resolveDots);
 		} else {
 			window.requestAnimationFrame(this.tick);

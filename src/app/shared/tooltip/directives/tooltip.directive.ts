@@ -7,6 +7,7 @@ import { TooltipService } from "../services/tooltip.service";
 
 @Directive({
 	selector: "[appTooltip]",
+	standalone: true,
 })
 export class TooltipDirective {
 	@Input() public readonly contentPadding: boolean = true;

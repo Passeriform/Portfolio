@@ -1,5 +1,7 @@
+import { CommonModule } from "@angular/common";
 import type { OnInit } from "@angular/core";
 import { Component, Input } from "@angular/core";
+import { RouterLink } from "@angular/router";
 
 import type { Observable } from "rxjs";
 
@@ -7,7 +9,12 @@ import { SplashState } from "@core/services/splash-state.interface";
 import { SplashStateService } from "@core/services/splash-state.service";
 
 @Component({
+	imports: [
+		CommonModule,
+		RouterLink,
+	],
 	selector: "app-header",
+	standalone: true,
 	styleUrls: [ "./header.component.scss" ],
 	templateUrl: "./header.component.html",
 })

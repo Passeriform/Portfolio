@@ -3,6 +3,7 @@ import { Pipe } from "@angular/core";
 
 @Pipe({
 	name: "splitBy",
+	standalone: true,
 })
 export class SplitByPipe implements PipeTransform {
 	transform(input: string, delimiter: string): string[] {

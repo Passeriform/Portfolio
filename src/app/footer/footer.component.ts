@@ -1,18 +1,28 @@
+import { CommonModule } from "@angular/common";
 import { Component, ElementRef, HostBinding, Input } from "@angular/core";
+import { RouterLink } from "@angular/router";
 
 import type { Observable } from "rxjs";
 
+import { SocialGlyphsComponent } from "@shared/social-glyphs/social-glyphs.component";
 import { PageRevealService } from "@core/services/page-reveal.service";
 
 import { Constants } from "./footer.config";
-import type { TopAboutModel, TopSocialModel, TopWorkModel } from "./models/footer.interface";
-import { FooterVariant } from "./models/footer.interface";
+import type { FooterVariant, TopAboutModel, TopSocialModel, TopWorkModel } from "./models/footer.interface";
 import { FooterService } from "./services/footer.service";
+import { ChirpyComponent } from "./chirpy/chirpy.component";
 
 // TODO: Add as an overflow object in scrollable overflow attribute. The footer must reveal from below the scrollable.
 
 @Component({
+	imports: [
+		ChirpyComponent,
+		CommonModule,
+		SocialGlyphsComponent,
+		RouterLink,
+	],
 	selector: "app-footer",
+	standalone: true,
 	styleUrls: [ "./footer.component.scss" ],
 	templateUrl: "./footer.component.html",
 })
@@ -34,12 +44,12 @@ export class FooterComponent {
 	}
 
 	constructor(
-			private readonly pageEndRevealElement: ElementRef<HTMLElement>,
+			private readonly footerElement: ElementRef<HTMLElement>,
 			private readonly pageRevealService: PageRevealService,
 			private readonly footerService: FooterService,
 	) {
 		// TODO: Move this setting logic to app.ts
-		this.pageRevealService.setEndRevealElement(pageEndRevealElement.nativeElement);
+		this.pageRevealService.setEndRevealElement(footerElement.nativeElement);
 		this.footerService.refreshLinks({
 			aboutCount: this.aboutCount,
 			socialCount: this.socialCount,

@@ -1,5 +1,8 @@
+import { CommonModule } from "@angular/common";
 import type { AfterContentInit, AfterViewInit } from "@angular/core";
-import { Component, ContentChildren, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, QueryList } from "@angular/core";
+import {
+	ChangeDetectorRef, Component, ContentChildren, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, QueryList
+} from "@angular/core";
 
 import { NEVER, Observable, identity, merge } from "rxjs";
 import { filter, throttleTime } from "rxjs/operators";
@@ -9,6 +12,7 @@ import { PageRevealService } from "@core/services/page-reveal.service";
 import { fromMotionEvent } from "@utility/events";
 
 import { Constants } from "./scrollable.config";
+import { PageNavComponent } from "./page-nav/page-nav.component";
 
 // TODO: Remove lag from scroll/swipe.
 
@@ -19,7 +23,12 @@ import { Constants } from "./scrollable.config";
 // TODO: Move to separate scrollable module.
 
 @Component({
+	imports: [
+		CommonModule,
+		PageNavComponent,
+	],
 	selector: "app-scrollable",
+	standalone: true,
 	styleUrls: [ "./scrollable.component.scss" ],
 	templateUrl: "./scrollable.component.html",
 })
@@ -37,8 +46,8 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	@Input() private readonly allowStartReveal: boolean = false;
 	@Input() private readonly allowEndReveal: boolean = false;
 	@Input() private readonly customScrollElement: HTMLElement;
-	@Input() private startRevealElement: HTMLElement;
-	@Input() private endRevealElement: HTMLElement;
+	@Input() private startRevealElement: HTMLElement | undefined;
+	@Input() private endRevealElement: HTMLElement | undefined;
 	@Input() public readonly orientation: Orientation = Constants.ORIENTATION_DEFAULT;
 	@Input() public readonly showPageNav: boolean = false;
 	@Input() public delta: number = Constants.DELTA_DEFAULT;
@@ -80,8 +89,8 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		const windowHeight: number = document.documentElement.clientHeight;
 
 		return this.startReveal
-			? `${Math.min(this.startRevealElement.clientHeight, windowHeight)}px`
-			: `-${Math.min(this.endRevealElement.clientHeight, windowHeight)}px`;
+			? `${Math.min(this.startRevealElement?.clientHeight ?? 0, windowHeight)}px`
+			: `-${Math.min(this.endRevealElement?.clientHeight ?? 0, windowHeight)}px`;
 	}
 
 	@HostBinding("style.margin-left")
@@ -93,13 +102,14 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		const windowWidth: number = document.documentElement.clientWidth;
 
 		return this.startReveal
-			? `${Math.min(this.startRevealElement.clientWidth, windowWidth)}px`
-			: `-${Math.min(this.endRevealElement.clientWidth, windowWidth)}px`;
+			? `${Math.min(this.startRevealElement?.clientWidth ?? 0, windowWidth)}px`
+			: `-${Math.min(this.endRevealElement?.clientWidth ?? 0, windowWidth)}px`;
 	}
 
 	constructor(
 			private readonly hostElement: ElementRef<HTMLElement>,
 			private readonly pageRevealService: PageRevealService,
+			private readonly changeDetector: ChangeDetectorRef,
 	) { }
 
 	/* eslint-disable complexity */
@@ -109,24 +119,28 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		// Open start reveal
 		if (this.allowStartReveal && !this.startReveal && this.pageIndex === 0 && pagesToShift < 0) {
 			this.startReveal = true;
+
 			return true;
 		}
 
 		// Open end reveal
 		if (this.allowEndReveal && !this.endReveal && this.pageIndex === lastPageIndex && pagesToShift > 0) {
 			this.endReveal = true;
+
 			return true;
 		}
 
 		// Close start reveal
 		if (this.allowStartReveal && this.startReveal && pagesToShift > 0) {
 			this.startReveal = false;
+
 			return true;
 		}
 
 		// Close end reveal
 		if (this.allowEndReveal && this.endReveal && pagesToShift < 0) {
 			this.endReveal = false;
+
 			return true;
 		}
 
@@ -147,11 +161,13 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		}
 
 		this.pageChangeEvent.emit(this.pageIndex);
+		this.changeDetector.detectChanges();
 	}
 
 	private pageReset(): void {
 		this.pageIndex = 0;
 		this.pageChangeEvent.emit(this.pageIndex);
+		this.changeDetector.detectChanges();
 	}
 
 	private computeMaxScrollSize(): void {
@@ -169,6 +185,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 
 	private computeTravelFactor(): void {
 		this.pageNavTravelFactor = this.delta / ((this.items.length - 1) * (this.items.get(0)?.nativeElement.clientWidth ?? 0));
+		this.changeDetector.detectChanges();
 	}
 
 	private readonly getViewSize = (element: HTMLElement): number => element[
@@ -189,9 +206,9 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		let pageElement: HTMLElement | undefined;
 
 		if (this.startReveal) {
-			pageElement = this.startRevealElement.firstChild as HTMLElement
+			pageElement = this.startRevealElement?.firstChild as HTMLElement
 		} else if (this.endReveal) {
-			pageElement = this.endRevealElement.firstChild as HTMLElement
+			pageElement = this.endRevealElement?.firstChild as HTMLElement
 		} else {
 			pageElement = this.items.toArray()[this.pageIndex]?.nativeElement;
 		}
@@ -218,10 +235,10 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	private subscribeShiftStream$(): void {
 		const shiftStream$ = merge(
 			fromMotionEvent(this.customScrollElement ?? this.hostElement.nativeElement, this.orientation),
-			this.allowStartReveal && this.startRevealElement.firstChild
+			this.allowStartReveal && this.startRevealElement?.firstChild
 				? fromMotionEvent(this.startRevealElement.firstChild as HTMLElement, this.orientation)
 				: NEVER,
-			this.allowEndReveal && this.endRevealElement.firstChild
+			this.allowEndReveal && this.endRevealElement?.firstChild
 				? fromMotionEvent(this.endRevealElement.firstChild as HTMLElement, this.orientation)
 				: NEVER,
 		).pipe(
@@ -259,6 +276,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 			this.computeTravelFactor();
 
 			this.pageIndex = Math.min(this.pageIndex, this.maxScrollableSize / this.delta);
+		  this.changeDetector.detectChanges();
 		});
 	}
 
@@ -297,5 +315,6 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		this.endReveal = false;
 		this.pageIndex = index;
 		this.pageChangeEvent.emit(this.pageIndex);
+		this.changeDetector.detectChanges();
 	}
 }

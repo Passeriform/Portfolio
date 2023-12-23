@@ -3,6 +3,7 @@ import { Directive, TemplateRef } from "@angular/core";
 
 @Directive({
 	selector: "[appNavLink]",
+	standalone: true,
 })
 export class NavtabDirective {
 	public tabTemplate: TemplateRef<ElementRef>;

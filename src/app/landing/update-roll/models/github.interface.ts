@@ -189,4 +189,5 @@ export const githubActionPresentation = {
 	// TODO: Add other required actions
 } as const;
 
-export const commitCategoryPattern = /^((\[[\w\s\|\,]+\]\s+)+|[\w\s\|\,]+\:)/;
+
+export const commitCategoryPattern = /^((?:(?:\[[\w\s\|\,]+\])|(?:[\w\s\|\,]+))\s*\:?)/;

@@ -1,9 +1,12 @@
+import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, HostBinding, Output } from "@angular/core";
 
 import { OverlayState } from "./overlay.config";
 
 @Component({
+	imports: [ CommonModule ],
 	selector: "app-overlay",
+	standalone: true,
 	styleUrls: [ "./overlay.component.scss" ],
 	templateUrl: "./overlay.component.html",
 })

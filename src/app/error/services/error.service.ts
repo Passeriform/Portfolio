@@ -12,7 +12,7 @@ export class ErrorService {
 
 	public readonly errorDetails$: Observable<ApiError | ClientError> = this.errorDetailsSource$.asObservable();
 
-	public displayError(errorModel: unknown): void {
+	public setError(errorModel: unknown): void {
 		if (isError(errorModel)) {
 			this.errorDetailsSource$.next(errorModel as ApiError | ClientError);
 		} else {

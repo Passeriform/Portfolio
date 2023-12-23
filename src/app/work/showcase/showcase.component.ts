@@ -1,19 +1,36 @@
 import type { OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { Component, ElementRef, EventEmitter, HostListener, Output, ViewChild } from "@angular/core";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import type { Observable } from "rxjs";
 import { Subject } from "rxjs";
 
+import { IconUriPipe } from "@shared/pipes/icon-uri.pipe";
 import { Orientation, Position } from "@shared/models/cardinals.interface";
+import { TooltipDirective } from "@shared/tooltip/directives/tooltip.directive";
 import { registry } from "@shared/models/registry.interface";
+import { ScrollableComponent } from "@shared/scrollable/scrollable.component";
 import { stopClickPropagation } from "@utility/events";
 
 import type { WorkModel } from "../models/work.interface";
 import { WorkService } from "../services/work.service";
 import { EXPANDED_HEIGHT_THRESHOLD } from "./showcase.config";
+import { RaisecardComponent } from "../raisecard/raisecard.component";
+import { DynamicSearchComponent } from "../dynamic-search/dynamic-search.component";
 
 @Component({
+	imports: [
+		CommonModule,
+		DynamicSearchComponent,
+		ScrollableComponent,
+		RaisecardComponent,
+		TooltipDirective,
+		FontAwesomeModule,
+		IconUriPipe,
+	],
 	selector: "app-showcase",
+	standalone: true,
 	styleUrls: [ "./showcase.component.scss" ],
 	templateUrl: "./showcase.component.html",
 })

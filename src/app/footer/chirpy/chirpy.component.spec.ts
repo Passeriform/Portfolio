@@ -1,20 +1,16 @@
 import type { ComponentFixture } from "@angular/core/testing";
-import { TestBed, async } from "@angular/core/testing";
+import { TestBed } from "@angular/core/testing";
 
 import { ChirpyComponent } from "./chirpy.component";
 
 describe("ChirpyComponent", () => {
-	let component: ChirpyComponent;
-	let fixture: ComponentFixture<ChirpyComponent>;
-
-	beforeEach(async(() => {
-		TestBed.configureTestingModule({
-			declarations: [ChirpyComponent],
-		})
-			.compileComponents();
-	}));
+	let component: Readonly<ChirpyComponent>;
+	let fixture: Readonly<ComponentFixture<ChirpyComponent>>;
 
 	beforeEach(() => {
+		TestBed.configureTestingModule({
+			imports: [ ChirpyComponent ],
+		});
 		fixture = TestBed.createComponent(ChirpyComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();

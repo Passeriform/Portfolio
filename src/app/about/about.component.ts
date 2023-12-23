@@ -1,5 +1,5 @@
 import type { AfterViewInit, OnInit } from "@angular/core";
-import { DOCUMENT } from "@angular/common";
+import { CommonModule, DOCUMENT } from "@angular/common";
 import { Component, Inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
@@ -9,10 +9,22 @@ import { SplashState } from "@core/services/splash-state.interface";
 import { SplashStateService } from "@core/services/splash-state.service";
 
 import type { AboutModel } from "./models/about.interface";
+import { SocialGlyphsComponent } from "../shared/social-glyphs/social-glyphs.component";
+import { ContactFormComponent } from "./contact-form/contact-form.component";
+import { NamecardComponent } from "./namecard/namecard.component";
+import { ScrollableComponent } from "../shared/scrollable/scrollable.component";
 
 @Component({
+	imports: [
+		CommonModule,
+		ScrollableComponent,
+		NamecardComponent,
+		ContactFormComponent,
+		SocialGlyphsComponent,
+	],
 	selector: "app-about",
-	styleUrls: ["./about.component.scss"],
+	standalone: true,
+	styleUrls: [ "./about.component.scss" ],
 	templateUrl: "./about.component.html",
 })
 export class AboutComponent implements OnInit, AfterViewInit {

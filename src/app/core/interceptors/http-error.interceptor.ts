@@ -1,10 +1,11 @@
 import type { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
+import { HttpStatusCode } from "@angular/common/http";
 
 import type { Observable } from "rxjs";
 import { throwError } from "rxjs";
 import { catchError, retry } from "rxjs/operators";
 
-import { ApiError, ClientError, HttpErrorCodes } from "@app/error/models/error.interface";
+import { ApiError, ClientError } from "@app/error/models/error.interface";
 
 export class HttpErrorInterceptor implements HttpInterceptor {
 	intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<ApiError | ClientError>> {
@@ -25,7 +26,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 					const {
 						message = "",
 						name = "",
-						status = HttpErrorCodes.UNKNOWN_ERROR,
+						status = HttpStatusCode.ExpectationFailed,
 						statusText = "",
 					} = error as ApiError;
 

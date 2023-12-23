@@ -7,15 +7,15 @@ import { LoaderService } from "./services/loader.service";
 import { LoaderComponent } from "./loader.component";
 
 @NgModule({
-	declarations: [
-		HarmonicLoaderComponent,
-		LoaderComponent,
-	],
 	exports: [
 		HarmonicLoaderComponent,
 		LoaderComponent,
 	],
-	imports: [ SharedModule ],
+	imports: [
+		HarmonicLoaderComponent,
+		LoaderComponent,
+		SharedModule,
+	],
 	providers: [ LoaderService ],
 })
 export class LoaderModule { }

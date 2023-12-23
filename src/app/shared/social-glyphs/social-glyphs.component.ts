@@ -1,11 +1,18 @@
+import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { registry } from "@shared/models/registry.interface";
 
 import type { SocialGlyphModel } from "./social-glyphs.interface";
 
 @Component({
+	imports: [
+		CommonModule,
+		FontAwesomeModule,
+	],
 	selector: "app-social-glyphs",
+	standalone: true,
 	styleUrls: [ "./social-glyphs.component.scss" ],
 	templateUrl: "./social-glyphs.component.html",
 })

@@ -1,20 +1,16 @@
 import type { ComponentFixture } from "@angular/core/testing";
-import { TestBed, async } from "@angular/core/testing";
+import { TestBed } from "@angular/core/testing";
 
 import { CageGridComponent } from "./cage-grid.component";
 
 describe("CageGridComponent", () => {
-	let component: CageGridComponent;
-	let fixture: ComponentFixture<CageGridComponent>;
-
-	beforeEach(async(() => {
-		TestBed.configureTestingModule({
-			declarations: [CageGridComponent],
-		})
-			.compileComponents();
-	}));
+	let component: Readonly<CageGridComponent>;
+	let fixture: Readonly<ComponentFixture<CageGridComponent>>;
 
 	beforeEach(() => {
+		TestBed.configureTestingModule({
+			imports: [ CageGridComponent ],
+		});
 		fixture = TestBed.createComponent(CageGridComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();

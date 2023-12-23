@@ -16,6 +16,9 @@
       "@graphql/*": [
         "src/app/graphql/*"
       ],
+      "@mocks/*": [
+        "src/mocks/*"
+      ],
       "@shared/*": [
         "src/app/shared/*"
       ],

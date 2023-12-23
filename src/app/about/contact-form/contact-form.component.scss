@@ -9,6 +9,7 @@ $theme: get-theme("contact-form");
 
 // TODO: Use direct properties when shorthand not required (background, margin)
 
+$mobile-breakpoint: 30em;
 $half-input-margin: 1em;
 $textarea-height: 10em;
 /* stylelint-disable-next-line unit-allowed-list -- Variable used as a fix for textarea pseudo elements overshooting in webkit engines */
@@ -30,86 +31,95 @@ $input-element-padding: 1em;
 	}
 }
 
-:host > form#contact-form > ul {
-	@include reset-offsets;
+:host {
+	@include full-perc-size;
 
-	& > li {
-		position: relative;
-		margin-bottom: 1em;
+	& > form#contact-form > ul {
+		@include reset-offsets;
 
-		@include no-overflow;
+		& > li {
+			position: relative;
+			margin-bottom: 1em;
 
-		&.half {
-			margin-left: $half-input-margin;
-			width: calc(50% - #{math.div($half-input-margin, 2)});
-			float: left;
+			@include no-overflow;
 
-			&:first-child {
-				margin-left: 0;
-			}
-		}
+			&.half {
+				@include media(">#{$mobile-breakpoint}") {
+					margin-left: $half-input-margin;
+					width: calc(50% - #{math.div($half-input-margin, 2)});
+					float: left;
 
-		&:not(.half) {
-			@include clear-fix;
-		}
-
-    & > .input-label {
-			&::after {
-				transform: translateX(-100%);
-				background-color: map.get($theme, "background", "invert", "hex");
-				transition: transform 0.3s;
-
-				@include absolute-top-left;
-				@include full-perc-size;
-				@include content-fix;
-				@include pointer-disable;
-				@include layer(exclusion);
-			}
-    }
-
-    &.submit {
-			margin-right: 1em;
-			float: right;
-
-			& > .input-label::after {
-				@include shape(["snipped-rectangle", "top-left"], 1em);
-			}
-		}
-
-		& > .input-field {
-			box-sizing: border-box;
-			padding: $input-element-padding;
-			width: 100%;
-			height: 3em;
-			/* stylelint-disable-next-line unit-allowed-list -- font-size must be pixel-sized */
-			font-size: 16px;
-
-			@include form-element;
-
-			@at-root #{selector-replace(&, ".input-field", "input.input-field")}:not([ type=submit ]) {
-				padding: 0 $input-element-padding;
-			}
-
-			@at-root #{selector-replace(&, ".input-field", "textarea.input-field")} {
-				height: $textarea-height;
-
-				& + .input-label::after {
-					height: calc(#{$textarea-height + (2 * $input-element-padding)} + #{$textarea-label-height-fix});
+					&:first-child {
+						margin-left: 0;
+					}
+				}
+				@include media("<=#{$mobile-breakpoint}") {
+					@include clear-fix;
 				}
 			}
 
-			@at-root #{selector-replace(&, ".input-field", "input.input-field")}[ type=submit ] {
-				padding: 0.5em 2em;
-				font-size: 0.85em;
-				letter-spacing: 0.2em;
+			&:not(.half) {
+				@include clear-fix;
+			}
 
-				&:hover + .input-label::after {
+			& > .input-label {
+				&::after {
+					transform: translateX(-100%);
+					background-color: map.get($theme, "background", "invert", "hex");
+					transition: transform 0.3s;
+
+					@include absolute-top-left;
+					@include full-perc-size;
+					@include content-fix;
+					@include pointer-disable;
+					@include layer(exclusion);
+				}
+			}
+
+			&.submit {
+				margin-right: 1em;
+				float: right;
+
+				& > .input-label::after {
+					@include shape(["snipped-rectangle", "top-left"], 1em);
+				}
+			}
+
+			& > .input-field {
+				box-sizing: border-box;
+				padding: $input-element-padding;
+				width: 100%;
+				height: 3em;
+				/* stylelint-disable-next-line unit-allowed-list -- font-size must be pixel-sized */
+				font-size: 16px;
+
+				@include form-element;
+
+				@at-root #{selector-replace(&, ".input-field", "input.input-field")}:not([ type=submit ]) {
+					padding: 0 $input-element-padding;
+				}
+
+				@at-root #{selector-replace(&, ".input-field", "textarea.input-field")} {
+					height: $textarea-height;
+
+					& + .input-label::after {
+						height: calc(#{$textarea-height + (2 * $input-element-padding)} + #{$textarea-label-height-fix});
+					}
+				}
+
+				@at-root #{selector-replace(&, ".input-field", "input.input-field")}[ type=submit ] {
+					padding: 0.5em 2em;
+					font-size: 0.85em;
+					letter-spacing: 0.2em;
+
+					&:hover + .input-label::after {
+						transform: translateX(0);
+					}
+				}
+
+				&:focus + .input-label::after {
 					transform: translateX(0);
 				}
-			}
-
-			&:focus + .input-label::after {
-				transform: translateX(0);
 			}
 		}
 	}

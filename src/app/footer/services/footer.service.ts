@@ -41,7 +41,7 @@ export class FooterService {
 				map(extractTopPeople),
 				catchError((error: unknown) => {
 					this.loaderService.endLoading("[http] [footer] aboutEntries");
-					this.errorService.displayError(error);
+					this.errorService.setError(error);
 
 					return of([]);
 				}),
@@ -62,7 +62,7 @@ export class FooterService {
 				map((socialLinks) => socialLinks.slice(0, socialCount)),
 				catchError((error: unknown) => {
 					this.loaderService.endLoading("[http] [footer] social");
-					this.errorService.displayError(error);
+					this.errorService.setError(error);
 
 					return of([]);
 				}),
@@ -82,7 +82,7 @@ export class FooterService {
 				map(extractTopWorks),
 				catchError((error: unknown) => {
 					this.loaderService.endLoading("[http] [footer] workEntries");
-					this.errorService.displayError(error);
+					this.errorService.setError(error);
 
 					return of([] as readonly TopWorkModel[]);
 				}),

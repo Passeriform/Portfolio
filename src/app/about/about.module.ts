@@ -9,14 +9,12 @@ import { AboutRoutingModule } from "./routes/about-routing.module";
 import { AboutComponent } from "./about.component";
 
 @NgModule({
-	declarations: [
-		AboutComponent,
-		ContactFormComponent,
-		NamecardComponent,
-	],
 	imports: [
+		AboutComponent,
 		AboutRoutingModule,
+		ContactFormComponent,
 		HeaderModule,
+		NamecardComponent,
 		SharedModule,
 	],
 })

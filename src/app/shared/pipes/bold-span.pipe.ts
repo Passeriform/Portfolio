@@ -4,6 +4,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 
 @Pipe({
 	name: "boldSpan",
+	standalone: true,
 })
 export class BoldSpanPipe implements PipeTransform {
 	constructor(private readonly sanitizer: DomSanitizer) { }

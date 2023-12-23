@@ -1,10 +1,14 @@
 import { Component, HostListener } from "@angular/core";
 
 import { Position } from "@shared/models/cardinals.interface";
+import { TooltipDirective } from "@shared/tooltip/directives/tooltip.directive";
+
 import { SAY_MESSAGES, SPECIAL_MESSAGES } from "./chirpy.config";
 
 @Component({
+	imports: [ TooltipDirective ],
 	selector: "app-chirpy",
+	standalone: true,
 	styleUrls: [ "./chirpy.component.scss" ],
 	templateUrl: "./chirpy.component.html",
 })

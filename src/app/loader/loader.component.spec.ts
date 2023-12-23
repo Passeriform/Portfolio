@@ -1,21 +1,17 @@
 import type { ComponentFixture } from "@angular/core/testing";
-import { TestBed, async } from "@angular/core/testing";
+import { TestBed } from "@angular/core/testing";
 
-import { HarmonicLoaderComponent } from "./harmonic-loader.component";
+import { LoaderComponent } from "./loader.component";
 
-describe("HarmonicLoaderComponent", () => {
-	let component: HarmonicLoaderComponent;
-	let fixture: ComponentFixture<HarmonicLoaderComponent>;
-
-	beforeEach(async(() => {
-		TestBed.configureTestingModule({
-			declarations: [HarmonicLoaderComponent],
-		})
-			.compileComponents();
-	}));
+describe("LoaderComponent", () => {
+	let component: Readonly<LoaderComponent>;
+	let fixture: Readonly<ComponentFixture<LoaderComponent>>;
 
 	beforeEach(() => {
-		fixture = TestBed.createComponent(HarmonicLoaderComponent);
+		TestBed.configureTestingModule({
+			imports: [ LoaderComponent ],
+		});
+		fixture = TestBed.createComponent(LoaderComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

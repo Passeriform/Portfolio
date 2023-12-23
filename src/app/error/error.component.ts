@@ -1,13 +1,23 @@
-import { DOCUMENT } from "@angular/common";
+import { CommonModule, DOCUMENT, TitleCasePipe } from "@angular/common";
+import type { HttpStatusCode } from "@angular/common/http";
 import type { OnInit } from "@angular/core";
 import { Component, ElementRef, HostBinding, HostListener, Inject, ViewChild } from "@angular/core";
 import { stopClickPropagation } from "@utility/events";
 
-import type { ApiError, ClientError, HttpErrorCodes } from "./models/error.interface";
+import type { ApiError, ClientError } from "./models/error.interface";
 import { ErrorService } from "./services/error.service";
+import { EnvironmentPipe } from "../shared/pipes/environment.pipe";
+import { ScrollableComponent } from "../shared/scrollable/scrollable.component";
 
 @Component({
+	imports: [
+		CommonModule,
+		EnvironmentPipe,
+		ScrollableComponent,
+		TitleCasePipe,
+	],
 	selector: "app-error",
+	standalone: true,
 	styleUrls: [ "./error.component.scss" ],
 	templateUrl: "./error.component.html",
 })
@@ -15,7 +25,7 @@ export class ErrorComponent implements OnInit {
 	@ViewChild("debugWindow", { read: ElementRef }) private readonly debugWindow: ElementRef<HTMLElement> | undefined;
 
 	public debugExpanded: boolean;
-	public error: Record<string, HttpErrorCodes | string> | undefined;
+	public error: Record<string, HttpStatusCode | string> | undefined;
 	public scrollFired: (clickEvent: MouseEvent) => void = stopClickPropagation;
 
 	@HostListener("document:mousedown", [ "$event" ])
@@ -42,7 +52,7 @@ export class ErrorComponent implements OnInit {
 
 	ngOnInit() {
 		this.errorService.errorDetails$.subscribe((model: ApiError | ClientError) => {
-			this.error = model as unknown as Record<string, HttpErrorCodes | string>;
+			this.error = model as unknown as Record<string, HttpStatusCode | string>;
 		});
 	}
 }

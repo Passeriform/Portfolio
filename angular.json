@@ -20,7 +20,7 @@
 						"outputPath": "dist/passeriform",
 						"index": "src/index.html",
 						"main": "src/main.ts",
-						"polyfills": "src/polyfills.ts",
+            "polyfills": ["zone.js", "zone.js/testing", "@angular/localize/init"],
 						"tsConfig": "tsconfig.app.json",
 						"aot": true,
             "customWebpackConfig": {
@@ -128,8 +128,7 @@
 				"test": {
 					"builder": "@angular-builders/custom-webpack:karma",
 					"options": {
-						"main": "src/test.ts",
-						"polyfills": "src/polyfills.ts",
+            "polyfills": ["zone.js", "zone.js/testing", "@angular/localize/init"],
 						"tsConfig": "tsconfig.spec.json",
 						"karmaConfig": "karma.conf.js",
             "customWebpackConfig": {
@@ -139,9 +138,7 @@
 							"src/favicon.ico",
 							"src/assets"
 						],
-						"styles": [
-							"src/styles.scss"
-						],
+						"styles": [ "src/styles.scss" ],
 						"stylePreprocessorOptions": {
 							"includePaths": ["src/styles"]
 						}

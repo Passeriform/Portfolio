@@ -118,8 +118,8 @@ $themes: (
   "error": extend-swatch($error-swatch),
 
   "landing": extend-swatch($landing-swatch),
-  "sweeper": extend-swatch($landing-swatch, $accent: #C5C5C5, $alt-accent: #373737),
-  "update-roll": extend-swatch($landing-swatch, $accent: #97A797, $alt-accent: #191919),
+  "sweeper": extend-swatch($landing-swatch, $foreground: #EEEEEE, $accent: #C5C5C5, $alt-accent: #373737),
+  "update-roll": extend-swatch($landing-swatch, $foreground: #EEEEEE, $accent: #97A797, $alt-accent: #191919),
 
   "work": extend-swatch($work-swatch),
   "showcase": extend-swatch($work-swatch),

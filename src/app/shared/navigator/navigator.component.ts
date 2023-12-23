@@ -10,6 +10,7 @@ import { Component, ElementRef, HostBinding, HostListener, ViewChild } from "@an
 
 @Component({
 	selector: "app-navigator",
+	standalone: true,
 	styleUrls: [ "./navigator.component.scss" ],
 	templateUrl: "./navigator.component.html",
 })

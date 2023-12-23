@@ -14,14 +14,6 @@ import { WorkRoutingModule } from "./routes/work-routing.module";
 import { WorkComponent } from "./work.component";
 
 @NgModule({
-	declarations: [
-		DescribeComponent,
-		DynamicSearchComponent,
-		RaisecardComponent,
-		ShowcaseComponent,
-		TechStackComponent,
-		WorkComponent,
-	],
 	exports: [
 		DescribeComponent,
 		DynamicSearchComponent,
@@ -30,9 +22,15 @@ import { WorkComponent } from "./work.component";
 		TechStackComponent,
 	],
 	imports: [
+		DescribeComponent,
+		DynamicSearchComponent,
 		FontAwesomeModule,
 		HeaderModule,
+		RaisecardComponent,
 		SharedModule,
+		ShowcaseComponent,
+		TechStackComponent,
+		WorkComponent,
 		WorkRoutingModule,
 	],
 	providers: [ WorkService ],

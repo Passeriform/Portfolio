@@ -1,33 +1,60 @@
+import { AsyncPipe, JsonPipe } from "@angular/common";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import type { ComponentFixture} from "@angular/core/testing";
 import { TestBed } from "@angular/core/testing";
+import { Component } from "@angular/core";
+import { By } from "@angular/platform-browser";
+
+import { of } from "rxjs";
+
 import { WikiService } from "@core/services/wiki.service";
 
-import { take } from 'rxjs/operators';
-
-import { WikiEntry } from './../../core/services/wiki.interface';
 import { WikiPipe } from "./wiki.pipe";
 
+@Component({
+	imports: [
+		AsyncPipe,
+		JsonPipe,
+		WikiPipe,
+	],
+	selector: "app-wiki-host",
+	standalone: true,
+	template: "{{ identifier | wiki | async | json }}",
+})
+class HostComponent {
+  public identifier = "identifier";
+}
+
 describe("WikiPipe", () => {
+	const wikiDetails = {
+		description: "description",
+		href: "href",
+		title: "title",
+	};
+	let fixture: Readonly<ComponentFixture<HostComponent>>;
+
 	beforeEach(() => {
 		TestBed.configureTestingModule({
-			providers: [ WikiService ],
+			imports: [
+				HttpClientTestingModule,
+				WikiPipe,
+			],
+			providers: [ { provide: WikiService, useValue: jasmine.createSpyObj<WikiService>("WikiService", [ "getWikiDetail$" ]) } ],
 		});
+
+		const wikiServiceSpy = TestBed.inject(WikiService);
+		(wikiServiceSpy as jasmine.SpyObj<WikiService>).getWikiDetail$.and.returnValue(of(wikiDetails));
+
+		fixture = TestBed.createComponent(HostComponent);
+		fixture.detectChanges();
 	});
 
 	it("create an instance", () => {
-		const service: WikiService = TestBed.inject(WikiService);
-		const pipe = new WikiPipe(service);
-		expect(pipe).toBeTruthy();
+		expect(fixture).toBeTruthy();
 	});
 
 	it("fetch wiki entry for test value", () => {
-		const service: WikiService = TestBed.inject(WikiService);
-		const pipe = new WikiPipe(service);
-		pipe.transform("angular")
-			.pipe(take(1))
-			.subscribe((value: WikiEntry) => {
-				expect(value.href).toEqual("https://en.wikipedia.org/wiki/Angular_(web_framework)");
-				expect(value.description).toBeTruthy();
-				expect(value.title).toBeTruthy();
-			});
+		const detailsText = (fixture.debugElement.nativeElement as HTMLElement).textContent;
+		expect(JSON.parse(detailsText ?? "{}")).toEqual(wikiDetails);
 	});
 });

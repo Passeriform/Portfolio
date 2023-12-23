@@ -10,12 +10,44 @@
 // TODO: Instead of using background as hack for border, use proper border attribute
 
 $theme: get-theme("update-roll");
+$mobile-breakpoint: 54em;
 $stack-order: (
 	"details",
 	"brief",
 );
 
 :host {
+  @include media("<=#{$mobile-breakpoint}") {
+		& > .update-roll-item > .details > .commit-history {
+      grid-template-rows: 1fr 1fr 1fr;
+
+      & > .message-container {
+        background-color: map.get($theme, "alt-accent", "hex");
+        color: map.get($theme, "foreground", "hex");
+      }
+
+      & > .checksum-container > a.checksum, &.author-container > a.author {
+        word-wrap: anywhere;
+      }
+    }
+	}
+
+  @include media(">#{$mobile-breakpoint}") {
+		& > .update-roll-item > .details > .commit-history {
+      grid-template-columns: 5fr clamp(5rem, 25vw, 28rem) 4fr;
+
+      & > .message-container {
+        background-color: map.get($theme, "accent", "hex");
+        color: map.get($theme, "foreground", "invert", "hex");
+      }
+
+      & > .checksum-container > a.checksum, &.author-container > a.author {
+        word-wrap: break-word;
+      }
+    }
+  }
+
+
 	& > .update-roll-item {
 		display: grid;
 		grid-template-rows: min-content 0fr;
@@ -26,7 +58,7 @@ $stack-order: (
 			width: 100%;
 			/* stylelint-disable-next-line unit-allowed-list -- grid-gap can be pixel-sized */
 			grid-gap: 1px;
-			grid-template-columns: minmax(4em, 8em) minmax(9em, 20em) minmax(10em, auto);
+			grid-template-columns: minmax(4em, 8em) minmax(9em, 20em) minmax(10em, 100%);
 			/* stylelint-disable-next-line unit-allowed-list -- borders can be pixel-sized */
 			border: 1px solid map.get($theme, "foreground", "hex");
 			transition: all 0.2s;
@@ -173,7 +205,6 @@ $stack-order: (
 				display: grid;
 				/* stylelint-disable-next-line unit-allowed-list -- grid-gap can be pixel-sized */
 				grid-gap: 2px;
-				grid-template-columns: 5fr 25rem 4fr;
 
 				& > div {
 					background-color: map.get($theme, "accent", "hex");
@@ -182,10 +213,11 @@ $stack-order: (
 					@include flex-column-center;
 
 					&.message-container {
-						justify-content: flex-start;
+						justify-content: center;
 
 						& > p.message {
 							white-space: pre-line;
+              text-align: left;
 						}
 					}
 
@@ -199,7 +231,6 @@ $stack-order: (
 						color: map.get($theme, "foreground", "invert", "hex");
 						text-align: center;
 						text-decoration: none;
-						word-wrap: break-word;
 					}
 
 					& > a.checksum:hover, & > a.author:hover, & > a.checksum:focus-visible, & > a.author:focus-visible {
@@ -223,7 +254,10 @@ $stack-order: (
 				@include flex-row-evenly;
 
 				& > p {
-					margin: 0.5em;
+          margin: 0.5em;
+          word-wrap: anywhere;
+
+          @include flex-row-center;
 
 					& > .title > img {
 						width: 1em;

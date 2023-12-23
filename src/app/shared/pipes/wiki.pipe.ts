@@ -9,6 +9,7 @@ import { WikiService } from "@core/services/wiki.service";
 
 @Pipe({
 	name: "wiki",
+	standalone: true,
 })
 export class WikiPipe implements PipeTransform {
 	constructor(private readonly wikiService: WikiService) { }

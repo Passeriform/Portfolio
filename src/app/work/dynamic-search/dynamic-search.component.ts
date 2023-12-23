@@ -1,5 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, Output } from "@angular/core";
 import type { AfterViewInit } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 
 import { Observable } from "rxjs";
 
@@ -11,7 +12,9 @@ import { Constants } from "./dynamic-search.config";
 import type { RankedEntry } from "./dynamic-search.interface";
 
 @Component({
+	imports: [ FormsModule ],
 	selector: "app-dynamic-search",
+	standalone: true,
 	styleUrls: [ "./dynamic-search.component.scss" ],
 	templateUrl: "./dynamic-search.component.html",
 })

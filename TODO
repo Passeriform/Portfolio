@@ -16,7 +16,11 @@ TO-DO
 	☐ Extract scss vars from component to configure in global
 	☐ Use light and dark mode favicon and switch as necessary
   ☐ Add custom list decoration and use in namecard to itemize the text wall
-  ☐ Move SCSS color system to newer @mixin/@use structure from current @include structure
+  ☐ Add ts path aliasing for loader module and convert all imports to alias
+  ☐ Refactor all directives to use ViewContainerRef and encapsulate templating logic
+  ☐ Find a way to add scss styles to structural directives
+  ☐ Update component tests for proper UI testing
+  ☐ Update directive spec tests once refactored
 
 Huge Refactors
   ☐ Find alternative replacement for ng-deep selectors using typescript instead.

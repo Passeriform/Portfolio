@@ -7,7 +7,8 @@ import { Constants } from "./sweeper.config";
 
 @Component({
 	selector: "app-sweeper",
-	styleUrls: ["./sweeper.component.scss"],
+	standalone: true,
+	styleUrls: [ "./sweeper.component.scss" ],
 	templateUrl: "./sweeper.component.html",
 })
 export class SweeperComponent implements AfterContentInit {

@@ -1,4 +1,4 @@
-import { DOCUMENT } from "@angular/common";
+import { CommonModule, DOCUMENT } from "@angular/common";
 import type { AfterViewInit, OnInit } from "@angular/core";
 import { Component, Inject } from "@angular/core";
 
@@ -11,9 +11,25 @@ import { SplashStateService } from "@core/services/splash-state.service";
 
 import type { WorkModel } from "./models/work.interface";
 import { WorkService } from "./services/work.service";
+import { RetainPipe } from "../shared/pipes/retain.pipe";
+import { ShowcaseComponent } from "./showcase/showcase.component";
+import { OverlayComponent } from "../shared/overlay/overlay.component";
+import { TechStackComponent } from "./tech-stack/tech-stack.component";
+import { DescribeComponent } from "./describe/describe.component";
+import { ScrollableComponent } from "../shared/scrollable/scrollable.component";
 
 @Component({
+	imports: [
+		CommonModule,
+		DescribeComponent,
+		OverlayComponent,
+		RetainPipe,
+		ScrollableComponent,
+		ShowcaseComponent,
+		TechStackComponent,
+	],
 	selector: "app-work",
+	standalone: true,
 	styleUrls: [ "./work.component.scss" ],
 	templateUrl: "./work.component.html",
 })

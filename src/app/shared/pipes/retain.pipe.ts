@@ -3,6 +3,7 @@ import { Pipe } from "@angular/core";
 
 @Pipe({
 	name: "retain",
+	standalone: true,
 })
 export class RetainPipe implements PipeTransform {
 	transform<T extends Record<PropertyKey, unknown>, P extends keyof T>(inObject: T, ...keepProperties: readonly P[]): Pick<T, P> {
