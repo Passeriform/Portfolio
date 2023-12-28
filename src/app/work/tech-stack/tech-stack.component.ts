@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { AsyncPipe, KeyValuePipe, NgFor, NgIf } from "@angular/common";
 
 import { Position } from "@shared/models/cardinals.interface";
 import { WikiPipe } from "@shared/pipes/wiki.pipe";
@@ -13,10 +13,13 @@ import { TechStackModel } from "./tech-stack.interface";
 
 @Component({
 	imports: [
-		CommonModule,
+		AsyncPipe,
 		CageGridComponent,
 		CageGridDirective,
 		IconUriPipe,
+		KeyValuePipe,
+		NgFor,
+		NgIf,
 		TooltipDirective,
 		UnionArrayPipe,
 		WikiPipe,

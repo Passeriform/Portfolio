@@ -2,13 +2,13 @@ import type { ElementRef } from "@angular/core";
 import { Directive, TemplateRef } from "@angular/core";
 
 @Directive({
-	selector: "[appNavLink]",
+	selector: "[appNavtab]",
 	standalone: true,
 })
 export class NavtabDirective {
-	public tabTemplate: TemplateRef<ElementRef>;
+	public template: TemplateRef<ElementRef>;
 
 	constructor(private readonly templateReference: TemplateRef<ElementRef>) {
-		this.tabTemplate = this.templateReference;
+		this.template = this.templateReference;
 	}
 }

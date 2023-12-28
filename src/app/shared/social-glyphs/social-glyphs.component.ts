@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgClass, NgFor } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
@@ -8,7 +8,8 @@ import type { SocialGlyphModel } from "./social-glyphs.interface";
 
 @Component({
 	imports: [
-		CommonModule,
+		NgClass,
+		NgFor,
 		FontAwesomeModule,
 	],
 	selector: "app-social-glyphs",

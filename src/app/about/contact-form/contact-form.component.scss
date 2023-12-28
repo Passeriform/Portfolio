@@ -53,6 +53,7 @@ $input-element-padding: 1em;
 						margin-left: 0;
 					}
 				}
+
 				@include media("<=#{$mobile-breakpoint}") {
 					@include clear-fix;
 				}

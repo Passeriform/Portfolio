@@ -21,6 +21,10 @@ TO-DO
   ☐ Find a way to add scss styles to structural directives
   ☐ Update component tests for proper UI testing
   ☐ Update directive spec tests once refactored
+  ☐ Use semantic HTML tags
+  ☐ Migrate entirely to font awesome in registry using custom iconset
+  ☐ Make update roll component generic and provide github update service as a DI token
+  ☐ Convert BadgeComponent to generic IconComponent
 
 Huge Refactors
   ☐ Find alternative replacement for ng-deep selectors using typescript instead.

@@ -1,7 +1,8 @@
-import { CommonModule } from "@angular/common";
+import { NgIf } from "@angular/common";
 import type { AfterContentInit, AfterViewInit } from "@angular/core";
 import {
-	ChangeDetectorRef, Component, ContentChildren, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, QueryList
+	ChangeDetectorRef, Component, ContentChildren, ElementRef, EventEmitter, HostBinding,
+	HostListener, Input, Output, QueryList,
 } from "@angular/core";
 
 import { NEVER, Observable, identity, merge } from "rxjs";
@@ -24,7 +25,7 @@ import { PageNavComponent } from "./page-nav/page-nav.component";
 
 @Component({
 	imports: [
-		CommonModule,
+		NgIf,
 		PageNavComponent,
 	],
 	selector: "app-scrollable",
@@ -63,6 +64,8 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	@ContentChildren("page", { read: ElementRef }) public readonly items: QueryList<ElementRef<HTMLElement>>;
 
 	// TODO: Make page-nav an exposed directive child for scrollable so that caller can control its props easily
+
+	// TODO: Split logic into modular services.
 
 	@HostListener("window:resize")
 	public onResize(): void {
@@ -206,9 +209,9 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		let pageElement: HTMLElement | undefined;
 
 		if (this.startReveal) {
-			pageElement = this.startRevealElement?.firstChild as HTMLElement
+			pageElement = this.startRevealElement?.firstChild as HTMLElement;
 		} else if (this.endReveal) {
-			pageElement = this.endRevealElement?.firstChild as HTMLElement
+			pageElement = this.endRevealElement?.firstChild as HTMLElement;
 		} else {
 			pageElement = this.items.toArray()[this.pageIndex]?.nativeElement;
 		}
@@ -276,7 +279,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 			this.computeTravelFactor();
 
 			this.pageIndex = Math.min(this.pageIndex, this.maxScrollableSize / this.delta);
-		  this.changeDetector.detectChanges();
+			this.changeDetector.detectChanges();
 		});
 	}
 

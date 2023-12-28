@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { AsyncPipe, NgForOf, NgIf } from "@angular/common";
 import { Component, ElementRef, HostBinding, Input } from "@angular/core";
 import { RouterLink } from "@angular/router";
 
@@ -16,8 +16,10 @@ import { ChirpyComponent } from "./chirpy/chirpy.component";
 
 @Component({
 	imports: [
+		AsyncPipe,
 		ChirpyComponent,
-		CommonModule,
+		NgIf,
+		NgForOf,
 		SocialGlyphsComponent,
 		RouterLink,
 	],
@@ -27,16 +29,16 @@ import { ChirpyComponent } from "./chirpy/chirpy.component";
 	templateUrl: "./footer.component.html",
 })
 export class FooterComponent {
-	@Input() private readonly maxItemCount: number = Constants.INITIAL_MAX_ITEM_COUNT;
-
-	@Input() public readonly aboutCount: number = this.maxItemCount;
-	@Input() public readonly socialCount: number = Constants.SOCIAL_LINKS_COUNT;
-	@Input() public readonly workCount: number = this.maxItemCount - 2;
-	@Input() public readonly variant: FooterVariant | undefined;
-
 	public aboutEntries$: Observable<readonly TopAboutModel[]>;
 	public socialEntries$: Observable<readonly TopSocialModel[]>;
 	public workEntries$: Observable<readonly TopWorkModel[]>;
+
+	@Input() private readonly maxItemCount: number = Constants.INITIAL_MAX_ITEM_COUNT;
+	@Input() public readonly aboutCount: number = this.maxItemCount;
+	@Input() public readonly socialCount: number = Constants.SOCIAL_LINKS_COUNT;
+	@Input() public readonly variant: FooterVariant | undefined;
+	@Input() public readonly workCount: number = this.maxItemCount - 2;
+
 
 	@HostBinding("class")
 	public get variantClass(): FooterVariant | undefined {

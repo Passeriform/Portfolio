@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { AsyncPipe, NgClass } from "@angular/common";
 import type { OnInit } from "@angular/core";
 import { Component, Input } from "@angular/core";
 import { RouterLink } from "@angular/router";
@@ -10,7 +10,8 @@ import { SplashStateService } from "@core/services/splash-state.service";
 
 @Component({
 	imports: [
-		CommonModule,
+		AsyncPipe,
+		NgClass,
 		RouterLink,
 	],
 	selector: "app-header",
@@ -19,12 +20,12 @@ import { SplashStateService } from "@core/services/splash-state.service";
 	templateUrl: "./header.component.html",
 })
 export class HeaderComponent implements OnInit {
+	public readonly SplashState = SplashState;
+	public splashState$: Observable<SplashState>;
+
 	@Input() public readonly alt: string;
 	@Input() public readonly logo: string;
 	@Input() public readonly target: string;
-
-	public readonly SplashState = SplashState;
-	public splashState$: Observable<SplashState>;
 
 	// TODO: Add accent color border-bottom based on page theme.
 

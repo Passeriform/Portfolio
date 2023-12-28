@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { AsyncPipe, NgClass, NgFor, NgIf } from "@angular/common";
 import type { OnInit } from "@angular/core";
 import { Component } from "@angular/core";
 
@@ -19,7 +19,10 @@ type GithubEventUIState = GithubEvent & { expand?: boolean };
 
 @Component({
 	imports: [
-		CommonModule,
+		AsyncPipe,
+		NgClass,
+		NgIf,
+		NgFor,
 		TooltipDirective,
 		BadgeComponent,
 		BoldSpanPipe,

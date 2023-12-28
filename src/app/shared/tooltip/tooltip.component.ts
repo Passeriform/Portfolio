@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgClass, NgIf, NgTemplateOutlet } from "@angular/common";
 import type { OnDestroy, TemplateRef } from "@angular/core";
 import { Component, ElementRef, HostBinding, HostListener, Input } from "@angular/core";
 
@@ -8,7 +8,11 @@ import { TooltipService } from "./services/tooltip.service";
 import type { TooltipTemplateConfig } from "./tooltip.interface";
 
 @Component({
-	imports: [ CommonModule ],
+	imports: [
+		NgClass,
+		NgIf,
+		NgTemplateOutlet,
+	],
 	selector: "app-tooltip",
 	standalone: true,
 	styleUrls: [ "./tooltip.component.scss" ],

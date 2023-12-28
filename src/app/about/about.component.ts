@@ -1,5 +1,5 @@
 import type { AfterViewInit, OnInit } from "@angular/core";
-import { CommonModule, DOCUMENT } from "@angular/common";
+import { DOCUMENT, NgIf } from "@angular/common";
 import { Component, Inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
@@ -16,10 +16,10 @@ import { ScrollableComponent } from "../shared/scrollable/scrollable.component";
 
 @Component({
 	imports: [
-		CommonModule,
-		ScrollableComponent,
-		NamecardComponent,
 		ContactFormComponent,
+		NamecardComponent,
+		NgIf,
+		ScrollableComponent,
 		SocialGlyphsComponent,
 	],
 	selector: "app-about",

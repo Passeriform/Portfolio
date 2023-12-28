@@ -26,9 +26,9 @@ describe("AppComponent", () => {
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
-			declarations: [ AppComponent ],
 			imports: [
 				ApolloTestingModule,
+				AppComponent,
 				ErrorComponent,
 				FooterComponent,
 				HarmonicLoaderComponent,
@@ -58,10 +58,6 @@ describe("AppComponent", () => {
 	});
 
 	it("should have as title Passeriform", () => {
-		expect(component.title).toEqual("passeriform");
-	});
-
-	it("should render title", () => {
-		expect(nativeElement.querySelector(".content span")?.textContent).toContain("passeriform app is running!");
+		expect(component.title).toEqual("Passeriform");
 	});
 });

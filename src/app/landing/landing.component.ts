@@ -33,19 +33,20 @@ export class LandingComponent implements OnInit, AfterViewInit {
 		this.loaderService.beginLoading("[page] load");
 	}
 
-	ngOnInit() {
-		this.splashStateService.changeSplashState(SplashState.FOCUSSED);
-	}
-
-	ngAfterViewInit() {
-		this.loaderService.endLoading("[page] load");
-	}
-
 	public handlePageChange(pageIndex: number): void {
 		this.splashStateService.changeSplashState(
 			pageIndex === 0
 				? SplashState.FOCUSSED
 				: SplashState.BLURRED,
 		);
+	}
+
+	ngOnInit() {
+		this.splashStateService.changeSplashState(SplashState.FOCUSSED);
+	}
+
+	// eslint-disable-next-line @typescript-eslint/member-ordering
+	ngAfterViewInit() {
+		this.loaderService.endLoading("[page] load");
 	}
 }

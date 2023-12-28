@@ -1,8 +1,7 @@
 
-import { Component, ContentChildren, DebugElement, QueryList } from "@angular/core";
+import { Component, QueryList, ViewChildren } from "@angular/core";
 import type { ComponentFixture } from "@angular/core/testing";
 import { TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
 
 import { CageGridDirective } from "./cage-grid.directive";
 
@@ -11,16 +10,17 @@ import { CageGridDirective } from "./cage-grid.directive";
 	selector: "app-cage-grid-host",
 	standalone: true,
 	template: `
-		<div *appCaged [title]="'Cage Title'" [animateContent]="true">
+		<div *appCaged="'Cage Title'; animateContent: true">
 			<div class="content">Cage Content</div>
 		</div>
 	`,
 })
-class HostComponent { }
+class HostComponent {
+	@ViewChildren(CageGridDirective) public readonly cageElements: QueryList<CageGridDirective>;
+}
 
 describe("CageGridDirective", () => {
 	let fixture: Readonly<ComponentFixture<HostComponent>>;
-	let cageElement: Readonly<DebugElement>;
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
@@ -30,14 +30,14 @@ describe("CageGridDirective", () => {
 			],
 		});
 		fixture = TestBed.createComponent(HostComponent);
-		cageElement = fixture.debugElement.query(By.directive(CageGridDirective));
 		fixture.detectChanges();
 	});
 
 	it("should route to link on click", () => {
-		const directive = cageElement.injector.get(CageGridDirective);
-		expect(directive).toBeDefined();
-		// expect(cageElement?.title).toEqual("Cage Title");
-		// expect(cageElement?.animateContent).toEqual(true);
+		const cageElements = fixture.componentInstance.cageElements.toArray();
+		expect(cageElements).toBeDefined();
+		expect(cageElements.length).toEqual(1);
+		expect(cageElements[0]?.title).toEqual("Cage Title");
+		expect(cageElements[0]?.animateContent).toEqual(true);
 	});
 });

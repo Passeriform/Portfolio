@@ -1,4 +1,4 @@
-import { CommonModule, DOCUMENT, TitleCasePipe } from "@angular/common";
+import { DOCUMENT, KeyValuePipe, NgClass, NgFor, NgIf, TitleCasePipe } from "@angular/common";
 import type { HttpStatusCode } from "@angular/common/http";
 import type { OnInit } from "@angular/core";
 import { Component, ElementRef, HostBinding, HostListener, Inject, ViewChild } from "@angular/core";
@@ -11,8 +11,11 @@ import { ScrollableComponent } from "../shared/scrollable/scrollable.component";
 
 @Component({
 	imports: [
-		CommonModule,
 		EnvironmentPipe,
+		KeyValuePipe,
+		NgClass,
+		NgFor,
+		NgIf,
 		ScrollableComponent,
 		TitleCasePipe,
 	],
@@ -22,7 +25,7 @@ import { ScrollableComponent } from "../shared/scrollable/scrollable.component";
 	templateUrl: "./error.component.html",
 })
 export class ErrorComponent implements OnInit {
-	@ViewChild("debugWindow", { read: ElementRef }) private readonly debugWindow: ElementRef<HTMLElement> | undefined;
+	@ViewChild("debugWindow", { read: ElementRef, static: true }) private readonly debugWindow: ElementRef<HTMLElement> | undefined;
 
 	public debugExpanded: boolean;
 	public error: Record<string, HttpStatusCode | string> | undefined;

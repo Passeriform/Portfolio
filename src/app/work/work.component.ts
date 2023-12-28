@@ -1,4 +1,4 @@
-import { CommonModule, DOCUMENT } from "@angular/common";
+import { AsyncPipe, DOCUMENT, NgIf } from "@angular/common";
 import type { AfterViewInit, OnInit } from "@angular/core";
 import { Component, Inject } from "@angular/core";
 
@@ -20,8 +20,9 @@ import { ScrollableComponent } from "../shared/scrollable/scrollable.component";
 
 @Component({
 	imports: [
-		CommonModule,
+		AsyncPipe,
 		DescribeComponent,
+		NgIf,
 		OverlayComponent,
 		RetainPipe,
 		ScrollableComponent,
@@ -50,20 +51,21 @@ export class WorkComponent implements OnInit, AfterViewInit {
 		this.loaderService.beginLoading("[page] load");
 	}
 
-	ngOnInit() {
-		this.selectedModel$ = this.workService.workSelectedState$;
-		this.splashStateService.changeSplashState(SplashState.BLURRED);
-	}
-
-	ngAfterViewInit() {
-		this.loaderService.endLoading("[page] load");
-	}
-
 	public handleOverlayTrigger(): void {
 		this.displayInitialTip = false;
 	}
 
 	public handleSelection(): void {
 		this.scrollResetSource$.next();
+	}
+
+	ngOnInit() {
+		this.selectedModel$ = this.workService.workSelectedState$;
+		this.splashStateService.changeSplashState(SplashState.BLURRED);
+	}
+
+	// eslint-disable-next-line @typescript-eslint/member-ordering
+	ngAfterViewInit() {
+		this.loaderService.endLoading("[page] load");
 	}
 }

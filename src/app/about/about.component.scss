@@ -59,8 +59,8 @@ $theme: get-theme("about");
 				max-width: 80em;
 
 				& > .content-wrapper {
-					padding: 1em;
           align-items: center;
+					padding: 1em;
 
 					& > img {
 						@include equal-dim(12em);

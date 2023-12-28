@@ -9,10 +9,14 @@ import { AnimationState } from "./models/loader.interface";
 	templateUrl: "./loader.component.html",
 })
 export class LoaderComponent {
-	public animationState: AnimationState = AnimationState.STOPPED;
+	protected animationState: AnimationState = AnimationState.STOPPED;
 
-	@HostBinding("class.show")
-	public get canvasDisplay(): boolean {
-		return this.animationState !== AnimationState.STOPPED;
+	@HostBinding("class.show") public show: boolean;
+
+	public setAnimationState(animationState: AnimationState): void {
+		this.animationState = animationState;
+		setTimeout(() => {
+			this.show = this.animationState !== AnimationState.STOPPED;
+		}, 1);
 	}
 }

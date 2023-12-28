@@ -1,10 +1,10 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { Component, EventEmitter, HostBinding, Output } from "@angular/core";
 
 import { OverlayState } from "./overlay.config";
 
 @Component({
-	imports: [ CommonModule ],
+	imports: [ NgClass ],
 	selector: "app-overlay",
 	standalone: true,
 	styleUrls: [ "./overlay.component.scss" ],
@@ -13,6 +13,7 @@ import { OverlayState } from "./overlay.config";
 export class OverlayComponent {
 	public overlayState: OverlayState;
 
+	// eslint-disable-next-line @typescript-eslint/member-ordering
 	public readonly OverlayState = OverlayState;
 
 	@Output() public readonly triggerEvent: EventEmitter<void> = new EventEmitter<void>();

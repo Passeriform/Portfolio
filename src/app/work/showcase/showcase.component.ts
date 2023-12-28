@@ -1,6 +1,7 @@
 import type { OnInit } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { Component, ElementRef, EventEmitter, HostListener, Output, ViewChild } from "@angular/core";
+import { AsyncPipe, NgClass, NgFor, NgIf } from "@angular/common";
+import { Component, EventEmitter, HostListener, Output } from "@angular/core";
+import { Router } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import type { Observable } from "rxjs";
@@ -21,13 +22,16 @@ import { DynamicSearchComponent } from "../dynamic-search/dynamic-search.compone
 
 @Component({
 	imports: [
-		CommonModule,
+		AsyncPipe,
 		DynamicSearchComponent,
+		FontAwesomeModule,
+		IconUriPipe,
+		NgClass,
+		NgFor,
+		NgIf,
 		ScrollableComponent,
 		RaisecardComponent,
 		TooltipDirective,
-		FontAwesomeModule,
-		IconUriPipe,
 	],
 	selector: "app-showcase",
 	standalone: true,
@@ -53,14 +57,15 @@ export class ShowcaseComponent implements OnInit {
 
 	@Output() public readonly selectionEvent: EventEmitter<WorkModel> = new EventEmitter<WorkModel>();
 
-	@ViewChild("cardScroller", { read: ElementRef }) public readonly cardChild: ElementRef<HTMLElement>;
-
 	@HostListener("window:resize")
 	public onResize(): void {
 		this.updateShowExpanded();
 	}
 
-	constructor(private readonly workService: WorkService) {
+	constructor(
+			private readonly router: Router,
+			private readonly workService: WorkService,
+	) {
 		this.updateShowExpanded();
 	}
 
@@ -104,6 +109,7 @@ export class ShowcaseComponent implements OnInit {
 	}
 
 	public resetSearch(event: MouseEvent): void {
+		this.router.navigate([ "/explore" ]);
 		this.searchResetSource$.next();
 		event.stopPropagation();
 	}

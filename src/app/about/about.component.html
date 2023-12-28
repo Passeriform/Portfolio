@@ -61,20 +61,18 @@
     <div class="content">
       <app-cage-grid>
         <div *appCaged="'Contributors'" id="contributors-container">
-          <ng-container *ngFor="let contributor of model.contributors">
-            <div class="contributor">
-              <ng-template #tooltipTemplate>
-                <h5>{{ contributor.title }}</h5>
-                <span>{{ contributor.description }}</span>
-              </ng-template>
+          <div *ngFor="let contributor of model.contributors" class="contributor">
+            <ng-template #tooltipTemplate>
+              <h5>{{ contributor.title }}</h5>
+              <span>{{ contributor.description }}</span>
+            </ng-template>
 
-              <div i18n-position appTooltip [position]="Position.BOTTOM" [template]="tooltipTemplate">
-                <a routerLink="/about/{{ contributor.aboutUrl }}">
-                  <img i18n-alt *ngIf="contributor.img" alt="profile-contributor-img" src="{{ contributor.img }}" />
-                </a>
-              </div>
+            <div i18n-position appTooltip [position]="Position.BOTTOM" [template]="tooltipTemplate">
+              <a routerLink="/about/{{ contributor.aboutUrl }}">
+                <img i18n-alt *ngIf="contributor.img" alt="profile-contributor-img" src="{{ contributor.img }}" />
+              </a>
             </div>
-          </ng-container>
+          </div>
         </div>
       </app-cage-grid>
     </div>
@@ -96,12 +94,11 @@
           </p> -->
         </div>
         <!-- TODO: Try updating the below ngIf to use safe-navigation -->
-        <ng-container *ngIf="model.socials">
-          <app-social-glyphs
-              [invert]="true"
-              [model]="model.socials"
-            ></app-social-glyphs>
-        </ng-container>
+        <app-social-glyphs
+            *ngIf="model.socials"
+            [invert]="true"
+            [model]="model.socials"
+          ></app-social-glyphs>
       </div>
     </div>
   </div>

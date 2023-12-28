@@ -1,13 +1,12 @@
-import { NgModule } from "@angular/core";
 import type { Routes } from "@angular/router";
-import { RouterModule } from "@angular/router";
 
 // import { PersonalityGuard } from "@core/guards/personality.guard";
 
 import { AboutComponent } from "../about.component";
 import { AboutResolver } from "./about-resolver.service";
 
-const routes: Readonly<Routes> = [
+// eslint-disable-next-line functional/prefer-immutable-types
+const ROUTES: Routes = [
 	{
 		component: AboutComponent,
 		path: "",
@@ -36,8 +35,5 @@ const routes: Readonly<Routes> = [
 	},
 ];
 
-@NgModule({
-	exports: [ RouterModule ],
-	imports: [ RouterModule.forChild(routes as Routes) ],
-})
-export class AboutRoutingModule { }
+// eslint-disable-next-line import/no-default-export
+export default ROUTES;

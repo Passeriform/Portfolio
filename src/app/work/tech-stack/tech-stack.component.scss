@@ -38,10 +38,14 @@ $theme: get-theme("tech-stack");
 	text-decoration: none;
 
 	& > * {
-		padding: 1em 2em;
+    @include reset-offsets;
+
+    @include override-modifiers {
+      padding: 1em 2em;
+    }
 	}
 
-	& > h5 {
+	& > h3 {
 		background-color: map.get($theme, "background", "hex");
 		color: map.get($theme, "foreground", "hex");
 

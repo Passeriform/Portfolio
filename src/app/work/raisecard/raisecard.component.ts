@@ -1,8 +1,11 @@
-import { CommonModule } from "@angular/common";
+import { NgClass, NgIf } from "@angular/common";
 import { Component, Input } from "@angular/core";
 
 @Component({
-	imports: [ CommonModule ],
+	imports: [
+		NgClass,
+		NgIf,
+	],
 	selector: "app-raisecard",
 	standalone: true,
 	styleUrls: [ "./raisecard.component.scss" ],

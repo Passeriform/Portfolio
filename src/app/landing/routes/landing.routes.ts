@@ -1,12 +1,11 @@
-import { NgModule } from "@angular/core";
 import type { Routes } from "@angular/router";
-import { RouterModule } from "@angular/router";
 
 // import { PersonalityGuard } from "@core/guards/personality.guard";
 
 import { LandingComponent } from "../landing.component";
 
-const routes: Routes = [
+// eslint-disable-next-line functional/prefer-immutable-types
+const ROUTES: Routes = [
 	{
 
 		// TODO: Add personality selector here.
@@ -17,8 +16,5 @@ const routes: Routes = [
 	},
 ];
 
-@NgModule({
-	exports: [ RouterModule ],
-	imports: [ RouterModule.forChild(routes) ],
-})
-export class LandingRoutingModule { }
+// eslint-disable-next-line import/no-default-export
+export default ROUTES;

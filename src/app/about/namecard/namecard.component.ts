@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgIf } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import { RouterLink } from "@angular/router";
 
@@ -8,7 +8,7 @@ import { AvatarInput } from "./namecard.interface";
 
 @Component({
 	imports: [
-		CommonModule,
+		NgIf,
 		RouterLink,
 	],
 	selector: "app-namecard",

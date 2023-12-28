@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgFor } from "@angular/common";
 import type { AfterViewInit, OnChanges } from "@angular/core";
 import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, QueryList } from "@angular/core";
 
@@ -8,7 +8,7 @@ import { Constants } from "./page-nav.config";
 import type { PageNavChanges } from "./page-nav.interface";
 
 @Component({
-	imports: [ CommonModule ],
+	imports: [ NgFor ],
 	selector: "app-page-nav",
 	standalone: true,
 	styleUrls: [ "./page-nav.component.scss" ],

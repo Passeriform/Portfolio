@@ -1,14 +1,15 @@
 import type { Routes } from "@angular/router";
-import { RouterModule } from "@angular/router";
-import { NgModule } from "@angular/core";
 
 // import { PersonalityGuard } from "@core/guards/personality.guard";
 
 import { routeFilters } from "../work.config";
 import { WorkComponent } from "../work.component";
-import { WorkResolver } from "./work-resolver.service";
+import { ExploreResolver } from "./explore-resolver.service";
+import { FilterResolver } from "./filter-resolver.service";
+import { ShowcaseResolver } from "./showcase-resolver.service";
 
-const routes: Readonly<Routes> = [
+// eslint-disable-next-line functional/prefer-immutable-types
+const ROUTES: Routes = [
 	// Register default explore route
 	{
 		component: WorkComponent,
@@ -17,7 +18,7 @@ const routes: Readonly<Routes> = [
 		// TODO: Add personality selector here.
 
 		// canActivate: [PersonalityGuard],
-		resolve: { model: WorkResolver },
+		resolve: { model: ExploreResolver },
 	},
 	// Register filter routes.
 	...routeFilters.flatMap(
@@ -29,7 +30,7 @@ const routes: Readonly<Routes> = [
 				// TODO: Add personality selector here.
 
 				// canActivate: [PersonalityGuard],
-				resolve: { model: WorkResolver },
+				resolve: { model: FilterResolver },
 			},
 			{
 				path: `explore/${filter}/:package`,
@@ -50,7 +51,7 @@ const routes: Readonly<Routes> = [
 	// Register showcase-only routes.
 	...routeFilters.flatMap(
 		(filter: string) => [
-			`${filter}`,
+			filter,
 			`${filter}/:package`,
 			`${filter}/:package/:module`,
 			`${filter}/:package/:module/:submodule`,
@@ -61,13 +62,10 @@ const routes: Readonly<Routes> = [
 			// TODO: Add personality selector here.
 
 			// canActivate: [PersonalityGuard],
-			resolve: { model: WorkResolver },
+			resolve: { model: ShowcaseResolver },
 		})),
 	),
 ];
 
-@NgModule({
-	exports: [ RouterModule ],
-	imports: [ RouterModule.forChild(routes as Routes) ],
-})
-export class WorkRoutingModule { }
+// eslint-disable-next-line import/no-default-export
+export default ROUTES;

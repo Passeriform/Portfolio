@@ -17,7 +17,7 @@ import { Component, ElementRef, HostBinding, HostListener, ViewChild } from "@an
 export class NavigatorComponent {
 	public expanded = false;
 
-	@ViewChild("clickCapture", { read: ElementRef }) public readonly captureElement: ElementRef;
+	@ViewChild("clickCapture", { read: ElementRef, static: true }) public readonly captureElement: ElementRef<HTMLElement>;
 
 	@HostListener("mousedown", [ "$event" ])
 	@HostListener("keydown", [ "$event" ])

@@ -1,46 +1,37 @@
-import type { DebugElement } from "@angular/core";
-import { Component, ContentChildren, QueryList } from "@angular/core";
+import { Component, ElementRef, QueryList, ViewChildren } from "@angular/core";
 import type { ComponentFixture } from "@angular/core/testing";
 import { TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
-
-import { SplashStateService } from "@core/services/splash-state.service";
 
 import { NavtabDirective } from "./navtab.directive";
-import { NavtabComponent } from "../navtab.component";
 
 @Component({
-	imports: [ NavtabComponent ],
+	imports: [ NavtabDirective ],
 	selector: "app-navtab-target",
 	standalone: true,
 	template: `
-    <a appNavLink routerLink="/first">First</a>
-    <a appNavLink href="/second">Second</a>
-    <a appNavLink routerLink="/third">Third</a>
+		<a *appNavtab routerLink="/first">First</a>
+		<a *appNavtab href="/second">Second</a>
+		<a *appNavtab routerLink="/third">Third</a>
 	`,
 })
 class HostComponent {
-	@ContentChildren(NavtabDirective, { descendants: true }) public readonly tabs: QueryList<NavtabDirective>;
+	@ViewChildren(NavtabDirective, { read: ElementRef }) public readonly tabs: QueryList<ElementRef<NavtabDirective>>;
 }
 
 describe("NavtabDirective", () => {
 	let fixture: Readonly<ComponentFixture<HostComponent>>;
-	let tabs: Readonly<DebugElement[]>;
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
-			imports: [
-				HostComponent,
-				NavtabDirective,
-			],
-			providers: [ SplashStateService ],
+			imports: [ HostComponent ],
+			providers: [],
 		});
 		fixture = TestBed.createComponent(HostComponent);
 		fixture.detectChanges();
 	});
 
 	it("should route to link on click", () => {
-		tabs = fixture.debugElement.queryAll(By.directive(NavtabDirective));
-		expect(tabs[0]?.nativeElement).toEqual(1);
+		const tabList = fixture.componentInstance.tabs.toArray();
+		expect(tabList.length).toEqual(3);
 	});
 });

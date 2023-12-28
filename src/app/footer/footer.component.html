@@ -2,9 +2,7 @@
   <div id="brand">
     <div>
       <img i18n-alt alt="logo" src="/assets/images/icons/passeriform.svg" />
-      <p>
-        PASSERIFORM
-      </p>
+      <p>PASSERIFORM</p>
     </div>
     <app-social-glyphs *ngIf="socialEntries$ | async as socialEntries" [invert]="true" [model]="socialEntries"></app-social-glyphs>
     <div>
@@ -16,9 +14,7 @@
     <div class="section" id="navigator">
       <h3>NAVIGATE</h3>
       <div>
-        <ng-container *ngFor="let work of workEntries$ | async">
-          <a class="quick-links" routerLink="{{ work.route }}">{{ work.title }}</a>
-        </ng-container>
+        <a *ngFor="let work of workEntries$ | async" class="quick-links" routerLink="{{ work.route }}">{{ work.title }}</a>
         <div id="navigation-separator"></div>
         <a routerLink="/explore">Explore</a>
         <a routerLink="/trickle">Trickle Explore</a>
@@ -28,9 +24,7 @@
     <div class="section" id="about">
       <h3>ABOUT US</h3>
       <div>
-        <ng-container *ngFor="let entity of aboutEntries$ | async">
-          <a routerLink="{{ entity.route }}">{{ entity.title }}</a>
-        </ng-container>
+        <a *ngFor="let entity of aboutEntries$ | async" routerLink="{{ entity.route }}">{{ entity.title }}</a>
       </div>
     </div>
     <div class="section" id="legal">
