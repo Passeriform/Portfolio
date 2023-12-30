@@ -1,8 +1,6 @@
 import { Component } from "@angular/core";
-import { FormsModule } from "@angular/forms";
 
 @Component({
-	imports: [ FormsModule ],
 	selector: "app-contact-form",
 	standalone: true,
 	styleUrls: [ "./contact-form.component.scss" ],

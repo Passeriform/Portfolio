@@ -3,11 +3,9 @@ import { TestBed } from "@angular/core/testing";
 
 import { of } from "rxjs";
 
-import type { Taggable } from "@utility/tags";
-
 import { DynamicSearchComponent } from "./dynamic-search.component";
 
-type Model = Required<Taggable>;
+type Model = Readonly<{ tags: readonly string[] }>;
 
 describe("DynamicSearchComponent", () => {
 	let component: Readonly<DynamicSearchComponent<Model>>;

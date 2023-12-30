@@ -94,11 +94,7 @@ export class ShowcaseComponent implements OnInit {
 	}
 
 	public setTransform(updatedModel: readonly WorkModel[]): void {
-		const modelTransform = (model: readonly WorkModel[]) => model.filter(
-			(entry) => updatedModel.some(
-				(updatedEntry) => entry.slug === updatedEntry.slug,
-			),
-		);
+		const modelTransform = (_: readonly WorkModel[]): readonly WorkModel[] => updatedModel;
 
 		this.workService.setTransform(modelTransform);
 	}

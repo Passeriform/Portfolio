@@ -1,8 +1,4 @@
-export type Taggable = {
-	tags?: readonly string[];
-};
-
-export type TagTransform<T extends Taggable> = (entry: T) => NonNullable<T["tags"]>;
+export type TagTransform<T extends { tags: readonly string[] }> = (entry: T) => NonNullable<T["tags"]>;
 
 export const nonKeywords: readonly string[] = [
 	"a",
@@ -43,14 +39,14 @@ export const filterNonKeywords = (words: readonly string[]): readonly string[] =
 );
 
 // TODO: Consider converting to sets for uniqueness
-export const populateTags = <T extends Taggable>(
+export const populateTags = <T extends { tags: readonly string[] }>(
 	modelCollection: readonly T[],
-	strategy: TagTransform<T> = (model: T) => model.tags ?? [],
+	strategy: TagTransform<T> = (model: T) => model.tags,
 ): readonly T[] => modelCollection.map(
 	(model: T) => ({
 		...model,
 		tags: [
-			...model.tags ?? [],
+			...model.tags,
 			...strategy(model),
 		],
 	}),

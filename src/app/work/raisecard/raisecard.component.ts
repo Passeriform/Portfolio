@@ -1,10 +1,11 @@
-import { NgClass, NgIf } from "@angular/common";
+import { NgClass, NgIf, TitleCasePipe } from "@angular/common";
 import { Component, Input } from "@angular/core";
 
 @Component({
 	imports: [
 		NgClass,
 		NgIf,
+		TitleCasePipe,
 	],
 	selector: "app-raisecard",
 	standalone: true,

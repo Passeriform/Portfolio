@@ -3,6 +3,5 @@
     name="filter"
     placeholder="Filter by keywords...."
     type="text"
-    (ngModelChange)="updateModel()"
-    [(ngModel)]="searchText"
+    (input)="onChange($event)"
   />

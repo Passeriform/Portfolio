@@ -1,6 +1,7 @@
 <div class="content">
 	<app-dynamic-search
 			[model]="(model$ | async) ?? []"
+      [searchPaths]="[ 'brief', 'frameworks', 'languages', 'license', 'subtitle', 'tags', 'title', 'tools', 'type' ]"
 			[resetTrigger$]="searchResetState$"
 			(propagate)="setTransform($event)"
 		>

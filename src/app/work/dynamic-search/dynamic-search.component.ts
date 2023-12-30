@@ -1,29 +1,27 @@
 import { Component, EventEmitter, HostListener, Input, Output } from "@angular/core";
-import type { AfterViewInit } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import type { AfterViewInit, OnChanges, SimpleChanges } from "@angular/core";
+import Fuse from "fuse.js";
 
 import { Observable } from "rxjs";
 
-import { scoreWord } from "@utility/fuzzy";
 import { stopClickPropagation } from "@utility/events";
-import type{ Taggable } from "@utility/tags";
 
-import { Constants } from "./dynamic-search.config";
-import type { RankedEntry } from "./dynamic-search.interface";
+import { SearchOptions } from "./dynamic-search.config";
 
 @Component({
-	imports: [ FormsModule ],
 	selector: "app-dynamic-search",
 	standalone: true,
 	styleUrls: [ "./dynamic-search.component.scss" ],
 	templateUrl: "./dynamic-search.component.html",
 })
-export class DynamicSearchComponent<T extends Required<Taggable>> implements AfterViewInit {
-	public searchText = "";
+export class DynamicSearchComponent<T extends { tags: readonly string[] }> implements AfterViewInit, OnChanges {
+	private fuse: Fuse<T>;
 
 	@Input() public model: readonly T[];
-	@Input() public readonly matchThreshold: number = Constants.MATCH_THRESHOLD;
-	@Input() public readonly minimumSearchLength: number = Constants.MINIMUM_SEARCH_LENGTH;
+	// TODO: Pass keys from outside instead of populating tags internally.
+	@Input() public searchPaths: readonly string[] = [ "tags" ];
+	// @Input() public readonly matchThreshold: number = Constants.MATCH_THRESHOLD;
+	@Input() public readonly minimumSearchLength: number = 0;
 	@Input() public readonly resetTrigger$: Observable<void>;
 
 	@Output() public readonly propagate: EventEmitter<readonly T[]> = new EventEmitter<readonly T[]>();
@@ -34,34 +32,33 @@ export class DynamicSearchComponent<T extends Required<Taggable>> implements Aft
 
 	ngAfterViewInit() {
 		this.resetTrigger$.subscribe(() => {
-			this.searchText = "";
-			this.updateModel();
+			this.propagate.emit(this.model);
 		});
 	}
 
-	public updateModel(): void {
-		const rankedModel = this.model
-			.map((entry: T): RankedEntry<T> => ({
-				...entry,
-				score: entry.tags
-					.map((word: string) => scoreWord(word, this.searchText))
-					.reduce((minScore: number, currentScore: number) => Math.max(minScore, currentScore)),
-			}))
-			.filter(
-				(entry: RankedEntry<T>): boolean => this.searchText.length <= this.minimumSearchLength
-					|| entry.score > this.matchThreshold,
-			)
-			.sort(
-				(first: RankedEntry<T>, second: RankedEntry<T>): number => (first.score > second.score && Number.MIN_SAFE_INTEGER)
-					|| (first.score < second.score && Number.MAX_SAFE_INTEGER)
-					/* eslint-disable-next-line no-magic-numbers */
-					|| 0,
-			)
-			.map((entry: RankedEntry<T>): T => {
-				const { score, ...pluckedModel } = entry;
+	ngOnChanges(changes: SimpleChanges): void {
+		if (changes.model) {
+			this.fuse = new Fuse(
+				changes.model.currentValue as unknown as T[],
+				{ ...SearchOptions, keys: this.searchPaths as string[] },
+			);
+		}
+	}
 
-				return pluckedModel as unknown as T;
-			});
+	public onChange(event: Event): void {
+		this.rankModel((event.target as HTMLInputElement).value);
+	}
+
+	public rankModel(searchText: string): void {
+		if (searchText.length === 0 || searchText.length < this.minimumSearchLength) {
+			this.propagate.emit(this.model);
+
+			return;
+		}
+
+		const rankedModel = this.fuse
+			.search(searchText)
+			.map(({ item }) => item);
 
 		this.propagate.emit(rankedModel);
 	}

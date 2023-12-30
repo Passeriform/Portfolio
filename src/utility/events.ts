@@ -13,7 +13,7 @@ export const fromMotionEvent = (
 		element: Readonly<HTMLElement>,
 		orientation: Orientation,
 ): Readonly<Observable<number>> => merge(
-	fromEvent<TouchEvent>(element, "touchmove").pipe(
+	fromEvent<TouchEvent>(element, "touchmove", { capture: true }).pipe(
 		pluck("touches"),
 		map(([ touch ]: TouchList) => touch),
 		map(
@@ -33,7 +33,8 @@ export const fromMotionEvent = (
 		),
 		repeat(),
 	),
-	fromEvent<WheelEvent>(element, "wheel").pipe(
+  // TODO: Make sure wheel event works in case of nested scrollable use-case like showcase.
+	fromEvent<WheelEvent>(element, "wheel", { capture: true }).pipe(
 		pluck(orientation === Orientation.HORIZONTAL ? "deltaX" : "deltaY"),
 		map((shiftAmt) => shiftAmt / SCROLL_SCALING_FACTOR),
 	),
