@@ -5,7 +5,7 @@
 		[pageResetTrigger$]="scrollResetState$"
 		[throttle]="500"
 		[showPageNav]="true"
-    [customScrollElement]="document"
+		[customScrollElement]="{ nativeElement: document }"
 	>
 	<ng-container *ngIf="selectedModel$ | async as selectedModel; else modelPlaceholder">
 		<div class="page" id="description" #page>
@@ -53,7 +53,7 @@
 			</div>
 			<div class="content" id="placeholder-content">
 				<h1>
-          <!-- TODO: Use ::first-letter pseudo to get the effect -->
+					<!-- TODO: Use ::first-letter pseudo to get the effect -->
 					<span>P</span>roject
 					<br />
 					<span>E</span>xplorer.

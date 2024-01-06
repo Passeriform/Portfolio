@@ -18,19 +18,19 @@ describe("PageRevealService", () => {
 		expect(service).toBeTruthy();
 	});
 
-	it("should set page reveal elements", (done: DoneFn) => {
+	it("should set page reveal elements", (done: Readonly<DoneFn>) => {
 		const startRevealElement = document.createElement("div");
 		const endRevealElement = document.createElement("div");
 
-		service.setStartRevealElement(startRevealElement);
-		service.setEndRevealElement(endRevealElement);
+		service.setStartRevealElement({ nativeElement: startRevealElement });
+		service.setEndRevealElement({ nativeElement: endRevealElement });
 
 		zip(
 			service.startRevealElement$,
 			service.endRevealElement$,
 		).subscribe(([startElement, endElement]) => {
-			expect(startElement).toEqual(startRevealElement);
-			expect(endElement).toEqual(endRevealElement);
+			expect(startElement).toEqual({ nativeElement: startRevealElement });
+			expect(endElement).toEqual({ nativeElement: endRevealElement });
 			done();
 		});
 	});

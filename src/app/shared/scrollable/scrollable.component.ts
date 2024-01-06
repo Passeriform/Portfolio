@@ -46,9 +46,9 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	@Input() private readonly throttle: number = Constants.THROTTLE_DEFAULT;
 	@Input() private readonly allowStartReveal: boolean = false;
 	@Input() private readonly allowEndReveal: boolean = false;
-	@Input() private readonly customScrollElement: HTMLElement;
-	@Input() private startRevealElement: HTMLElement | undefined;
-	@Input() private endRevealElement: HTMLElement | undefined;
+	@Input() private readonly customScrollElement: ElementRef<HTMLElement>;
+	@Input() private startRevealElement: ElementRef<HTMLElement> | undefined;
+	@Input() private endRevealElement: ElementRef<HTMLElement> | undefined;
 	@Input() public readonly orientation: Orientation = Constants.ORIENTATION_DEFAULT;
 	@Input() public readonly showPageNav: boolean = false;
 	@Input() public delta: number = Constants.DELTA_DEFAULT;
@@ -92,8 +92,8 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		const windowHeight: number = document.documentElement.clientHeight;
 
 		return this.startReveal
-			? `${Math.min(this.startRevealElement?.clientHeight ?? 0, windowHeight)}px`
-			: `-${Math.min(this.endRevealElement?.clientHeight ?? 0, windowHeight)}px`;
+			? `${Math.min(this.startRevealElement?.nativeElement.clientHeight ?? 0, windowHeight)}px`
+			: `-${Math.min(this.endRevealElement?.nativeElement.clientHeight ?? 0, windowHeight)}px`;
 	}
 
 	@HostBinding("style.margin-left")
@@ -105,8 +105,8 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		const windowWidth: number = document.documentElement.clientWidth;
 
 		return this.startReveal
-			? `${Math.min(this.startRevealElement?.clientWidth ?? 0, windowWidth)}px`
-			: `-${Math.min(this.endRevealElement?.clientWidth ?? 0, windowWidth)}px`;
+			? `${Math.min(this.startRevealElement?.nativeElement.clientWidth ?? 0, windowWidth)}px`
+			: `-${Math.min(this.endRevealElement?.nativeElement.clientWidth ?? 0, windowWidth)}px`;
 	}
 
 	constructor(
@@ -174,15 +174,13 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	}
 
 	private computeMaxScrollSize(): void {
-		const childSizes: number[] = this.items.toArray().map(
-			(elementReference: ElementRef<HTMLElement>) => this.getViewSize(elementReference.nativeElement),
-		);
+		const childSizes: number[] = this.items.toArray().map(this.getViewSize);
 		this.maxScrollableSize = childSizes.slice(0, -1).reduce((accumulator: number, current: number) => accumulator + current, 0);
 	}
 
 	private computeDeltaIfFullpage(): void {
 		if (this.fullpage && this.items.length) {
-			this.delta = this.getViewSize(this.items.first.nativeElement);
+			this.delta = this.getViewSize(this.items.first);
 		}
 	}
 
@@ -191,17 +189,17 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		this.changeDetector.detectChanges();
 	}
 
-	private readonly getViewSize = (element: HTMLElement): number => element[
+	private readonly getViewSize = (element: ElementRef<HTMLElement>): number => element.nativeElement[
 		`${
 			this.nestedScroll ? "client" : "offset"
 		}${
 			this.orientation === Orientation.HORIZONTAL ? "Width" : "Height"
 		}`
 	]
-		+ Number.parseFloat(getComputedStyle(element).getPropertyValue(
+		+ Number.parseFloat(getComputedStyle(element.nativeElement).getPropertyValue(
 			this.orientation === Orientation.HORIZONTAL ? "margin-left" : "margin-top",
 		))
-		+ Number.parseFloat(getComputedStyle(element).getPropertyValue(
+		+ Number.parseFloat(getComputedStyle(element.nativeElement).getPropertyValue(
 			this.orientation === Orientation.HORIZONTAL ? "margin-right" : "margin-bottom",
 		));
 
@@ -209,9 +207,9 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		let pageElement: HTMLElement | undefined;
 
 		if (this.startReveal) {
-			pageElement = this.startRevealElement?.firstChild as HTMLElement;
+			pageElement = this.startRevealElement?.nativeElement.firstChild as HTMLElement;
 		} else if (this.endReveal) {
-			pageElement = this.endRevealElement?.firstChild as HTMLElement;
+			pageElement = this.endRevealElement?.nativeElement.firstChild as HTMLElement;
 		} else {
 			pageElement = this.items.toArray()[this.pageIndex]?.nativeElement;
 		}
@@ -237,12 +235,12 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 
 	private subscribeShiftStream$(): void {
 		const shiftStream$ = merge(
-			fromMotionEvent(this.customScrollElement ?? this.hostElement.nativeElement, this.orientation),
-			this.allowStartReveal && this.startRevealElement?.firstChild
-				? fromMotionEvent(this.startRevealElement.firstChild as HTMLElement, this.orientation)
+			fromMotionEvent(this.customScrollElement?.nativeElement ?? this.hostElement.nativeElement, this.orientation),
+			this.allowStartReveal && this.startRevealElement?.nativeElement.firstChild
+				? fromMotionEvent(this.startRevealElement.nativeElement.firstChild as HTMLElement, this.orientation)
 				: NEVER,
-			this.allowEndReveal && this.endRevealElement?.firstChild
-				? fromMotionEvent(this.endRevealElement.firstChild as HTMLElement, this.orientation)
+			this.allowEndReveal && this.endRevealElement?.nativeElement.firstChild
+				? fromMotionEvent(this.endRevealElement.nativeElement.firstChild as HTMLElement, this.orientation)
 				: NEVER,
 		).pipe(
 			this.threshold ? filter((difference: number) => Math.abs(difference) >= Math.abs(this.threshold)) : identity,
@@ -292,11 +290,11 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 			this.pageReset();
 		});
 
-		this.pageRevealService.startRevealElement$.subscribe((startRevealElement: HTMLElement) => {
+		this.pageRevealService.startRevealElement$.subscribe((startRevealElement: ElementRef<HTMLElement>) => {
 			this.startRevealElement = startRevealElement;
 		});
 
-		this.pageRevealService.endRevealElement$.subscribe((endRevealElement: HTMLElement) => {
+		this.pageRevealService.endRevealElement$.subscribe((endRevealElement: ElementRef<HTMLElement>) => {
 			this.endRevealElement = endRevealElement;
 		});
 

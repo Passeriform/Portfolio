@@ -51,7 +51,7 @@ export class FooterComponent {
 			private readonly footerService: FooterService,
 	) {
 		// TODO: Move this setting logic to app.ts
-		this.pageRevealService.setEndRevealElement(footerElement.nativeElement);
+		this.pageRevealService.setEndRevealElement(footerElement);
 		this.footerService.refreshLinks({
 			aboutCount: this.aboutCount,
 			socialCount: this.socialCount,

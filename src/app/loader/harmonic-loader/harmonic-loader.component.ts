@@ -3,7 +3,7 @@
 // TODO: Required a huge makeover (canvas-style animations do not mesh well with Angular-style ones)
 
 import type { AfterViewInit } from "@angular/core";
-import { ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild } from "@angular/core";
+import { Component, ElementRef, HostListener, ViewChild } from "@angular/core";
 
 import { CanvasService } from "@core/services/canvas.service";
 
