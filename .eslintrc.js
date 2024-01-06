@@ -188,13 +188,11 @@ module.exports = {
 					"argsIgnorePattern": "^_$"
 				}],
         "@typescript-eslint/strict-boolean-expressions": "off",
-				"@typescript-eslint/space-before-function-paren": ["error",
-					{
-						"anonymous": "always",
-						"asyncArrow": "always",
-						"named": "never"
-					}
-				],
+				"@typescript-eslint/space-before-function-paren": ["error", {
+          "anonymous": "always",
+          "asyncArrow": "always",
+          "named": "never"
+        }],
 				"@typescript-eslint/indent": ["error", "tab",
 					{
 						"SwitchCase": 1,
@@ -223,69 +221,61 @@ module.exports = {
 						}
 					}
 				],
-				"@typescript-eslint/member-ordering": ["error",
-					{
-						"default": {
-							"memberTypes": [
-								// Fields
-								"private-static-field",
-								"protected-static-field",
-								"public-static-field",
+				"@typescript-eslint/member-ordering": ["error", {
+          "default": {
+            "memberTypes": [
+              // Fields
+              "private-static-field",
+              "protected-static-field",
+              "public-static-field",
 
-								"protected-abstract-field",
-								"public-abstract-field",
+              "protected-abstract-field",
+              "public-abstract-field",
 
-								"private-instance-field",
-								"protected-instance-field",
-								"public-instance-field",
+              "private-instance-field",
+              "protected-instance-field",
+              "public-instance-field",
 
-								"private-decorated-field",
-								"protected-decorated-field",
-								"public-decorated-field",
+              "private-decorated-field",
+              "protected-decorated-field",
+              "public-decorated-field",
 
-								"private-decorated-method",
-								"protected-decorated-method",
-								"public-decorated-method",
+              "private-decorated-method",
+              "protected-decorated-method",
+              "public-decorated-method",
 
-								"private-static-method",
-								"protected-static-method",
-								"public-static-method",
+              "private-static-method",
+              "protected-static-method",
+              "public-static-method",
 
-								"protected-abstract-method",
-								"public-abstract-method",
+              "protected-abstract-method",
+              "public-abstract-method",
 
-								// Constructors
-								"constructor",
+              // Constructors
+              "constructor",
 
-								// Helper Methods
-								"private-instance-method",
-								"protected-instance-method",
-								"public-instance-method",
-							],
-							"order": "natural-case-insensitive",
-						}
-					},
-				],
-				"@typescript-eslint/naming-convention": ["error",
-					{
-						"selector": "enumMember",
-						"format": ["camelCase", "UPPER_CASE"]
-					},
-				],
-				"@typescript-eslint/no-empty-function": ["error",
-					{
-						"allow": [
-							"constructors",
-							// Allow lifecycle methods as well somehow
-						]
-					}
-				],
+              // Helper Methods
+              "private-instance-method",
+              "protected-instance-method",
+              "public-instance-method",
+            ],
+            "order": "natural-case-insensitive",
+          }
+        }],
+				"@typescript-eslint/naming-convention": ["error", {
+          "selector": "enumMember",
+          "format": ["camelCase", "UPPER_CASE"]
+        }],
+				"@typescript-eslint/no-empty-function": ["error", {
+          "allow": [
+            "constructors",
+            // Allow lifecycle methods as well somehow
+          ]
+        }],
 				"@typescript-eslint/no-explicit-any": "error",
-				"@typescript-eslint/no-extraneous-class": ["error",
-					{
-						"allowWithDecorator": true
-					}
-				],
+				"@typescript-eslint/no-extraneous-class": ["error", {
+          "allowWithDecorator": true
+        }],
 				// TODO: Allow magic numbers in all `*.config.ts` as config
 				"@typescript-eslint/no-magic-numbers": ["error", {
 					"ignore": [
@@ -326,42 +316,40 @@ module.exports = {
 				],
 
 				// @typescript-eslint/tslint or eslint-plugin-tslint
-				"@typescript-eslint/tslint/config": ["error",
-					{
-						"rules": {
-							"no-inferred-empty-object-type": true,
-							"no-null-undefined-union": true,
-							"no-promise-as-boolean": true,
-							"no-restricted-globals": true,
-							"number-literal-format": true,
-							"prefer-method-signature": true,
-							"prefer-while": true,
-							"return-undefined": true,
-							"static-this": true,
-							"strict-type-predicates": true,
-							"unnecessary-else": [
-								true,
-								{
-									"allow-else-if": true
-								}
-							],
-							"whitespace": [
-								true,
-								"check-branch",
-								"check-decl",
-								"check-operator",
-								"check-separator",
-								"check-rest-spread",
-								"check-module",
-								"check-type",
-								"check-type-operator",
-								"check-typecast",
-								"check-preblock",
-								"check-postbrace"
-							]
-						}
-					}
-				],
+				"@typescript-eslint/tslint/config": ["error", {
+          "rules": {
+            "no-inferred-empty-object-type": true,
+            "no-null-undefined-union": true,
+            "no-promise-as-boolean": true,
+            "no-restricted-globals": true,
+            "number-literal-format": true,
+            "prefer-method-signature": true,
+            "prefer-while": true,
+            "return-undefined": true,
+            "static-this": true,
+            "strict-type-predicates": true,
+            "unnecessary-else": [
+              true,
+              {
+                "allow-else-if": true
+              }
+            ],
+            "whitespace": [
+              true,
+              "check-branch",
+              "check-decl",
+              "check-operator",
+              "check-separator",
+              "check-rest-spread",
+              "check-module",
+              "check-type",
+              "check-type-operator",
+              "check-typecast",
+              "check-preblock",
+              "check-postbrace"
+            ]
+          }
+        }],
 
 				// Override eslint-plugin-import
 				"import/exports-last": "error",
@@ -505,26 +493,23 @@ module.exports = {
 				"no-null/no-null": "error",
 
 				// eslint-plugin-prefer-arrow
-				"prefer-arrow/prefer-arrow-functions": ["error",
-					{
-						"disallowPrototype": true,
-						"singleReturnOnly": false,
-						"classPropertiesAllowed": false
-					},
-				],
+				"prefer-arrow/prefer-arrow-functions": ["error", {
+          "disallowPrototype": true,
+          "singleReturnOnly": false,
+          "classPropertiesAllowed": false
+        }],
 
 				// Override eslint-plugin-unicorn
 				"unicorn/empty-brace-spaces": "off",
 				"unicorn/explicit-length-check": "off",
 				"unicorn/custom-error-definition": "error",
 				"unicorn/import-index": "error",
-				"unicorn/prevent-abbreviations": ["error",
-				{
-					"allowList": {
-						"dev": true,
-						"prod": true,
-						"e2e": true,
-					}
+				"unicorn/prevent-abbreviations": ["error", {
+          "allowList": {
+            "dev": true,
+            "prod": true,
+            "e2e": true,
+          }
 				}],
 				"unicorn/prefer-at": "error",
 				"unicorn/prefer-module": "error",
@@ -538,24 +523,25 @@ module.exports = {
 				"unicorn/no-nested-ternary": "error",
 				"unicorn/no-unsafe-regex": "error",
 				"unicorn/no-unused-properties": "error",
-				"unicorn/string-content": ["error",
-					{
-						"patterns": {
-							"'": {
-								"suggest": "’",
-								"message": "Please use `’` instead of `'` for message apostrophe.",
-								"fix": false
-							},
-							"\\.\\.\\.": "…",
-							"\-\>": "→",
-							"\<\-": "→",
-							"\=\>": "←",
-							"\<\=": "⇐",
-							"\<\=\>": "⇔",
-							"^http:\\/\\/": "^https:\\/\\/"
-						}
-					}
-				],
+				"unicorn/no-useless-undefined": ["error", {
+          "checkArguments": false
+        }],
+				"unicorn/string-content": ["error", {
+          "patterns": {
+            "'": {
+              "suggest": "’",
+              "message": "Please use `’` instead of `'` for message apostrophe.",
+              "fix": false
+            },
+            "\\.\\.\\.": "…",
+            "\-\>": "→",
+            "\<\-": "→",
+            "\=\>": "←",
+            "\<\=": "⇐",
+            "\<\=\>": "⇔",
+            "^http:\\/\\/": "^https:\\/\\/"
+          }
+        }],
 
 				// Override eslint-plugin-max-params-no-constructor
 				"max-params-no-constructor/max-params-no-constructor": ["error", 6],
