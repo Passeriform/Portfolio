@@ -1,6 +1,6 @@
 import { NgClass, NgIf, NgTemplateOutlet } from "@angular/common";
 import type { OnDestroy, TemplateRef } from "@angular/core";
-import { Component, ElementRef, HostBinding, HostListener, Input } from "@angular/core";
+import { Component, ElementRef, HostBinding, HostListener, Input, Renderer2 } from "@angular/core";
 
 import { Position } from "@shared/models/cardinals.interface";
 
@@ -62,6 +62,7 @@ export class TooltipComponent implements OnDestroy {
 	constructor(
 			private readonly hostElement: ElementRef<HTMLElement>,
 			private readonly tooltipService: TooltipService,
+			private readonly renderer: Renderer2,
 	) {
 		this.tooltipService.templateConfigState$.subscribe((config: TooltipTemplateConfig) => {
 			const { contentPadding, corner, invert, left, position, show, template, top } = config;
@@ -71,8 +72,8 @@ export class TooltipComponent implements OnDestroy {
 			this.tooltipTemplate = template;
 			this.hoveringTrigger = show;
 
-			this.hostElement.nativeElement.style.setProperty("--tooltip-top", `${top}px`);
-			this.hostElement.nativeElement.style.setProperty("--tooltip-left", `${left}px`);
+			this.renderer.setProperty(this.hostElement.nativeElement, "style", `--tooltip-top: ${top}px`);
+			this.renderer.setProperty(this.hostElement.nativeElement, "style", `--tooltip-left: ${left}px`);
 		});
 	}
 

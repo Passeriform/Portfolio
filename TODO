@@ -30,7 +30,6 @@ Huge Refactors
   ☐ Find alternative replacement for ng-deep selectors using typescript instead.
   ☐ Add CodeViewComponent like github gist viewer
   ☐ Add sitemap-explorer component
-  ☐ Convert from DOM manipulation to renderer2
   ☐ Add `ClassifyComponent` like `ExploreComponent` to show projects category-wise
   	☐ Each layer on classify must function like a tree and a small tree traverser component to be used as navigator
   ☐ Expose methods in ng-content of ScrollableComponent to enable controlling scrollable behavior

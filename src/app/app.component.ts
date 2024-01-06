@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener } from "@angular/core";
+import { Component, ElementRef, HostListener, Renderer2 } from "@angular/core";
 import { RouterLink, RouterOutlet } from "@angular/router";
 
 import { EnvironmentPipe } from "@shared/pipes/environment.pipe";
@@ -40,18 +40,19 @@ export class AppComponent {
 
 	public readonly title = "Passeriform";
 
-	// TODO: Use HostElement ref instead of document
 	/// Fix for dynamic viewport height in mobile browser
 	@HostListener("document:resize", [ "$event" ])
 	public onDocumentResize(): void {
-		this.hostElement.nativeElement.style.setProperty(
-			"--apparent-viewport-height",
-			`${window.innerHeight}px`,
+		this.renderer.setProperty(
+			this.hostElement.nativeElement,
+			"style",
+			`--apparent-viewport-height: ${window.innerHeight}px`,
 		);
 	}
 
 	constructor(
 			private readonly hostElement: ElementRef<HTMLElement>,
+			private readonly renderer: Renderer2,
 			// private loaderService: LoaderService
 	) { }
 

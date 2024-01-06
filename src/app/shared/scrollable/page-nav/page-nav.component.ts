@@ -1,6 +1,6 @@
 import { NgFor } from "@angular/common";
 import type { AfterViewInit, OnChanges } from "@angular/core";
-import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, QueryList } from "@angular/core";
+import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, QueryList, Renderer2 } from "@angular/core";
 
 import { Position } from "@shared/models/cardinals.interface";
 
@@ -72,15 +72,26 @@ export class PageNavComponent implements AfterViewInit, OnChanges {
 
 	@Output() public readonly setActivePage: EventEmitter<number> = new EventEmitter<number>();
 
-	constructor(private readonly elementReference: ElementRef<HTMLElement>) { }
+	constructor(
+			private readonly elementReference: ElementRef<HTMLElement>,
+			private readonly renderer: Renderer2,
+	) { }
 
 	private updateTravelerPosition(index: number): void {
-		this.elementReference.nativeElement.style.setProperty("--traveler-offset", `${index}`);
+		this.renderer.setProperty(
+			this.elementReference.nativeElement,
+			"style",
+			`--traveler-offset: ${index}`,
+		);
 	}
 
 	ngOnChanges(changes: PageNavChanges) {
 		if (changes.items) {
-			this.elementReference.nativeElement.style.setProperty("--item-step-count", `${this.items.length}`);
+			this.renderer.setProperty(
+				this.elementReference.nativeElement,
+				"style",
+				`--item-step-count: ${this.items.length}`,
+			);
 		}
 
 		if (Boolean(changes.activePage)) {

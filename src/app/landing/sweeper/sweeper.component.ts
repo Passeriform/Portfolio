@@ -1,5 +1,5 @@
 import type { AfterContentInit } from "@angular/core";
-import { Component, ContentChildren, ElementRef, HostListener, Input, QueryList, ViewChild } from "@angular/core";
+import { Component, ContentChildren, ElementRef, HostListener, Input, QueryList, Renderer2, ViewChild } from "@angular/core";
 
 import { filter, interval } from "rxjs";
 
@@ -27,10 +27,14 @@ export class SweeperComponent implements AfterContentInit {
 		this.recalculateAccentWidth();
 	}
 
-	constructor(private readonly hostElement: ElementRef<HTMLElement>) { }
+	constructor(
+			private readonly hostElement: ElementRef<HTMLElement>,
+			private readonly renderer: Renderer2,
+	) { }
 
 	public cycleNext(): void {
-		this.sweepContainer.nativeElement.style.setProperty(
+		this.renderer.setStyle(
+			this.sweepContainer.nativeElement,
 			"transform",
 			`translateY(-${(this.inViewIndex / this.swipeList.length) * 100}%)`,
 		);
@@ -41,9 +45,12 @@ export class SweeperComponent implements AfterContentInit {
 		const leadingWidth = this.leadingSpan.nativeElement.getBoundingClientRect().width;
 
 		if (textWidth) {
-			this.hostElement.nativeElement.style.setProperty(
-				"--sweeper-highlight-text-scaling",
-				`${Constants.HIGHLIGHT_PADDING_FACTOR * (textWidth + leadingWidth) / 100}`,
+			this.renderer.setProperty(
+				this.hostElement.nativeElement,
+				"style",
+				`--sweeper-highlight-text-scaling: ${
+					Constants.HIGHLIGHT_PADDING_FACTOR * (textWidth + leadingWidth) / 100
+				}`,
 			);
 		}
 	}
