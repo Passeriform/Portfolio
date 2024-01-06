@@ -2,7 +2,7 @@
 	position: relative;
 	display: block;
 	// TODO: Move transition duration and method to globals
-	transition: margin 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+	transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 
 	div.scroll-content {
 		// TODO: Add all position and display props everywhere, then extract into a modifier mixin

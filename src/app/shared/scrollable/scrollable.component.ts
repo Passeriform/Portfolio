@@ -1,8 +1,8 @@
 import { NgIf } from "@angular/common";
 import type { AfterContentInit, AfterViewInit } from "@angular/core";
 import {
-	ChangeDetectorRef, Component, ContentChildren, ElementRef, EventEmitter, HostBinding,
-	HostListener, Input, Output, QueryList,
+	ChangeDetectorRef, Component, ContentChildren, ElementRef, EventEmitter,
+	HostBinding, HostListener, Input, Output, QueryList,
 } from "@angular/core";
 
 import { NEVER, Observable, identity, merge } from "rxjs";
@@ -83,30 +83,17 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		return this.orientation === Orientation.VERTICAL && this.fullpage ? "var(--apparent-viewport-height, 100vh)" : "100%";
 	}
 
-	@HostBinding("style.margin-top")
+	@HostBinding("style.transform")
 	public get top(): string {
-		if (this.orientation === Orientation.HORIZONTAL || !(this.startReveal || this.endReveal)) {
-			return "0px";
+		if (!this.startReveal && !this.endReveal) {
+			return "translate(0)";
 		}
 
-		const windowHeight: number = document.documentElement.clientHeight;
+		const operation = this.orientation === Orientation.HORIZONTAL ? "translateX" : "translateY";
+		const elementDimension = (this.startReveal ? this.startRevealElement : this.endRevealElement)?.nativeElement.getBoundingClientRect()[this.orientation === Orientation.HORIZONTAL ? "width" : "height"] ?? 0;
+		const hostDimension = this.hostElement.nativeElement.getBoundingClientRect()[this.orientation === Orientation.HORIZONTAL ? "width" : "height"];
 
-		return this.startReveal
-			? `${Math.min(this.startRevealElement?.nativeElement.clientHeight ?? 0, windowHeight)}px`
-			: `-${Math.min(this.endRevealElement?.nativeElement.clientHeight ?? 0, windowHeight)}px`;
-	}
-
-	@HostBinding("style.margin-left")
-	public get left(): string {
-		if (this.orientation === Orientation.VERTICAL || !(this.startReveal || this.endReveal)) {
-			return "0px";
-		}
-
-		const windowWidth: number = document.documentElement.clientWidth;
-
-		return this.startReveal
-			? `${Math.min(this.startRevealElement?.nativeElement.clientWidth ?? 0, windowWidth)}px`
-			: `-${Math.min(this.endRevealElement?.nativeElement.clientWidth ?? 0, windowWidth)}px`;
+		return `${operation}(${(this.startReveal ? 1 : -1) * Math.min(elementDimension, hostDimension)}px)`;
 	}
 
 	constructor(
@@ -185,7 +172,15 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	}
 
 	private computeTravelFactor(): void {
-		this.pageNavTravelFactor = this.delta / ((this.items.length - 1) * (this.items.get(0)?.nativeElement.clientWidth ?? 0));
+		this.pageNavTravelFactor = this.delta / (
+			(this.items.length - 1) * (
+				this.items.get(0)?.nativeElement.getBoundingClientRect()[
+					this.orientation === Orientation.HORIZONTAL
+						? "width"
+						: "height"
+				] ?? 0
+			)
+		);
 		this.changeDetector.detectChanges();
 	}
 
