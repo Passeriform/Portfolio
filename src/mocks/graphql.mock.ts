@@ -57,7 +57,11 @@ export const workGQLModelMock: Readonly<NonNullable<GetAllWorkQuery["workCollect
 		logo: "",
 		repository: "",
 		subtitle: "Product 1 - Subtitle",
-		tags: [],
+		tags: [
+			"tag1a",
+			"tag1b",
+			"tag1c",
+		],
 		tools: [],
 		type: "PRODUCT",
 		/* eslint-disable camelcase */
@@ -80,7 +84,11 @@ export const workGQLModelMock: Readonly<NonNullable<GetAllWorkQuery["workCollect
 		logo: "",
 		repository: "",
 		subtitle: "Project 1 - Subtitle",
-		tags: [],
+		tags: [
+			"tag2a",
+			"tag2b",
+			"tag2c",
+		],
 		tools: [],
 		type: "PROJECT",
 		/* eslint-disable camelcase */
@@ -94,31 +102,9 @@ export const expectedModel: readonly WorkModel[] = [
 	{
 		...workGQLModelMock[0],
 		assets: [],
-		tags: [
-			"1",
-			"angular",
-			"brief",
-			"free",
-			"product",
-			"subtitle",
-			"title",
-			"typescript",
-		],
 	},
 	{
 		...workGQLModelMock[1],
 		assets: [],
-		tags: [
-			"1",
-			"brief",
-			"free",
-			"gpl",
-			"javascript",
-			"project",
-			"react",
-			"subtitle",
-			"title",
-			"typescript",
-		],
 	},
 ] as WorkModel[];
