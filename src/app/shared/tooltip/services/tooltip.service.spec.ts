@@ -17,7 +17,7 @@ describe("TooltipService", () => {
 	});
 
 	it("should set tooltip config", () => {
-		service.setTemplateConfig$({ show: true });
+		service.updateTemplateConfig$({ show: true });
 
 		service.templateConfigState$.subscribe((feed) => {
 			expect(feed).toEqual(jasmine.objectContaining({ show: true }));

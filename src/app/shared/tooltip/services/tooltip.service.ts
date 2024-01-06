@@ -1,4 +1,5 @@
-import { Injectable } from "@angular/core";
+import { DOCUMENT } from "@angular/common";
+import { Inject, Injectable } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 
 import type { Observable } from "rxjs";
@@ -19,24 +20,32 @@ export class TooltipService {
 		contentPadding: true,
 		corner: false,
 		invert: false,
-		left: document.documentElement.clientWidth / 2,
+		left: 0,
 		position: Position.BOTTOM,
 		show: false,
 		template: undefined,
-		top: document.documentElement.clientHeight / 2,
+		top: 0,
 	});
 
 	public readonly templateConfigState$: Observable<TooltipTemplateConfig> = this.templateConfigSource$.asObservable();
 
-	constructor(private readonly router: Router) {
+	constructor(
+			@Inject(DOCUMENT) private readonly document: Document,
+			private readonly router: Router,
+	) {
 		this.router.events.pipe(
 			filter((routerEvent) => routerEvent instanceof NavigationEnd),
 		).subscribe(() => {
-			this.setTemplateConfig$({ show: false });
+			const { height, width } = this.document.documentElement.getBoundingClientRect();
+			this.updateTemplateConfig$({
+				left: width / 2,
+				show: false,
+				top: height / 2,
+			});
 		});
 	}
 
-	public setTemplateConfig$(templateConfig: Partial<TooltipTemplateConfig>): void {
+	public updateTemplateConfig$(templateConfig: Partial<TooltipTemplateConfig>): void {
 		// eslint-disable-next-line rxjs/no-subject-value
 		this.templateConfigSource$.next({ ...this.templateConfigSource$.value, ...templateConfig });
 	}

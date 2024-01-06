@@ -79,6 +79,6 @@ export class TooltipComponent implements OnDestroy {
 
 	ngOnDestroy() {
 		// TODO: Also destroy when changing routes.
-		this.tooltipService.setTemplateConfig$({ show: false });
+		this.tooltipService.updateTemplateConfig$({ show: false });
 	}
 }

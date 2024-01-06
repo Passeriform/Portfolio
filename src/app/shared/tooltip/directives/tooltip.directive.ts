@@ -19,22 +19,22 @@ export class TooltipDirective {
 	@HostListener("focusout")
 	@HostListener("mouseleave")
 	public onBlur(): void {
-		this.tooltipService.setTemplateConfig$({ show: false });
+		this.tooltipService.updateTemplateConfig$({ show: false });
 	}
 
 	@HostListener("focusin", [ "$event" ])
 	@HostListener("mouseenter", [ "$event" ])
 	public onFocus(event: FocusEvent | MouseEvent): void {
-		const boundingRect = (event.currentTarget as HTMLElement).getBoundingClientRect();
-		this.tooltipService.setTemplateConfig$({
+		const { height, left, top, width } = (event.currentTarget as HTMLElement).getBoundingClientRect();
+		this.tooltipService.updateTemplateConfig$({
 			contentPadding: this.contentPadding,
 			corner: this.corner,
 			invert: this.invert,
-			left: boundingRect.left + (boundingRect.width / 2),
+			left: left + (width / 2),
 			position: this.position,
 			show: true,
 			template: this.template,
-			top: boundingRect.top + (boundingRect.height / 2),
+			top: top + (height / 2),
 		});
 	}
 
