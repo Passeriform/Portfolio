@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, Renderer2 } from "@angular/core";
+import { Component, ElementRef, HostListener, Renderer2, RendererStyleFlags2 } from "@angular/core";
 import { RouterLink, RouterOutlet } from "@angular/router";
 
 import { EnvironmentPipe } from "@shared/pipes/environment.pipe";
@@ -43,10 +43,11 @@ export class AppComponent {
 	/// Fix for dynamic viewport height in mobile browser
 	@HostListener("document:resize", [ "$event" ])
 	public onDocumentResize(): void {
-		this.renderer.setProperty(
+		this.renderer.setStyle(
 			this.hostElement.nativeElement,
-			"style",
-			`--apparent-viewport-height: ${window.innerHeight}px`,
+			"--apparent-viewport-height",
+			`${window.innerHeight}px`,
+			RendererStyleFlags2.DashCase,
 		);
 	}
 

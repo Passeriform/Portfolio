@@ -1,5 +1,5 @@
 import type { AfterContentInit } from "@angular/core";
-import { Component, ContentChildren, ElementRef, HostListener, Input, QueryList, Renderer2, ViewChild } from "@angular/core";
+import { Component, ContentChildren, ElementRef, HostListener, Input, QueryList, Renderer2, RendererStyleFlags2, ViewChild } from "@angular/core";
 
 import { filter, interval } from "rxjs";
 
@@ -45,12 +45,11 @@ export class SweeperComponent implements AfterContentInit {
 		const leadingWidth = this.leadingSpan.nativeElement.getBoundingClientRect().width;
 
 		if (textWidth) {
-			this.renderer.setProperty(
+			this.renderer.setStyle(
 				this.hostElement.nativeElement,
-				"style",
-				`--sweeper-highlight-text-scaling: ${
-					Constants.HIGHLIGHT_PADDING_FACTOR * (textWidth + leadingWidth) / 100
-				}`,
+				"--sweeper-highlight-text-scaling",
+				Constants.HIGHLIGHT_PADDING_FACTOR * (textWidth + leadingWidth) / 100,
+				RendererStyleFlags2.DashCase,
 			);
 		}
 	}

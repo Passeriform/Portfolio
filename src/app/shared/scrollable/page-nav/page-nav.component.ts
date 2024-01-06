@@ -1,6 +1,6 @@
 import { NgFor } from "@angular/common";
 import type { AfterViewInit, OnChanges } from "@angular/core";
-import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, QueryList, Renderer2 } from "@angular/core";
+import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, QueryList, Renderer2, RendererStyleFlags2 } from "@angular/core";
 
 import { Position } from "@shared/models/cardinals.interface";
 
@@ -78,19 +78,21 @@ export class PageNavComponent implements AfterViewInit, OnChanges {
 	) { }
 
 	private updateTravelerPosition(index: number): void {
-		this.renderer.setProperty(
+		this.renderer.setStyle(
 			this.elementReference.nativeElement,
-			"style",
-			`--traveler-offset: ${index}`,
+			"--traveler-offset",
+			`${index}`,
+			RendererStyleFlags2.DashCase,
 		);
 	}
 
 	ngOnChanges(changes: PageNavChanges) {
 		if (changes.items) {
-			this.renderer.setProperty(
+			this.renderer.setStyle(
 				this.elementReference.nativeElement,
-				"style",
-				`--item-step-count: ${this.items.length}`,
+				"--item-step-count",
+				`${this.items.length}`,
+				RendererStyleFlags2.DashCase,
 			);
 		}
 

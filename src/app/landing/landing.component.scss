@@ -45,12 +45,13 @@ $theme: get-theme("landing");
 
 				@include reset-offsets;
 				@include disallow-selection;
-				@include chromatic-aberration(map.get($theme, "accent", "hex"));
 
 				&:hover, &:focus-visible {
 					color: map.get($theme, "accent", "invert", "hex");
 					animation: chromatic-aberration 10s ease infinite;
-				}
+
+          @include chromatic-aberration(map.get($theme, "accent", "hex"));
+        }
 			}
 		}
 	}

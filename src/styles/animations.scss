@@ -5,9 +5,7 @@
 	$extracted-green: rgba(0, color.green($color), 0);
 	$extracted-blue: rgba(0, 0, color.blue($color));
 
-	@debug $extracted-blue;
-
-  /* stylelint-disable unit-allowed-list -- Needs pixel-width shifts for aberration animation */
+	/* stylelint-disable unit-allowed-list -- Needs pixel-width shifts for aberration animation */
 	@keyframes chromatic-aberration {
 		2% {
 			text-shadow:
@@ -23,131 +21,131 @@
 				0 0 0 $extracted-blue;
 		}
 
-    4% {
+		4% {
 			text-shadow:
 				0 2px 2px $extracted-red,
 				-1px 1px 1px $extracted-green,
 				0 0 0 $extracted-blue;
 		}
 
-    5% {
+		5% {
 			text-shadow:
 				0 0 0 $extracted-red,
 				-1px 1px 1px $extracted-green,
 				0 0 0 $extracted-blue;
 		}
 
-    8% {
+		8% {
 			text-shadow:
 				0 0 0 $extracted-red,
 				-1px 1px 0 $extracted-green,
 				0 0 0 $extracted-blue;
 		}
 
-    9% {
+		9% {
 			text-shadow:
 				1px 0 -1px $extracted-red,
 				2px 0 -2px $extracted-green,
 				0 0 0 $extracted-blue;
 		}
 
-    10% {
+		10% {
 			text-shadow:
 				1px 2px 1px $extracted-red,
 				1px 0 1px $extracted-green,
 				0 0 2px $extracted-blue;
 		}
 
-    11% {
+		11% {
 			text-shadow:
 				1px 0 0 $extracted-red,
 				2px 0 1px $extracted-green,
 				0 2px 0 $extracted-blue;
 		}
 
-    12% {
+		12% {
 			text-shadow:
 				0 0 0 $extracted-red,
 				0 0 0 $extracted-green,
 				0 0 2px $extracted-blue;
 		}
 
-    24% {
+		24% {
 			text-shadow:
 				0 0 0 $extracted-red,
 				0 0 0 $extracted-green,
 				0 0 2px $extracted-blue;
 		}
 
-    25% {
+		25% {
 			text-shadow:
 				3px 2px -2px $extracted-red,
 				2px 1px 0 $extracted-green,
 				1px 1px 0 $extracted-blue;
 		}
 
-    26% {
+		26% {
 			text-shadow:
 				3px 0 0 $extracted-red,
 				2px 1px 0 $extracted-green,
 				0 1px 0 $extracted-blue;
 		}
 
-    28% {
+		28% {
 			text-shadow:
 				-2px -2px 2px $extracted-red,
 				-4px 0 0 $extracted-green,
 				1px -2px 0 $extracted-blue;
 		}
 
-    30% {
+		30% {
 			text-shadow:
 				0 -2px 0 $extracted-red,
 				-4px 0 0 $extracted-green,
 				1px -2px 0 $extracted-blue;
 		}
 
-    32% {
+		32% {
 			text-shadow:
 				-1px -2px 0 $extracted-red,
 				-2px 0 0 $extracted-green,
 				1px -2px 0 $extracted-blue;
 		}
 
-    36% {
+		36% {
 			text-shadow:
 				-1px 0 0 $extracted-red,
 				-1px 0 0 $extracted-green,
 				0 0 3px $extracted-blue;
 		}
 
-    62% {
+		62% {
 			text-shadow:
 				-1px 0 0 $extracted-red,
 				-1px 0 1px $extracted-green,
 				0 2px 0 $extracted-blue;
 		}
 
-    63% {
+		63% {
 			text-shadow:
 				-2px -2px 0 $extracted-red,
 				-2px 0 2px $extracted-green,
 				1px 1px 0 $extracted-blue;
 		}
 
-    64% {
+		64% {
 			text-shadow:
 				0 0 0 $extracted-red,
 				0 0 0 $extracted-green,
 				0 1px 0 $extracted-blue;
 		}
 
-    100% {
+		100% {
 			text-shadow:
 				0 0 0 $extracted-red,
 				0 0 0 $extracted-green,
 				0 0 0 $extracted-blue;
 		}
 	}
-  /* stylelint-enable unit-allowed-list */
+	/* stylelint-enable unit-allowed-list */
 }

@@ -1,6 +1,6 @@
 import { AsyncPipe, DOCUMENT, NgClass } from "@angular/common";
 import type { OnInit } from "@angular/core";
-import { Component, Inject, Input, Renderer2 } from "@angular/core";
+import { Component, Inject, Input, Renderer2, RendererStyleFlags2 } from "@angular/core";
 import { RouterLink } from "@angular/router";
 
 import type { Observable } from "rxjs";
@@ -38,14 +38,13 @@ export class HeaderComponent implements OnInit {
 	ngOnInit() {
 		this.splashState$ = this.splashStateService.splashState$;
 		this.splashState$.subscribe((splashState: SplashState) => {
-			this.renderer.setProperty(
+			this.renderer.setStyle(
 				this.document.documentElement,
-				"style",
-				`--current-header-shift-offset: ${
-					splashState === SplashState.BLURRED
-						? "var(--shrink-header-size-em, 4em)"
-						: "0"
-				}`,
+				"--current-header-shift-offset",
+				splashState === SplashState.BLURRED
+					? "var(--shrink-header-size-em, 4em)"
+					: "0",
+				RendererStyleFlags2.DashCase,
 			);
 		});
 	}
