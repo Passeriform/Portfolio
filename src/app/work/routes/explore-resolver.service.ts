@@ -10,7 +10,7 @@ import { LoaderService } from "@app/loader/services/loader.service";
 import { ErrorService } from "@app/error/services/error.service";
 import type { Work_Type } from "@graphql/generated/schema";
 
-import { routeFilters } from "../work.config";
+import { NO_TRANSFORM, routeFilters } from "../work.config";
 import type { WorkModel } from "../models/work.interface";
 import { WorkService } from "../services/work.service";
 
@@ -48,6 +48,9 @@ export const ExploreResolver: ResolveFn<readonly WorkModel[]> = (
 								: "/explore",
 						]);
 					}
+
+					workService.setSelected(undefined);
+					workService.setTransform(NO_TRANSFORM);
 				}
 
 				loaderService.endLoading("[http] work");

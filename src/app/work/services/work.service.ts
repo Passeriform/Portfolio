@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
 
 import type { Observable } from "rxjs";
 import { BehaviorSubject, combineLatest } from "rxjs";
@@ -27,7 +26,6 @@ export class WorkService {
 	constructor(
 			private readonly getAllWorkGQL: GetAllWorkGQL,
 			private readonly loaderService: LoaderService,
-			private readonly router: Router,
 	) {
 		this.workActiveState$ = combineLatest(
 			[
@@ -53,8 +51,7 @@ export class WorkService {
 			);
 	}
 
-	public setSelected(model: WorkModel): void {
-		this.router.navigate([ `${model.type.toLocaleLowerCase()}/${model.route}` ]);
+	public setSelected(model: WorkModel | undefined): void {
 		this.workSelectedSource$.next(model);
 	}
 

@@ -37,6 +37,7 @@ export const FilterResolver: ResolveFn<readonly WorkModel[]> = (
 				const activeFilter = route.url[1]?.path ?? "";
 
 				if ((routeFilters as string[]).includes(activeFilter)) {
+					workService.setSelected(undefined);
 					workService.setTransform(
 						(workModel: readonly WorkModel[]) => workModel.filter(
 							(entity: Readonly<WorkModel>) => entity.type === activeFilter.toLocaleUpperCase(),

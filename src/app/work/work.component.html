@@ -67,5 +67,5 @@
 </app-scrollable>
 
 <app-overlay class="header-offset" (triggerEvent)="handleOverlayTrigger()">
-	<app-showcase (selectionEvent)="handleSelection()"></app-showcase>
+	<app-showcase (selectionEvent)="handleSelection($event)"></app-showcase>
 </app-overlay>

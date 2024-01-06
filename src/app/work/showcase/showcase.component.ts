@@ -89,7 +89,6 @@ export class ShowcaseComponent implements OnInit {
 	}
 
 	public setSelected(entry: WorkModel): void {
-		this.workService.setSelected(entry);
 		this.selectionEvent.emit(entry);
 	}
 

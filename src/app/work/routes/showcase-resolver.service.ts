@@ -10,7 +10,7 @@ import { LoaderService } from "@app/loader/services/loader.service";
 import { ErrorService } from "@app/error/services/error.service";
 import type { Work_Type } from "@graphql/generated/schema";
 
-import { routeFilters } from "../work.config";
+import { NO_TRANSFORM, routeFilters } from "../work.config";
 import type { WorkModel } from "../models/work.interface";
 import { WorkService } from "../services/work.service";
 
@@ -39,21 +39,19 @@ export const ShowcaseResolver: ResolveFn<readonly WorkModel[]> = (
 				const [ segment ] = route.url;
 
 				if (segment?.path && routeFilters.includes(segment.path as Lowercase<Work_Type>)) {
-					// Keep this active filter local only. Let explore flap explore all entities.
-					const activeFilter = segment.path.toLocaleUpperCase() as Work_Type;
-
 					// Redirect to filtering
 					if (!Boolean(route.params.package)) {
-						router.navigate([ `/explore/${activeFilter}` ]);
+						router.navigate([ `/explore/${segment.path}` ]);
 					}
 
 					const concatRoute: string = Object.values(route.params).join("/");
 					const queriedEntry: Readonly<WorkModel | undefined> = model.find(
-						(entry: Readonly<WorkModel>) => entry.route === concatRoute && entry.type === activeFilter,
+						(entry: Readonly<WorkModel>) => entry.route === concatRoute && entry.type === segment.path.toLocaleUpperCase(),
 					);
 
 					if (queriedEntry) {
 						workService.setSelected(queriedEntry);
+						workService.setTransform(NO_TRANSFORM);
 					} else {
 						// TODO: Redirect with a message that project wasn't found and try searching for it in explore view.
 						router.navigate([ "/explore" ]);

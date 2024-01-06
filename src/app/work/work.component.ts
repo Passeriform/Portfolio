@@ -1,6 +1,7 @@
 import { AsyncPipe, DOCUMENT, NgIf } from "@angular/common";
 import type { AfterViewInit, OnInit } from "@angular/core";
 import { Component, Inject } from "@angular/core";
+import { Router } from "@angular/router";
 
 import type { Observable } from "rxjs";
 import { Subject } from "rxjs";
@@ -44,6 +45,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
 	constructor(
 			@Inject(DOCUMENT) public readonly document: HTMLElement,
 			private readonly workService: WorkService,
+			private readonly router: Router,
 			private readonly loaderService: LoaderService,
 			private readonly splashStateService: SplashStateService,
 	) {
@@ -55,8 +57,9 @@ export class WorkComponent implements OnInit, AfterViewInit {
 		this.displayInitialTip = false;
 	}
 
-	public handleSelection(): void {
+	public handleSelection(entry: WorkModel): void {
 		this.scrollResetSource$.next();
+		this.router.navigate([ `${entry.type.toLocaleLowerCase()}/${entry.route}` ]);
 	}
 
 	ngOnInit() {
