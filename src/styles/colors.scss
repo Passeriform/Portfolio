@@ -103,7 +103,7 @@ $themes: (
   "global": extend-swatch($global-swatch),
 
   "cage-grid": extend-swatch($global-swatch, $canvas: #3D3D3D99),
-  "overlay": extend-swatch($global-swatch, $shadow: black),
+  "overlay": extend-swatch($global-swatch, $shadow: #0E1012AA),
   "page-nav": extend-swatch($global-swatch, $shadow: black),
   "scrollbar": extend-swatch($global-swatch, $primary: #4A4A4A99, $secondary: #24242499),
   "tooltip": extend-swatch($global-swatch, $shadow: black),

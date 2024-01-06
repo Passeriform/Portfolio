@@ -156,6 +156,8 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 
 	private pageReset(): void {
 		this.pageIndex = 0;
+		this.startReveal = false;
+		this.endReveal = false;
 		this.pageChangeEvent.emit(this.pageIndex);
 		this.changeDetector.detectChanges();
 	}
@@ -225,7 +227,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		}
 
 		// Scrolling down
-		return (scrollableSize - elementSize) === scrolled;
+		return Math.ceil(scrolled) + elementSize === scrollableSize;
 	};
 
 	private subscribeShiftStream$(): void {

@@ -20,6 +20,11 @@ export class OverlayComponent {
 
 	@HostBinding("class.blink") public blinkEnabled = true;
 
+	@HostBinding("class.show")
+	public get isShown(): boolean {
+		return this.overlayState === OverlayState.SHOW;
+	}
+
 	public toggleOverlay(): void {
 		this.overlayState = this.overlayState === OverlayState.SHOW
 			? OverlayState.HIDE
@@ -30,7 +35,7 @@ export class OverlayComponent {
 		this.overlayState = OverlayState.HIDE;
 	}
 
-	public handleButtonClick(): void {
+	public handleTriggerClick(): void {
 		this.toggleOverlay();
 		this.blinkEnabled = false;
 		this.triggerEvent.emit();

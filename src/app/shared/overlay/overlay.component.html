@@ -1,16 +1,15 @@
-<div class="overlay-trigger">
-	<div
-		[ngClass]="{'show': overlayState === OverlayState.SHOW}"
-		class="overlay"
-		(keydown)="hideOverlay()"
-		(mousedown)="hideOverlay()"
-		>
-		<ng-content></ng-content>
-	</div>
+<div class="overlay-cover"></div>
 
-	<div class="overlay-button" (keydown)="handleButtonClick()" (mousedown)="handleButtonClick()">
-		<div class="overlay-trigger-img">
-			<img i18n-alt src="/assets/images/icons/explore-compass.svg" alt="Explore" />
-		</div>
-	</div>
+<div
+    class="overlay"
+    (keydown)="hideOverlay()"
+    (mousedown)="hideOverlay()"
+  >
+  <ng-content></ng-content>
+</div>
+
+<div class="overlay-trigger" (keydown)="handleTriggerClick()" (mousedown)="handleTriggerClick()">
+  <div class="overlay-trigger-img">
+    <img i18n-alt src="/assets/images/icons/explore-compass.svg" alt="Explore" />
+  </div>
 </div>
