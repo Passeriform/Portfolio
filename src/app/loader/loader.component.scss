@@ -3,13 +3,16 @@
 
 :host {
 	// TODO: Check if making it flex would work instead of the position: absolute hack
-	transition: all 0.7s ease-in-out;
 
 	@include absolute-center;
 	@include full-perc-size;
 	@include hide-with-transition;
 	@include pointer-disable;
 	@include stack("loader");
+
+	&:not(.show) {
+		transition: all 0.7s ease;
+	}
 
 	&.show {
 		@include unhide-with-transition;
