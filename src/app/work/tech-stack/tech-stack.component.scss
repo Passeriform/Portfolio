@@ -38,11 +38,11 @@ $theme: get-theme("tech-stack");
 	text-decoration: none;
 
 	& > * {
-    @include reset-offsets;
+		@include reset-offsets;
 
-    @include override-modifiers {
-      padding: 1em 2em;
-    }
+		@include override-modifiers {
+			padding: 1em 2em;
+		}
 	}
 
 	& > h3 {

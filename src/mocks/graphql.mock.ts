@@ -8,16 +8,25 @@ type SocialLinksEdgeType = NonNullable<NonNullable<
 
 export const socialLinksGQLModelMock: Readonly<SocialLinksEdgeType["edges"][number]["social"][]> = [
 	{
+		entity: {
+			iconUrl: "https://icon.com/icon.svg",
+			identifier: "EMAIL",
+		},
 		link: "/link-email",
-		type: "EMAIL",
 	},
 	{
+		entity: {
+			iconUrl: "https://icon.com/icon.svg",
+			identifier: "LINKEDIN",
+		},
 		link: "/link-linkedin",
-		type: "LINKEDIN",
 	},
 	{
+		entity: {
+			iconUrl: "https://icon.com/icon.svg",
+			identifier: "GITHUB",
+		},
 		link: "/link-github",
-		type: "GITHUB",
 	},
 ];
 
@@ -51,9 +60,6 @@ export const workGQLModelMock: Readonly<NonNullable<GetAllWorkQuery["workCollect
 	{
 		...topWorksGQLModelMock[0]!,
 		brief: "Product 1 - Brief",
-		frameworks: [ "angular" ],
-		languages: [ "typescript" ],
-		license: [ "FREE" ],
 		logo: "",
 		repository: "",
 		subtitle: "Product 1 - Subtitle",
@@ -62,25 +68,18 @@ export const workGQLModelMock: Readonly<NonNullable<GetAllWorkQuery["workCollect
 			"tag1b",
 			"tag1c",
 		],
-		tools: [],
 		type: "PRODUCT",
-		/* eslint-disable camelcase */
-		work_assetsCollection: { edges: [] },
-		work_referencesCollection: { edges: [] },
-		/* eslint-enable camelcase */
+		workAssets: { edges: [] },
+		workEntityMapping: { edges: [
+			{ entity: { entity: { iconUrl: "angular.svg", identifier: "angular", type: "FRAMEWORK", wikiSearchTerm: "angular" } } },
+			{ entity: { entity: { iconUrl: "typescript.svg", identifier: "typescript", type: "LANGUAGE", wikiSearchTerm: "typescript" } } },
+			{ entity: { entity: { iconUrl: "free.svg", identifier: "FREE", type: "LICENSE", wikiSearchTerm: "free-license" } } },
+		] },
+		workReferenceMapping: { edges: [] },
 	},
 	{
 		...topWorksGQLModelMock[1]!,
 		brief: "Project 1 - Brief",
-		frameworks: [ "react" ],
-		languages: [
-			"typescript",
-			"javascript",
-		],
-		license: [
-			"GPL",
-			"FREE",
-		],
 		logo: "",
 		repository: "",
 		subtitle: "Project 1 - Subtitle",
@@ -89,12 +88,16 @@ export const workGQLModelMock: Readonly<NonNullable<GetAllWorkQuery["workCollect
 			"tag2b",
 			"tag2c",
 		],
-		tools: [],
 		type: "PROJECT",
-		/* eslint-disable camelcase */
-		work_assetsCollection: { edges: [] },
-		work_referencesCollection: { edges: [] },
-		/* eslint-enable camelcase */
+		workAssets: { edges: [] },
+		workEntityMapping: { edges: [
+			{ entity: { entity: { iconUrl: "react.svg", identifier: "react", type: "FRAMEWORK", wikiSearchTerm: "react" } } },
+			{ entity: { entity: { iconUrl: "typescript.svg", identifier: "typescript", type: "LANGUAGE", wikiSearchTerm: "typescript" } } },
+			{ entity: { entity: { iconUrl: "javascript.svg", identifier: "javascript", type: "LANGUAGE", wikiSearchTerm: "javascript" } } },
+			{ entity: { entity: { iconUrl: "gpl.svg", identifier: "GPL", type: "LICENSE", wikiSearchTerm: "gpl-license" } } },
+			{ entity: { entity: { iconUrl: "free.svg", identifier: "FREE", type: "LICENSE", wikiSearchTerm: "free-license" } } },
+		] },
+		workReferenceMapping: { edges: [] },
 	},
 ];
 
@@ -102,9 +105,26 @@ export const expectedModel: readonly WorkModel[] = [
 	{
 		...workGQLModelMock[0],
 		assets: [],
+		licenses: [ { iconUrl: "free.svg", identifier: "FREE", type: "LICENSE", wikiSearchTerm: "free-license" } ],
+		techStack: [
+			{ iconUrl: "angular.svg", identifier: "angular", type: "FRAMEWORK", wikiSearchTerm: "angular" },
+			{ iconUrl: "typescript.svg", identifier: "typescript", type: "LANGUAGE", wikiSearchTerm: "typescript" },
+			{ iconUrl: "free.svg", identifier: "FREE", type: "LICENSE", wikiSearchTerm: "free-license" },
+		],
 	},
 	{
 		...workGQLModelMock[1],
 		assets: [],
+		licenses: [
+			{ iconUrl: "gpl.svg", identifier: "GPL", type: "LICENSE", wikiSearchTerm: "gpl-license" },
+			{ iconUrl: "free.svg", identifier: "FREE", type: "LICENSE", wikiSearchTerm: "free-license" },
+		],
+		techStack: [
+			{ iconUrl: "react.svg", identifier: "react", type: "FRAMEWORK", wikiSearchTerm: "react" },
+			{ iconUrl: "typescript.svg", identifier: "typescript", type: "LANGUAGE", wikiSearchTerm: "typescript" },
+			{ iconUrl: "javascript.svg", identifier: "javascript", type: "LANGUAGE", wikiSearchTerm: "javascript" },
+			{ iconUrl: "gpl.svg", identifier: "GPL", type: "LICENSE", wikiSearchTerm: "gpl-license" },
+			{ iconUrl: "free.svg", identifier: "FREE", type: "LICENSE", wikiSearchTerm: "free-license" },
+		],
 	},
 ] as WorkModel[];

@@ -32,14 +32,16 @@ $image-types: (
 
 $asset-registry: (
 	"about": (
-		"intro-background": get-image("contour_bg", "jpg"),
-		"contact-background": get-image("neon_square_bg", "jpg"),
-		"overview-background": get-image("neon_square_bg", "jpg"),
-		"story-background": get-image("neon_square_bg", "jpg"),
-		"contributors-background": get-image("neon_square_bg", "jpg"),
+		"intro-background": get-image("cyberpunk_background_2", "png"),
+		"contact-background": get-image("cyberpunk_background_3", "png"),
+		"contributors-background": get-image("cyberpunk_background_3", "png"),
+		"overview-background": get-image("cyberpunk_background_1", "png"),
+		"story-background": get-image("cyberpunk_background_2", "png"),
 	),
 	"landing": (
-		"splash-background": get-image("landingbg", "jpg"),
-		"stats-view-background": get-pattern("carbonpattern@2X", "png"),
+		"splash-background": get-image("drive_background_1", "png"),
+		"overview-background": get-image("drive_background_2", "png"),
+		"stats-view-background": get-image("drive_background_3", "png"),
+		"map-view-background": get-image("drive_background_4", "png"),
 	),
 );

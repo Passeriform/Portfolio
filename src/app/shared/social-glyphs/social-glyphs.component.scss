@@ -17,6 +17,6 @@ $max-width: ($no-of-items * 2em) + ($no-of-items + 1) * $max-inter-item-width;
 	}
 
 	& > div > a > img {
-    @include equal-dim(2.5em);
+		@include equal-dim(2.5em);
 	}
 }

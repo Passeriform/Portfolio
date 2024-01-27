@@ -12,110 +12,108 @@ $theme: get-theme("overlay");
 :host {
 	@include absolute-top-left;
 	@include full-perc-size;
-	@include pointer-disable;
+	@include pointer-disable-until(".show");
 	@include stack("overlay");
 
 	&.header-offset {
 		padding-top: var(--current-header-shift-offset, 0);
 	}
 
-  & > .overlay-trigger {
-    background-color: map.get($theme, "background", "invert", "hex");
-    transition: all 0.2s ease;
-    cursor: pointer;
+	// TODO: Add utility helper whenClass which can conditionally set styles when a class is active on an element
+	&.blink::before {
+		background-color: map.get($theme, "background", "invert", "hex");
+		animation: blink 1s ease-out infinite;
+		opacity: 1;
 
-    @include absolute-right;
-    @include pointer-enable;
-    @include equal-dim($overlay-flap-size);
-    @include layer(normal);
-    @include shape(["flap", "top-right"]);
+		@include content-fix;
+		@include absolute-right;
+		@include shape(["flap", "top-right"]);
+		@include equal-dim(1.25 * $overlay-flap-size);
+		@include pointer-disable;
+	}
 
-    & > .overlay-trigger-img {
-      @include center-anchored-image;
+	& > .overlay-trigger {
+		background-color: map.get($theme, "background", "invert", "hex");
+		transition: all 0.2s ease;
+		cursor: pointer;
 
-      @include shape-content-props("flap", $overlay-flap-size) using ($flap-content-size, $flap-content-offset) {
-        top: $flap-content-offset;
-        right: $flap-content-offset;
-        transition: all 0.2s ease;
+		@include absolute-right;
+		@include pointer-enable;
+		@include equal-dim($overlay-flap-size);
+		@include layer(normal);
+		@include shape(["flap", "top-right"]);
 
-        & > img {
-          transition: all 0.2s ease;
+		& > .overlay-trigger-img {
+			@include center-anchored-image;
 
-          @include equal-dim($flap-content-size);
-        }
-      }
-    }
-  }
+			@include shape-content-props("flap", $overlay-flap-size) using ($flap-content-size, $flap-content-offset) {
+				top: $flap-content-offset;
+				right: $flap-content-offset;
+				transition: all 0.2s ease;
 
-  & > .overlay-cover {
-    background-color: map.get($theme, "shadow", "hex");
-    transition: all 0.2s ease;
-    opacity: 0;
+				& > img {
+					transition: all 0.2s ease;
 
-    @include content-fix;
-    @include absolute-top-left;
-    @include full-perc-size;
-    @include pointer-disable;
-    @include if-supported("backdrop-filter", blur(1em));
-  }
+					@include equal-dim($flap-content-size);
+				}
+			}
+		}
+	}
+
+	& > .overlay-cover {
+		background-color: map.get($theme, "shadow", "hex");
+		opacity: 0;
+		transition: all 0.2s ease;
+
+		@include content-fix;
+		@include absolute-top-left;
+		@include full-perc-size;
+		@include if-supported("backdrop-filter", blur(1em));
+	}
 
 	& > .overlay {
-    transition: all 0.2s ease;
+		opacity: 0;
+		transition: all 0.2s ease;
 
-    @include absolute-top-left;
-    @include full-perc-size;
-    @include hide-with-transition;
-    @include pointer-disable;
-  }
+		@include absolute-top-left;
+		@include full-perc-size;
+	}
 
-  &.show {
-    & > .overlay-cover {
-      opacity: 1;
-    }
+	&.show {
+		& > .overlay-cover {
+			opacity: 1;
+		}
 
-    & > .overlay {
-      @include unhide-with-transition;
-      @include pointer-enable;
+		& > .overlay {
+			opacity: 1;
 
-      & ~ .overlay-trigger {
-        $expansion-factor: 1.25;
-        $expanded-flap-size: $expansion-factor * $overlay-flap-size;
+			& ~ .overlay-trigger {
+				$expansion-factor: 1.25;
+				$expanded-flap-size: $expansion-factor * $overlay-flap-size;
 
-        @include equal-dim($expanded-flap-size);
+				@include equal-dim($expanded-flap-size);
 
-        & > .overlay-trigger-img {
-          @include shape-content-props("flap", $expanded-flap-size) using ($flap-content-size, $flap-content-offset) {
-            $transform-offset: ($expansion-factor - 1) * $flap-content-offset;
-            transform: translate(-#{$transform-offset}, $transform-offset);
-          }
-        }
-      }
-    }
-  }
-
-  &.blink::before {
-    background-color: map.get($theme, "background", "invert", "hex");
-    animation: blink 1s ease-out infinite;
-
-    @include content-fix;
-    @include absolute-right;
-    @include shape(["flap", "top-right"]);
-    @include equal-dim(1.25 * $overlay-flap-size);
-    @include unhide-with-transition;
-    @include pointer-disable;
-  }
+				& > .overlay-trigger-img {
+					@include shape-content-props("flap", $expanded-flap-size) using ($flap-content-size, $flap-content-offset) {
+						$transform-offset: ($expansion-factor - 1) * $flap-content-offset;
+						transform: translate(-#{$transform-offset}, $transform-offset);
+					}
+				}
+			}
+		}
+	}
 }
 
 @keyframes blink {
 	0% {
+		opacity: 1;
 		// TODO: Try using sizing transform logic instead of animating on clip-path
 		clip-path: polygon(20% 0, 100% 0%, 100% 80%);
-
-		@include unhide-with-transition;
 	}
 
 	100% {
+		opacity: 0;
+
 		@include shape(["flap", "top-right"]);
-		@include hide-with-transition;
 	}
 }

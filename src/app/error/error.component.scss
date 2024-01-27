@@ -13,10 +13,8 @@ $theme: get-theme("error");
 
 	@include absolute-top-left;
 	@include stack("error");
-
-	&:not(.show) {
-		@include hide;
-	}
+	@include pointer-disable-until(".show");
+	@include hide;
 
 	&.show {
 		@include unhide;
@@ -32,7 +30,7 @@ $theme: get-theme("error");
 		}
 
 		& > .content {
-      @include center-text;
+			@include center-text;
 			@include flex-column-evenly;
 
 			& > .error-greeter {
@@ -61,10 +59,12 @@ $theme: get-theme("error");
 				@include absolute-top-left;
 				@include full-perc-size;
 				@include hide;
+				@include pointer-disable;
 				@include if-supported("backdrop-filter", none);
 
 				&.activate {
 					@include unhide;
+					@include pointer-enable;
 					@include if-supported("backdrop-filter", blur(2em));
 
 					@include override-modifiers {

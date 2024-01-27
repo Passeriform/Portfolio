@@ -12,27 +12,17 @@ $theme: get-theme("landing");
 // TODO: Use min-max mixin and abstract all used values to global
 
 :host {
-	position: relative;
-
-	@include stack("route");
+	@include route;
 
 	& .page {
 		@include page;
 	}
 
 	& #splash {
-		@include page-bg-content {
-			background-image: url(#{map.get($asset-registry, "landing", "splash-background")});
-			background-repeat: no-repeat;
-			background-size: cover;
-			filter: brightness(50%);
-
-			@include if-supported("filter", brightness(50%), blur(0.2em)) {
-				transform: scale(1.02);
-			}
-		}
+		@include page-bg-image(url(#{map.get($asset-registry, "landing", "splash-background")}));
 
 		& > .content {
+			@include full-perc-size;
 			@include flex-column-center;
 
 			& > h1 {
@@ -50,25 +40,21 @@ $theme: get-theme("landing");
 					color: map.get($theme, "accent", "invert", "hex");
 					animation: chromatic-aberration 10s ease infinite;
 
-          @include chromatic-aberration(map.get($theme, "accent", "hex"));
-        }
+					@include chromatic-aberration(map.get($theme, "accent", "hex"));
+				}
 			}
 		}
 	}
 
 	& #overview {
-		@include page-bg-color(map.get($theme, "background", "hex"));
+		@include page-bg-image(url(#{map.get($asset-registry, "landing", "overview-background")}));
 	}
 
 	& #stats-view {
-		@include page-bg-content {
-			background-image: url(#{map.get($asset-registry, "landing", "stats-view-background")});
-			background-repeat: repeat;
-			background-size: auto;
-		}
+		@include page-bg-image(url(#{map.get($asset-registry, "landing", "stats-view-background")}));
 	}
 
 	& #map-view {
-		@include page-bg-color(map.get($theme, "background", "hex"));
+		@include page-bg-image(url(#{map.get($asset-registry, "landing", "map-view-background")}));
 	}
 }

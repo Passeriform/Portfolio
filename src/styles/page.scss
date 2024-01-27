@@ -1,4 +1,15 @@
+@use "media" as *;
 @use "modifiers" as *;
+@use "stack" as *;
+
+@mixin route {
+	position: relative;
+	display: block;
+
+	@include full-perc-size;
+	@include self-pointer-disable;
+	@include stack("route");
+}
 
 @mixin page {
 	position: relative;
@@ -7,6 +18,7 @@
 	overflow: auto;
 	background-color: black;
 
+	@include self-pointer-disable;
 	@include full-viewport-size;
 
 	&:not(.splash) {
@@ -15,10 +27,18 @@
 
 	& > .bg-img-wrapper {
 		@include absolute-top-left;
-		@include no-overflow;
+		@include equal-dim(0);
 
 		& > .bg-img {
 			position: fixed;
+			background-repeat: no-repeat;
+			background-size: cover;
+			/* stylelint-disable-next-line unit-allowed-list -- Chrome filters extend the natural height of images. To fix an additional clip-path calc is required. */
+			clip-path: rect(0 100% calc(100% - 4px) 0);
+
+			@include if-supported("filter", brightness(50%), blur(0.2em)) using ($is-supported) {
+				transform: scale(1.01);
+			}
 
 			@include full-viewport-size;
 		}
@@ -26,14 +46,18 @@
 
 	& > .content {
 		position: relative;
-
-		@include full-perc-size;
 	}
 }
 
 @mixin page-bg-color($background) {
 	@include page-bg-content {
 		background-color: $background;
+	}
+}
+
+@mixin page-bg-image($background) {
+	@include page-bg-content {
+		background-image: $background;
 	}
 }
 

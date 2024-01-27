@@ -13,14 +13,14 @@ $stack-order: (
 );
 
 :host {
-	position: relative;
-	display: block;
-
-	@include full-perc-size;
-	@include stack("route");
+	@include route;
 
 	& .page {
 		@include page;
+
+		& > .content {
+			@include full-perc-size;
+		}
 	}
 
 	& #selected-placeholder {
@@ -41,7 +41,7 @@ $stack-order: (
 				width: $h1-responsive-font-size;
 				height: 2em;
 				font-size: $h1-responsive-font-size;
-        font-weight: 500;
+				font-weight: 500;
 				line-height: 0.9em;
 				text-align: start;
 				text-transform: initial;

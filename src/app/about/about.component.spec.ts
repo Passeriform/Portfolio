@@ -20,7 +20,7 @@ const aboutModelMock: readonly AboutModel[] = [
 		brief: "brief",
 		contactMessage: "contactMessage",
 		// eslint-disable-next-line camelcase
-		people_storyCollection: { edges: [] },
+		peopleStoryCollection: { edges: [] },
 		route: "/route",
 		slug: "about-slug",
 		socials: [],

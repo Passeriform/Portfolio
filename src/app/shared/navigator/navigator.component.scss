@@ -9,37 +9,37 @@
 $theme: get-theme("navigator");
 
 @mixin navigator-flap-pseudo {
-  content: "";
-  z-index: -1;
-  background-color: map.get($theme, "accent", "hex");
-  transform-origin: top;
+	content: "";
+	z-index: -1;
+	background-color: map.get($theme, "accent", "hex");
+	transform-origin: top;
 	transition: all 0.2s;
-  clip-path: polygon(100% 0, 100% 0, 100% 100%, 0 100%);
+	clip-path: polygon(100% 0, 100% 0, 100% 100%, 0 100%);
 
-  @include absolute-top-right;
+	@include absolute-top-right;
 }
 
 :host {
 	position: absolute;
 	transition: all 0.2s;
 
-  @include equal-dim($navigator-flap-size);
-  @include stack("navigator");
+	@include equal-dim($navigator-flap-size);
+	@include stack("navigator");
 	@include absolute-bottom-right;
 
 	&::before {
-    width: 50%;
-    /* stylelint-disable-next-line unit-allowed-list -- Fix for non-matching element overlap on Gecko browsers */
+		width: 50%;
+		/* stylelint-disable-next-line unit-allowed-list -- Fix for non-matching element overlap on Gecko browsers */
 		height: calc(math.div($navigator-flap-size, 2) + 1px);
 
-    @include navigator-flap-pseudo;
+		@include navigator-flap-pseudo;
 	}
 
 	&::after {
-    width: 100%;
+		width: 100%;
 		height: $navigator-flap-size;
 
-    @include navigator-flap-pseudo;
+		@include navigator-flap-pseudo;
 	}
 
 	& > #action-icon {
@@ -53,7 +53,7 @@ $theme: get-theme("navigator");
 			left: $navigator-flap-size - $flap-content-offset;
 
 			& > img {
-    		transition: all 0.2s;
+				transition: all 0.2s;
 
 				@include equal-dim($flap-content-size);
 			}
@@ -66,8 +66,8 @@ $theme: get-theme("navigator");
 
 	// TODO: Use mixin for flex
 	& > #command-init {
-    // TODO: Parameterize bottom as 3em(flap-size) + 0.5em(padding)
-    bottom: 3.5em;
+		// TODO: Parameterize bottom as 3em(flap-size) + 0.5em(padding)
+		bottom: 3.5em;
 		width: $navigator-expand-length - $navigator-flap-size;
 		height: 2em;
 		border: none;
@@ -76,7 +76,9 @@ $theme: get-theme("navigator");
 
 		@include flex-row-center;
 		@include absolute-right;
-    @include hide;
+		@include hide;
+		// TODO: Convert to pointer-disable-until
+		@include pointer-disable;
 		@include no-bg;
 
 		& > #prompt {
@@ -101,29 +103,29 @@ $theme: get-theme("navigator");
 		display: block;
 		width: $navigator-flap-size;
 		height: 100%;
-    cursor: pointer;
-    clip-path: polygon(100% 0, 100% 0, 100% 100%, 0 100%);
+		cursor: pointer;
+		clip-path: polygon(100% 0, 100% 0, 100% 100%, 0 100%);
 
 		@include absolute-bottom;
 		@include no-bg;
 	}
 
 	&.expanded {
-    width: $navigator-expand-length;
+		width: $navigator-expand-length;
 
-    & > #click-capture {
-      right: $navigator-expand-length - $navigator-flap-size;
-      bottom: 50%;
-      height: 50%;
+		& > #click-capture {
+			right: $navigator-expand-length - $navigator-flap-size;
+			bottom: 50%;
+			height: 50%;
 
-      @include shape(["arrow", "point-down"]);
-    }
+			@include shape(["arrow", "point-down"]);
+		}
 
-    &::before {
-      width: 75%;
+		&::before {
+			width: 75%;
 
 			@include shape(["snipped-rectangle", "bottom-right"], math.div($navigator-flap-size, 2));
-    }
+		}
 
 		&::after {
 			transform: scaleY(-50%) translateY(50%);
@@ -133,19 +135,20 @@ $theme: get-theme("navigator");
 			@include shape(["snipped-rectangle", "bottom-right"], math.div($navigator-flap-size, 2));
 		}
 
-    & > #action-icon {
-      @include shape-content-props("arrow", $navigator-flap-size, math.div($navigator-flap-size, 2)) using ($arrow-content-size, $arrow-content-offset) {
-        top: $arrow-content-offset;
-        left: math.div($navigator-flap-size, 2);
+		& > #action-icon {
+			@include shape-content-props("arrow", $navigator-flap-size, math.div($navigator-flap-size, 2)) using ($arrow-content-size, $arrow-content-offset) {
+				top: $arrow-content-offset;
+				left: math.div($navigator-flap-size, 2);
 
-        & > img {
-          @include equal-dim($arrow-content-size);
-        }
-      }
-    }
+				& > img {
+					@include equal-dim($arrow-content-size);
+				}
+			}
+		}
 
-  	& > #command-init {
-      @include unhide;
-	  }
-  }
+		& > #command-init {
+			@include unhide;
+			@include pointer-enable;
+		}
+	}
 }

@@ -2,6 +2,7 @@
 @use "assets" as *;
 @use "colors" as *;
 @use "page" as *;
+@use "media" as *;
 @use "modifiers" as *;
 @use "stack" as *;
 
@@ -10,9 +11,7 @@ $theme: get-theme("about");
 // TODO: Use align-selfs in places where performing weird compromises on parent styles
 
 :host {
-	position: relative;
-
-	@include stack("route");
+	@include route;
 
 	& .page {
 		@include page;
@@ -27,121 +26,104 @@ $theme: get-theme("about");
 				@include full-perc-size;
 			}
 		}
+	}
 
-		&#intro {
-			@include page-bg-content {
-				background-image: url(#{map.get($asset-registry, "about", "intro-background")});
-				background-repeat: no-repeat;
-				background-size: cover;
-				filter: brightness(50%);
-			}
+	& #intro {
+		@include page-bg-image(url(#{map.get($asset-registry, "about", "intro-background")}));
 
-			& > .content {
-				padding: 10%;
+		& > .content {
+			padding: 10%;
 
-				@include flex-row-center;
-				@include full-perc-size;
-			}
-		}
-
-		&#contact {
 			@include flex-row-center;
+			@include full-perc-size;
+		}
+	}
 
-			@include page-bg-content {
-				background-image: url(#{map.get($asset-registry, "about", "contact-background")});
-				background-repeat: no-repeat;
-				background-size: cover;
-				filter: brightness(50%);
-			}
+	& #contact {
+		@include flex-row-center;
+		@include page-bg-image(url(#{map.get($asset-registry, "about", "contact-background")}));
 
-			& > .content {
-				padding: 0 10%;
-				max-width: 80em;
+		& > .content {
+			padding: 0 10%;
+			max-width: 80em;
 
-				& > .content-wrapper {
-          align-items: center;
-					padding: 1em;
+			& > .content-wrapper {
+				align-items: center;
+				padding: 1em;
 
-					& > img {
-						@include equal-dim(12em);
-						@include circle-border;
+				& > img {
+					@include equal-dim(12em);
+					@include circle-border;
+				}
+
+				& > .contact-details {
+					@include flex-column-start;
+
+					// TODO: Implement profile-pic slide-reveal, when hovering on h1
+					& > h1 {
+						padding: 0.2em 0.7em;
+						width: fit-content;
+						color: map.get($theme, "foreground", "hex");
+						font-size: 3em;
+						font-weight: 800;
+						letter-spacing: 0.1em;
+						word-spacing: 0.3em;
+						clip-path: polygon(0 1em, 0 100%, calc(100% - 1em) 100%, 100% calc(100% - 1em), 100% 0, 1em 0);
+
+						@include if-supported("backdrop-filter", brightness(50%), saturate(300%), blur(0.4em));
 					}
 
-					& > .contact-details {
-            @include flex-column-start;
+					& > .postform {
+						padding-inline: 1em;
+						font-family: "DM Mono", monospace;
+						font-size: 1.25em;
+						font-weight: 500;
+						letter-spacing: 0;
 
-						// TODO: Implement profile-pic slide-reveal, when hovering on h1
-						& > h1 {
-							padding: 0.2em;
-							width: fit-content;
-							background: map.get($theme, "background", "invert", "hex");
-							color: map.get($theme, "accent", "hex");
-							font-size: 3rem;
-							font-weight: 400;
-							line-height: 1;
-						}
-
-						& > .postform {
-							@include clear-fix;
-						}
+						@include clear-fix;
 					}
 				}
 			}
 		}
+	}
 
-		&#overview {
-			@include page-bg-content {
-				background-image: url(#{map.get($asset-registry, "about", "overview-background")});
-				background-repeat: no-repeat;
-				background-size: cover;
-				filter: brightness(50%);
+	& #overview {
+		@include page-bg-image(url(#{map.get($asset-registry, "about", "overview-background")}));
+
+		& > .content > .content-wrapper > section {
+			text-align: justify;
+
+			@include flex-row-center;
+			@include full-perc-size;
+
+			& > * {
+				margin: 0.5em 1em;
 			}
 
-			& > .content > .content-wrapper > section {
-        text-align: justify;
+			& > img {
+				flex-shrink: 0;
 
-        @include flex-row-center;
-        @include full-perc-size;
-
-        & > * {
-          margin: 0.5em 1em;
-        }
-
-        & > img {
-          flex-shrink: 0;
-
-          @include equal-dim(8em);
-        }
-      }
-		}
-
-		&#story {
-			@include page-bg-content {
-				background-image: url(#{map.get($asset-registry, "about", "story-background")});
-				background-repeat: no-repeat;
-				background-size: cover;
-				filter: brightness(50%);
+				@include equal-dim(8em);
 			}
 		}
+	}
 
-		&#contributors {
-			@include page-bg-content {
-				background-image: url(#{map.get($asset-registry, "about", "contributors-background")});
-				background-repeat: no-repeat;
-				background-size: cover;
-				filter: brightness(50%);
-			}
+	& #story {
+		@include page-bg-image(url(#{map.get($asset-registry, "about", "story-background")}));
+	}
 
-			& #contributors-container {
-				@include flex-row-evenly;
+	& #contributors {
+		@include page-bg-image(url(#{map.get($asset-registry, "about", "contributors-background")}));
 
-				& > .contributor {
-					margin: 1em;
+		& #contributors-container {
+			@include flex-row-evenly;
 
-					& a > img {
-						@include equal-dim(4em);
-						@include circle-border;
-					}
+			& > .contributor {
+				margin: 1em;
+
+				& a > img {
+					@include equal-dim(4em);
+					@include circle-border;
 				}
 			}
 		}

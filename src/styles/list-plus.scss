@@ -37,7 +37,7 @@
 		} @else {
 			@debug list.nth($list, $i);
 
-      @if list.nth($list, $i) == $search {
+			@if list.nth($list, $i) == $search {
 				$result: list.append($result, $update);
 			} @else {
 				$result: list.append($result, list.nth($list, $i));

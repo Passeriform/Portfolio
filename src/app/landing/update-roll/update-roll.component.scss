@@ -17,35 +17,35 @@ $stack-order: (
 );
 
 :host {
-  @include media("<=#{$mobile-breakpoint}") {
+	@include media("<=#{$mobile-breakpoint}") {
 		& > .update-roll-item > .details > .commit-history {
-      grid-template-rows: 1fr 1fr 1fr;
+			grid-template-rows: 1fr 1fr 1fr;
 
-      & > .message-container {
-        background-color: map.get($theme, "alt-accent", "hex");
-        color: map.get($theme, "foreground", "hex");
-      }
+			& > .message-container {
+				background-color: map.get($theme, "alt-accent", "hex");
+				color: map.get($theme, "foreground", "hex");
+			}
 
-      & > .checksum-container > a.checksum, &.author-container > a.author {
-        word-wrap: anywhere;
-      }
-    }
+			& > .checksum-container > a.checksum, &.author-container > a.author {
+				word-wrap: anywhere;
+			}
+		}
 	}
 
-  @include media(">#{$mobile-breakpoint}") {
+	@include media(">#{$mobile-breakpoint}") {
 		& > .update-roll-item > .details > .commit-history {
-      grid-template-columns: 5fr clamp(5rem, 25vw, 28rem) 4fr;
+			grid-template-columns: 5fr clamp(5rem, 25vw, 28rem) 4fr;
 
-      & > .message-container {
-        background-color: map.get($theme, "accent", "hex");
-        color: map.get($theme, "foreground", "invert", "hex");
-      }
+			& > .message-container {
+				background-color: map.get($theme, "accent", "hex");
+				color: map.get($theme, "foreground", "invert", "hex");
+			}
 
-      & > .checksum-container > a.checksum, &.author-container > a.author {
-        word-wrap: break-word;
-      }
-    }
-  }
+			& > .checksum-container > a.checksum, &.author-container > a.author {
+				word-wrap: break-word;
+			}
+		}
+	}
 
 
 	& > .update-roll-item {
@@ -83,17 +83,17 @@ $stack-order: (
 
 				@include flex-column-center;
 
-        & > .event-image-container {
-          padding: 1em;
+				& > .event-image-container {
+					padding: 1em;
 
-          @include flex-row-center;
+					@include flex-row-center;
 
-          & > img.event-image {
-            width: 1.5em;
+					& > img.event-image {
+						width: 1.5em;
 
-            @include invert-color;
-          }
-        }
+						@include invert-color;
+					}
+				}
 			}
 
 			& > .repo {
@@ -228,7 +228,7 @@ $stack-order: (
 						justify-content: center;
 
 						& > p.message {
-              text-align: left;
+							text-align: left;
 							white-space: pre-line;
 						}
 					}
@@ -266,15 +266,16 @@ $stack-order: (
 				@include flex-row-evenly;
 
 				& > p {
-          margin: 0.5em;
-          word-wrap: anywhere;
+					margin: 0.5em;
+					word-wrap: anywhere;
 
-          @include flex-row-center;
+					@include flex-row-center;
 
 					& > .title > img {
 						width: 1em;
-						filter: invert(1);
 						margin-inline: 0.5em;
+
+						@include if-supported("filter", invert(1));
 					}
 				}
 			}

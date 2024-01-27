@@ -2,11 +2,11 @@
 @use "stack" as *;
 
 :host {
+	opacity: 0;
 	// TODO: Check if making it flex would work instead of the position: absolute hack
 
 	@include absolute-center;
 	@include full-perc-size;
-	@include hide-with-transition;
 	@include pointer-disable;
 	@include stack("loader");
 
@@ -15,7 +15,6 @@
 	}
 
 	&.show {
-		@include unhide-with-transition;
-		@include pointer-enable;
+		opacity: 1;
 	}
 }

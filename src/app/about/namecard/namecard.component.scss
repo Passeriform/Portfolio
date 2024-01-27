@@ -17,11 +17,14 @@ $description-font-size: clamp(1em, 2vw, 1.5em);
 
 	& > .content {
 		padding: 2em;
-    /* stylelint-disable-next-line unit-allowed-list -- borders can be pixel-sized */
-    border: 1px solid map.get($theme, "accent", "hex");
+		/* stylelint-disable-next-line unit-allowed-list -- borders can be pixel-sized */
+		border: 1px solid map.get($theme, "accent", "hex");
 		border-radius: 0.4em;
-		background-color: map.get($theme, "background", "hex");
+		/* TODO: parameterize */
+		/* stylelint-disable-next-line unit-allowed-list -- box-shadow can be pixel-sized */
+		box-shadow: 0 0 1px 0 map.get($theme, "shadow", "hex");
 
+		@include if-supported("backdrop-filter", blur(1em));
 		@include flex-row-center;
 
 		@include media("landscape") {
@@ -33,19 +36,21 @@ $description-font-size: clamp(1em, 2vw, 1.5em);
 		}
 
 		& > .content-text {
-      & > .name {
-				margin-bottom: 0.5em;
-				padding-inline: 0.7em;
-				background-color: map.get($theme, "canvas", "hex");
+			& > .name {
+				margin: 0;
+				padding: 0.2em 0.7em;
 				color: map.get($theme, "foreground", "hex");
 				font-size: $name-font-size;
 				font-weight: 800;
+				letter-spacing: 0.1em;
+				word-spacing: 0.3em;
 
+				@include if-supported("backdrop-filter", saturate(300%));
 				@include shape(["double-snipped-rectangle", "top-right-bottom-left"], $name-shape-snip-size);
 			}
 
-			& > .description {
-				margin-bottom: 0;
+			& > p.description {
+				padding-inline: 1em;
 				font-family: "DM Mono", monospace;
 				font-size: $description-font-size;
 				font-weight: 500;
@@ -65,8 +70,7 @@ $description-font-size: clamp(1em, 2vw, 1.5em);
 			}
 
 			& > img {
-				filter: grayscale(1) contrast(1.3);
-
+				@include if-supported("filter", grayscale(1), sepia(100%), hue-rotate(270deg), saturate(200%), contrast(1.3));
 				@include equal-dim(12em);
 				@include circle-border;
 			}

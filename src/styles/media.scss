@@ -65,10 +65,15 @@ $media-expressions: (
 ) !default;
 
 @mixin if-supported($prop, $value...) {
-  /* stylelint-disable-next-line scss/dollar-variable-no-missing-interpolation -- Handled in implode utility */
-  @supports (#{$prop}: #{implode($value, " ")}) {
+	/* stylelint-disable-next-line scss/dollar-variable-no-missing-interpolation -- Handled in implode utility */
+	@supports (#{$prop}: #{implode($value, " ")}) {
 		#{$prop}: #{implode($value, " ")};
-		@content;
+		@content(true);
+	}
+
+	/* stylelint-disable-next-line scss/dollar-variable-no-missing-interpolation -- Handled in implode utility */
+	@supports not (#{$prop}: #{implode($value, " ")}) {
+		@content(false);
 	}
 }
 
@@ -349,7 +354,7 @@ $unit-intervals: (
 
 @function concatenate-unit($number, $unit) {
 	$strings: "px" "cm" "mm" "%" "ch" "pica" "in" "em" "rem" "pt" "pc" "ex" "vw" "vh" "vmin" "vmax";
-  /* stylelint-disable-next-line unit-allowed-list, plugin/no-unsupported-browser-features -- Used in utility */
+	/* stylelint-disable-next-line unit-allowed-list, plugin/no-unsupported-browser-features -- Used in utility */
 	$units: 1px 1cm 1mm 1% 1ch 1pica 1in 1em 1rem 1pt 1pc 1ex 1vw 1vh 1vmin 1vmax;
 	$index: list.index($strings, $unit);
 

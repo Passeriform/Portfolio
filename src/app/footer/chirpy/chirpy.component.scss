@@ -9,7 +9,7 @@ $theme: get-theme("showcase");
 	div.popup-trigger {
 		cursor: default;
 
-    @include flex-row-center;
+		@include flex-row-center;
 	}
 }
 

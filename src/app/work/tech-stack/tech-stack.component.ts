@@ -35,7 +35,7 @@ export class TechStackComponent {
 	public readonly Position = Position;
 
 	@Input() public readonly color: string;
-	@Input() public readonly model: WorkModel["techStack"];
+	@Input() public readonly model: WorkModel["techStack"] = [];
 
 	constructor(private readonly sanitizer: DomSanitizer) { }
 

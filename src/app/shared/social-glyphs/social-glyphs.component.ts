@@ -26,6 +26,6 @@ export class SocialGlyphsComponent {
 	constructor(private readonly sanitizer: DomSanitizer) { }
 
 	public recolor(url: string | undefined): SafeUrl {
-		return this.sanitizer.bypassSecurityTrustUrl(`https://recolor-svg.vercel.app/api/${url}?color=${this.color.replace("#", "%23")}`);
+		return this.sanitizer.bypassSecurityTrustUrl(`${url}?color=${this.color.replace("#", "%23")}`);
 	}
 }

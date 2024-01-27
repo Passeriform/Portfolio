@@ -9,14 +9,14 @@ $scrollbar-theme: get-theme("scrollbar");
 
 /// CSS Variables
 :root {
-  --shrink-header-size-em: #{$shrink-header-size-em};
+	--shrink-header-size-em: #{$shrink-header-size-em};
 
 	/* --------- Shared values (Only for safe nulling) --------- */
 	--apparent-viewport-height: 100vh;
 	--tooltip-left: 0;
 	--tooltip-top: 0;
 
-  @include full-perc-size;
+	@include full-perc-size;
 }
 
 * {
@@ -25,15 +25,15 @@ $scrollbar-theme: get-theme("scrollbar");
 	scrollbar-color: map.get($scrollbar-theme, "primary", "hex") map.get($scrollbar-theme, "secondary", "hex");
 	scrollbar-width: thin;
 
-  &:focus-visible {
-    outline: none;
-    /* stylelint-disable-next-line unit-allowed-list -- box-shadow can be pixel-size */
-    box-shadow: 0 0 1px 1px lime;
-  }
+	&:focus-visible {
+		outline: none;
+		/* stylelint-disable-next-line unit-allowed-list -- box-shadow can be pixel-size */
+		box-shadow: 0 0 1px 1px lime;
+	}
 }
 
 input[type="submit"] {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 html, body {
@@ -46,12 +46,12 @@ html, body {
 html, body, input, select, textarea {
 	color: map.get($theme, "accent", "hex");
 	font-family: "Raleway", sans-serif;
-  /* stylelint-disable-next-line unit-allowed-list -- font-size must be pixel-sized */
+	/* stylelint-disable-next-line unit-allowed-list -- font-size must be pixel-sized */
 	font-size: 13px;
 	font-weight: 400;
-  /* stylelint-disable-next-line unit-allowed-list -- letter-spacing must be pixel-sized */
+	/* stylelint-disable-next-line unit-allowed-list -- letter-spacing must be pixel-sized */
 	letter-spacing: 1px;
-  /* stylelint-disable-next-line unit-allowed-list -- text-shadow can be pixel-sized */
+	/* stylelint-disable-next-line unit-allowed-list -- text-shadow can be pixel-sized */
 	text-shadow: 1px 1px 1px map.get($theme, "shadow", "hex");
 }
 

@@ -30,11 +30,11 @@
 }
 
 @function generate-color-map($color) {
-  @if not $color {
+	@if not $color {
 		@error "No color was supplied to the function";
 	}
 
-  @return map-plus.merge-all(("hex": $color), generate-accents($color));
+	@return map-plus.merge-all(("hex": $color), generate-accents($color));
 }
 
 /// Generate color swatch template
@@ -66,7 +66,7 @@
 
 @function extend-swatch(
 	$template,
-  $primary: null,
+	$primary: null,
 	$secondary: null,
 	$accent: null,
 	$alt-accent: null,
@@ -76,7 +76,7 @@
 	$highlight: null,
 	$shadow: null,
 ) {
-  $color-map: (
+	$color-map: (
 		"primary": if($primary, generate-color-map($primary), map.get($template, "primary")),
 		"secondary": if($secondary, generate-color-map($secondary), map.get($template, "secondary")),
 		"accent": if($accent, generate-color-map($accent), map.get($template, "accent")),
@@ -95,49 +95,49 @@ $global-swatch: generate-swatch-template($primary: #EEEEEE, $secondary: #191919,
 $error-swatch: generate-swatch-template($primary: #EEEEEE, $secondary: #191919, $highlight: #7224A0, $shadow: black);
 $landing-swatch: generate-swatch-template($primary: #FFC5C5, $secondary: #1B0007, $accent: #F2ECEB, $shadow: #3D3D3D99);
 $work-swatch: generate-swatch-template($primary: #EEEEEE, $secondary: #0E1012, $accent: #7E9300);
-$about-swatch: generate-swatch-template($primary: #A8757D, $secondary: #050C26, $accent: #282F4C, $canvas: #17061E);
+$about-swatch: generate-swatch-template($primary: #A8757D, $secondary: #050C26, $accent: #282F4C, $canvas: #17061E, $shadow: #0000000F);
 
 // TODO: Modify all non-filled positions to primary and secondary color
 /// Global registry
 $themes: (
-  "global": extend-swatch($global-swatch),
+	"global": extend-swatch($global-swatch),
 
-  "cage-grid": extend-swatch($global-swatch, $canvas: #3D3D3D99),
-  "overlay": extend-swatch($global-swatch, $shadow: #0E1012AA),
-  "page-nav": extend-swatch($global-swatch, $shadow: black),
-  "scrollbar": extend-swatch($global-swatch, $primary: #4A4A4A99, $secondary: #24242499),
-  "tooltip": extend-swatch($global-swatch, $shadow: black),
-  "harmonic-loader": extend-swatch($global-swatch),
-  "navigator": extend-swatch($global-swatch),
-  "loader": extend-swatch($global-swatch),
-  "social-glyphs": extend-swatch($global-swatch),
+	"cage-grid": extend-swatch($global-swatch, $canvas: #090909CC),
+	"overlay": extend-swatch($global-swatch, $shadow: #0E1012AA),
+	"page-nav": extend-swatch($global-swatch, $shadow: black),
+	"scrollbar": extend-swatch($global-swatch, $primary: #090909CC, $secondary: #24242499),
+	"tooltip": extend-swatch($global-swatch, $shadow: black),
+	"harmonic-loader": extend-swatch($global-swatch),
+	"navigator": extend-swatch($global-swatch),
+	"loader": extend-swatch($global-swatch),
+	"social-glyphs": extend-swatch($global-swatch),
 
-  "header": extend-swatch($global-swatch),
-  "navtab": extend-swatch($global-swatch),
+	"header": extend-swatch($global-swatch),
+	"navtab": extend-swatch($global-swatch),
 
-  "error": extend-swatch($error-swatch),
+	"error": extend-swatch($error-swatch),
 
-  "landing": extend-swatch($landing-swatch),
-  "sweeper": extend-swatch($landing-swatch, $foreground: #EEEEEE, $accent: #C5C5C5, $alt-accent: #373737),
-  "update-roll": extend-swatch($landing-swatch, $foreground: #EEEEEE, $accent: #97A797, $alt-accent: #191919),
+	"landing": extend-swatch($landing-swatch),
+	"sweeper": extend-swatch($landing-swatch, $foreground: #EEEEEE, $accent: #C5C5C5, $alt-accent: #373737),
+	"update-roll": extend-swatch($landing-swatch, $foreground: #EEEEEE, $accent: #97A797, $alt-accent: #191919),
 
-  "work": extend-swatch($work-swatch),
-  "showcase": extend-swatch($work-swatch),
-  "describe": extend-swatch($work-swatch),
-  "dynamic-search": extend-swatch($work-swatch),
-  "raisecard": extend-swatch($work-swatch),
-  "tech-stack": extend-swatch($work-swatch),
+	"work": extend-swatch($work-swatch),
+	"showcase": extend-swatch($work-swatch),
+	"describe": extend-swatch($work-swatch),
+	"dynamic-search": extend-swatch($work-swatch),
+	"raisecard": extend-swatch($work-swatch),
+	"tech-stack": extend-swatch($work-swatch),
 
-  "about": extend-swatch($about-swatch),
-  "contact-form": extend-swatch($about-swatch),
-  "namecard": extend-swatch($about-swatch),
+	"about": extend-swatch($about-swatch),
+	"contact-form": extend-swatch($about-swatch),
+	"namecard": extend-swatch($about-swatch),
 
-  "footer": extend-swatch($global-swatch),
-  "chirpy": extend-swatch($global-swatch),
+	"footer": extend-swatch($global-swatch),
+	"chirpy": extend-swatch($global-swatch),
 );
 
 @function get-theme($accessor) {
-  @if (map.has-key($themes, $accessor)) {
+	@if (map.has-key($themes, $accessor)) {
 		@return map.get($themes, $accessor);
 	}
 

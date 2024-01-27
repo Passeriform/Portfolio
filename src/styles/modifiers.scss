@@ -1,3 +1,5 @@
+@use "media" as *;
+
 @mixin disallow-selection {
 	-webkit-touch-callout: none;
 	user-select: none;
@@ -35,28 +37,36 @@
 }
 
 @mixin pointer-enable {
-	pointer-events: all;
+	pointer-events: auto;
+}
+
+@mixin self-pointer-disable {
+	& {
+		@include pointer-disable;
+	}
+
+	& > * {
+		@include pointer-enable;
+	}
+}
+
+@mixin pointer-disable-until($class) {
+	&:not(#{$class}) {
+		@include pointer-disable;
+	}
+
+	&#{$class} {
+		@include pointer-enable;
+	}
 }
 
 @mixin hide {
 	visibility: hidden;
-
-	@include hide-with-transition;
-	@include pointer-disable;
-}
-
-@mixin hide-with-transition {
 	opacity: 0;
 }
 
 @mixin unhide {
 	visibility: visible;
-
-	@include unhide-with-transition;
-	@include pointer-enable;
-}
-
-@mixin unhide-with-transition {
 	opacity: 1;
 }
 
@@ -199,11 +209,12 @@
 }
 
 @mixin invert-color {
-	filter: invert(1);
+	@include if-supported("filter", invert(1));
 }
 
+
 @mixin reset-invert-color {
-	filter: invert(0);
+	@include if-supported("filter", invert(0));
 }
 
 @mixin layer($mode) {

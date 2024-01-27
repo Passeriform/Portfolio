@@ -35,7 +35,7 @@ $stack-order: (
 		@include equal-dim($logo-size-normal);
 
 		& > a {
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+			clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 
 			@include equal-dim($logo-size-normal);
 
@@ -49,7 +49,10 @@ $stack-order: (
 
 @mixin shrink-header {
 	height: var(--shrink-header-size-em, #{$shrink-header-size-em});
-	background-color: map.get($theme, "background", "dark-5%", "hex");
+
+	@include if-supported("backdrop-filter", brightness(30%), blur(0.4em)) using ($is-supported) {
+		background-color: if($is-supported, transparent, map.get($theme, "background", "dark-5%", "hex"));
+	};
 
 	& #logo {
 		@include equal-dim($logo-size-shrink);
@@ -58,7 +61,7 @@ $stack-order: (
 			@include shape-content-props("flap", $logo-flap-size) using ($flap-content-size, $flap-content-offset) {
 				display: block;
 				background-color: map.get($theme, "accent", "hex");
-        clip-path: polygon(0 0, 100% 0, 50% 50%, 0 100%);
+				clip-path: polygon(0 0, 100% 0, 50% 50%, 0 100%);
 
 				// TODO: Check if same can be applied to normal header
 				@include absolute-top-left;

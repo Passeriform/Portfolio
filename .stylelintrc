@@ -258,6 +258,7 @@
           "css-masks",
           "css-mixblendmode",
           "css-nesting",
+          "css-not-sel-list",
           "css-overflow",
           "css-rrggbbaa",
           "css-scrollbar",

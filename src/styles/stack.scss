@@ -32,6 +32,6 @@ $root-stack-order: (
 		$internal-order: list.index($internal-stack-order, $internal);
 	}
 
-  /* stylelint-disable-next-line order/order -- Used in mixin */
-  z-index: ($main-order * $max-children-per-root) + $internal-order;
+	/* stylelint-disable-next-line order/order -- Used in mixin */
+	z-index: ($main-order * $max-children-per-root) + $internal-order;
 }
