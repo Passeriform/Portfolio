@@ -3,9 +3,9 @@
     [ngClass]="{'shrink-header': (splashState$ | async) !== SplashState.FOCUSSED}"
   >
 	<div id="logo">
-    <a routerLink="{{ target }}" id="logo-link">
+    <a [routerLink]="target" id="logo-link">
 			<div id="img-wrapper">
-      	<img alt="{{ alt }}" src="{{ logo }}" />
+      	<img [alt]="alt" [src]="logo" />
 			</div>
     </a>
   </div>

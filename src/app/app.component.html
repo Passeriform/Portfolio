@@ -1,7 +1,7 @@
 <app-header i18n-logo i18n-alt alt="passeriform" logo="/assets/images/icons/passeriform.svg" target="/">
   <app-navtab>
     <a *appNavtab routerLink="/explore">Work</a>
-    <a *appNavtab href="{{ 'blogUrl' | environment }}" target="_blank">Blog</a>
+    <a *appNavtab [href]="'blogUrl' | environment" target="_blank">Blog</a>
     <a *appNavtab routerLink="/about">About</a>
   </app-navtab>
 </app-header>

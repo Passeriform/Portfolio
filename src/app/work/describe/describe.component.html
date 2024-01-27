@@ -1,7 +1,7 @@
 <div class="content">
   <div id="text">
     <div id="logo">
-      <img *ngIf="model?.logo; else fallbackTitle" alt="logo-{{ model.title }}" src="{{ model.logo }}" />
+      <img *ngIf="model?.logo; else fallbackTitle" alt="logo-{{ model.title }}" [src]="model.logo" />
       <ng-template #fallbackTitle>
         <h1>{{ model.title }}</h1>
       </ng-template>
@@ -14,6 +14,6 @@
 
   <div *ngIf="model.assets[0]" id="screenshot">
     <!-- // TODO: Add a slideshow of screenshots -->
-    <img alt="screenshot-{{ model.title }}-0" src="{{ model.assets[0].resource }}" />
+    <img alt="screenshot-{{ model.title }}-0" [src]="model.assets[0].resource" />
   </div>
 </div>

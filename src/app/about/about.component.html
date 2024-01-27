@@ -85,15 +85,9 @@
       <div class="content-wrapper">
         <div class="contact-details">
           <h1>Contact Details</h1>
-          <p class="postform">{{ model.contactMessage }}</p>
-
           <app-contact-form></app-contact-form>
-
-          <!-- <p class="postform">
-            {{ model.contactMessage }}
-          </p> -->
+          <p class="postform">{{ model.contactMessage }}</p>
         </div>
-        <!-- TODO: Try updating the below ngIf to use safe-navigation -->
         <app-social-glyphs
             *ngIf="model.socials"
             [color]="'#EEEEEE'"

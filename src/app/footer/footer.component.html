@@ -14,7 +14,13 @@
     <div class="section" id="navigator">
       <h3>NAVIGATE</h3>
       <div>
-        <a *ngFor="let work of workEntries$ | async" class="quick-links" routerLink="{{ work.route }}">{{ work.title }}</a>
+        <a
+            *ngFor="let work of workEntries$ | async"
+            class="quick-links"
+            [routerLink]="work.route"
+          >
+          {{ work.title }}
+        </a>
         <div id="navigation-separator"></div>
         <a routerLink="/explore">Explore</a>
         <a routerLink="/trickle">Trickle Explore</a>
@@ -24,7 +30,12 @@
     <div class="section" id="about">
       <h3>ABOUT US</h3>
       <div>
-        <a *ngFor="let entity of aboutEntries$ | async" routerLink="{{ entity.route }}">{{ entity.title }}</a>
+        <a
+            *ngFor="let entity of aboutEntries$ | async"
+            [routerLink]="entity.route"
+          >
+          {{ entity.title }}
+        </a>
       </div>
     </div>
     <div class="section" id="legal">

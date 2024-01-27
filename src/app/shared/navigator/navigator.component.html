@@ -1,11 +1,11 @@
 <div id="action-icon">
   <img
     i18n-alt
-    src="{{
-      expanded
-        ? '/assets/images/icons/double-right-chevron-solid.svg'
-        : '/assets/images/icons/terminal-solid.svg'
-    }}"
+    [src]="
+        expanded
+          ? '/assets/images/icons/double-right-chevron-solid.svg'
+          : '/assets/images/icons/terminal-solid.svg'
+    "
     alt="{{ expanded ? 'Hide' : 'Console' }}" />
 </div>
 <div id="click-capture" #clickCapture></div>
