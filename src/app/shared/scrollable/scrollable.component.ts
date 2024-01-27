@@ -164,7 +164,10 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 
 	private computeMaxScrollSize(): void {
 		const childSizes: number[] = this.items.toArray().map(this.getViewSize);
-		this.maxScrollableSize = childSizes.slice(0, -1).reduce((accumulator: number, current: number) => accumulator + current, 0);
+		this.maxScrollableSize = childSizes.reduce(
+			(accumulator: number, current: number) => accumulator + current,
+			0,
+		) - this.hostElement.nativeElement[this.orientation === Orientation.HORIZONTAL ? "clientWidth" : "clientHeight"];
 	}
 
 	private computeDeltaIfFullpage(): void {
@@ -187,9 +190,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	}
 
 	private readonly getViewSize = (element: ElementRef<HTMLElement>): number => element.nativeElement[
-		`${
-			this.nestedScroll ? "client" : "offset"
-		}${
+		`client${
 			this.orientation === Orientation.HORIZONTAL ? "Width" : "Height"
 		}`
 	]
@@ -227,7 +228,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 		}
 
 		// Scrolling down
-		return Math.ceil(scrolled) + elementSize === scrollableSize;
+		return Math.ceil(scrolled) + elementSize >= scrollableSize;
 	};
 
 	private subscribeShiftStream$(): void {
@@ -255,6 +256,7 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 					this.fullpage ? 1 : Math.floor(Math.abs(shiftAmt) * this.sensitivity)
 				);
 
+        // TODO: Push into the rxjs pipe and use partition to decide if page needs shifting.
 				const handled = this.handleReveals(pagesToShift);
 
 				if (!handled) {
