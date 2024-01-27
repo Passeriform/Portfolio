@@ -5,6 +5,7 @@ import { Component } from "@angular/core";
 import type { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
+import { githubEventsRegistry } from "@shared/models/github-events.registry.interface";
 import { Position } from "@shared/models/cardinals.interface";
 import { SplitByPipe } from "@shared/pipes/split-by.pipe";
 import { BoldSpanPipe } from "@shared/pipes/bold-span.pipe";
@@ -13,7 +14,6 @@ import { TooltipDirective } from "@shared/tooltip/directives/tooltip.directive";
 import type { GithubEvent } from "./models/github.interface";
 import { commitCategoryPattern, githubActionPresentation, isActionEvent, isPushEvent } from "./models/github.interface";
 import { GithubService } from "./services/github.service";
-import { BadgeComponent } from "../badge/badge.component";
 
 type GithubEventUIState = GithubEvent & { expand?: boolean };
 
@@ -24,7 +24,6 @@ type GithubEventUIState = GithubEvent & { expand?: boolean };
 		NgIf,
 		NgFor,
 		TooltipDirective,
-		BadgeComponent,
 		BoldSpanPipe,
 		SplitByPipe,
 	],
@@ -36,6 +35,7 @@ type GithubEventUIState = GithubEvent & { expand?: boolean };
 export class UpdateRollComponent implements OnInit {
 	public readonly actionPresentation = githubActionPresentation;
 	public readonly commitCategoryPattern = commitCategoryPattern;
+	public readonly githubEventsRegistry = githubEventsRegistry;
 	public readonly isActionEvent = isActionEvent;
 	public readonly isPushEvent = isPushEvent;
 	public readonly Position = Position;
@@ -54,8 +54,7 @@ export class UpdateRollComponent implements OnInit {
 		this.githubService.refreshFeed();
 	}
 
-	// TODO: Move this method out of class
-
+	// TODO: Make this a functional update
 	public toggleDetails(entry: GithubEventUIState): void {
 		entry.expand = !(entry.expand ?? false);
 	}

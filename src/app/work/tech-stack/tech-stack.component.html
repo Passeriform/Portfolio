@@ -1,35 +1,42 @@
 <app-cage-grid>
-	<div *ngFor="let attrib of model | keyvalue">
-		<ng-container *ngIf="attrib.value.length">
-			<div *appCaged="attrib.key" class="model-attr">
-				<ul>
-					<li *ngFor="let elem of attrib.value | unionArray">
-						<ng-template #tooltipTemplate>
-							<a *ngIf="elem | wiki | async as techDetails; else loadingTechDetails"
-									class="techstack-tooltip-content"
-									href="{{ techDetails.href }}"
-								>
-								<h3>{{ techDetails.title }}</h3>
-								<p>{{ techDetails.description }}</p>
-							</a>
-						</ng-template>
+  <ng-template let-stackType #stack>
+    <ng-container *ngIf="hasElementOfType(stackType)">
+      <div *appCaged="stackType.toLocaleLowerCase() + 's'" class="model-attr">
+        <ul>
+          <li *ngFor="let item of sliceModelByType(stackType)">
+            <ng-template #tooltipTemplate>
+              <a *ngIf="item.wikiSearchTerm ?? '' | wiki | async as techDetails; else loadingTechDetails"
+                  class="techstack-tooltip-content"
+                  [href]="techDetails.href"
+                >
+                <h3>{{ techDetails.title }}</h3>
+                <p>{{ techDetails.description }}</p>
+              </a>
 
-						<ng-template #loadingTechDetails>
-							<div class="techstack-tooltip-loading">Loading...</div>
-							<!-- TODO: Use proper loader and mini canvas -->
-						</ng-template>
+              <ng-template #loadingTechDetails>
+                <div class="techstack-tooltip-loading">Loading information about {{ item.identifier }}...</div>
+                <!-- TODO: Use proper loader and mini canvas -->
+              </ng-template>
+            </ng-template>
 
-						<div i18n-position appTooltip
-								class="img-container"
-								[contentPadding]="false"
-								[position]="Position.BOTTOM"
-								[template]="tooltipTemplate"
-							>
-							<img alt="{{ elem }}" src="{{ elem | iconUri }}" />
-						</div>
-					</li>
-				</ul>
-			</div>
-		</ng-container>
-	</div>
+            <div i18n-position appTooltip
+                class="img-container"
+                [contentPadding]="false"
+                [position]="Position.BOTTOM"
+                [template]="tooltipTemplate"
+              >
+              <img
+                  [alt]="item.identifier"
+                  [src]="recolor(item.iconUrl)"
+                />
+              </div>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+  </ng-template>
+
+  <ng-container *ngTemplateOutlet="stack; context: { $implicit: 'LANGUAGE' }"></ng-container>
+  <ng-container *ngTemplateOutlet="stack; context: { $implicit: 'FRAMEWORK' }"></ng-container>
+  <ng-container *ngTemplateOutlet="stack; context: { $implicit: 'TOOL' }"></ng-container>
 </app-cage-grid>

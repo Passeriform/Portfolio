@@ -1,6 +1,10 @@
-import type { Social_Media_Type } from "@graphql/generated/schema";
+import type { GetSocialLinksQuery } from "@graphql/generated/schema";
 
-export type SocialGlyphModel = {
-	link: Readonly<string>;
-	type: Readonly<Social_Media_Type>;
+type BaseSocialModel = NonNullable<
+	NonNullable<GetSocialLinksQuery["peopleCollection"]>["edges"][number]["people"]["socialCollection"]
+>["edges"][number]["social"];
+
+export type SocialModel = {
+	entity: BaseSocialModel["entity"];
+	link: BaseSocialModel["link"];
 };

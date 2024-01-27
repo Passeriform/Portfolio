@@ -7,7 +7,10 @@ query GetSocialLinks($slug: String = "passeriform") {
           edges {
             social: node {
               link
-              type
+              entity: entity_registry {
+                identifier
+                iconUrl: fillable_icon_url
+              }
             }
           }
         }

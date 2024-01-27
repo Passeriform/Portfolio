@@ -40,93 +40,47 @@
 
           <div *ngIf="showExpanded" class="info">
             <div class="meta">
-              <!-- TODO: Convert to a single template accepting language/framework/tool as a let binding -->
-              <!-- TODO: Fix wrapping child images with max-content of parent. -->
-              <ng-template #languageTooltipTemplate>
-                <h3 class="meta-title">Languages</h3>
-                <div class="meta-icons">
-                  <img
-                      *ngFor="let language of entry.languages"
-                      alt="{{ language }}"
-                      src="{{ language | iconUri }}"
+              <ng-template let-stackType #stack>
+                <ng-template #tooltipTemplate>
+                  <h3 class="meta-title">{{ stackType.toLocaleLowerCase() + "s" }}</h3>
+                  <div class="meta-icons">
+                    <img
+                        *ngFor="let entity of getTechStackByType(entry, stackType)"
+                        [alt]="entity.identifier"
+                        [src]="entity.iconUrl + '?color=%23EEEEEE'"
+                      />
+                  </div>
+                </ng-template>
+
+                <div i18n-position appTooltip
+                    *ngIf="hasTechStack(entry, stackType)"
+                    class="tech-stack"
+                    [invert]="true"
+                    [position]="Position.TOP"
+                    [template]="tooltipTemplate"
+                  >
+                  <img i18n-alt
+                      [alt]="stackType"
+                      [src]="getTechStackImage(stackType)"
+                      (mousedown)="cancelClick($event)"
                     />
                 </div>
               </ng-template>
 
-              <div i18n-position appTooltip
-                  *ngIf="entry.languages.length"
-                  class="languages"
-                  [invert]="true"
-                  [position]="Position.TOP"
-                  [template]="languageTooltipTemplate"
-                >
-                <img i18n-alt
-                    alt="Languages"
-                    src="https://img.icons8.com/color/source-code"
-                    (mousedown)="cancelClick($event)"
-                  />
-              </div>
-
-              <ng-template #frameworkTooltipTemplate>
-                <h3 class="meta-title">Frameworks</h3>
-                <div class="meta-icons">
-                  <img
-                      *ngFor="let framework of entry.frameworks"
-                      alt="{{ framework }}"
-                      src="{{ framework | iconUri }}"
-                    />
-                </div>
-              </ng-template>
-
-              <div i18n-position appTooltip
-                  *ngIf="entry.frameworks.length"
-                  class="frameworks"
-                  [invert]="true"
-                  [position]="Position.TOP"
-                  [template]="frameworkTooltipTemplate"
-                >
-                <img i18n-alt
-                    alt="Frameworks"
-                    src="https://img.icons8.com/color/administrative-tools"
-                    (mousedown)="cancelClick($event)"
-                  />
-              </div>
-
-              <ng-template #toolTooltipTemplate>
-                <h3 class="meta-title">Tools</h3>
-                <div class="meta-icons">
-                  <img
-                      *ngFor="let tool of entry.tools"
-                      alt="{{ tool }}"
-                      src="{{ tool | iconUri }}"
-                    />
-                </div>
-              </ng-template>
-
-              <div i18n-position appTooltip
-                  *ngIf="entry.tools.length"
-                  class="tools"
-                  [invert]="true"
-                  [position]="Position.TOP"
-                  [template]="toolTooltipTemplate"
-                >
-                <img i18n-alt
-                    alt="Tools"
-                    src="https://img.icons8.com/color/toolbox"
-                    (mousedown)="cancelClick($event)"
-                  />
-              </div>
+              <ng-container *ngTemplateOutlet="stack; context: { $implicit: 'LANGUAGE' }"></ng-container>
+              <ng-container *ngTemplateOutlet="stack; context: { $implicit: 'FRAMEWORK' }"></ng-container>
+              <ng-container *ngTemplateOutlet="stack; context: { $implicit: 'TOOL' }"></ng-container>
             </div>
 
-            <a class="repo" href="{{ entry.repository }}">
-              <fa-icon [icon]="registry.GITHUB.iconUrl" />
+            <a class="repo" [href]="entry.repository">
+              <img alt="repository" [src]="repositoryIconUrl$ | async" />
             </a>
 
             <div class="licenses">
               <img
-                  *ngFor="let license of entry.license"
+                  *ngFor="let license of entry.licenses"
                   alt="license-{{ license }}"
-                  src="{{ license | iconUri }}"
+                  [src]="license.iconUrl"
                   (mousedown)="cancelClick($event)"
                 />
             </div>

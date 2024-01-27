@@ -54,8 +54,8 @@ export class ScrollableComponent implements AfterContentInit, AfterViewInit {
 	@Input() public delta: number = Constants.DELTA_DEFAULT;
 	@Input() public endReveal: boolean = false;
 	@Input() public startReveal: boolean = false;
+	@Input() public readonly fullpage: boolean = false;
 	@Input() public readonly pageNavPosition: Position = this.orientation === Orientation.HORIZONTAL ? Position.BOTTOM : Position.LEFT;
-	@Input() public readonly fullpage: boolean;
 	@Input() public readonly pageResetTrigger$?: Observable<void>;
 
 	@Output() private readonly pageChangeEvent: EventEmitter<number> = new EventEmitter<number>();

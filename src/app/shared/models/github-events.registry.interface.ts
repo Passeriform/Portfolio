@@ -10,12 +10,12 @@ export type GithubEvent =
 
 
 export const githubEventsRegistry = {
-	CreateEvent: { iconUrl: "/assets/images/icons/gh-create.png" },
-	DeleteEvent: { iconUrl: "/assets/images/icons/gh-delete.png" },
-	ForkEvent: { iconUrl: "/assets/images/icons/gh-fork.png" },
-	IssuesEvent: { iconUrl: "/assets/images/icons/gh-pr.png" },
-	PullRequestEvent: { iconUrl: "/assets/images/icons/gh-pr.png" },
-	PushEvent: { iconUrl: "/assets/images/icons/gh-push.png" },
-	ReleaseEvent: { iconUrl: "/assets/images/icons/gh-release.png" },
-	WatchEvent: { iconUrl: "/assets/images/icons/gh-watch.png" },
+	CreateEvent: "/assets/images/icons/gh-create.png",
+	DeleteEvent: "/assets/images/icons/gh-delete.png",
+	ForkEvent: "/assets/images/icons/gh-fork.png",
+	IssuesEvent: "/assets/images/icons/gh-pr.png",
+	PullRequestEvent: "/assets/images/icons/gh-pr.png",
+	PushEvent: "/assets/images/icons/gh-push.png",
+	ReleaseEvent: "/assets/images/icons/gh-release.png",
+	WatchEvent: "/assets/images/icons/gh-watch.png",
 } as const;

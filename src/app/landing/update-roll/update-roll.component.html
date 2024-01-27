@@ -5,11 +5,13 @@
 		</ng-template>
 
 		<div i18n-position appTooltip
-				class="type-badge"
+				class="event-tooltip-content"
 				[position]="Position.TOP"
 				[template]="tooltipTemplate"
 			>
-			<app-badge [name]="entry.type"></app-badge>
+      <div class="event-image-container">
+        <img class="event-image" [alt]="entry.type" [src]="githubEventsRegistry[entry.type]" />
+      </div>
 		</div>
 
 		<div class="repo">

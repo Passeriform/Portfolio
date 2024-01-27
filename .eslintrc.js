@@ -703,7 +703,7 @@ module.exports = {
 				"camelcase": ["error", {
           "allow": [
             "Work_Type",
-            "Social_Media_Type"
+            "Entity_Type"
           ]
         }],
 				"capitalized-comments": ["error", "always", {

@@ -78,10 +78,22 @@ $stack-order: (
 				background-color: map.get($theme, "alt-accent", "hex");
 			}
 
-			& > div.type-badge {
+			& > div.event-tooltip-content {
 				grid-column: 1 / 1;
 
 				@include flex-column-center;
+
+        & > .event-image-container {
+          padding: 1em;
+
+          @include flex-row-center;
+
+          & > img.event-image {
+            width: 1.5em;
+
+            @include invert-color;
+          }
+        }
 			}
 
 			& > .repo {

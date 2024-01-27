@@ -1,0 +1,9 @@
+query GetEntityIcon($identifier: String!) {
+  entityRegistryCollection: entity_registryCollection(filter: { identifier: { eq: $identifier } }) {
+    edges {
+      node {
+				iconUrl: fillable_icon_url
+      }
+    }
+  }
+}

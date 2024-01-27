@@ -3,21 +3,25 @@ import type { ApolloQueryResult } from "@apollo/client/core";
 import type { TopWorkModel } from "@app/footer/models/footer.interface";
 import type { WorkModel } from "@app/work/models/work.interface";
 
-import type { Framework, GetAllWorkQuery, GetTopWorksQuery, Language, License, Tool } from "@graphql/generated/schema";
+import type { GetAllWorkQuery, GetTopWorksQuery } from "@graphql/generated/schema";
 
 export const extractWorks = (
 		gqlResult: Readonly<ApolloQueryResult<GetAllWorkQuery>>,
 ): readonly WorkModel[] => gqlResult.data.workCollection?.edges.map(
 	(workEdge) => ({
 		...workEdge.work,
-		assets: workEdge.work.work_assetsCollection?.edges.map(
+		assets: workEdge.work.workAssets?.edges.map(
 			(assetEdge) => assetEdge.asset,
 		) ?? [],
-		frameworks: workEdge.work.frameworks.filter(Boolean) as readonly Framework[],
-		languages: workEdge.work.languages.filter(Boolean) as readonly Language[],
-		license: workEdge.work.license.filter(Boolean) as readonly License[],
+		licenses: workEdge.work.workEntityMapping?.edges.filter(
+			(entityEdge) => entityEdge.entity.entity.type === "LICENSE",
+		).map(
+			(entityEdge) => entityEdge.entity.entity,
+		) ?? [],
 		tags: workEdge.work.tags.filter(Boolean) as readonly string[],
-		tools: workEdge.work.tools.filter(Boolean) as readonly Tool[],
+		techStack: workEdge.work.workEntityMapping?.edges.map(
+			(entityEdge) => entityEdge.entity.entity,
+		) ?? [],
 	}),
 ) ?? [];
 

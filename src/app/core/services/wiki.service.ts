@@ -5,9 +5,6 @@ import type { Observable } from "rxjs";
 import { throwError } from "rxjs";
 import { map, shareReplay } from "rxjs/operators";
 
-import type { EntityIdentifier } from "@shared/models/registry.interface";
-import { hasWikiEntry, registry } from "@shared/models/registry.interface";
-
 import type { WikiEntry, WikiResponseModel, WikiResponsePage } from "./wiki.interface";
 import { INIT_WIKI_RESPONSE_PAGE } from "./wiki.interface";
 
@@ -49,11 +46,8 @@ export class WikiService {
 
 	constructor(private readonly http: HttpClient) { }
 
-	private fetchWikiDetails$(entity: EntityIdentifier): Observable<WikiEntry> {
+	private fetchWikiDetails$(wikiSearchTerm: string): Observable<WikiEntry> {
 		// TODO: Move to environment when finalized.
-		if (!hasWikiEntry(entity)) {
-			return throwError(() => new Error(`No registry entry found for ${entity}`));
-		}
 
 		const callUrl: string = "https://en.wikipedia.org/w/api.php?"
 			+ "action=query"
@@ -62,7 +56,7 @@ export class WikiService {
 			+ "&prop=info|description"
 			+ "&formatversion=2"
 			+ "&inprop=url"
-			+ `&titles=${registry[entity].wikiTitle}`;
+			+ `&titles=${wikiSearchTerm}`;
 
 
 		// TODO: Use generator API to fetch proper description as well.
@@ -85,9 +79,9 @@ export class WikiService {
 		);
 	}
 
-	public getWikiDetail$(entryKey: EntityIdentifier): Observable<WikiEntry> {
-		const wikiEntry$ = this.wikiEntries[entryKey] ?? this.fetchWikiDetails$(entryKey);
-		this.wikiEntries[entryKey] = wikiEntry$;
+	public getWikiDetail$(wikiSearchTerm: string): Observable<WikiEntry> {
+		const wikiEntry$ = this.wikiEntries[wikiSearchTerm] ?? this.fetchWikiDetails$(wikiSearchTerm);
+		this.wikiEntries[wikiSearchTerm] = wikiEntry$;
 
 		return wikiEntry$;
 	}

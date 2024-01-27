@@ -16,12 +16,7 @@ $max-width: ($no-of-items * 2em) + ($no-of-items + 1) * $max-inter-item-width;
 		padding: 1em 0.75em;
 	}
 
-	& > div > a > fa-icon {
-  	color: map.get($theme, "secondary", "hex");
-    font-size: 2em;
-
-		&.inverted {
-    	color: map.get($theme, "primary", "hex");
-		}
+	& > div > a > img {
+    @include equal-dim(2.5em);
 	}
 }

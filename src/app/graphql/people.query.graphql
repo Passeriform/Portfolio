@@ -14,14 +14,17 @@ query GetPeople($slug: String!) {
           edges {
             social: node {
               link
-              type
+              entity: entity_registry {
+                identifier
+                iconUrl: fillable_icon_url
+              }
             }
           }
         }
-        people_storyCollection {
+        peopleStoryCollection: people_storyCollection {
           edges {
             story: node {
-              story_chunk
+              storyChunk: story_chunk
               image
               from
               upto

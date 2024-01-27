@@ -6,16 +6,24 @@ query GetAllWork {
         title
         subtitle
         route
-        license
         repository
-        languages
-        tools
         tags
         brief
         slug
-        frameworks
         logo
-        work_assetsCollection {
+        workEntityMapping: work_entity_mappingCollection {
+          edges {
+            entity: node {
+              entity: entity_registry {
+                identifier
+                iconUrl: icon_url
+                wikiSearchTerm: wiki_search_term
+                type
+              }
+            }
+          }
+        }
+        workAssets: work_assetsCollection {
           edges {
             asset: node {
               type
@@ -23,7 +31,7 @@ query GetAllWork {
             }
           }
         }
-        work_referencesCollection {
+        workReferenceMapping: work_reference_mappingCollection {
           edges {
             references: node {
               relation

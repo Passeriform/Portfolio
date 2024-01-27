@@ -10,6 +10,8 @@ $tooltip-max-meta-icons: 4;
 // TODO: Fix icons moving to next line
 
 .meta-title {
+	text-transform: capitalize;
+
 	@include center-text;
 }
 
@@ -18,11 +20,7 @@ $tooltip-max-meta-icons: 4;
 
 	& > img {
 		margin: 0.5em;
-		max-width: $meta-icon-size-em * $tooltip-max-meta-icons;
-		max-height: $meta-icon-size-em;
-		object-fit: scale-down;
-
-		@include equal-dim(auto);
+		height: 3rem;
 	}
 }
 
@@ -81,10 +79,10 @@ $tooltip-max-meta-icons: 4;
 				& > .repo {
 					padding: 2em;
 
-					& > fa-icon {
+					& > img {
 						color: map.get($theme, "secondary", "hex");
-						font-size: 4em;
 
+						@include equal-dim(4em);
 					}
 				}
 
@@ -98,9 +96,9 @@ $tooltip-max-meta-icons: 4;
 				}
 
 				& > .meta {
-					& > .frameworks, & > .languages, & > .tools {
+					& > .tech-stack {
 						& > img {
-              @include equal-dim(2.25rem);
+							@include equal-dim(2.25rem);
 						}
 					}
 				}
