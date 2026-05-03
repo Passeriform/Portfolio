@@ -1,8 +1,8 @@
 import { defineConfig } from "oxfmt"
 
 export default defineConfig({
-    semi: false,
     jsdoc: true,
+    semi: false,
     sortImports: {
         newlinesBetween: false,
     },

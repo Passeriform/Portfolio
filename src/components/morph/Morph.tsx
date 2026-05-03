@@ -1,13 +1,13 @@
 import {
     Children,
+    type PropsWithChildren,
+    type ReactElement,
+    type Ref,
     cloneElement,
     isValidElement,
     useEffect,
     useRef,
     useState,
-    type PropsWithChildren,
-    type ReactElement,
-    type Ref,
 } from "react"
 import FilterSVG from "./morph.svg?react"
 import classes from "./Morph.module.css"
@@ -32,8 +32,10 @@ export const Morph = ({ children, ...schedule }: PropsWithChildren<MorphProps>) 
             return
         }
 
+        /* oxlint-disable eslint/init-declarations */
         let startTimestamp: number
         let requestId: number
+        /* oxlint-enable eslint/init-declarations */
 
         const intervalHandler = (now: number) => {
             if (!startTimestamp) {
@@ -48,7 +50,9 @@ export const Morph = ({ children, ...schedule }: PropsWithChildren<MorphProps>) 
 
         requestId = requestAnimationFrame(intervalHandler)
 
-        return () => cancelAnimationFrame(requestId)
+        return () => {
+            cancelAnimationFrame(requestId)
+        }
     }, [Object.values(schedule)])
 
     useEffect(() => {
@@ -72,8 +76,16 @@ export const Morph = ({ children, ...schedule }: PropsWithChildren<MorphProps>) 
     return (
         <div
             className={classes.morphContainer}
-            onMouseEnter={() => schedule.on === "hover" && setActiveIndex(1)}
-            onMouseOut={() => schedule.on === "hover" && setActiveIndex(0)}
+            onMouseEnter={() => {
+                if (schedule.on === "hover") {
+                    setActiveIndex(1)
+                }
+            }}
+            onMouseOut={() => {
+                if (schedule.on === "hover") {
+                    setActiveIndex(0)
+                }
+            }}
             ref={containerRef}
         >
             <>
@@ -82,6 +94,7 @@ export const Morph = ({ children, ...schedule }: PropsWithChildren<MorphProps>) 
                         return child
                     }
 
+                    /* oxlint-disable-next-line typescript/no-unsafe-type-assertion */
                     const element = child as ReactElement<{
                         className?: string
                         ref?: Ref<HTMLElement>
@@ -89,7 +102,7 @@ export const Morph = ({ children, ...schedule }: PropsWithChildren<MorphProps>) 
 
                     return cloneElement(element, {
                         className:
-                            `${element.props.className || ""} ${index === activeIndex ? classes.active : ""} ${classes.morphText}`.trim(),
+                            `${element.props.className ?? ""} ${index === activeIndex ? classes.active : ""} ${classes.morphText}`.trim(),
                         ref: (node) => {
                             childrenRefs.current[index] = node
 
@@ -101,7 +114,7 @@ export const Morph = ({ children, ...schedule }: PropsWithChildren<MorphProps>) 
 
                             if (typeof originalRef === "function") {
                                 originalRef(node)
-                            } else if (originalRef && "current" in originalRef) {
+                            } else if ("current" in originalRef) {
                                 originalRef.current = node
                             }
                         },

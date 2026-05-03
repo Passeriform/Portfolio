@@ -36,7 +36,9 @@ export const randomHalo = (
 
             const dist = rayToPolygonDistance(center, dir, base)
 
-            if (!isFinite(dist)) continue
+            if (!Number.isFinite(dist)) {
+                continue
+            }
 
             const shrink = Math.random() < 0.5 ? 1 : 1 - Math.random() * (bitePx / dist)
 

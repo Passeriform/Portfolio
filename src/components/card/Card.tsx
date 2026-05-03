@@ -1,11 +1,12 @@
-import { useEffect, useLayoutEffect, useRef, useState, type PropsWithChildren } from "react"
+import { type PropsWithChildren, useEffect, useLayoutEffect, useRef, useState } from "react"
 import classes from "./Card.module.css"
 
 type CardProps = {
     borderSize?: number
+    clipAt?: number
 }
 
-export const Card = ({ borderSize = 1, children }: PropsWithChildren<CardProps>) => {
+export const Card = ({ borderSize = 1, clipAt = 20, children }: PropsWithChildren<CardProps>) => {
     const cardContainer = useRef<HTMLDivElement>(null)
     const [dimensions, setDimensions] = useState<[number, number]>([0, 0])
 
@@ -25,7 +26,9 @@ export const Card = ({ borderSize = 1, children }: PropsWithChildren<CardProps>)
 
         observer.observe(element)
 
-        return () => observer.disconnect()
+        return () => {
+            observer.disconnect()
+        }
     }, [])
 
     useEffect(() => {
@@ -35,7 +38,7 @@ export const Card = ({ borderSize = 1, children }: PropsWithChildren<CardProps>)
         cardContainer.current?.style.setProperty("--border-size", `${borderSize}px`)
     }, [])
 
-    const [width, height] = dimensions.map(Math.floor)
+    const [width, height] = dimensions.map((coordinate) => Math.floor(coordinate))
 
     return (
         <div className={classes.cardContainer} ref={cardContainer}>
@@ -43,9 +46,11 @@ export const Card = ({ borderSize = 1, children }: PropsWithChildren<CardProps>)
                 {width > 0 && (
                     <svg viewBox={`0 0 ${width} ${height}`} className="hidden">
                         <g fill="none" stroke="currentColor" strokeWidth={borderSize}>
-                            <path d={`M0.5 ${height - 20} L0.5 0.5 L${width - 20} 0.5`} />
                             <path
-                                d={`M${width - 1} 20 L${width - 1} ${height - 1} L20 ${height - 1}`}
+                                d={`M${borderSize / 2} ${height - clipAt} L${borderSize / 2} ${borderSize / 2} L${width - clipAt} ${borderSize / 2}`}
+                            />
+                            <path
+                                d={`M${width - borderSize} ${clipAt} L${width - borderSize} ${height - borderSize} L${clipAt} ${height - borderSize}`}
                             />
                         </g>
                     </svg>

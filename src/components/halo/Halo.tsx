@@ -1,4 +1,4 @@
-import { useEffect, useRef, type PropsWithChildren } from "react"
+import { type PropsWithChildren, useEffect, useRef } from "react"
 import type { GeneratorOptions, Point } from "./types"
 import { toClipPath } from "./utility"
 import classes from "./Halo.module.css"
@@ -38,6 +38,7 @@ export const Halo = ({
             return
         }
 
+        /* oxlint-disable typescript/no-non-null-assertion */
         const update = () => {
             const rect = containerRef.current!.getBoundingClientRect()
 
@@ -50,12 +51,15 @@ export const Halo = ({
             containerRef.current!.style.setProperty("--base-clip-path", toClipPath(baseLayer))
             containerRef.current!.style.setProperty("--accent-clip-path", toClipPath(accentLayer))
         }
+        /* oxlint-enable typescript/no-non-null-assertion */
 
         new ResizeObserver(update).observe(containerRef.current)
 
-        if (regenerateAfter) {
+        if (regenerateAfter !== undefined) {
             const id = setInterval(update, regenerateAfter)
-            return () => clearInterval(id)
+            return () => {
+                clearInterval(id)
+            }
         }
     }, [generator, regenerateAfter])
 

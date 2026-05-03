@@ -10,47 +10,49 @@ type SocialProps = {
     className?: string
 }
 
-export const Social = ({ className = "" }: SocialProps) => {
-    return (
-        <div className={`${classes.container} ${className}`}>
-            <Halo generator={SOCIAL.RIGHT}>
-                <ul className={classes.list}>
-                    <li>
-                        <a
-                            href="https://github.com/Passeriform"
-                            className={classes.link}
-                            target="_blank"
-                        >
-                            <GithubIcon className={classes.icon} />
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="https://discordapp.com/users/425754505989193749"
-                            className={classes.link}
-                            target="_blank"
-                        >
-                            <DiscordIcon className={classes.icon} />
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="https://in.linkedin.com/in/passeriform"
-                            className={classes.link}
-                            target="_blank"
-                        >
-                            <LinkedinIcon className={classes.icon} />
-                        </a>
-                    </li>
-                    {/* <li>
-                    <a href="mailto:bhardwajutkarsh.ub@gmail.com" className={classes.link} target="_blank">
+export const Social = ({ className = "" }: SocialProps) => (
+    <div className={`${classes.container} ${className}`}>
+        <Halo generator={SOCIAL.RIGHT}>
+            <ul className={classes.list}>
+                <li>
+                    <a
+                        href="https://github.com/Passeriform"
+                        className={classes.link}
+                        target="_blank"
+                    >
+                        <GithubIcon className={classes.icon} />
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="https://discordapp.com/users/425754505989193749"
+                        className={classes.link}
+                        target="_blank"
+                    >
+                        <DiscordIcon className={classes.icon} />
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="https://in.linkedin.com/in/passeriform"
+                        className={classes.link}
+                        target="_blank"
+                    >
+                        <LinkedinIcon className={classes.icon} />
+                    </a>
+                </li>
+                {/* <li>
+                    <a
+                        href="mailto:bhardwajutkarsh.ub@gmail.com"
+                        className={classes.link}
+                        target="_blank"
+                    >
                         <EmailIcon className={classes.icon} />
                     </a>
                 </li> */}
-                </ul>
-            </Halo>
-        </div>
-    )
-}
+            </ul>
+        </Halo>
+    </div>
+)
 
 export default Social

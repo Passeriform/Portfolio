@@ -1,5 +1,6 @@
 import type { Point } from "./types"
 
+/* oxlint-disable eslint/no-magic-numbers */
 export const SOCIAL = {
     RIGHT: [
         [
