@@ -1,0 +1,22 @@
+.morphContainer {
+    --strength: 0.5;
+    --duration: 1000;
+
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    filter: url(#morph);
+}
+
+.morphText {
+    grid-row-start: 1;
+    grid-column-start: 1;
+    user-select: none;
+    filter: blur(calc(var(--strength) * 1rem));
+    transition: filter calc(var(--duration) * 1ms) ease;
+}
+
+.active {
+    filter: blur(0);
+    visibility: visible;
+}

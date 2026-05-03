@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true">
+    <defs>
+        <!-- 1. Increase the filter region to prevent clipping and coordinate rounding -->
+        <filter id="morph" 
+                x="-50%" y="-50%" width="200%" height="200%" 
+                color-interpolation-filters="sRGB"
+                filterUnits="userSpaceOnUse">
+            
+            <!-- 2. The Blur -->
+            <feGaussianBlur in="SourceGraphic" stdDeviation="0" result="blur" />
+
+            <!-- 3. The "Smooth Sharpener" 
+                 Instead of a Matrix, we use a Linear Slope.
+                 Slope 12 is steep enough to be crisp.
+                 Intercept -5.5 chokes the blur exactly at the center. -->
+            <feComponentTransfer in="blur" result="goo">
+                <feFuncA type="linear" slope="12" intercept="-5.5" />
+            </feComponentTransfer>
+            
+            <!-- 4. The Edge Smoother:
+                 We composite the original text OVER the goo.
+                 This ensures the 'skeleton' of the letters is vector-perfect, 
+                 while the 'morph' happens underneath. -->
+            <feComposite in="SourceGraphic" in2="goo" operator="over" />
+        </filter>
+    </defs>
+</svg>
