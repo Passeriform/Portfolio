@@ -1,0 +1,34 @@
+.halo-container {
+    --halo-padding: 2;
+    --base-clip-path: polygon(100% 50%, 100% 100%, 0 100%, 0 50%, 0 0, 100% 0);
+    --accent-clip-path: polygon(100% 50%, 100% 100%, 0 100%, 0 50%, 0 0, 100% 0);
+    --transition-duration: 1000ms;
+
+    position: relative;
+    padding: calc(var(--halo-padding) * 1rem);
+    pointer-events: none;
+}
+
+.halo-container > * {
+    pointer-events: auto;
+}
+
+.halo-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: #191919;
+    clip-path: var(--base-clip-path);
+    transition: clip-path var(--transition-duration) ease;
+    mix-blend-mode: overlay;
+}
+
+.halo-container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: #E6E6E6;
+    clip-path: var(--accent-clip-path);
+    transition: clip-path var(--transition-duration) ease;
+    mix-blend-mode: difference;
+}
