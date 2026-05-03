@@ -1,6 +1,11 @@
 import type { Point } from "../types"
 
-export const raySegmentIntersection = (origin: Point, dir: Point, a: Point, b: Point): number | null => {
+export const raySegmentIntersection = (
+    origin: Point,
+    dir: Point,
+    a: Point,
+    b: Point,
+): number | null => {
     const v1: Point = [origin[0] - a[0], origin[1] - a[1]]
     const v2: Point = [b[0] - a[0], b[1] - a[1]]
     const v3: Point = [-dir[1], dir[0]]

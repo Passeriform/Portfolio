@@ -1,4 +1,4 @@
-import type { Point } from "./types";
+import type { Point } from "./types"
 
 export const SOCIAL = {
     RIGHT: [
@@ -13,6 +13,6 @@ export const SOCIAL = {
             [0, 25],
             [0, 70],
             [80, 100],
-        ]
+        ],
     ] as [Point[], Point[]],
 } as const
