@@ -1,9 +1,9 @@
 import DiscordIcon from "../../assets/discord.svg?react"
+import EmailIcon from "../../assets/email.svg?react"
 import GithubIcon from "../../assets/github.svg?react"
 import LinkedinIcon from "../../assets/linkedin.svg?react"
 import { Halo } from "../halo/Halo"
 import { SOCIAL } from "../halo/samples"
-// import EmailIcon from "../../assets/email.svg?react"
 import classes from "./Social.module.css"
 
 type SocialProps = {
@@ -41,7 +41,7 @@ export const Social = ({ className = "" }: SocialProps) => (
                         <LinkedinIcon className={classes.icon} />
                     </a>
                 </li>
-                {/* <li>
+                <li>
                     <a
                         href="mailto:bhardwajutkarsh.ub@gmail.com"
                         className={classes.link}
@@ -49,7 +49,7 @@ export const Social = ({ className = "" }: SocialProps) => (
                     >
                         <EmailIcon className={classes.icon} />
                     </a>
-                </li> */}
+                </li>
             </ul>
         </Halo>
     </div>
