@@ -1,0 +1,13 @@
+.about {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    place-items: start;
+    place-content: start;
+    height: inherit;
+}
+
+.nameCardHeading {
+    font-family: var(--heading);
+    font-weight: 600;
+}

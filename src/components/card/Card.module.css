@@ -3,7 +3,7 @@
     --border-size: 1px;
     --border-color: #737373;
     --accent-size: calc(2 * var(--border-size));
-    --accent-color: #DEDEDE;
+    --accent-color: #dedede;
 
     position: relative;
     display: grid;
@@ -52,8 +52,8 @@
 .contentContainer {
     position: relative;
     padding: 0;
+    max-width: 50rem;
     overflow: hidden;
-    white-space: nowrap;
     box-shadow: none;
     transition: all 1s ease;
 }

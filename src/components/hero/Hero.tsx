@@ -1,16 +1,20 @@
 import BirdIcon from "../../assets/bird.svg?react"
 import { Halo } from "../halo/Halo"
 import { randomHalo } from "./randomHalo"
-import "./Hero.css"
+import classes from "./Hero.module.css"
 
-export type HeroProps = {
-    expanded: boolean
+type HeroProps = {
+    className?: string
 }
 
-export const Hero = ({ expanded }: HeroProps) => {
-    return <Halo generator={randomHalo} bite={4} padding={1} rotationRange={Math.PI / 2}>
-        <BirdIcon className={`logo ${expanded ? "expanded" : ""}`} /> 
-    </Halo>
+export const Hero = ({ className = "" }: HeroProps) => {
+    return (
+        <div className={className}>
+            <Halo generator={randomHalo} bite={4} padding={1} rotationRange={Math.PI / 2}>
+                <BirdIcon className={`${classes.logo}`} />
+            </Halo>
+        </div>
+    )
 }
 
 export default Hero
