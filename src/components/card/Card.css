@@ -1,0 +1,63 @@
+.cardContainer {
+    --chip-length: 1rem;
+    --border-size: 1px;
+    --border-color: #737373;
+    --accent-size: calc(2 * var(--border-size));
+    --accent-color: #DEDEDE;
+
+    position: relative;
+    display: grid;
+    grid-template-columns: 0.0001fr;
+    grid-template-rows: 0.0001fr;
+    transition: all 1s ease;
+}
+
+.cardContainer.show {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
+
+.cardContainer::before,
+.cardContainer::after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: var(--chip-length);
+    height: var(--chip-length);
+    z-index: 1;
+}
+
+.cardContainer::before {
+    --shift: calc((var(--border-size) - var(--accent-size)) / 2);
+
+    top: 0;
+    left: 0;
+    border: 0 solid var(--accent-color);
+    border-top-width: var(--accent-size);
+    border-left-width: var(--accent-size);
+    transform: translate(var(--shift), var(--shift));
+}
+
+.cardContainer::after {
+    --shift: calc((var(--accent-size) - var(--border-size)) / 2);
+
+    right: 0;
+    bottom: 0;
+    border: 0 solid var(--accent-color);
+    border-right-width: var(--accent-size);
+    border-bottom-width: var(--accent-size);
+    transform: translate(0, var(--shift));
+}
+
+.contentContainer {
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    box-shadow: none;
+    transition: all 1s ease;
+}
+
+.cardContainer.show > .contentContainer {
+    padding: 1rem;
+}
