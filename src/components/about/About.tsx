@@ -16,7 +16,7 @@ export const About = ({ className = "" }: HeroProps) => {
     return (
         <div className={`${classes.about} ${className}`}>
             <section>
-                <Card>
+                <Card revealAfter={2000}>
                     <Morph on="hover" duration={1000} strength={1}>
                         <h1 className={classes.nameCardHeading}>Utkarsh Bhardwaj</h1>
                         <h1 className={classes.nameCardHeading}>Passeriform</h1>
@@ -26,9 +26,9 @@ export const About = ({ className = "" }: HeroProps) => {
             </section>
 
             {markdown && [markdown.introduction, markdown.experience, markdown.cta, markdown.stats].map(
-                (node) => (
+                (node, idx) => (
                     <section key={(node as ReactElement<{ id: string }>).props.id}>
-                        <Card>{node}</Card>
+                        <Card revealAfter={2000 + ((idx + 1) * 200)}>{node}</Card>
                     </section>
                 ),
             )}

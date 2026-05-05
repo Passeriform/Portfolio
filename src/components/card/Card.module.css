@@ -3,7 +3,10 @@
 }
 
 .content {
-    padding: 1rem;
+    --mask-url: none;
+
+    padding: 2rem;
+    mask-image: var(--mask-url);
 }
 
 .decoration {

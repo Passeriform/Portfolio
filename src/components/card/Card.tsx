@@ -1,4 +1,4 @@
-import { type PropsWithChildren, useEffect, useLayoutEffect, useRef, useState } from "react"
+import { type PropsWithChildren, useEffect, useId, useLayoutEffect, useRef, useState } from "react"
 import classes from "./Card.module.css"
 
 type CardProps = {
@@ -7,13 +7,27 @@ type CardProps = {
     borderSize?: number
     borderColor?: `#${string}`
     clipAt?: number
+    revealAfter?: number
 }
 
-export const Card = ({ accentSize = 2, borderSize = 1, borderColor = "#737373", accentColor = "#dedede", clipAt = 20, children }: PropsWithChildren<CardProps>) => {
+export const Card = ({
+    accentSize = 2,
+    borderSize = 1,
+    borderColor = "#737373",
+    accentColor = "#dedede",
+    clipAt = 20,
+    revealAfter = 2000,
+    children
+}: PropsWithChildren<CardProps>) => {
     const content = useRef<HTMLDivElement>(null)
     const decoration = useRef<HTMLDivElement>(null)
     const [dimensions, setDimensions] = useState<[number, number]>([0, 0])
     const [show, setShow] = useState(false)
+    const maskId = useId()
+
+    useEffect(() => {
+        content.current?.style.setProperty("--mask-url", `url(#${maskId})`)
+    }, [maskId])
 
     useLayoutEffect(() => {
         const element = decoration.current
@@ -39,7 +53,7 @@ export const Card = ({ accentSize = 2, borderSize = 1, borderColor = "#737373", 
     useEffect(() => {
         setTimeout(() => {
             setShow(true)
-        }, 2000)
+        }, revealAfter)
         decoration.current?.style.setProperty("--clip-at", `${clipAt}`)
     }, [])
 
@@ -56,6 +70,11 @@ export const Card = ({ accentSize = 2, borderSize = 1, borderColor = "#737373", 
             </div>
             <div className={`${classes.decoration} ${show ? classes.show : ""}`} ref={decoration}>
                 <svg viewBox={`${width + accentSize < clipAt ? width - clipAt : -accentSize} ${height + accentSize < clipAt ? height - clipAt : -accentSize} ${Math.max(width + 2 * accentSize, 2 * clipAt)} ${Math.max(height + 2 * accentSize, 2 * clipAt)}`} vectorEffect="non-scaling-stroke">
+                    <defs>
+                        <mask id={maskId} maskUnits="userSpaceOnUse">
+                            <rect x={((content.current?.clientWidth ?? 0) - width) / 2} y={((content.current?.clientHeight ?? 0) - height) / 2} width={width} height={height} fill="white" />
+                        </mask>
+                    </defs>
                     {(width >= clipAt && height >= clipAt) && <g fill="none" stroke={`${borderColor}`} strokeWidth={borderSize}>
                         <path
                             d={`M0 ${height - clipAt} L0 0 L${width - clipAt} 0`}
@@ -75,7 +94,6 @@ export const Card = ({ accentSize = 2, borderSize = 1, borderColor = "#737373", 
                 </svg>
             </div>
         </div>
-            
     )
 }
 
