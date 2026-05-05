@@ -4,7 +4,7 @@ import type { Point } from "./types"
 export const SOCIAL = {
     RIGHT: [
         [
-            [60, 0],
+            [70, 5],
             [0, 30],
             [0, 80],
             [100, 95],
