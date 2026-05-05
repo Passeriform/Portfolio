@@ -4,6 +4,7 @@
     gap: 2rem;
     place-items: start;
     place-content: start;
+    width: 100%;
     height: inherit;
 }
 

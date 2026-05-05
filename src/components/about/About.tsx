@@ -1,3 +1,4 @@
+import type { ReactElement } from "react"
 import useMarkdown from "../../hooks/useMarkdown"
 import Card from "../card/Card"
 import Morph from "../morph/Morph"
@@ -24,9 +25,9 @@ export const About = ({ className = "" }: HeroProps) => {
                 </Card>
             </section>
 
-            {[markdown?.introduction, markdown?.experience, markdown?.cta, markdown?.stats].map(
+            {markdown && [markdown.introduction, markdown.experience, markdown.cta, markdown.stats].map(
                 (node) => (
-                    <section>
+                    <section key={(node as ReactElement<{ id: string }>).props.id}>
                         <Card>{node}</Card>
                     </section>
                 ),
